@@ -1,0 +1,24 @@
+ext {
+    //版本控制
+    versions = [
+            'compileSdkVersion'         : 28,
+            'minSdkVersion'             : 19,
+            'targetSdkVersion'          : 28,
+            'versionCodeVersion'        : 1,
+            'versionNameVersion'        : '1.0.0',
+            'supportLibraryVersion'     : '28.0.0',
+            'multidexVerson'            : '1.0.1',
+            'gsonVersion'               : '2.8.5',
+            'butterknifeVerson'         : '8.4.0',
+            'okhttp3Verson'             : '3.8.1',
+            'retrofit2Verson'           : '2.2.0',
+            'rxandroidVerson'           : '2.1.1',
+            'rxjavaVerson'              : '2.2.8',
+            'rxlifecycleVerson'         : '3.0.0',
+            'statusbarutilVerson'       : '1.5.1',
+            'glideVerson'               : '4.5.0',
+            'glideTransformationsVerson': '3.0.1',
+            'smartRefreshLayoutVerson'  : '1.1.0-alpha-23',
+            'toolsFinalVerson'          : '1.1.4'
+    ]
+}

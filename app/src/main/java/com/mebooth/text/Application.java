@@ -1,0 +1,93 @@
+package com.mebooth.text;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.mebooth.mylibrary.main.AppApplication;
+import com.mebooth.mylibrary.main.base.MeboothCallBack;
+
+import java.lang.reflect.Method;
+
+import okhttp3.Request;
+
+
+public class Application extends AppApplication {
+
+    public static Application app;
+    private static String cookie;
+    private AppApplication appApplication = getInstance();
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (appApplication != null){
+            appApplication.onCreate();//用于执行module的一些自定义初始化操作999
+        }
+        MeboothCallBack meboothCallBack = new MeboothCallBack() {
+            @Override
+            public void setLogin() {
+
+                Log.d("AppApplication","-------------收到点击事件了");
+
+            }
+
+            @Override
+            public void setShare() {
+
+            }
+
+
+        };
+        this.setMeboothCallBack(meboothCallBack);
+
+
+    }
+
+    @Override
+    public Request.Builder addOkHttpAddHeader(Request.Builder builder) {
+        if (cookie != null) {
+            return builder.addHeader("Cookie", cookie);
+        }
+
+        return null;
+    }
+//
+//    @Override
+//    public Request.Builder addOkHttpAddHeader(Request.Builder builder) {
+//        return null;
+//    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+
+        appApplication = getModuleApplicationInstance(this);
+        try {
+            //通过反射调用moduleApplication的attach方法
+            Method method = Application.class.getDeclaredMethod("attach", Context.class);
+            if (method != null) {
+                method.setAccessible(true);
+                method.invoke(appApplication, getBaseContext());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //映射获取ModuleApplication
+    private AppApplication getModuleApplicationInstance(Context paramContext) {
+        try {
+            if (appApplication == null) {
+                ClassLoader classLoader = paramContext.getClassLoader();
+                if (classLoader != null) {
+                    Class<?> mClass = classLoader.loadClass(AppApplication.class.getName());
+                    if (mClass != null)
+                        appApplication = AppApplication.getInstance();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return appApplication;
+    }
+}

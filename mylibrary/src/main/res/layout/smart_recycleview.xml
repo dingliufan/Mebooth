@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/classify_smart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="true"
+        app:srlEnableRefresh="true">
+
+        <!--type1 去掉srlDragRate，srlHeaderMaxDragRate，srlHeaderTriggerRate,srlReboundDuration -->
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_40"
+            app:srlTextFinish="刷新成功"/>
+
+        <!-- type2  SmartRefreshLayout设置相关属性
+        app:srlDragRate="1.8"
+        app:srlHeaderMaxDragRate="5"
+        app:srlReboundDuration="600"
+        app:srlHeaderTriggerRate="3"-->
+        <!--<com.scwang.smartrefresh.header.MaterialHeader-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/classify_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:overScrollMode="never" />
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_48"
+            app:layout_srlSpinnerStyle="Translate"
+            app:srlTextNothing="没有更多内容了"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+
+
+</LinearLayout>

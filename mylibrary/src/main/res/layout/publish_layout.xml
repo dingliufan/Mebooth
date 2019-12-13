@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/public_header" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_c7c7c7"/>
+    <EditText
+        android:id="@+id/et_moment_add_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent"
+        android:gravity="start"
+        android:hint="这一刻的想法..."
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:lines="8"
+        android:textColor="#474747"
+        android:textColorHint="#C6C6C6" />
+    <TextView
+        android:id="@+id/publish_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="中国北京"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:drawableLeft="@drawable/gpsimg"
+        android:drawablePadding="5dp"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never" />
+</LinearLayout>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="30dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp">
+
+        <ImageView
+            android:id="@+id/recommenditem_headericon"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:id="@+id/recommenditem_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:text="黑暗骑士"
+            android:textColor="@color/bg_000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/recommenditem_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/follow"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:text="关注"
+            android:textColor="@color/bg_000000"
+            android:textSize="18sp" />
+        <ImageView
+            android:id="@+id/recommenditem_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="15dp"
+            android:src="@drawable/mebooth_delete"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:visibility="gone"
+            android:paddingBottom="5dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/recommenditem_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:ellipsize="end"
+        android:maxEms="45"
+        android:singleLine="true"
+        android:text="十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见"
+        android:textColor="@color/bg_000000"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/recommenditem_imgone"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
+        <ImageView
+            android:id="@+id/recommenditem_imgtwo"
+            android:layout_width="0dp"
+            android:layout_height="190dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"/>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/recommenditem_imgthree"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"/>
+    <TextView
+        android:id="@+id/recommenditem_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:text="北京市朝阳区奥体中心"
+        android:drawableLeft="@drawable/gpsimg"
+        android:gravity="center"
+        android:drawablePadding="10dp"
+        android:textColor="@color/bg_000000"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:id="@+id/recommenditem_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="2019-12-02"
+            android:textColor="@color/bg_7d7d7d"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/recommenditem_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/comment"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:text="02"
+            android:textColor="@color/bg_7d7d7d"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/recommenditem_collect_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/nocollect" />
+
+        <TextView
+            android:id="@+id/recommenditem_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="12"
+            android:textColor="@color/bg_7d7d7d"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/bg_e3e3e3" />
+
+</LinearLayout>
