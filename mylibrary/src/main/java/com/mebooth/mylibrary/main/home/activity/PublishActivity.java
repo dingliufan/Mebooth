@@ -125,7 +125,7 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
         right = findViewById(R.id.public_right);
         content = findViewById(R.id.et_moment_add_content);
 
-
+        title.setText("此刻");
 
         right.setVisibility(View.VISIBLE);
         right.setText("发布");
@@ -145,6 +145,13 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
         }.start();
         back.setOnClickListener(this);
         right.setOnClickListener(this);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         initRecycle();
     }

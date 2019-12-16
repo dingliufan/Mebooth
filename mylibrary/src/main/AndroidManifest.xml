@@ -74,6 +74,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.home.activity.OtherUserActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".main.home.activity.ConversationActivity"
             android:screenOrientation="portrait"

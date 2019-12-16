@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.RecommendMultiItemView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
+import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
@@ -72,7 +74,13 @@ public class RecommendItemVIewTwo implements ItemViewDelegate<GetRecommendJson.R
         GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
         GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
         holder.setText(R.id.recommenditem_address, recommendDataList.getFeed().getLocation());
-        holder.setText(R.id.recommenditem_time, recommendDataList.getFeed().getAddtime());
+        int month = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(5, 7)) - 1;
+        int date = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(8, 10));
+        int hour = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(11, 13));
+        int minute = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(14, 16));
+        int second = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(17, 19));
+        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute + ":" + second);
+
 
         if (recommendDataList.getFeed().isPraised()) {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
@@ -242,6 +250,13 @@ public class RecommendItemVIewTwo implements ItemViewDelegate<GetRecommendJson.R
             }
         });
 
-
+        holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OtherUserActivity.class);
+                intent.putExtra("uid",recommendDataList.getUser().getUid());
+                context.startActivity(intent);
+            }
+        });
     }
 }

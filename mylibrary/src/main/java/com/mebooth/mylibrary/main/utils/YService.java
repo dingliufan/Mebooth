@@ -130,6 +130,11 @@ public interface YService {
     @POST(BASE_URL + "follow/getFollowings")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<GetCareJson> getCareList();
+    //用户关注的人
+    @FormUrlEncoded
+    @POST(BASE_URL + "follow/getUserFollowings")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<GetCareJson> getUserCareList(@Field("uid") int uid);
 
     //获取融云token
     @POST(BASE_URL + "message/getToken")

@@ -40,7 +40,13 @@ public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.Reco
 
         holder.setText(R.id.recommenditem_content,recommendDataList.getFeed().getContent());
         GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
-        holder.setText(R.id.recommenditem_time,recommendDataList.getFeed().getAddtime());
+        int month = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(5, 7)) - 1;
+        int date = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(8, 10));
+        int hour = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(11, 13));
+        int minute = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(14, 16));
+        int second = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(17, 19));
+        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute + ":" + second);
+
         holder.setText(R.id.recommenditem_browsecount, String.valueOf(recommendDataList.getFeed().getWatches()));
         holder.setText(R.id.recommenditem_commentcount, String.valueOf(recommendDataList.getFeed().getReplies()));
 

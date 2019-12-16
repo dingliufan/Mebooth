@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.NowMultiItemView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
+import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
@@ -127,7 +129,13 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
         holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
-        holder.setText(R.id.recommenditem_time, nowDataList.getTopic().getAddtime());
+        int month = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(5, 7)) - 1;
+        int date = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(8, 10));
+        int hour = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(11, 13));
+        int minute = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(14, 16));
+        int second = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(17, 19));
+        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute + ":" + second);
+
 
         if (nowDataList.getTopic().isPraised()) {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
@@ -293,6 +301,14 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
                             });
 
                 }
+            }
+        });
+        holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OtherUserActivity.class);
+                intent.putExtra("uid",nowDataList.getUser().getUid());
+                context.startActivity(intent);
             }
         });
 
