@@ -1,6 +1,6 @@
 package com.mebooth.mylibrary.utils;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.widget.Toast;
 
 import com.mebooth.mylibrary.main.AppApplication;

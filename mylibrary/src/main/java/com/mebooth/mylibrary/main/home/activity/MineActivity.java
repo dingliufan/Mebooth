@@ -3,9 +3,9 @@ package com.mebooth.mylibrary.main.home.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
-import com.mebooth.mylibrary.R2;
 import com.mebooth.mylibrary.imagepicker.ImagePicker;
 import com.mebooth.mylibrary.imagepicker.bean.ImageItem;
 import com.mebooth.mylibrary.imagepicker.permission.MPermission;
@@ -41,7 +40,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;

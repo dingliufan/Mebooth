@@ -1,10 +1,9 @@
 package com.mebooth.mylibrary.main.home.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
-import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.home.fragment.NewMainFragment;
 

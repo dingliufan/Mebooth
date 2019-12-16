@@ -1,8 +1,8 @@
 package com.mebooth.mylibrary;
 
 import android.os.Environment;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDex;
+import androidx.multidex.MultiDexApplication;
 
 import java.io.File;
 

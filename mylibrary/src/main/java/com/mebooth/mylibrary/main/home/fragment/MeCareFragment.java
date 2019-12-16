@@ -3,15 +3,14 @@ package com.mebooth.mylibrary.main.home.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.mebooth.mylibrary.R;
-import com.mebooth.mylibrary.R2;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
@@ -29,7 +28,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;

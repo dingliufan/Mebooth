@@ -1,10 +1,10 @@
 package com.mebooth.mylibrary.main.home.activity;
 
 import android.graphics.Color;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
-import com.mebooth.mylibrary.R2;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
@@ -39,7 +38,6 @@ import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
