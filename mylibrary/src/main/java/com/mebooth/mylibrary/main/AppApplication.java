@@ -2,14 +2,9 @@ package com.mebooth.mylibrary.main;
 
 import android.app.Application;
 import android.os.Environment;
-import android.os.StrictMode;
-import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
-
-import com.mebooth.mylibrary.BuildConfig;
 import com.mebooth.mylibrary.main.base.MeboothCallBack;
 import com.mebooth.mylibrary.main.home.bean.GetRongIMTokenJson;
 import com.mebooth.mylibrary.main.utils.YService;
@@ -43,7 +38,6 @@ public abstract class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-        MultiDex.install(this);
         //融云
         RongIM.init(this,"8luwapkv8458l");
         //获取融云token（）：
