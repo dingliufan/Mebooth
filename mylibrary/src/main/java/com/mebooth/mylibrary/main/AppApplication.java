@@ -40,6 +40,7 @@ public abstract class AppApplication extends Application {
         app = this;
         //融云
         RongIM.init(this,"8luwapkv8458l");
+        Log.d("","111111");
         //获取融云token（）：
         getConnectToken();
 
