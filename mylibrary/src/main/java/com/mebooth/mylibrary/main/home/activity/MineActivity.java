@@ -75,6 +75,8 @@ public class MineActivity extends BaseTransparentActivity {
             Manifest.permission.CAMERA
     };
     private int uid;
+    private ImageView back;
+    private TextView title;
 
     @Override
     protected int getContentViewId() {
@@ -99,6 +101,8 @@ public class MineActivity extends BaseTransparentActivity {
         headerIcon = findViewById(R.id.mine_headericon);
         nickName = findViewById(R.id.mine_nickname);
         edit = findViewById(R.id.mine_edit);
+        back = findViewById(R.id.public_back);
+        title = findViewById(R.id.public_title);
 
         GlideImageManager.glideLoader(MineActivity.this, getIntent().getStringExtra("headericon"), headerIcon, GlideImageManager.TAG_ROUND);
         nickName.setText(getIntent().getStringExtra("nickname"));

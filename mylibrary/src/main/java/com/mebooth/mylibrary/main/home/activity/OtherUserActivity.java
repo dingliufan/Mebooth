@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
@@ -80,6 +81,14 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
 
         mSmart.setOnRefreshListener(this);
 
+    }
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
+        StatusBarUtil.setLightMode(this); //黑色图标
     }
 
     @Override

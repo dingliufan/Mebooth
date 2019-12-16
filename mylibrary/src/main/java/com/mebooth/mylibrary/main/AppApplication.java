@@ -25,7 +25,7 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import okhttp3.Request;
 
-public abstract class AppApplication extends MultiDexApplication {
+public abstract class AppApplication extends Application {
 
     private static String cookie;
     private MeboothCallBack meboothCallBack;

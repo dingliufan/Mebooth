@@ -132,17 +132,23 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
 
         selectList.clear();
         location = MyLocationUtil.getMyLocation();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
+        try {
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
 
-                addresses = getAddress(location);
-                Message msg = new Message();
-                msg.obj = addresses.get(0).getAdminArea() + addresses.get(0).getFeatureName();
-                handler.sendMessage(msg);
-            }
-        }.start();
+                    addresses = getAddress(location);
+                    Message msg = new Message();
+                    msg.obj = addresses.get(0).getAdminArea() + addresses.get(0).getFeatureName();
+                    handler.sendMessage(msg);
+                }
+            }.start();
+        }catch (Exception e){
+
+            ToastUtils.getInstance().showToast("请查看定位是否开启");
+
+        }
         back.setOnClickListener(this);
         right.setOnClickListener(this);
 
