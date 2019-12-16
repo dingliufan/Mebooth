@@ -1,5 +1,6 @@
 package com.mebooth.mylibrary.main.home.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import androidx.annotation.NonNull;
@@ -15,8 +16,14 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
+import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewFour;
+import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewOne;
+import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewThree;
+import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewTwo;
+import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
+import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -41,15 +48,19 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     private ImageView chat;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
-    private CommonAdapter commonAdapter;
+    private MultiItemTypeAdapter commonAdapter;
 
     private final int REFLUSH_LIST = 0;
     private final int LOADMORE_LIST = 1;
 
-    private ArrayList<GetCareJson.CareData.CareUser> users = new ArrayList<>();
+    private int pageSize = 10;
+    private int offSet = 0;
+
+    private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
 
     private Conversation.ConversationType conversationType;
     private int uid;
+    private String nickName;
 
     @Override
     protected int getContentViewId() {
@@ -65,13 +76,6 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         chat = findViewById(R.id.otheruser_right);
         recyclerView = findViewById(R.id.classify_recycle);
         mSmart = findViewById(R.id.classify_smart);
-
-        chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RongIM.getInstance().startPrivateChat(OtherUserActivity.this, "10001", "标题");
-            }
-        });
 
     }
 
@@ -96,31 +100,47 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         super.initData();
 
         uid = getIntent().getIntExtra("uid",0);
+        nickName = getIntent().getStringExtra("nickname");
 
+        title.setText(nickName);
         initRecycle();
-        getCareList(REFLUSH_LIST);
+        getRecommend(REFLUSH_LIST);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RongIM.getInstance().startPrivateChat(OtherUserActivity.this, String.valueOf(uid), nickName);
+            }
+        });
 
     }
 
-    private void getCareList(final int tag) {
+    private void getRecommend(final int tag) {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getUserCareList(uid)
+                .userPublishList(uid,offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CommonObserver<GetCareJson>() {
+                .subscribe(new CommonObserver<GetNowJson>() {
                     @Override
-                    public void onNext(GetCareJson getCareJson) {
-                        super.onNext(getCareJson);
+                    public void onNext(GetNowJson getNowJson) {
+                        super.onNext(getNowJson);
 
-                        if (null != getCareJson && getCareJson.getErrno() == 0) {
+                        if (null != getNowJson && getNowJson.getErrno() == 0) {
+                            offSet = (int) getNowJson.getData().getOffset();
+                            initList(tag, getNowJson);
 
-                            initList(tag, getCareJson);
+                        } else if (null != getNowJson && getNowJson.getErrno() != 200) {
 
-                        } else if (null != getCareJson && getCareJson.getErrno() != 200) {
-
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getCareJson.getErrmsg()) ? "数据加载失败" : getCareJson.getErrmsg());
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowJson.getErrmsg()) ? "数据加载失败" : getNowJson.getErrmsg());
                         } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");
@@ -136,13 +156,22 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
                 });
     }
 
-    private void initList(int tag, GetCareJson getCareJson) {
+    private void initList(int tag, GetNowJson nowJson) {
 
         if (tag == REFLUSH_LIST) {
-            users.clear();
-            users.addAll(getCareJson.getData().getUsers());
+            list.clear();
+            list.addAll(nowJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
+        } else {
+            if (nowJson.getData().getList().size() == 0) {
+
+                mSmart.finishLoadMoreWithNoMoreData();
+
+            } else {
+                list.addAll(nowJson.getData().getList());
+                mHandler.sendEmptyMessageDelayed(tag, 1000);
+            }
         }
     }
 
@@ -167,28 +196,22 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     };
 
     private void initRecycle() {
+        commonAdapter = new MultiItemTypeAdapter(this, list);
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "mine", commonAdapter, list));
 
-        commonAdapter = new CommonAdapter(this, R.layout.care_item, users) {
-            @Override
-            protected void convert(ViewHolder holder, Object o, int position) {
-
-                GlideImageManager.glideLoader(OtherUserActivity.this, users.get(position).getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
-
-                holder.setText(R.id.recommenditem_nickname,users.get(position).getNickname());
-
-            }
-        };
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
-                //TODO 订单详情
-
-//                Intent intent = new Intent(getActivity(), OrderDetailsActivity.class);
-//                intent.putExtra("orders", orders.get(position));
-//                getActivity().startActivity(intent);
-                RongIM.getInstance().startPrivateChat(OtherUserActivity.this, "10001", "标题");
-
+                //TODO 详情
+                Intent intent = new Intent(OtherUserActivity.this, NowDetailsActivity.class);
+                intent.putExtra("relateid", list.get(position).getTopic().getTid());
+                intent.putExtra("uid", list.get(position).getTopic().getUid());
+                startActivity(intent);
             }
 
             @Override
@@ -196,21 +219,20 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
                 return false;
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(OtherUserActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(commonAdapter);
 
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+        getRecommend(LOADMORE_LIST);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
-        getCareList(REFLUSH_LIST);
-
+        offSet = 0;
+        getRecommend(REFLUSH_LIST);
     }
 
 }

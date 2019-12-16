@@ -17,6 +17,7 @@ import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.PublishActivity;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
+import com.mebooth.mylibrary.main.home.bean.UserTokenJson;
 import com.mebooth.mylibrary.main.utils.TabLayoutUtil;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;

@@ -25,6 +25,7 @@ public class EdiitNickName extends BasePopupWindow {
     private String nickName;
     private EditText nickNameEdit;
     private TextView sureUpdate;
+    private TextView cancel;
 
     public EdiitNickName(Context context,String nickName) {
         super(context);
@@ -39,6 +40,7 @@ public class EdiitNickName extends BasePopupWindow {
 
         nickNameEdit = (EditText)findViewById(R.id.edit_nickname);
         sureUpdate = (TextView)findViewById(R.id.edit_sure);
+        cancel = (TextView)findViewById(R.id.edit_cancel);
 
         nickNameEdit.setText(nickName);
 
@@ -76,6 +78,13 @@ public class EdiitNickName extends BasePopupWindow {
                                 ToastUtils.getInstance().showToast("数据加载失败");
                             }
                         });
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 

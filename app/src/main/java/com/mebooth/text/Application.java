@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.base.MeboothCallBack;
+import com.mebooth.mylibrary.main.home.bean.UserTokenJson;
 
 import java.lang.reflect.Method;
 
@@ -17,9 +18,17 @@ public class Application extends AppApplication {
     private static String cookie;
     private AppApplication appApplication = getInstance();
 
+
     @Override
     public void onCreate() {
         super.onCreate();
+        //传递用户信息
+        UserTokenJson userTokenJson = new UserTokenJson();
+        userTokenJson.setUserid("12358333");
+        userTokenJson.setFrom("14");
+        userTokenJson.setToken("8WxAcqMrSvGqvdi3");
+        userTokenJson.setVersion("4.8.0");
+        this.setUserTokenJson(userTokenJson);
         if (appApplication != null){
             appApplication.onCreate();//用于执行module的一些自定义初始化操作999
         }
@@ -39,7 +48,6 @@ public class Application extends AppApplication {
 
         };
         this.setMeboothCallBack(meboothCallBack);
-
 
     }
 

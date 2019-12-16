@@ -1,5 +1,6 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -153,10 +155,11 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
                 //TODO 订单详情
 
-//                Intent intent = new Intent(getActivity(), OrderDetailsActivity.class);
-//                intent.putExtra("orders", orders.get(position));
-//                getActivity().startActivity(intent);
-                RongIM.getInstance().startPrivateChat(getActivity(), "10001", "标题");
+                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                intent.putExtra("uid", users.get(position).getUid());
+                intent.putExtra("nickname", users.get(position).getNickname());
+                getActivity().startActivity(intent);
+//                RongIM.getInstance().startPrivateChat(getActivity(), "10001", "标题");
 
             }
 

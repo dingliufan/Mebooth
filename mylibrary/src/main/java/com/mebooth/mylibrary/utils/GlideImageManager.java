@@ -159,8 +159,8 @@ public class GlideImageManager {
     //圆形
     public static final int TAG_ROUND = 1;
     public static RequestOptions roundOptions = new RequestOptions()
-            .placeholder(R.drawable.errorimage)
-            .error(R.drawable.errorimage)
+            .placeholder(R.drawable.defaulticon)
+            .error(R.drawable.defaulticon)
             .fallback(R.color.bg_ffffff)
             .centerCrop()
             .transform(new CircleCrop())

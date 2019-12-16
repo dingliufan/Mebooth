@@ -5,11 +5,14 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.mebooth.mylibrary.main.base.MeboothCallBack;
 import com.mebooth.mylibrary.main.home.bean.GetRongIMTokenJson;
+import com.mebooth.mylibrary.main.home.bean.UserTokenJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 
 import java.io.File;
@@ -26,6 +29,22 @@ public abstract class AppApplication extends Application {
     private MeboothCallBack meboothCallBack;
     public static AppApplication app;
 
+    private UserTokenJson userTokenJson;
+
+    public UserTokenJson getUserTokenJson() {
+        return userTokenJson;
+    }
+
+    public void setUserTokenJson(UserTokenJson userTokenJson) {
+        this.userTokenJson = userTokenJson;
+        Gson gson = new Gson();
+
+        String msg = gson.toJson(userTokenJson);
+        SharedPreferencesUtils.writeString("token", msg);
+        //获取融云token（）：
+        getConnectToken();
+    }
+
     public MeboothCallBack getMeboothCallBack() {
         return meboothCallBack;
     }
@@ -38,13 +57,9 @@ public abstract class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+
         //融云
         RongIM.init(this,"8luwapkv8458l");
-        Log.d("","111111");
-        //获取融云token（）：
-        getConnectToken();
-
-
 
     }
 

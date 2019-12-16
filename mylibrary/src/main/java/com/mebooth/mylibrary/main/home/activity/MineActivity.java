@@ -140,6 +140,15 @@ public class MineActivity extends BaseTransparentActivity {
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        title.setText("个人中心");
+
     }
 
     private void initSingleImagerPicker() {

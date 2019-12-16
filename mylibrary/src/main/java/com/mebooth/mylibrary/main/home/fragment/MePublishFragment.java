@@ -70,11 +70,13 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        uid = bundle.getInt("uid");
+
         initRecycle();
         getRecommend(REFLUSH_LIST);
 //
-        Bundle bundle = getArguments();
-        uid = bundle.getInt("uid");
     }
 
     private void getRecommend(final int tag) {
