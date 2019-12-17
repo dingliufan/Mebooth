@@ -24,6 +24,11 @@ public class FriendActivity extends BaseFragment {
     private TextView title;
     private TextView right;
 
+    public static FriendActivity newInstance() {
+        return new FriendActivity();
+    }
+
+
     public void switchContent() {
         //必需继承FragmentActivity,嵌套fragment只需要这行代码
         getChildFragmentManager().beginTransaction().replace(R.id.onef, initConversationList()).commitAllowingStateLoss();
