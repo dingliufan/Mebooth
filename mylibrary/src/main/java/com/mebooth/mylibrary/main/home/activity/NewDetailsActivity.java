@@ -2,11 +2,15 @@ package com.mebooth.mylibrary.main.home.activity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,8 +22,10 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.CommentExpandAdapter;
 import com.mebooth.mylibrary.main.adapter.NewsAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
@@ -30,10 +36,13 @@ import com.mebooth.mylibrary.main.home.bean.GetNewInfoJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.CommentExpandableListView;
+import com.mebooth.mylibrary.main.view.SharedActivity;
 import com.mebooth.mylibrary.main.view.SpacesItemDecoration;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
@@ -55,11 +64,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private CommentExpandableListView expandableListView;
     private TextView commentEdit;
     private TextView newdetailsComment;
-    private TextView newdetailsCollect;
-    private ImageView newdetailsCollectImg;
+    private ImageView newdetailShare;
 
     private int id;
-    private String image;
     private String nickName;
     private int watchs;
 
@@ -75,6 +82,10 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private CommentExpandAdapter commentAdapter;
 
     private BottomSheetDialog dialog;
+
+    private SharedActivity sharedPopup;
+    private ImageView back;
+    private TextView title;
 
 
     @Override
@@ -94,43 +105,44 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
 
-
         newdetailsImage = findViewById(R.id.newdetails_image);
-        newdetailsHeaderIcon = findViewById(R.id.recommenditem_headericon);
         newdetailsTitle = findViewById(R.id.newdetails_title);
         newdetailsTime = findViewById(R.id.newdetails_time);
         newdetailsBrowse = findViewById(R.id.newdetails_browsecount);
-        newdetailsNickName = findViewById(R.id.recommenditem_nickname);
-        newdetailsFollow = findViewById(R.id.recommenditem_follow);
         recyclerView = findViewById(R.id.classify_recycle);
         expandableListView = findViewById(R.id.detail_page_lv_comment);
         commentEdit = findViewById(R.id.detail_page_do_comment);
         newdetailsComment = findViewById(R.id.newdetails_comment);
-        newdetailsCollect = findViewById(R.id.newdetails_collect);
-        newdetailsCollectImg = findViewById(R.id.newdetails_collectimg);
-
+        newdetailShare = findViewById(R.id.newdetails_share);
+        back = findViewById(R.id.public_back);
+        title = findViewById(R.id.public_title);
+        title.setText("新闻详情");
 
         id = getIntent().getIntExtra("relateid", 0);
         uid = getIntent().getIntExtra("uid", 0);
-        image = getIntent().getStringExtra("image");
         nickName = getIntent().getStringExtra("nickname");
         watchs = getIntent().getIntExtra("browse", 0);
         replies = getIntent().getIntExtra("replies", 0);
         praises = getIntent().getIntExtra("praises", 0);
 
+        sharedPopup = new SharedActivity(NewDetailsActivity.this, id, "news");
+
+
         commentEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCommentDialog();
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else {
+                    showCommentDialog();
+                }
             }
         });
 
-
-        GlideImageManager.glideLoader(this, image, newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
-        newdetailsNickName.setText(nickName);
         newdetailsBrowse.setText("" + watchs);
         newdetailsComment.setText("" + replies);
-        newdetailsCollect.setText("" + praises);
 
         recyclerView.addItemDecoration(new SpacesItemDecoration(10));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -157,7 +169,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                     //对应的播放列表TAG
                     if (GSYVideoManager.instance().getPlayTag().equals(NewsAdapter.TAG)
                             && (position < dx || position > lastVisibleItem)) {
-                        if(GSYVideoManager.isFullState(NewDetailsActivity.this)) {
+                        if (GSYVideoManager.isFullState(NewDetailsActivity.this)) {
                             return;
                         }
                         //如果滑出去了上面和下面就是否，和今日头条一样
@@ -169,10 +181,24 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         });
 
         getNewDetails();
-        getIsFollow();
-        getIsCollect();
         getCommentList();
         expandableListView.setNestedScrollingEnabled(true);
+
+        newdetailShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sharedPopup.showPopupWindow();
+
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -180,9 +206,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
      * by moos on 2018/04/20
      * func:弹出评论框
      */
-    private void showCommentDialog(){
-        dialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
-        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout,null);
+    private void showCommentDialog() {
+        dialog = new BottomSheetDialog(this, R.style.BottomSheetEdit);
+        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
         final EditText commentText = (EditText) commentView.findViewById(R.id.dialog_comment_et);
         final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
         dialog.setContentView(commentView);
@@ -191,7 +217,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
          */
         View parent = (View) commentView.getParent();
         BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
-        commentView.measure(0,0);
+        commentView.measure(0, 0);
         behavior.setPeekHeight(commentView.getMeasuredHeight());
 
         bt_comment.setOnClickListener(new View.OnClickListener() {
@@ -199,14 +225,14 @@ public class NewDetailsActivity extends BaseTransparentActivity {
             @Override
             public void onClick(View view) {
                 String commentContent = commentText.getText().toString().trim();
-                if(!TextUtils.isEmpty(commentContent)){
+                if (!TextUtils.isEmpty(commentContent)) {
 
                     //commentOnWork(commentContent);
                     dialog.dismiss();
-                    requestMessage(0,commentContent);
+                    requestMessage(0, commentContent);
 
-                }else {
-                    Toast.makeText(NewDetailsActivity.this,"评论内容不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(NewDetailsActivity.this, "评论内容不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -218,9 +244,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!TextUtils.isEmpty(charSequence) && charSequence.length()>2){
+                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 2) {
                     bt_comment.setBackgroundColor(Color.parseColor("#FFB568"));
-                }else {
+                } else {
                     bt_comment.setBackgroundColor(Color.parseColor("#D8D8D8"));
                 }
             }
@@ -236,7 +262,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     /**
      * 初始化评论和回复列表
      */
-    private void initExpandableListView(final ArrayList<CommentOnJson.CommentData.CommentOnList> commentList){
+    private void initExpandableListView(final ArrayList<CommentOnJson.CommentData.CommentOnList> commentList) {
         expandableListView.setGroupIndicator(null);
         //默认展开所有回复
 
@@ -261,14 +287,21 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 //            }
 //        });
 
-        for(int i = 0; i<commentList.size(); i++){
+        for (int i = 0; i < commentList.size(); i++) {
             expandableListView.expandGroup(i);
         }
         expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
                 boolean isExpanded = expandableListView.isGroupExpanded(groupPosition);
-                showReplyDialog(groupPosition);
+
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else {
+                    showReplyDialog(groupPosition);
+                }
                 return true;
             }
         });
@@ -276,9 +309,16 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-                Toast.makeText(NewDetailsActivity.this,"点击了回复",Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewDetailsActivity.this, "点击了回复", Toast.LENGTH_SHORT).show();
 //                showReplyDialog(childPosition);
-                showReplyTwoDialog(groupPosition,childPosition);
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else {
+                    showReplyTwoDialog(groupPosition, childPosition);
+                }
+
                 return false;
             }
         });
@@ -297,9 +337,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
      * by moos on 2018/04/20
      * func:弹出回复框
      */
-    private void showReplyDialog(final int position){
-        dialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
-        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout,null);
+    private void showReplyDialog(final int position) {
+        dialog = new BottomSheetDialog(this, R.style.BottomSheetEdit);
+        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
         final EditText commentText = (EditText) commentView.findViewById(R.id.dialog_comment_et);
         final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
         commentText.setHint("回复 @" + commentList.get(position).getUser().getNickname());
@@ -309,7 +349,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
             @Override
             public void onClick(View view) {
                 String replyContent = commentText.getText().toString().trim();
-                if(!TextUtils.isEmpty(replyContent)){
+                if (!TextUtils.isEmpty(replyContent)) {
 
                     dialog.dismiss();
 //                    CommentOnJson.CommentData.CommentOnList.Reply.Replies detailBean = new CommentOnJson.CommentData.CommentOnList.Reply.Replies();
@@ -317,11 +357,11 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 //                    adapter.addTheReplyData(detailBean, position);
 //                    expandableListView.expandGroup(position);
 
-                    requestMessage(commentList.get(position).getReply().getRid(),commentText.getText().toString());
+                    requestMessage(commentList.get(position).getReply().getRid(), commentText.getText().toString());
 
 //                    Toast.makeText(mContext,"回复成功",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(NewDetailsActivity.this,"回复内容不能为空",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(NewDetailsActivity.this, "回复内容不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -333,9 +373,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!TextUtils.isEmpty(charSequence) && charSequence.length()>2){
+                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 2) {
                     bt_comment.setBackgroundColor(Color.parseColor("#FFB568"));
-                }else {
+                } else {
                     bt_comment.setBackgroundColor(Color.parseColor("#D8D8D8"));
                 }
             }
@@ -352,9 +392,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
      * by moos on 2018/04/20
      * func:弹出回复框
      */
-    private void showReplyTwoDialog(final int groupPosition,final int childPosition){
-        dialog = new BottomSheetDialog(this,R.style.BottomSheetEdit);
-        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout,null);
+    private void showReplyTwoDialog(final int groupPosition, final int childPosition) {
+        dialog = new BottomSheetDialog(this, R.style.BottomSheetEdit);
+        View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
         final EditText commentText = (EditText) commentView.findViewById(R.id.dialog_comment_et);
         final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
         commentText.setText("回复 @" + commentList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname());
@@ -363,7 +403,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
             @Override
             public void onClick(View view) {
                 String replyContent = commentText.getText().toString().trim();
-                if(!TextUtils.isEmpty(replyContent)){
+                if (!TextUtils.isEmpty(replyContent)) {
 
                     dialog.dismiss();
 //                    CommentOnJson.CommentData.CommentOnList.Reply.Replies detailBean = new CommentOnJson.CommentData.CommentOnList.Reply.Replies();
@@ -371,11 +411,11 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 //                    adapter.addTheReplyData(detailBean, position);
 //                    expandableListView.expandGroup(position);
 
-                    requestMessage(commentList.get(groupPosition).getReply().getRid(),commentText.getText().toString());
+                    requestMessage(commentList.get(groupPosition).getReply().getRid(), commentText.getText().toString());
 //                    list.get(position).getReply().getRid()
-                    Toast.makeText(NewDetailsActivity.this,"回复成功",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(NewDetailsActivity.this,"回复内容不能为空",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewDetailsActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(NewDetailsActivity.this, "回复内容不能为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -387,9 +427,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!TextUtils.isEmpty(charSequence) && charSequence.length()>2){
+                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 2) {
                     bt_comment.setBackgroundColor(Color.parseColor("#FFB568"));
-                }else {
+                } else {
                     bt_comment.setBackgroundColor(Color.parseColor("#D8D8D8"));
                 }
             }
@@ -406,7 +446,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getCommentInfo(id,1,1)
+                .getCommentInfo(id, 1, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<CommentOnJson>() {
@@ -421,7 +461,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             commentAdapter = new CommentExpandAdapter(NewDetailsActivity.this, commentList);
                             expandableListView.setAdapter(commentAdapter);
 
-                            for(int i = 0; i<commentList.size(); i++){
+                            for (int i = 0; i < commentList.size(); i++) {
                                 expandableListView.expandGroup(i);
                             }
 
@@ -443,11 +483,11 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                 });
     }
 
-    private void requestMessage(int pid,String content) {
+    private void requestMessage(int pid, String content) {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .requestComment(id,pid,content)
+                .requestComment(id, pid, content)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PublicBean>() {
@@ -465,7 +505,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             initExpandableListView(commentList);
 
 
-                        }  else if (null != publicBean && publicBean.getErrno() != 200) {
+                        } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
                         } else {
@@ -481,87 +521,6 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
-    }
-
-
-    private void getIsCollect() {
-
-        ServiceFactory.getNewInstance()
-                .createService(YService.class)
-                .getIsCollect(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CommonObserver<GetIsCollectJson>() {
-                    @Override
-                    public void onNext(GetIsCollectJson getIsCollectJson) {
-                        super.onNext(getIsCollectJson);
-
-                        if (null != getIsCollectJson && getIsCollectJson.getErrno() == 0) {
-
-                            if(getIsCollectJson.getData().isPraised()){
-                                newdetailsCollectImg.setImageResource(R.drawable.collect);
-                            }else{
-                                newdetailsCollectImg.setImageResource(R.drawable.nocollect);
-                            }
-
-                        } else if (null != getIsCollectJson && getIsCollectJson.getErrno() != 200) {
-
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIsCollectJson.getErrmsg()) ? "数据加载失败" : getIsCollectJson.getErrmsg());
-                        } else {
-
-                            ToastUtils.getInstance().showToast("数据加载失败");
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-
-                        ToastUtils.getInstance().showToast("数据加载失败");
-                    }
-                });
-
-    }
-
-    private void getIsFollow() {
-
-        ServiceFactory.getNewInstance()
-                .createService(YService.class)
-                .getIsFollow(uid)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CommonObserver<GetIsFollowJson>() {
-                    @Override
-                    public void onNext(GetIsFollowJson getIsFollowJson) {
-                        super.onNext(getIsFollowJson);
-
-                        if (null != getIsFollowJson && getIsFollowJson.getErrno() == 0) {
-
-                            if(getIsFollowJson.getData().getUsers().get(0).isFollowed()){
-                                newdetailsFollow.setText("已关注");
-                                newdetailsFollow.setBackgroundResource(R.drawable.nofollow);
-                            }else{
-                                newdetailsFollow.setText("关注");
-                                newdetailsFollow.setBackgroundResource(R.drawable.follow);
-                            }
-
-                        } else if (null != getIsFollowJson && getIsFollowJson.getErrno() != 200) {
-
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIsFollowJson.getErrmsg()) ? "数据加载失败" : getIsFollowJson.getErrmsg());
-                        } else {
-
-                            ToastUtils.getInstance().showToast("数据加载失败");
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        super.onError(e);
-
-                        ToastUtils.getInstance().showToast("数据加载失败");
-                    }
-                });
-
     }
 
     private void getNewDetails() {

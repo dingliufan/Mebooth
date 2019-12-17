@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.CommentExpandAdapter;
 import com.mebooth.mylibrary.main.adapter.NewsAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
@@ -31,10 +32,13 @@ import com.mebooth.mylibrary.main.home.bean.GetNowDetailsJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.CommentExpandableListView;
+import com.mebooth.mylibrary.main.view.SharedActivity;
 import com.mebooth.mylibrary.main.view.SpacesItemDecoration;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import java.util.ArrayList;
 
@@ -67,6 +71,11 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     private CommentExpandAdapter commentAdapter;
 
     private BottomSheetDialog dialog;
+
+    private SharedActivity sharedPopup;
+    private ImageView back;
+    private TextView title;
+
     @Override
     protected int getContentViewId() {
         return R.layout.nowdetails_layout;
@@ -84,7 +93,6 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     protected void initData() {
         super.initData();
 
-
         headerIcon = findViewById(R.id.recommenditem_headericon);
         nickName = findViewById(R.id.recommenditem_nickname);
         follow = findViewById(R.id.recommenditem_follow);
@@ -95,15 +103,27 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         collectimg = findViewById(R.id.newdetails_collectimg);
         share = findViewById(R.id.newdetails_share);
         sendComment = findViewById(R.id.newdetails_sendcomment);
+        back = findViewById(R.id.public_back);
+        title = findViewById(R.id.public_title);
 
+        title.setText("话题详情");
 
         tid = getIntent().getIntExtra("relateid",0);
         uid = getIntent().getIntExtra("uid",0);
 
+        sharedPopup = new SharedActivity(NowDetailsActivity.this, tid, "news");
+
+
         commentEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCommentDialog();
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else {
+                    showCommentDialog();
+                }
             }
         });
 
@@ -114,6 +134,20 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         getIsFollow();
         getCommentList();
         expandableListView.setNestedScrollingEnabled(true);
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharedPopup.showPopupWindow();
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -208,7 +242,14 @@ public class NowDetailsActivity extends BaseTransparentActivity {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long l) {
                 boolean isExpanded = expandableListView.isGroupExpanded(groupPosition);
-                showReplyDialog(groupPosition);
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else {
+                    showReplyDialog(groupPosition);
+                }
+
                 return true;
             }
         });
@@ -218,7 +259,14 @@ public class NowDetailsActivity extends BaseTransparentActivity {
             public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
                 Toast.makeText(NowDetailsActivity.this,"点击了回复",Toast.LENGTH_SHORT).show();
 //                showReplyDialog(childPosition);
-                showReplyTwoDialog(groupPosition,childPosition);
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else {
+                    showReplyTwoDialog(groupPosition,childPosition);
+                }
+
                 return false;
             }
         });

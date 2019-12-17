@@ -41,7 +41,10 @@ public class Application extends AppApplication {
             }
 
             @Override
-            public void setShare() {
+            public void setShare(String way, String url, String imgoricon, String title, String description) {
+
+
+
 
             }
 

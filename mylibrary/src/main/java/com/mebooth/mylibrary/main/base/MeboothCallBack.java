@@ -6,7 +6,7 @@ public abstract class MeboothCallBack {
     public abstract void setLogin();
 
     //分享
-    public abstract void setShare();
+    public abstract void setShare(String way,String url,String imgoricon,String title,String description);
 
 
 }

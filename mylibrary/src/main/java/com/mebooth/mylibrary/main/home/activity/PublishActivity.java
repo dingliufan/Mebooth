@@ -27,7 +27,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.permissions.RxPermissions;
+import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.mebooth.mylibrary.R;
@@ -39,6 +39,7 @@ import com.mebooth.mylibrary.main.home.bean.UpdateHeaderFileJson;
 import com.mebooth.mylibrary.main.utils.ActivityCollectorUtil;
 import com.mebooth.mylibrary.main.utils.BroadcastAction;
 import com.mebooth.mylibrary.main.utils.BroadcastManager;
+import com.mebooth.mylibrary.main.utils.GlideEngine;
 import com.mebooth.mylibrary.main.utils.GridSpacingItemNotBothDecoration;
 import com.mebooth.mylibrary.main.utils.MyLocationUtil;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
@@ -62,7 +63,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class PublishActivity extends BaseTransparentActivity implements View.OnClickListener {
+public class PublishActivity extends BaseTransparentActivity {
     private static final String TAG = PublishActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private TextView publishGPS;
@@ -149,13 +150,33 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
             ToastUtils.getInstance().showToast("请查看定位是否开启");
 
         }
-        back.setOnClickListener(this);
-        right.setOnClickListener(this);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtil.isEmpty(content.getText().toString()) || selectList.size() == 0) {
+
+                    ToastUtils.getInstance().showToast("请输入内容或选择图片");
+
+                } else {
+
+                    for (LocalMedia media : selectList) {
+                        Log.i(TAG, "压缩---->" + media.getCompressPath());
+                        Log.i(TAG, "原图---->" + media.getPath());
+
+                        Log.i(TAG, "裁剪---->" + media.getCutPath());
+                        comprossImg.add(media.getCompressPath());
+                    }
+
+                    getToken(comprossImg);
+                }
             }
         });
 
@@ -210,35 +231,17 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
         });
 
         // 清空图片缓存，包括裁剪、压缩后的图片 注意:必须要在上传完成后调用 必须要获取权限
-        RxPermissions permissions = new RxPermissions(this);
-        permissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe(new Observer<Boolean>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean) {
-                    PictureFileUtils.deleteCacheDirFile(PublishActivity.this);
-                } else {
-                    Toast.makeText(PublishActivity.this,
-                            getString(R.string.picture_jurisdiction), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-
-            @Override
-            public void onComplete() {
-            }
-        });
+        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            PictureFileUtils.deleteCacheDirFile(this, PictureMimeType.ofImage());
+//            PictureFileUtils.deleteAllCacheDirFile(this);
+        } else {
+            PermissionChecker.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE);
+        }
 
         // 注册外部预览图片删除按钮回调
         BroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,
                 BroadcastAction.ACTION_DELETE_PREVIEW_POSITION);
-
     }
 
 
@@ -248,6 +251,7 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
             // 进入相册 以下是例子：不需要的api可以不写
             PictureSelector.create(PublishActivity.this)
                     .openGallery(chooseMode)// 全部.PictureMimeType.ofAll()、图片.ofImage()、视频.ofVideo()、音频.ofAudio()
+                    .loadImageEngine(GlideEngine.createGlideEngine())
                     .theme(R.style.picture_default_style)// 主题样式设置 具体参考 values/styles   用法：R.style.picture.white.style
                     .maxSelectNum(9)// 最大图片选择数量
                     .minSelectNum(1)// 最小选择数量
@@ -310,38 +314,6 @@ public class PublishActivity extends BaseTransparentActivity implements View.OnC
         }
     }
 
-
-    @SuppressLint("InvalidR2Usage")
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R2.id.public_back:
-
-                finish();
-                break;
-            case R2.id.public_right:
-
-                if (StringUtil.isEmpty(content.getText().toString()) || selectList.size() == 0) {
-
-                    ToastUtils.getInstance().showToast("请输入内容或选择图片");
-
-                } else {
-
-                    for (LocalMedia media : selectList) {
-                        Log.i(TAG, "压缩---->" + media.getCompressPath());
-                        Log.i(TAG, "原图---->" + media.getPath());
-
-                        Log.i(TAG, "裁剪---->" + media.getCutPath());
-                        comprossImg.add(media.getCompressPath());
-                    }
-
-                    getToken(comprossImg);
-                }
-                break;
-        }
-    }
 
     private void getToken(final ArrayList<String> pathImage) {
         ArrayList<MultipartBody.Part> stringArrayList = new ArrayList<MultipartBody.Part>();

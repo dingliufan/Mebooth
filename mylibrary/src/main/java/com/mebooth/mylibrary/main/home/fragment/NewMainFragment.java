@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mebooth.mylibrary.R;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
@@ -23,6 +24,8 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -129,19 +132,33 @@ public class NewMainFragment extends BaseFragment {
         headerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MineActivity.class);
-                intent.putExtra("uid", uid);
-                intent.putExtra("headericon", headerIconStr);
-                intent.putExtra("nickname", nickName);
-                startActivity(intent);
+
+                if(StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))){
+
+                    AppApplication.getInstance().setLogin();
+
+                }else{
+                    Intent intent = new Intent(getActivity(), MineActivity.class);
+                    intent.putExtra("uid", uid);
+                    intent.putExtra("headericon", headerIconStr);
+                    intent.putExtra("nickname", nickName);
+                    startActivity(intent);
+                }
             }
         });
 
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PublishActivity.class);
-                startActivity(intent);
+                if(StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))){
+
+                    AppApplication.getInstance().setLogin();
+
+                }else{
+                    Intent intent = new Intent(getActivity(), PublishActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 

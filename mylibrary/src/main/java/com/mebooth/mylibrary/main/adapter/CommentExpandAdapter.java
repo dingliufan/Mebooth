@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
+import com.mebooth.mylibrary.utils.GlideImageManager;
 
 import java.util.ArrayList;
 
@@ -87,7 +88,8 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         }else {
             groupHolder = (GroupHolder) convertView.getTag();
         }
-        Glide.with(context).load(commentBeanList.get(groupPosition).getUser().getAvatar()).into(groupHolder.logo);
+//        Glide.with(context).load().into();
+        GlideImageManager.glideLoader(context, commentBeanList.get(groupPosition).getUser().getAvatar(), groupHolder.logo, GlideImageManager.TAG_ROUND);
 
         groupHolder.tv_name.setText(commentBeanList.get(groupPosition).getUser().getNickname());
         groupHolder.tv_time.setText(commentBeanList.get(groupPosition).getReply().getAddtime());

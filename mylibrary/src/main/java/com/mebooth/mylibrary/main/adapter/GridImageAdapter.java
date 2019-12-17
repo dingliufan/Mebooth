@@ -149,7 +149,7 @@ public class GridImageAdapter extends
                     || TextUtils.isEmpty(media.getPath())) {
                 return;
             }
-            int chooseModel = media.getMimeType();
+            int chooseModel = media.getChooseModel();
             String path;
             if (media.isCut() && !media.isCompressed()) {
                 // 裁剪过

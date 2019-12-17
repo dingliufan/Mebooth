@@ -86,4 +86,6 @@
     <color name="ip_color_accent">#1AAD19</color>
     <color name="ip_text_secondary_inverted">#66ffffff</color>
     <color name="ip_text_primary_inverted">#ffffff</color>
+    <color name="picture_color_grey">#393a3e</color>
+    <color name="picture_color_light_grey">#999999</color>
 </resources>

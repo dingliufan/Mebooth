@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="411dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/whilte_bg">
+
+
+    <GridView
+        android:id="@+id/grid_shared"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="20dp"
+        android:numColumns="3"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="33dp"
+        android:scrollbars="none"
+        android:verticalSpacing="30dp"></GridView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#eeeeee"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/shared_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="取消"
+        android:textColor="@color/bg_757575"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+
+</LinearLayout>

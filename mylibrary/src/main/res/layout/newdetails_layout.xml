@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/bg_ffffff">
 
     <include layout="@layout/public_header" />
 
@@ -67,46 +68,6 @@
                     android:textSize="16sp" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:id="@+id/recommenditem_headericon"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp" />
-
-                <TextView
-                    android:id="@+id/recommenditem_nickname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:text="黑暗骑士"
-                    android:textColor="@color/bg_000000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/recommenditem_follow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="15dp"
-                    android:background="@drawable/follow"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp"
-                    android:text="关注"
-                    android:textColor="@color/bg_000000"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/classify_recycle"
                 android:layout_width="match_parent"
@@ -152,8 +113,9 @@
 
             <TextView
                 android:id="@+id/newdetails_comment"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:drawableLeft="@drawable/comment"
@@ -162,28 +124,14 @@
                 android:text="268"
                 android:textSize="18sp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/newdetails_share"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
-                android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/newdetails_collectimg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/nocollect" />
-
-                <TextView
-                    android:id="@+id/newdetails_collect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:text="268"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                android:src="@drawable/share_img" />
 
         </LinearLayout>
 

@@ -12,6 +12,7 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
@@ -19,6 +20,8 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -33,6 +36,8 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
     private String type = "";
     private MultiItemTypeAdapter adapter;
     private ArrayList<GetNowJson.NowData.NowDataList> list;
+    private boolean follow;
+    private boolean isPraised;
 
     public NowItemVIewTwo(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list) {
         this.context = context;
@@ -118,6 +123,12 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
         holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
 
         if (nowDataList.getUser().isFollowed()) {
+
+            follow = true;
+        } else {
+            follow = false;
+        }
+        if (follow) {
             holder.setText(R.id.recommenditem_follow, "已关注");
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
         } else {
@@ -137,7 +148,14 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
         holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute + ":" + second);
 
 
-        if (nowDataList.getTopic().isPraised()) {
+        if(nowDataList.getTopic().isPraised()){
+            isPraised = true;
+        }else{
+            isPraised = false;
+        }
+
+
+        if (isPraised) {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
         } else {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
@@ -149,77 +167,83 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
         holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (nowDataList.getUser().isFollowed()) {
-                    //取消关注
-                    ServiceFactory.getNewInstance()
-                            .createService(YService.class)
-                            .cancelFollow(nowDataList.getUser().getUid())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new CommonObserver<PublicBean>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onNext(PublicBean publicBean) {
-                                    super.onNext(publicBean);
 
-                                    if (null != publicBean && publicBean.getErrno() == 0) {
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-                                        ToastUtils.getInstance().showToast("已取消关注");
-                                        holder.setText(R.id.recommenditem_follow, "关注");
-                                        holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
-                                    } else if (null != publicBean && publicBean.getErrno() != 200) {
-
-                                        ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                    } else {
-
-                                        ToastUtils.getInstance().showToast("数据加载失败");
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    super.onError(e);
-
-                                    ToastUtils.getInstance().showToast("数据加载失败");
-                                }
-                            });
-
+                    AppApplication.getInstance().setLogin();
 
                 } else {
-                    //添加关注
-                    ServiceFactory.getNewInstance()
-                            .createService(YService.class)
-                            .addFollow(nowDataList.getUser().getUid())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new CommonObserver<PublicBean>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onNext(PublicBean publicBean) {
-                                    super.onNext(publicBean);
+                    if (follow) {
+                        //取消关注
+                        ServiceFactory.getNewInstance()
+                                .createService(YService.class)
+                                .cancelFollow(nowDataList.getUser().getUid())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CommonObserver<PublicBean>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onNext(PublicBean publicBean) {
+                                        super.onNext(publicBean);
 
-                                    if (null != publicBean && publicBean.getErrno() == 0) {
+                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                            follow = false;
+                                            ToastUtils.getInstance().showToast("已取消关注");
+                                            holder.setText(R.id.recommenditem_follow, "关注");
+                                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
+                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
 
-                                        ToastUtils.getInstance().showToast("已关注");
-                                        holder.setText(R.id.recommenditem_follow, "已关注");
-                                        holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
-                                    } else if (null != publicBean && publicBean.getErrno() != 200) {
+                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                        } else {
 
-                                        ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                    } else {
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
 
                                         ToastUtils.getInstance().showToast("数据加载失败");
                                     }
-                                }
+                                });
 
-                                @Override
-                                public void onError(Throwable e) {
-                                    super.onError(e);
 
-                                    ToastUtils.getInstance().showToast("数据加载失败");
-                                }
-                            });
+                    } else {
+                        //添加关注
+                        ServiceFactory.getNewInstance()
+                                .createService(YService.class)
+                                .addFollow(nowDataList.getUser().getUid())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CommonObserver<PublicBean>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onNext(PublicBean publicBean) {
+                                        super.onNext(publicBean);
 
+                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                            follow = true;
+                                            ToastUtils.getInstance().showToast("已关注");
+                                            holder.setText(R.id.recommenditem_follow, "已关注");
+                                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
+                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                        } else {
+
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
+
+                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                    }
+                                });
+                    }
                 }
             }
         });
@@ -227,88 +251,101 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
         holder.setOnClickListener(R.id.recommenditem_collect_img, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-                if (nowDataList.getTopic().isPraised()) {
-                    //取消收藏
-                    ServiceFactory.getNewInstance()
-                            .createService(YService.class)
-                            .addPraises(nowDataList.getTopic().getTid())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new CommonObserver<PublicBean>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onNext(PublicBean publicBean) {
-                                    super.onNext(publicBean);
+                    AppApplication.getInstance().setLogin();
 
-                                    if (null != publicBean && publicBean.getErrno() == 0) {
-
-                                        ToastUtils.getInstance().showToast("已取消收藏");
-                                        holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
-                                        praises = praises - 1;
-                                        holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
-                                    } else if (null != publicBean && publicBean.getErrno() != 200) {
-
-                                        ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                    } else {
-
-                                        ToastUtils.getInstance().showToast("数据加载失败");
-                                    }
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    super.onError(e);
-
-                                    ToastUtils.getInstance().showToast("数据加载失败");
-                                }
-                            });
                 } else {
+                    if (isPraised) {
+                        //取消收藏
+                        ServiceFactory.getNewInstance()
+                                .createService(YService.class)
+                                .addPraises(nowDataList.getTopic().getTid())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CommonObserver<PublicBean>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onNext(PublicBean publicBean) {
+                                        super.onNext(publicBean);
 
-                    //添加收藏
-                    ServiceFactory.getNewInstance()
-                            .createService(YService.class)
-                            .addPraises(nowDataList.getTopic().getTid())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new CommonObserver<PublicBean>() {
-                                @RequiresApi(api = Build.VERSION_CODES.O)
-                                @Override
-                                public void onNext(PublicBean publicBean) {
-                                    super.onNext(publicBean);
+                                        if (null != publicBean && publicBean.getErrno() == 0) {
 
-                                    if (null != publicBean && publicBean.getErrno() == 0) {
+                                            ToastUtils.getInstance().showToast("已取消收藏");
+                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+                                            praises = praises - 1;
+                                            holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
 
-                                        ToastUtils.getInstance().showToast("已收藏");
-                                        holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
-                                        praises = praises + 1;
-                                        holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
-                                    } else if (null != publicBean && publicBean.getErrno() != 200) {
+                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                        } else {
 
-                                        ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                    } else {
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
 
                                         ToastUtils.getInstance().showToast("数据加载失败");
                                     }
-                                }
+                                });
+                    } else {
 
-                                @Override
-                                public void onError(Throwable e) {
-                                    super.onError(e);
+                        //添加收藏
+                        ServiceFactory.getNewInstance()
+                                .createService(YService.class)
+                                .addPraises(nowDataList.getTopic().getTid())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CommonObserver<PublicBean>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onNext(PublicBean publicBean) {
+                                        super.onNext(publicBean);
 
-                                    ToastUtils.getInstance().showToast("数据加载失败");
-                                }
-                            });
+                                        if (null != publicBean && publicBean.getErrno() == 0) {
 
+                                            ToastUtils.getInstance().showToast("已收藏");
+                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
+                                            praises = praises + 1;
+                                            holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                        } else {
+
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
+
+                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                    }
+                                });
+
+                    }
                 }
             }
         });
+
         holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, OtherUserActivity.class);
-                intent.putExtra("uid",nowDataList.getUser().getUid());
-                context.startActivity(intent);
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                    AppApplication.getInstance().setLogin();
+
+                } else{
+                    Intent intent = new Intent(context, OtherUserActivity.class);
+                    intent.putExtra("uid", nowDataList.getUser().getUid());
+                    context.startActivity(intent);
+                }
+
             }
         });
 

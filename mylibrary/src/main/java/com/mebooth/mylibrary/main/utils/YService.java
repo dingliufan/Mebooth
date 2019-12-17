@@ -10,6 +10,7 @@ import com.mebooth.mylibrary.main.home.bean.GetNowDetailsJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.GetRongIMTokenJson;
+import com.mebooth.mylibrary.main.home.bean.GetShareInfoJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.home.bean.UpdateHeaderFileJson;
 
@@ -50,7 +51,7 @@ public interface YService {
     Observable<PublicBean> getAddTopic(@Field("content") String content, @Field("location") String location, @Field("images") String images);
     //新闻详情
     @FormUrlEncoded
-    @POST(BASE_URL + "news/getNewsInfo")
+    @POST(BASE_URL + "topic/getNewsInfo")
     Observable<GetNewInfoJson> getNewInfo(@Field("newsid") int newsid);
     //是否关注
     @FormUrlEncoded
@@ -139,6 +140,10 @@ public interface YService {
     //获取融云token
     @POST(BASE_URL + "message/getToken")
     Observable<GetRongIMTokenJson> getRongTokenInfo();
+    //获取分享信息
+    @FormUrlEncoded
+    @POST(BASE_URL + "share/getShareInfo")
+    Observable<GetShareInfoJson> getShareInfo(@Field("scene") String scene, @Field("relateid") int relateid, @Field("type") String type);
 
 
 }

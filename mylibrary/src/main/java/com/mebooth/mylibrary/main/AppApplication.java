@@ -138,6 +138,12 @@ public abstract class AppApplication extends Application {
             meboothCallBack.setLogin();
         }
     };
+    //分享
+    public void setShare(String way,String url,String imgoricon,String title,String description){
+        if(meboothCallBack != null) {
+            meboothCallBack.setShare(way,url,imgoricon,title,description);
+        }
+    };
 
     @Override
     public File getCacheDir() {
