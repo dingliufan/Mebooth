@@ -21,12 +21,13 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
-            android:layout_width="260dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             app:tabMinWidth="20dp"
             app:tabPaddingStart="12dp"
             app:tabPaddingEnd="8dp"
+            app:tabMode="scrollable"
             app:tabTextAppearance="@style/TabText"
             app:tabTextColor="@color/bg_9a9a9a" />
 

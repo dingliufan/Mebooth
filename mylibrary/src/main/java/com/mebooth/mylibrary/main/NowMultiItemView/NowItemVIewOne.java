@@ -339,6 +339,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                 } else{
                     Intent intent = new Intent(context, OtherUserActivity.class);
                     intent.putExtra("uid", nowDataList.getUser().getUid());
+                    intent.putExtra("nickname", nowDataList.getUser().getNickname());
                     context.startActivity(intent);
                 }
 

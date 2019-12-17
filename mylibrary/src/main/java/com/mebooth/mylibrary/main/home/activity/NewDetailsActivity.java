@@ -116,7 +116,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         newdetailShare = findViewById(R.id.newdetails_share);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
-        title.setText("新闻详情");
+        title.setText("正文");
 
         id = getIntent().getIntExtra("relateid", 0);
         uid = getIntent().getIntExtra("uid", 0);
@@ -179,7 +179,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                 }
             }
         });
-
+        initExpandableListView(commentList);
         getNewDetails();
         getCommentList();
         expandableListView.setNestedScrollingEnabled(true);
@@ -342,8 +342,8 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
         final EditText commentText = (EditText) commentView.findViewById(R.id.dialog_comment_et);
         final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
-        commentText.setHint("回复 @" + commentList.get(position).getUser().getNickname());
-
+        commentText.setText("回复 @" + commentList.get(position).getUser().getNickname());
+        commentText.setSelection(commentText.getText().toString().length());
         dialog.setContentView(commentView);
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -398,6 +398,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         final EditText commentText = (EditText) commentView.findViewById(R.id.dialog_comment_et);
         final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
         commentText.setText("回复 @" + commentList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname());
+        commentText.setSelection(commentText.getText().toString().length());
         dialog.setContentView(commentView);
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -487,7 +488,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .requestComment(id, pid, content)
+                .requestComment(id, pid, content,1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PublicBean>() {

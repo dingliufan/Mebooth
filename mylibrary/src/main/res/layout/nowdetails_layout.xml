@@ -12,7 +12,7 @@
         android:layout_height="0.5dp"
         android:background="@color/bg_c7c7c7" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -77,21 +77,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="5dp"
                 android:overScrollMode="never" />
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/bg_c7c7c7"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"/>
             <com.mebooth.mylibrary.main.view.CommentExpandableListView
                 android:id="@+id/detail_page_lv_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@null"
                 android:listSelector="@android:color/transparent"
-                android:scrollbars="none"></com.mebooth.mylibrary.main.view.CommentExpandableListView>
+                android:scrollbars="none"
+                android:layout_marginTop="30dp"></com.mebooth.mylibrary.main.view.CommentExpandableListView>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"

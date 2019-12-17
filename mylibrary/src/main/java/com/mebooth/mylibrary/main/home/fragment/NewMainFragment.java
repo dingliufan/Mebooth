@@ -2,9 +2,12 @@ package com.mebooth.mylibrary.main.home.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
@@ -15,12 +18,14 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.FriendActivity;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.PublishActivity;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
 import com.mebooth.mylibrary.main.home.bean.UserTokenJson;
 import com.mebooth.mylibrary.main.utils.TabLayoutUtil;
 import com.mebooth.mylibrary.main.utils.YService;
+import com.mebooth.mylibrary.main.view.EdiitNickName;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
@@ -65,12 +70,10 @@ public class NewMainFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
 
-        publish = (ImageView)view.findViewById(R.id.consult_publish);
+        publish = (ImageView) view.findViewById(R.id.consult_publish);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.pager);
         headerIcon = view.findViewById(R.id.userheadericon);
-
-
     }
 
     @Override
@@ -95,7 +98,7 @@ public class NewMainFragment extends BaseFragment {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedSize);
         textView.setTextColor(getResources().getColor(R.color.bg_000000));
         textView.setText(tabAt.getText());
-        textView.setTranslationX(15);
+//        textView.setTranslationX(10);
         tabAt.setCustomView(textView);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -108,7 +111,7 @@ public class NewMainFragment extends BaseFragment {
                 textView.setText(tab.getText());
 
 
-                textView.setTranslationX(15);
+//                textView.setTranslationX(10);
                 tab.setCustomView(textView);
             }
 
@@ -126,19 +129,18 @@ public class NewMainFragment extends BaseFragment {
 
         tabLayout.getTabAt(0).select();
         TabLayoutUtil.reflex(tabLayout);
-        getUserInfo();
-
 
         headerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))){
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
                     AppApplication.getInstance().setLogin();
 
-                }else{
+                } else {
                     Intent intent = new Intent(getActivity(), MineActivity.class);
+//                    Intent intent = new Intent(getActivity(), FriendActivity.class);
                     intent.putExtra("uid", uid);
                     intent.putExtra("headericon", headerIconStr);
                     intent.putExtra("nickname", nickName);
@@ -150,11 +152,11 @@ public class NewMainFragment extends BaseFragment {
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))){
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
                     AppApplication.getInstance().setLogin();
 
-                }else{
+                } else {
                     Intent intent = new Intent(getActivity(), PublishActivity.class);
                     startActivity(intent);
                 }
@@ -202,4 +204,10 @@ public class NewMainFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserInfo();
+
+    }
 }

@@ -4,12 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
@@ -22,6 +25,7 @@ import com.mebooth.mylibrary.imagepicker.ui.ImageGridActivity;
 import com.mebooth.mylibrary.imagepicker.view.CropImageView;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
+import com.mebooth.mylibrary.main.home.bean.GetMineCountJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.home.bean.UpdateHeaderFileJson;
 import com.mebooth.mylibrary.main.home.fragment.MeCareFragment;
@@ -35,6 +39,7 @@ import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,6 +71,7 @@ public class MineActivity extends BaseTransparentActivity {
     private final int BASIC_PERMISSION_REQUEST_CODE = 1;//单图
 
     private EdiitNickName ediitNickName;
+    private EdiitNickName.MyListener myListener;
     //基本权限管理
     private final String[] BASIC_PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -105,25 +111,23 @@ public class MineActivity extends BaseTransparentActivity {
         GlideImageManager.glideLoader(MineActivity.this, getIntent().getStringExtra("headericon"), headerIcon, GlideImageManager.TAG_ROUND);
         nickName.setText(getIntent().getStringExtra("nickname"));
         uid = getIntent().getIntExtra("uid",0);
+        myListener = new EdiitNickName.MyListener() {
+            @Override
+            public void setNickName(String Name) {
 
-        ediitNickName = new EdiitNickName(this,getIntent().getStringExtra("nickname"));
+                nickName.setText(Name);
+
+            }
+        };
+        ediitNickName = new EdiitNickName(this,getIntent().getStringExtra("nickname"),myListener);
 
         mFragments.add(MePublishFragment.getInstance(uid));
         mFragments.add(meCareFragment);
         mFragments.add(meCollectFragment);
-        mTitles.add("我发布的");
-        mTitles.add("我的关注");
-        mTitles.add("我的收藏");
+
+        getCountInfo();
 
         initSingleImagerPicker();
-
-        mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), this, mFragments, mTitles);
-        viewPager.setAdapter(mAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.getTabAt(0).select();
-        TabLayoutUtil.reflex(tabLayout);
-
         headerIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +152,57 @@ public class MineActivity extends BaseTransparentActivity {
         });
 
         title.setText("个人中心");
+
+    }
+
+    private void getCountInfo() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getMineCountInfo(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetMineCountJson>() {
+                    @Override
+                    public void onNext(GetMineCountJson getMineCountJson) {
+                        super.onNext(getMineCountJson);
+
+                        if (null != getMineCountJson && getMineCountJson.getErrno() == 0) {
+
+                            mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我发布的");
+                            mTitles.add(getMineCountJson.getData().getStats().getFollowing()+"\n我的关注");
+                            mTitles.add(getMineCountJson.getData().getStats().getPraise()+"\n我的收藏");
+
+
+                            mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), MineActivity.this, mFragments, mTitles);
+                            viewPager.setAdapter(mAdapter);
+                            tabLayout.setupWithViewPager(viewPager);
+                            tabLayout.setSelectedTabIndicatorHeight(0);
+                            tabLayout.getTabAt(0).select();
+                            TabLayoutUtil.reflex(tabLayout);
+
+                            LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
+                            linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+                            linearLayout.setDividerDrawable(ContextCompat.getDrawable(MineActivity.this,R.drawable.tablayout_divider_vertical));
+                            linearLayout.setDividerPadding(UIUtils.dp2px(MineActivity.this,15));
+
+                        } else if (null != getMineCountJson && getMineCountJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMineCountJson.getErrmsg()) ? "数据加载失败" : getMineCountJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
 
     }
 

@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/bg_ffffff">
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_marginLeft="48dp"
         android:layout_marginRight="32dp"
-        android:background="@color/bg_ffffff"/>
+        android:background="@color/bg_f6f6f6"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +17,7 @@
         android:layout_marginLeft="48dp"
         android:layout_marginRight="32dp"
         android:orientation="horizontal"
-        android:background="@color/bg_ffffff">
+        android:background="@color/bg_f6f6f6">
         <TextView
             android:id="@+id/reply_item_user"
             android:layout_width="wrap_content"

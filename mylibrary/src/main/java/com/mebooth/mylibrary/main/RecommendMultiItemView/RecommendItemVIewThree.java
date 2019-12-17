@@ -290,6 +290,8 @@ public class RecommendItemVIewThree implements ItemViewDelegate<GetRecommendJson
                 } else {
                     Intent intent = new Intent(context, OtherUserActivity.class);
                     intent.putExtra("uid", recommendDataList.getUser().getUid());
+                    intent.putExtra("nickname", recommendDataList.getUser().getNickname());
+
                     context.startActivity(intent);
                 }
             }

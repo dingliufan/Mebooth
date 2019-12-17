@@ -26,18 +26,19 @@ public class EdiitNickName extends BasePopupWindow {
     private EditText nickNameEdit;
     private TextView sureUpdate;
     private TextView cancel;
+    private MyListener myListener;
 
-    public EdiitNickName(Context context,String nickName) {
+    public EdiitNickName(Context context,String nickName,MyListener myListener) {
         super(context);
         this.context = context;
         this.nickName = nickName;
+        this.myListener = myListener;
         setPopupGravity(Gravity.CENTER);
 
         bindEvent();
     }
 
     private void bindEvent() {
-
         nickNameEdit = (EditText)findViewById(R.id.edit_nickname);
         sureUpdate = (TextView)findViewById(R.id.edit_sure);
         cancel = (TextView)findViewById(R.id.edit_cancel);
@@ -60,6 +61,7 @@ public class EdiitNickName extends BasePopupWindow {
                                 if (null != publicBean && publicBean.getErrno() == 0) {
 
                                     ToastUtils.getInstance().showToast("昵称已修改");
+                                    myListener.setNickName(nickNameEdit.getText().toString());
                                     dismiss();
 
                                 } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -87,6 +89,12 @@ public class EdiitNickName extends BasePopupWindow {
                 dismiss();
             }
         });
+
+    }
+
+    public interface MyListener {
+
+        void setNickName(String nickName);
 
     }
 

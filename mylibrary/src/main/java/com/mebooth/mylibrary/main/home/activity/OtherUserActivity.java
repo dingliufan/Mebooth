@@ -197,11 +197,11 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
 
     private void initRecycle() {
         commonAdapter = new MultiItemTypeAdapter(this, list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "other", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "other", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "other", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "other", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "other", commonAdapter, list));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

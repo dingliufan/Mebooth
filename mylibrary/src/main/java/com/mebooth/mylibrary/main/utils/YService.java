@@ -4,6 +4,7 @@ import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsCollectJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsFollowJson;
+import com.mebooth.mylibrary.main.home.bean.GetMineCountJson;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
 import com.mebooth.mylibrary.main.home.bean.GetNewInfoJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowDetailsJson;
@@ -69,7 +70,7 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "reply/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<PublicBean> requestComment(@Field("tid") int tid, @Field("pid") int pid, @Field("content") String content);
+    Observable<PublicBean> requestComment(@Field("tid") int tid, @Field("pid") int pid, @Field("content") String content,@Field("type") int type);
     //上传图片
     @Multipart
     @POST(BASE_URL + "image/upload")
@@ -144,6 +145,10 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "share/getShareInfo")
     Observable<GetShareInfoJson> getShareInfo(@Field("scene") String scene, @Field("relateid") int relateid, @Field("type") String type);
+    //获取我的界面数量信息
+    @FormUrlEncoded
+    @POST(BASE_URL + "user/getUserInfo")
+    Observable<GetMineCountJson> getMineCountInfo(@Field("uid") int uid);
 
 
 }

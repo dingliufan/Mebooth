@@ -5,33 +5,12 @@
     android:orientation="vertical"
     android:background="@color/bg_ffffff">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="70dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:text="黑暗骑士"
-            android:textColor="@color/bg_000000"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/recommenditem_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="29.5dp"
         android:layout_marginRight="15dp"
         android:singleLine="true"
         android:maxEms="45"
@@ -64,34 +43,42 @@
             android:text="2019-12-02"
             android:textSize="16sp"/>
 
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/browse"
+            android:layout_gravity="center_vertical"/>
         <TextView
             android:id="@+id/recommenditem_browsecount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bg_7d7d7d"
             android:text="02"
-            android:drawableLeft="@drawable/browse"
-            android:gravity="center"
-            android:drawablePadding="10dp"
-            android:textSize="16sp"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:textSize="12sp"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/comment"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"/>
         <TextView
             android:id="@+id/recommenditem_commentcount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/bg_7d7d7d"
             android:text="12"
-            android:drawableLeft="@drawable/comment"
-            android:gravity="center"
-            android:drawablePadding="10dp"
             android:textSize="16sp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/bg_e3e3e3"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="34.5dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"/>
 
