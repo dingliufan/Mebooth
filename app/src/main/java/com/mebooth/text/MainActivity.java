@@ -49,7 +49,7 @@ public class MainActivity extends BaseTransparentActivity {
 //                RongIM.getInstance().startPrivateChat(MainActivity.this, "10001", "标题");
 
 //                Intent intent = new Intent(MainActivity.this, FriendActivity.class);
-//                startActivity(intent);
+////                startActivity(intent);
             }
         });
 

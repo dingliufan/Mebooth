@@ -41,6 +41,8 @@ import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.UserInfo;
 
 public class NewMainFragment extends BaseFragment {
 
@@ -82,8 +84,8 @@ public class NewMainFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mFragments.add(recommendFragment);
-//        mFragments.add(FriendActivity.newInstance());
+//        mFragments.add(recommendFragment);
+        mFragments.add(FriendActivity.newInstance());
         mFragments.add(nowFragment);
         mFragments.add(experienceFragment);
         mFragments.add(informationFragment);
@@ -189,7 +191,12 @@ public class NewMainFragment extends BaseFragment {
                             uid = getMyUserInfo.getData().getUser().getUid();
                             headerIconStr = getMyUserInfo.getData().getUser().getAvatar();
                             nickName = getMyUserInfo.getData().getUser().getNickname();
-
+                            RongIM.getInstance().setCurrentUserInfo(new UserInfo(String.valueOf(uid),nickName,Uri.parse(headerIconStr)));
+                            /**
+                             * 设置消息体内是否携带用户信息。
+                             * @param state 是否携带用户信息，true 携带，false 不携带。
+                             */
+                            RongIM.getInstance().setMessageAttachedUserInfo(true);
                             if(headerIconStr.equals("https://img.baojiawangluo.com/news/20191216171236851.jpg")){
                                 if(isFirst){
                                     new AlertView("设置头像或昵称", "您还没有设置头像或昵称，请先进行修改", "取消", new String[]{"确定"}, null, getActivity(),

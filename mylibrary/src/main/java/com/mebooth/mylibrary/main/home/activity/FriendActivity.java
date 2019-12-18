@@ -40,6 +40,7 @@ public class FriendActivity extends BaseFragment {
     private TextView title;
     private TextView right;
     private String uids = "";
+    private UserInfo userInfo;
 
     public static FriendActivity newInstance() {
         return new FriendActivity();
@@ -48,30 +49,39 @@ public class FriendActivity extends BaseFragment {
 
     public void switchContent() {
 
-        RongIMClient.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+//        RongIMClient.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+//
+//            @Override
+//
+//            public void onSuccess(List<Conversation> conversations) {
+//                StringBuilder sb = new StringBuilder();
+//                for (int i = 0; i < conversations.size(); i++) {
+//                    if (sb.length() > 0) {//该步即不会第一位有逗号，也防止最后一位拼接逗号！
+//                        sb.append(",");
+//                    }
+//                    sb.append(conversations.get(i).getTargetId());
+//                }
+//
+//                getIMInfo(sb.toString());
+//
+//            }
+//
+//            @Override
+//
+//            public void onError(RongIMClient.ErrorCode errorCode) {
+//
+//            }
+//
+//        });
+
+        RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
 
             @Override
-
-            public void onSuccess(List<Conversation> conversations) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < conversations.size(); i++) {
-                    if (sb.length() > 0) {//该步即不会第一位有逗号，也防止最后一位拼接逗号！
-                        sb.append(",");
-                    }
-                    sb.append(conversations.get(i).getTargetId());
-                }
-
-                getIMInfo(sb.toString());
-
+            public UserInfo getUserInfo(String userId) {
+                return getIMInfo(userId);//根据 userId 去你的用户系统里查询对应的用户信息返回给融云 SDK。
             }
 
-            @Override
-
-            public void onError(RongIMClient.ErrorCode errorCode) {
-
-            }
-
-        });
+        }, true);
 
         //必需继承FragmentActivity,嵌套fragment只需要这行代码
         getChildFragmentManager().beginTransaction().replace(R.id.onef, initConversationList()).commitAllowingStateLoss();
@@ -130,7 +140,7 @@ public class FriendActivity extends BaseFragment {
         switchContent();
     }
 
-    private void getIMInfo(String uidStr) {
+    private UserInfo getIMInfo(String uidStr) {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
@@ -146,7 +156,7 @@ public class FriendActivity extends BaseFragment {
                             ArrayList<GetIMUserInfoJson.IMUserData.IMUser> users = getIMUserInfoJson.getData().getUsers();
 
                             for (int j = 0; j < users.size(); j++) {
-                                UserInfo userInfo = new UserInfo(String.valueOf(users.get(j).getUid()), users.get(j).getNickname(), Uri.parse(users.get(j).getAvatar()));
+                                userInfo = new UserInfo(String.valueOf(users.get(j).getUid()), users.get(j).getNickname(), Uri.parse(users.get(j).getAvatar()));
                                 RongIM.getInstance().refreshUserInfoCache(userInfo);
                             }
 
@@ -169,7 +179,7 @@ public class FriendActivity extends BaseFragment {
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
-
+            return userInfo;
 
     }
 
