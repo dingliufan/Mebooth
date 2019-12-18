@@ -106,7 +106,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
 
-        title.setText("话题详情");
+        title.setText("此刻");
 
         tid = getIntent().getIntExtra("relateid",0);
         uid = getIntent().getIntExtra("uid",0);
@@ -394,7 +394,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getCommentInfo(tid,1,1)
+                .getCommentInfo(tid,2,1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<CommentOnJson>() {

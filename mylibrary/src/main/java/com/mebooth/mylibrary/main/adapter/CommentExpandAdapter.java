@@ -92,7 +92,13 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         GlideImageManager.glideLoader(context, commentBeanList.get(groupPosition).getUser().getAvatar(), groupHolder.logo, GlideImageManager.TAG_ROUND);
 
         groupHolder.tv_name.setText(commentBeanList.get(groupPosition).getUser().getNickname());
-        groupHolder.tv_time.setText(commentBeanList.get(groupPosition).getReply().getAddtime());
+        int month = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(5, 7)) - 1;
+        int date = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(8, 10));
+        int hour = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(11, 13));
+        int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
+        int second = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(17, 19));
+
+        groupHolder.tv_time.setText((month + 1) + "-" + date + " " + hour + ":" + minute);
         groupHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getContent());
 
         return convertView;

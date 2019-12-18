@@ -94,7 +94,7 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
         int hour = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(11, 13));
         int minute = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(14, 16));
         int second = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(17, 19));
-        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute + ":" + second);
+        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute);
 
 
         if(recommendDataList.getFeed().isPraised()){

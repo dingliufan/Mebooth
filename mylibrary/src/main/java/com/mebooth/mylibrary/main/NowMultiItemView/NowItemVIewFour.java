@@ -162,7 +162,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
         int hour = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(11, 13));
         int minute = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(14, 16));
         int second = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(17, 19));
-        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute + ":" + second);
+        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute);
 
         if (nowDataList.getTopic().isPraised()) {
             isPraised = true;
