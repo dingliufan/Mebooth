@@ -3,6 +3,7 @@ package com.mebooth.mylibrary.main.home.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,16 +14,32 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
 import com.mebooth.mylibrary.main.home.fragment.NewMainFragment;
+import com.mebooth.mylibrary.main.utils.YService;
+import com.mebooth.mylibrary.net.CommonObserver;
+import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.ToastUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imkit.userInfoCache.RongUserInfoManager;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.UserInfo;
 
 public class FriendActivity extends BaseFragment {
     private Fragment mConversationFragment = null;
     private ImageView back;
     private TextView title;
     private TextView right;
+    private String uids = "";
 
     public static FriendActivity newInstance() {
         return new FriendActivity();
@@ -30,6 +47,32 @@ public class FriendActivity extends BaseFragment {
 
 
     public void switchContent() {
+
+        RongIMClient.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+
+            @Override
+
+            public void onSuccess(List<Conversation> conversations) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < conversations.size(); i++) {
+                    if (sb.length() > 0) {//该步即不会第一位有逗号，也防止最后一位拼接逗号！
+                        sb.append(",");
+                    }
+                    sb.append(conversations.get(i).getTargetId());
+                }
+
+                getIMInfo(sb.toString());
+
+            }
+
+            @Override
+
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+
+        });
+
         //必需继承FragmentActivity,嵌套fragment只需要这行代码
         getChildFragmentManager().beginTransaction().replace(R.id.onef, initConversationList()).commitAllowingStateLoss();
     }
@@ -86,4 +129,48 @@ public class FriendActivity extends BaseFragment {
         });
         switchContent();
     }
+
+    private void getIMInfo(String uidStr) {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getIMUserInfo(uidStr)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetIMUserInfoJson>() {
+                    @Override
+                    public void onNext(GetIMUserInfoJson getIMUserInfoJson) {
+                        super.onNext(getIMUserInfoJson);
+
+                        if (null != getIMUserInfoJson && getIMUserInfoJson.getErrno() == 0) {
+                            ArrayList<GetIMUserInfoJson.IMUserData.IMUser> users = getIMUserInfoJson.getData().getUsers();
+
+                            for (int j = 0; j < users.size(); j++) {
+                                UserInfo userInfo = new UserInfo(String.valueOf(users.get(j).getUid()), users.get(j).getNickname(), Uri.parse(users.get(j).getAvatar()));
+                                RongIM.getInstance().refreshUserInfoCache(userInfo);
+                            }
+
+                        } else if (null != getIMUserInfoJson && getIMUserInfoJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != getIMUserInfoJson && getIMUserInfoJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIMUserInfoJson.getErrmsg()) ? "数据加载失败" : getIMUserInfoJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+
+    }
+
 }

@@ -78,7 +78,8 @@ public class NewMainFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mFragments.add(recommendFragment);
+//        mFragments.add(recommendFragment);
+        mFragments.add(FriendActivity.newInstance());
         mFragments.add(nowFragment);
         mFragments.add(experienceFragment);
         mFragments.add(informationFragment);
