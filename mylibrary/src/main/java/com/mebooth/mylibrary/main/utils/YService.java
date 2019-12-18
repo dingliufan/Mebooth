@@ -76,7 +76,7 @@ public interface YService {
     @POST(BASE_URL + "image/upload")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<UpdateHeaderFileJson> updateRepairFile(@Part MultipartBody.Part file);
-    //回复评论
+    //发布帖子
     @FormUrlEncoded
     @POST(BASE_URL + "topic/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);

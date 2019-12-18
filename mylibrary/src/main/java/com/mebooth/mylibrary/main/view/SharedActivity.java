@@ -135,6 +135,9 @@ public class SharedActivity extends BasePopupWindow {
 
                             }
 
+                        } else if (null != getShareInfoJson && getShareInfoJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getShareInfoJson && getShareInfoJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getShareInfoJson.getErrmsg()) ? "数据加载失败" : getShareInfoJson.getErrmsg());

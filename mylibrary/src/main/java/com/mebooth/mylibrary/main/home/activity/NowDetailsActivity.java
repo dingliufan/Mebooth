@@ -413,6 +413,9 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                 expandableListView.expandGroup(i);
                             }
 
+                        } else if (null != commentOnJson && commentOnJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != commentOnJson && commentOnJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(commentOnJson.getErrmsg()) ? "数据加载失败" : commentOnJson.getErrmsg());
@@ -453,7 +456,10 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                             initExpandableListView(commentList);
 
 
-                        }  else if (null != publicBean && publicBean.getErrno() != 200) {
+                        }  else if (null != publicBean && publicBean.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
                         } else {
@@ -498,7 +504,10 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                             }else{
                                 collectimg.setImageResource(R.drawable.nocollect);
                             }
-                        } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() != 200) {
+                        } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        }else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowDetailsJson.getErrmsg()) ? "数据加载失败" : getNowDetailsJson.getErrmsg());
                         } else {
@@ -538,6 +547,9 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                 follow.setBackgroundResource(R.drawable.follow);
                             }
 
+                        } else if (null != getIsFollowJson && getIsFollowJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getIsFollowJson && getIsFollowJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIsFollowJson.getErrmsg()) ? "数据加载失败" : getIsFollowJson.getErrmsg());

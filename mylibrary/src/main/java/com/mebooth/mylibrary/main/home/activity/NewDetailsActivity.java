@@ -466,6 +466,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                                 expandableListView.expandGroup(i);
                             }
 
+                        } else if (null != commentOnJson && commentOnJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != commentOnJson && commentOnJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(commentOnJson.getErrmsg()) ? "数据加载失败" : commentOnJson.getErrmsg());
@@ -506,6 +509,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             initExpandableListView(commentList);
 
 
+                        } else if (null != publicBean && publicBean.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -543,6 +549,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             newdetailsTime.setText(getNewInfoJson.getData().getNews().getAddtime());
                             adapter.addData(getNewInfoJson.getData().getNews().getContent());
 
+                        } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNewInfoJson.getErrmsg()) ? "数据加载失败" : getNewInfoJson.getErrmsg());

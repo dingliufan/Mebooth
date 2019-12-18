@@ -7,6 +7,7 @@
     <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
         android:id="@+id/newsvideo"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/post_media_height" />
+        android:layout_height="@dimen/post_media_height"
+        android:layout_marginTop="15dp"/>
 
 </LinearLayout>

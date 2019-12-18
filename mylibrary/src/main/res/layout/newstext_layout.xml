@@ -11,6 +11,7 @@
         android:textSize="16sp"
         android:textColor="@color/bg_000000"
         android:lineSpacingExtra="10dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"/>
 
 </LinearLayout>

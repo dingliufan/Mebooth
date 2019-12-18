@@ -123,26 +123,29 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/comment" />
 
             <TextView
                 android:id="@+id/newdetails_comment"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/comment"
-                android:drawablePadding="10dp"
-                android:gravity="center"
+                android:layout_marginLeft="10dp"
                 android:text="268"
                 android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/newdetails_share"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/share_img" />

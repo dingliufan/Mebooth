@@ -47,6 +47,7 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.FullyGridLayoutManager;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 
@@ -354,6 +355,9 @@ public class PublishActivity extends BaseTransparentActivity {
 
                                 position++;
 
+                            } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() == 1101) {
+
+                                SharedPreferencesUtils.writeString("token", "");
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() != 200) {
 
                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(updateHeaderFileJson.getErrmsg()) ? "数据加载失败" : updateHeaderFileJson.getErrmsg());
@@ -394,6 +398,9 @@ public class PublishActivity extends BaseTransparentActivity {
                             ActivityCollectorUtil.finishAllActivity();
                             ToastUtils.getInstance().showToast("发布成功");
 
+                        } else if (null != publicBean && publicBean.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());

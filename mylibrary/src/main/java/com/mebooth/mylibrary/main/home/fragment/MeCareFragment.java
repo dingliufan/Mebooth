@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -89,6 +90,9 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
                             initList(tag, getCareJson);
 
+                        } else if (null != getCareJson && getCareJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getCareJson && getCareJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getCareJson.getErrmsg()) ? "数据加载失败" : getCareJson.getErrmsg());

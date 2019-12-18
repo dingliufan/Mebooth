@@ -38,6 +38,7 @@ import com.mebooth.mylibrary.main.view.EdiitNickName;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.mebooth.mylibrary.utils.UIUtils;
 
@@ -186,6 +187,9 @@ public class MineActivity extends BaseTransparentActivity {
                             linearLayout.setDividerDrawable(ContextCompat.getDrawable(MineActivity.this,R.drawable.tablayout_divider_vertical));
                             linearLayout.setDividerPadding(UIUtils.dp2px(MineActivity.this,15));
 
+                        } else if (null != getMineCountJson && getMineCountJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getMineCountJson && getMineCountJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMineCountJson.getErrmsg()) ? "数据加载失败" : getMineCountJson.getErrmsg());
@@ -285,6 +289,9 @@ public class MineActivity extends BaseTransparentActivity {
                         if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() == 0) {
                             updateHeaderIcon(updateHeaderFileJson.getData().get(0));
 
+                        } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(updateHeaderFileJson.getErrmsg()) ? "数据加载失败" : updateHeaderFileJson.getErrmsg());

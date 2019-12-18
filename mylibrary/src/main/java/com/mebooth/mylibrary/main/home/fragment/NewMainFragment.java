@@ -185,6 +185,9 @@ public class NewMainFragment extends BaseFragment {
                             headerIconStr = getMyUserInfo.getData().getUser().getAvatar();
                             nickName = getMyUserInfo.getData().getUser().getNickname();
 
+                        } else if (null != getMyUserInfo && getMyUserInfo.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getMyUserInfo && getMyUserInfo.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());

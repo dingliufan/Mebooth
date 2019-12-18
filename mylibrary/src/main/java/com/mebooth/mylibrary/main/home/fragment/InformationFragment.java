@@ -25,6 +25,7 @@ import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -85,7 +86,10 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                             offSet = (int) getRecommendJson.getData().getOffset();
                             initList(tag, getRecommendJson);
 
-                        } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
+                        } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        }else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
                         } else {

@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 
@@ -25,6 +27,7 @@ import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -72,7 +75,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("evaluate",offSet,pageSize)
+                .getRecommend("evaluate", offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {
@@ -84,6 +87,9 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
                             offSet = (int) getRecommendJson.getData().getOffset();
                             initList(tag, getRecommendJson);
 
+                        } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
@@ -109,7 +115,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
-        }else {
+        } else {
             if (getRecommendJson.getData().getList().size() == 0) {
 
                 mSmart.finishLoadMoreWithNoMoreData();
@@ -150,7 +156,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
     }
 
     private void initRecycle() {
-        commonAdapter = new MultiItemTypeAdapter(getActivity(),recommend);
+        commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
         commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity()));
         commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity()));
         commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity()));
@@ -163,20 +169,20 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 详情
-                if(recommend.get(position).getFeed().getType() == 1){
+                if (recommend.get(position).getFeed().getType() == 1) {
                     Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
-                    intent.putExtra("relateid",recommend.get(position).getFeed().getRelateid());
-                    intent.putExtra("uid",recommend.get(position).getUser().getUid());
+                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
                     startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
-                    intent.putExtra("relateid",recommend.get(position).getFeed().getRelateid());
-                    intent.putExtra("uid",recommend.get(position).getUser().getUid());
-                    intent.putExtra("image",recommend.get(position).getUser().getAvatar());
-                    intent.putExtra("nickname",recommend.get(position).getUser().getNickname());
-                    intent.putExtra("browse",recommend.get(position).getFeed().getWatches());
-                    intent.putExtra("replies",recommend.get(position).getFeed().getReplies());
-                    intent.putExtra("praises",recommend.get(position).getFeed().getPraises());
+                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+                    intent.putExtra("image", recommend.get(position).getUser().getAvatar());
+                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                    intent.putExtra("browse", recommend.get(position).getFeed().getWatches());
+                    intent.putExtra("replies", recommend.get(position).getFeed().getReplies());
+                    intent.putExtra("praises", recommend.get(position).getFeed().getPraises());
                     startActivity(intent);
                 }
             }
