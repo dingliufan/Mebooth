@@ -5,4 +5,5 @@
     <!-- 多选相册 -->
     <dimen name="gf_title_bar_height">56dp</dimen>
     <dimen name="post_media_height">200dp</dimen>
+    <dimen name="lib_pub_dimen_margin">12dp</dimen>
 </resources>

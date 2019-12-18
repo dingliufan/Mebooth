@@ -149,7 +149,14 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
             holder.setVisible(R.id.recommenditem_imgmore, View.VISIBLE);
             holder.setText(R.id.recommenditem_imgmore, nowDataList.getTopic().getImages().size() + "图");
         }
-        holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
+        if (StringUtil.isEmpty(nowDataList.getTopic().getLocation())) {
+            holder.setVisible(R.id.recommenditem_address,View.GONE);
+
+        } else {
+            holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
+            holder.setVisible(R.id.recommenditem_address,View.VISIBLE);
+        }
+
         int month = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(5, 7)) - 1;
         int date = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(8, 10));
         int hour = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(11, 13));
@@ -350,7 +357,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
 
                     AppApplication.getInstance().setLogin();
 
-                } else{
+                } else {
                     Intent intent = new Intent(context, OtherUserActivity.class);
                     intent.putExtra("uid", nowDataList.getUser().getUid());
                     intent.putExtra("nickname", nowDataList.getUser().getNickname());

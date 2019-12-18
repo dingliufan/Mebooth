@@ -12,9 +12,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,8 @@ import com.mebooth.mylibrary.main.utils.MyLocationUtil;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.FullyGridLayoutManager;
+import com.mebooth.mylibrary.main.view.ToggleButton;
+import com.mebooth.mylibrary.main.view.ToggleView;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
@@ -72,6 +76,7 @@ public class PublishActivity extends BaseTransparentActivity {
     private ImageView back;
     private TextView title;
     private TextView right;
+    private ToggleButton newlyAddressDefault;
 
     private EditText content;
 
@@ -89,7 +94,10 @@ public class PublishActivity extends BaseTransparentActivity {
 
     public static List<LocalMedia> selectList = new ArrayList<>();
     private GridImageAdapter adapter;
-    private int themeId = R.style.picture_default_style;;
+    private int themeId = R.style.picture_default_style;
+    ;
+
+    private String gpsStr;
 
     @Override
     protected int getContentViewId() {
@@ -112,7 +120,7 @@ public class PublishActivity extends BaseTransparentActivity {
             super.handleMessage(msg);
 
             publishGPS.setText((CharSequence) msg.obj);
-
+            gpsStr = String.valueOf(msg.obj);
         }
     };
 
@@ -126,7 +134,8 @@ public class PublishActivity extends BaseTransparentActivity {
         title = findViewById(R.id.public_title);
         right = findViewById(R.id.public_right);
         content = findViewById(R.id.et_moment_add_content);
-
+        newlyAddressDefault = findViewById(R.id.newlyaddress_default);
+        newlyAddressDefault.setOpen(true);
         title.setText("此刻");
 
         right.setVisibility(View.VISIBLE);
@@ -146,7 +155,7 @@ public class PublishActivity extends BaseTransparentActivity {
                     handler.sendMessage(msg);
                 }
             }.start();
-        }catch (Exception e){
+        } catch (Exception e) {
 
             ToastUtils.getInstance().showToast("请查看定位是否开启");
 
@@ -177,6 +186,20 @@ public class PublishActivity extends BaseTransparentActivity {
                     }
 
                     getToken(comprossImg);
+                }
+            }
+        });
+        //设置是否显示地址
+        newlyAddressDefault.setOnToggleListener(new ToggleView.OnToggleListener() {
+            @Override
+            public void onToggle(boolean isOpen) {
+
+                if (isOpen) {
+
+                    publishGPS.setText(gpsStr);
+
+                } else {
+                    publishGPS.setText("不显示位置");
                 }
             }
         });
@@ -381,9 +404,16 @@ public class PublishActivity extends BaseTransparentActivity {
 
     private void publishTopic(String imgPathStr) {
 
+        String location = "";
+
+        if (!publishGPS.getText().toString().equals("不显示位置")) {
+            location = gpsStr;
+        } else {
+            location = "";
+        }
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .publishTopic(content.getText().toString(), publishGPS.getText().toString(), imgPathStr)
+                .publishTopic(content.getText().toString(), location, imgPathStr)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PublicBean>() {

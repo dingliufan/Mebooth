@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bg_ffffff">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bg_ffffff"
+    android:orientation="vertical">
 
     <include layout="@layout/public_header" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/bg_c7c7c7"/>
+        android:background="@color/bg_c7c7c7" />
+
     <EditText
         android:id="@+id/et_moment_add_content"
         android:layout_width="match_parent"
@@ -19,23 +21,47 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         android:hint="这一刻的想法..."
-        android:textSize="14sp"
-        android:padding="10dp"
         android:lines="8"
+        android:padding="10dp"
         android:textColor="#474747"
-        android:textColorHint="#C6C6C6" />
-    <TextView
-        android:id="@+id/publish_gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="中国北京"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:drawableLeft="@drawable/gpsimg"
-        android:drawablePadding="5dp"/>
+        android:textColorHint="#C6C6C6"
+        android:textSize="14sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:id="@+id/publish_gps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/gpsimg"
+            android:layout_gravity="center_vertical"
+            android:drawablePadding="5dp"
+            android:text="中国北京" />
+        <com.mebooth.mylibrary.main.view.ToggleButton
+            android:id="@+id/newlyaddress_default"
+            android:layout_width="60dp"
+            android:layout_height="32dp"
+            android:layout_margin="@dimen/lib_pub_dimen_margin"
+            app:lib_pub_tbtn_colorPadding="@color/lib_pub_color_hint"
+            app:lib_pub_tbtn_colorThumb="@color/lib_pub_color_white"
+            app:lib_pub_tbtn_colorTrackOff="@color/bg_e3e3e3"
+            app:lib_pub_tbtn_colorTrackOpen="@color/bg_FED130"
+            app:lib_pub_tbtn_duration="250"
+            android:layout_gravity="center_vertical"
+            app:lib_pub_tbtn_padding="1.5dp" />
+    </LinearLayout>
+
+
 </LinearLayout>

@@ -84,7 +84,12 @@ public class RecommendItemVIewZero implements ItemViewDelegate<GetRecommendJson.
 
         holder.setText(R.id.recommenditem_content, recommendDataList.getFeed().getContent());
 //        GlideImageManager.glideLoader(context, recommendDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
-        holder.setText(R.id.recommenditem_address, recommendDataList.getFeed().getLocation());
+        if (StringUtil.isEmpty(recommendDataList.getFeed().getLocation())) {
+            holder.setVisible(R.id.recommenditem_address,View.GONE);
+        } else {
+            holder.setText(R.id.recommenditem_address, recommendDataList.getFeed().getLocation());
+            holder.setVisible(R.id.recommenditem_address,View.VISIBLE);
+        }
         int month = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(5, 7)) - 1;
         int date = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(8, 10));
         int hour = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(11, 13));

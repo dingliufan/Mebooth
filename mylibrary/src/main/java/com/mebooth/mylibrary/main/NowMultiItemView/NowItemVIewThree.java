@@ -138,7 +138,12 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
-        holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
+        if (StringUtil.isEmpty(nowDataList.getTopic().getLocation())) {
+            holder.setVisible(R.id.recommenditem_address,View.GONE);
+        } else {
+            holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
+            holder.setVisible(R.id.recommenditem_address,View.VISIBLE);
+        }
         int month = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(5, 7)) - 1;
         int date = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(8, 10));
         int hour = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(11, 13));

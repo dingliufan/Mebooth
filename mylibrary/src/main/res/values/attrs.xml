@@ -11,4 +11,13 @@
             <enum name="circle" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="lib_pub_ToggleButton">
+        <attr name="lib_pub_tbtn_colorThumb" format="color" />
+        <attr name="lib_pub_tbtn_colorTrackOpen" format="color" />
+        <attr name="lib_pub_tbtn_colorTrackOff" format="color" />
+        <attr name="lib_pub_tbtn_colorPadding" format="color" />
+        <attr name="lib_pub_tbtn_padding" format="dimension" />
+        <attr name="lib_pub_tbtn_duration" format="integer" />
+    </declare-styleable>
 </resources>
