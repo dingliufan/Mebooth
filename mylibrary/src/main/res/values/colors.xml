@@ -80,6 +80,7 @@
     <color name="bg_666666">#666666</color>
     <color name="bg_f2f2f7">#f2f2f7</color>
     <color name="bg_e5e5e5">#e5e5e5</color>
+    <color name="bg_80ffffff">#80ffffff</color>
 
     <color name="ic_back_press">#323336</color>
     <color name="ip_color_primary">#393A3F</color>

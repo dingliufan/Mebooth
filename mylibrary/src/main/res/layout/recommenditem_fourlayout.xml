@@ -128,7 +128,7 @@
                 android:layout_gravity="bottom|right"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/follow"
+                android:background="@drawable/moreimg_bg"
                 android:paddingLeft="10dp"
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"

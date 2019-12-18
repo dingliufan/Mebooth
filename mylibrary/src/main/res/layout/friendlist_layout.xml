@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include layout="@layout/smart_recycleview"/>
+    <include layout="@layout/public_header" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_c7c7c7" />
+
+    <include layout="@layout/smart_recycleview" />
 
 </LinearLayout>

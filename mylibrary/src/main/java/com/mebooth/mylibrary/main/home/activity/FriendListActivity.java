@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,6 +41,8 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
     private CommonAdapter commonAdapter;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
+    private ImageView back;
+    private TextView title;
 
     private final int REFLUSH_LIST = 0;
     private final int LOADMORE_LIST = 1;
@@ -57,6 +60,8 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
 
         recyclerView = findViewById(R.id.classify_recycle);
         mSmart = findViewById(R.id.classify_smart);
+        back = findViewById(R.id.public_back);
+        title = findViewById(R.id.public_title);
 
     }
 
@@ -66,10 +71,18 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
 
         mSmart.setOnRefreshListener(this);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        title.setText("我关注的人");
         initRecycle();
         getCareList(REFLUSH_LIST);
     }
