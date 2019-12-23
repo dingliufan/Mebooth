@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 
@@ -19,6 +20,14 @@ public class ConversationActivity extends BaseTransparentActivity {
     @Override
     protected int getContentViewId() {
         return R.layout.rongim_layout;
+    }
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
+        StatusBarUtil.setLightMode(this); //黑色图标
     }
 
     @Override

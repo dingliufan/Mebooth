@@ -75,6 +75,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     private SharedActivity sharedPopup;
     private ImageView back;
     private TextView title;
+    private TextView noCmment;
 
     @Override
     protected int getContentViewId() {
@@ -105,6 +106,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         sendComment = findViewById(R.id.newdetails_sendcomment);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
+        noCmment = findViewById(R.id.nowdetails_nocomment);
 
         title.setText("此刻");
 
@@ -406,6 +408,11 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
                             commentList.clear();
                             commentList.addAll(commentOnJson.getData().getList());
+                            if(commentList.size() == 0){
+                                noCmment.setVisibility(View.VISIBLE);
+                            }else{
+                                noCmment.setVisibility(View.GONE);
+                            }
                             commentAdapter = new CommentExpandAdapter(NowDetailsActivity.this, commentList);
                             expandableListView.setAdapter(commentAdapter);
 

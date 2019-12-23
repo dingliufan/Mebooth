@@ -3,9 +3,11 @@ package com.mebooth.mylibrary.main.home.activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
+import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -100,7 +103,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     protected void initData() {
         super.initData();
 
-        uid = getIntent().getIntExtra("uid",0);
+        uid = getIntent().getIntExtra("uid", 0);
         nickName = getIntent().getStringExtra("nickname");
 
         title.setText(nickName);
@@ -127,7 +130,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .userPublishList(uid,offSet, pageSize)
+                .userPublishList(uid, offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetNowJson>() {
@@ -200,12 +203,24 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     };
 
     private void initRecycle() {
+
+        NoPublish noPublishinterface = new NoPublish() {
+            @Override
+            public void isPublish() {
+
+            }
+
+            @Override
+            public void isCollect() {
+            }
+        };
+
         commonAdapter = new MultiItemTypeAdapter(this, list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "other", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "other", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "other", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "other", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "other", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "other", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "other", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "other", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "other", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "other", commonAdapter, list,noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

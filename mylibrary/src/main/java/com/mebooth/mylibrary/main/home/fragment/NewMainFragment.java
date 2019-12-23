@@ -197,7 +197,7 @@ public class NewMainFragment extends BaseFragment {
                              * @param state 是否携带用户信息，true 携带，false 不携带。
                              */
                             RongIM.getInstance().setMessageAttachedUserInfo(true);
-                            if(headerIconStr.equals("https://img.baojiawangluo.com/news/20191216171236851.jpg")){
+                            if(headerIconStr.equals("https://img.baojiawangluo.com/news/20191219160703313.jpg")){
                                 if(isFirst){
                                     new AlertView("设置头像或昵称", "您还没有设置头像或昵称，请先进行修改", "取消", new String[]{"确定"}, null, getActivity(),
                                             AlertView.Style.Alert, new OnItemClickListener() {

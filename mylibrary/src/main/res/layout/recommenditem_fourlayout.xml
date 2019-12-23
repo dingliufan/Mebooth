@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/recommenditem_headericon"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
 
         <TextView
             android:id="@+id/recommenditem_nickname"
@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:text="黑暗骑士"
             android:textColor="@color/bg_000000"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/recommenditem_follow"
@@ -64,7 +64,7 @@
         android:singleLine="true"
         android:text="十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见"
         android:textColor="@color/bg_000000"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,7 +151,7 @@
         android:gravity="center"
         android:drawablePadding="10dp"
         android:textColor="@color/bg_000000"
-        android:textSize="16sp" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -167,7 +167,7 @@
             android:layout_weight="1"
             android:text="2019-12-02"
             android:textColor="@color/bg_7d7d7d"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
         <ImageView
             android:layout_width="18dp"
             android:layout_height="18dp"

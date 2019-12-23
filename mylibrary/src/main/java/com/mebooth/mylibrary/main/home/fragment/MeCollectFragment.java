@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
@@ -20,6 +21,7 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
+import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -48,6 +50,7 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
     private int offSet = 0;
 
     private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
+    private TextView noCollect;
 
     @Override
     protected int getLayoutResId() {
@@ -58,6 +61,7 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
     protected void initView(View view) {
         recyclerView = view.findViewById(R.id.classify_recycle);
         mSmart = view.findViewById(R.id.classify_smart);
+        noCollect = view.findViewById(R.id.mecollect_notpublish);
     }
 
     @Override
@@ -108,6 +112,11 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
         if (tag == REFLUSH_LIST) {
             list.clear();
             list.addAll(nowJson.getData().getList());
+            if(list.size() == 0){
+                noCollect.setVisibility(View.VISIBLE);
+            }else{
+                noCollect.setVisibility(View.GONE);
+            }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         } else {
@@ -152,12 +161,25 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
     }
 
     private void initRecycle() {
+
+        NoPublish noPublishinterface = new NoPublish() {
+            @Override
+            public void isPublish() {
+
+            }
+
+            @Override
+            public void isCollect() {
+                noCollect.setVisibility(View.VISIBLE);
+            }
+        };
+
         commonAdapter = new MultiItemTypeAdapter(getActivity(), list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

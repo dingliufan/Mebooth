@@ -74,7 +74,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("evaluate",offSet,pageSize)
+                .getRecommend("news",offSet,pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {

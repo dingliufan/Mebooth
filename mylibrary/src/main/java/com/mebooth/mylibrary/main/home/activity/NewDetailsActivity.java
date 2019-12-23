@@ -86,6 +86,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private SharedActivity sharedPopup;
     private ImageView back;
     private TextView title;
+    private TextView noComment;
 
 
     @Override
@@ -116,6 +117,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         newdetailShare = findViewById(R.id.newdetails_share);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
+        noComment = findViewById(R.id.nwdetails_nocomment);
         title.setText("正文");
 
         id = getIntent().getIntExtra("relateid", 0);
@@ -459,6 +461,13 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
                             commentList.clear();
                             commentList.addAll(commentOnJson.getData().getList());
+
+                            if(commentList.size() == 0){
+                                noComment.setVisibility(View.VISIBLE);
+                            }else{
+                                noComment.setVisibility(View.GONE);
+                            }
+
                             commentAdapter = new CommentExpandAdapter(NewDetailsActivity.this, commentList);
                             expandableListView.setAdapter(commentAdapter);
 

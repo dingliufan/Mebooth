@@ -1,15 +1,20 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
@@ -18,6 +23,7 @@ import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
+import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -40,6 +46,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
     private CommonAdapter commonAdapter;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
+    private TextView meCareTv;
 
     private final int REFLUSH_LIST = 0;
     private final int LOADMORE_LIST = 1;
@@ -58,6 +65,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
     protected void initView(View view) {
         recyclerView = view.findViewById(R.id.classify_recycle);
         mSmart = view.findViewById(R.id.classify_smart);
+        meCareTv = view.findViewById(R.id.mecare_notfollow);
     }
 
     @Override
@@ -116,6 +124,11 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
         if (tag == REFLUSH_LIST) {
             users.clear();
             users.addAll(getCareJson.getData().getUsers());
+            if(users.size() == 0){
+                meCareTv.setVisibility(View.VISIBLE);
+            }else{
+                meCareTv.setVisibility(View.GONE);
+            }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         }
@@ -145,12 +158,55 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
         commonAdapter = new CommonAdapter(getActivity(), R.layout.care_item, users) {
             @Override
-            protected void convert(ViewHolder holder, Object o, int position) {
+            protected void convert(ViewHolder holder, Object o, final int position) {
 
                 GlideImageManager.glideLoader(getActivity(), users.get(position).getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
 
-                holder.setText(R.id.recommenditem_nickname,users.get(position).getNickname());
+                holder.setText(R.id.recommenditem_nickname, users.get(position).getNickname());
+                holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        //取消关注
+                        ServiceFactory.getNewInstance()
+                                .createService(YService.class)
+                                .cancelFollow(users.get(position).getUid())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CommonObserver<PublicBean>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onNext(PublicBean publicBean) {
+                                        super.onNext(publicBean);
+
+                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                            ToastUtils.getInstance().showToast("已取消关注");
+                                            users.remove(position);
+                                            if(users.size() == 0){
+                                                meCareTv.setVisibility(View.VISIBLE);
+                                            }else{
+                                                meCareTv.setVisibility(View.GONE);
+                                            }
+                                            commonAdapter.notifyDataSetChanged();
+                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                        } else {
+
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
+
+                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                    }
+                                });
+
+                    }
+                });
             }
         };
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {

@@ -16,7 +16,7 @@
         android:maxEms="45"
         android:ellipsize="end"
         android:textColor="@color/bg_000000"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/recommenditem_img"
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:textColor="@color/bg_7d7d7d"
             android:text="2019-12-02"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
 
         <ImageView
             android:layout_width="18dp"

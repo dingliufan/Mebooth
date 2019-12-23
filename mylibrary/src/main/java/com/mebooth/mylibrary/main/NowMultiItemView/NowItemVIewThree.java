@@ -16,6 +16,7 @@ import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
+import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -38,12 +39,13 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
     private ArrayList<GetNowJson.NowData.NowDataList> list;
     private boolean follow;
     private boolean isPraised;
-
-    public NowItemVIewThree(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list) {
+    private NoPublish noPublish;
+    public NowItemVIewThree(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list,NoPublish noPublish) {
         this.context = context;
         this.type = type;
         this.adapter = adapter;
         this.list = list;
+        this.noPublish = noPublish;
     }
 
     public NowItemVIewThree(Context context) {
@@ -68,10 +70,10 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
     @Override
     public void convert(final ViewHolder holder, final GetNowJson.NowData.NowDataList nowDataList, final int position) {
 
-        if (type.equals("mine")) {
+        if (type.equals("minepublic") || type.equals("minecollect")) {
             holder.setVisible(R.id.recommenditem_follow, View.GONE);
             holder.setVisible(R.id.recommenditem_delete, View.VISIBLE);
-        }else{
+        } else {
             holder.setVisible(R.id.recommenditem_follow, View.VISIBLE);
             holder.setVisible(R.id.recommenditem_delete, View.GONE);
         }
@@ -95,6 +97,16 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
 
                                     ToastUtils.getInstance().showToast("已删除该话题");
                                     list.remove(position);
+                                    if(type.equals("minepublic")){
+                                        if(list.size() == 0){
+                                            noPublish.isPublish();
+                                        }
+                                    }else if(type.equals("minecollect")){
+
+                                        if(list.size() == 0){
+                                            noPublish.isCollect();
+                                        }
+                                    }
                                     adapter.notifyDataSetChanged();
 
                                 } else if (null != publicBean && publicBean.getErrno() != 200) {

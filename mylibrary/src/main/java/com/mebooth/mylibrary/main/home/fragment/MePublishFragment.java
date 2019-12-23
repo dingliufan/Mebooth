@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
@@ -20,6 +21,7 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
+import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -40,6 +42,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
     private MultiItemTypeAdapter commonAdapter;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
+    private TextView noPublish;
 
     private final int REFLUSH_LIST = 0;
     private final int LOADMORE_LIST = 1;
@@ -67,6 +70,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
     protected void initView(View view) {
         recyclerView = view.findViewById(R.id.classify_recycle);
         mSmart = view.findViewById(R.id.classify_smart);
+        noPublish = view.findViewById(R.id.mepublish_notpublish);
     }
 
     @Override
@@ -122,6 +126,11 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
         if (tag == REFLUSH_LIST) {
             list.clear();
             list.addAll(nowJson.getData().getList());
+            if(list.size() == 0){
+                noPublish.setVisibility(View.VISIBLE);
+            }else{
+                noPublish.setVisibility(View.GONE);
+            }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         } else {
@@ -166,12 +175,27 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
     }
 
     private void initRecycle() {
+
+        NoPublish noPublishinterface = new NoPublish() {
+            @Override
+            public void isPublish() {
+
+                noPublish.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void isCollect() {
+
+            }
+        };
+
         commonAdapter = new MultiItemTypeAdapter(getActivity(), list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "mine", commonAdapter, list));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "mine", commonAdapter, list));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "minepublic", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "minepublic", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "minepublic", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "minepublic", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "minepublic", commonAdapter, list,noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
