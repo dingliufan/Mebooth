@@ -66,10 +66,12 @@ dependencies {
     api 'com.shuyu:GSYVideoPlayer:6.0.3'
 //    api 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     api 'com.github.LuckSiege.PictureSelector:picture_library:v2.3.2'
-    api 'cn.rongcloud.sdk:im_kit:2.9.18'
+//    api 'cn.rongcloud.sdk:im_kit:2.9.18'
 //im_kit必须依赖im_lib，所以需要加入对应依赖
-    api 'cn.rongcloud.sdk:im_lib:2.9.18'
+//    api 'cn.rongcloud.sdk:im_lib:2.9.18'
 //    api 'com.novoda:bintray-release:0.2.7'
     api 'com.github.chrisbanes.photoview:library:1.2.4'
     api 'com.bigkoo:alertview:1.0.3'
+    api project (':IMKit')
+    api project (':IMLib')
 }
