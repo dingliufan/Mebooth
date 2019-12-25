@@ -8,6 +8,7 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -66,6 +68,11 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
         recyclerView = view.findViewById(R.id.classify_recycle);
         mSmart = view.findViewById(R.id.classify_smart);
         meCareTv = view.findViewById(R.id.mecare_notfollow);
+        mSmart.setRefreshHeader(new MaterialHeader(getActivity()).setShowBezierWave(false)
+                .setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.main_color))); //设置刷新为官方推介
+        mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
+        mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
+
     }
 
     @Override
@@ -79,7 +86,8 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
     @Override
     protected void initData(Bundle savedInstanceState) {
         initRecycle();
-        getCareList(REFLUSH_LIST);
+//        getCareList(REFLUSH_LIST);
+        mSmart.autoRefresh();
     }
 
     private void getCareList(final int tag) {

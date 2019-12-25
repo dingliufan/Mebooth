@@ -34,6 +34,7 @@ import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.R2;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.GridImageAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
@@ -98,6 +99,7 @@ public class PublishActivity extends BaseTransparentActivity {
     ;
 
     private String gpsStr;
+    private String reciverAddress = "";
 
     @Override
     protected int getContentViewId() {
@@ -142,24 +144,33 @@ public class PublishActivity extends BaseTransparentActivity {
         right.setText("发布");
 
         selectList.clear();
-        location = MyLocationUtil.getMyLocation();
-        try {
-            new Thread() {
-                @Override
-                public void run() {
-                    super.run();
 
-                    addresses = getAddress(location);
-                    Message msg = new Message();
-                    msg.obj = addresses.get(0).getAdminArea() + addresses.get(0).getFeatureName();
-                    handler.sendMessage(msg);
-                }
-            }.start();
-        } catch (Exception e) {
-
-            ToastUtils.getInstance().showToast("请查看定位是否开启");
-
+        reciverAddress = AppApplication.getInstance().getAddressStr();
+        if(reciverAddress == null || reciverAddress.equals("")){
+            publishGPS.setText("暂无法定位到位置");
+            reciverAddress = "";
+        }else{
+            publishGPS.setText(reciverAddress);
         }
+
+//        location = MyLocationUtil.getMyLocation();
+//        try {
+//            new Thread() {
+//                @Override
+//                public void run() {
+//                    super.run();
+//
+//                    addresses = getAddress(location);
+//                    Message msg = new Message();
+//                    msg.obj = addresses.get(0).getAdminArea() + addresses.get(0).getFeatureName();
+//                    handler.sendMessage(msg);
+//                }
+//            }.start();
+//        } catch (Exception e) {
+//
+//            ToastUtils.getInstance().showToast("请查看定位是否开启");
+//
+//        }
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,7 +207,12 @@ public class PublishActivity extends BaseTransparentActivity {
 
                 if (isOpen) {
 
-                    publishGPS.setText(gpsStr);
+                    if(reciverAddress.equals("")){
+                        publishGPS.setText("暂无法定位到位置");
+                    }else{
+                        publishGPS.setText(reciverAddress);
+                    }
+
 
                 } else {
                     publishGPS.setText("不显示位置");
@@ -205,20 +221,6 @@ public class PublishActivity extends BaseTransparentActivity {
         });
 
         initRecycle();
-    }
-
-    private List<Address> getAddress(Location location) {
-        List<Address> result = null;
-        try {
-            if (location != null) {
-                Geocoder gc = new Geocoder(this, Locale.getDefault());
-                result = gc.getFromLocation(location.getLatitude(),
-                        location.getLongitude(), 1);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
     private void initRecycle() {
@@ -407,7 +409,7 @@ public class PublishActivity extends BaseTransparentActivity {
         String location = "";
 
         if (!publishGPS.getText().toString().equals("不显示位置")) {
-            location = gpsStr;
+                location = reciverAddress;
         } else {
             location = "";
         }

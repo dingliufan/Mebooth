@@ -63,6 +63,17 @@ public abstract class AppApplication extends Application {
         this.meboothCallBack = meboothCallBack;
     }
 
+    //传回定位地址
+    private String addressStr;
+
+    public String getAddressStr() {
+        return addressStr;
+    }
+
+    public void setAddressStr(String addressStr) {
+        this.addressStr = addressStr;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

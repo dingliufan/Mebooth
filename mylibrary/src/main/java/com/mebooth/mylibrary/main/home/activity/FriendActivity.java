@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
 import com.mebooth.mylibrary.main.utils.YService;
@@ -40,6 +41,7 @@ public class FriendActivity extends BaseFragment {
     public static FriendActivity newInstance() {
         return new FriendActivity();
     }
+
     @Override
     protected void setStatusBar() {
         super.setStatusBar();
@@ -125,19 +127,32 @@ public class FriendActivity extends BaseFragment {
     @Override
     protected void initData(Bundle savedInstanceState) {
         title.setText("朋友");
-        back.setVisibility(View.GONE);
         right.setVisibility(View.VISIBLE);
         right.setText("我关注的人");
-
+        back.setVisibility(View.GONE);
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(),FriendListActivity.class);
+                Intent intent = new Intent(getActivity(), FriendListActivity.class);
                 startActivity(intent);
 
             }
         });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        if (AppApplication.getInstance().isShowBack()) {
+            back.setVisibility(View.GONE);
+
+        }else{
+            back.setVisibility(View.VISIBLE);
+        }
         switchContent();
     }
 
@@ -180,7 +195,7 @@ public class FriendActivity extends BaseFragment {
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
-            return userInfo;
+        return userInfo;
 
     }
 

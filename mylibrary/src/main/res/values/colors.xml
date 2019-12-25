@@ -99,4 +99,5 @@
     <color name="lib_pub_color_white">#ffffff</color>
     <color name="lib_pub_color_main">#008577</color>
     <color name="lib_pub_color_hint">#e3e4e5</color>
+    <color name="main_color">#E73828</color>
 </resources>

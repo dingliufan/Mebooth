@@ -64,6 +64,8 @@ public class NewMainFragment extends BaseFragment {
     private String headerIconStr;
     private String nickName;
     private boolean isFirst = true;
+    private ImageView back;
+    private TextView title;
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
@@ -85,10 +87,27 @@ public class NewMainFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
 
-        publish = (ImageView) view.findViewById(R.id.consult_publish);
+
+        back = view.findViewById(R.id.public_back);
+        title = view.findViewById(R.id.public_title);
+        publish = view.findViewById(R.id.consult_publish);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.pager);
         headerIcon = view.findViewById(R.id.userheadericon);
+        back.setVisibility(View.GONE);
+        if(AppApplication.getInstance().isShowBack()){
+            back.setVisibility(View.GONE);
+
+        }else{
+            back.setVisibility(View.VISIBLE);
+        }
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        title.setText("发现");
     }
 
     @Override
@@ -200,14 +219,14 @@ public class NewMainFragment extends BaseFragment {
                             uid = getMyUserInfo.getData().getUser().getUid();
                             headerIconStr = getMyUserInfo.getData().getUser().getAvatar();
                             nickName = getMyUserInfo.getData().getUser().getNickname();
-                            RongIM.getInstance().setCurrentUserInfo(new UserInfo(String.valueOf(uid),nickName,Uri.parse(headerIconStr)));
+                            RongIM.getInstance().setCurrentUserInfo(new UserInfo(String.valueOf(uid), nickName, Uri.parse(headerIconStr)));
                             /**
                              * 设置消息体内是否携带用户信息。
                              * @param state 是否携带用户信息，true 携带，false 不携带。
                              */
                             RongIM.getInstance().setMessageAttachedUserInfo(true);
-                            if(headerIconStr.equals("https://img.baojiawangluo.com/news/20191219160703313.jpg")){
-                                if(isFirst){
+                            if (headerIconStr.equals("https://img.baojiawangluo.com/news/20191219160703313.jpg")) {
+                                if (isFirst) {
                                     new AlertView("设置头像或昵称", "您还没有设置头像或昵称，请先进行修改", "取消", new String[]{"确定"}, null, getActivity(),
                                             AlertView.Style.Alert, new OnItemClickListener() {
                                         @Override

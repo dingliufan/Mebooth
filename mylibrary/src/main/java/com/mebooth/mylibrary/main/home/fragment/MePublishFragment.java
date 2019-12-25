@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -71,6 +73,11 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
         recyclerView = view.findViewById(R.id.classify_recycle);
         mSmart = view.findViewById(R.id.classify_smart);
         noPublish = view.findViewById(R.id.mepublish_notpublish);
+        mSmart.setRefreshHeader(new MaterialHeader(getActivity()).setShowBezierWave(false)
+                .setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.main_color))); //设置刷新为官方推介
+        mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
+        mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
+
     }
 
     @Override
@@ -80,7 +87,8 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
         uid = bundle.getInt("uid");
 
         initRecycle();
-        getRecommend(REFLUSH_LIST);
+//        getRecommend(REFLUSH_LIST);
+        mSmart.autoRefresh();
 //
     }
 
