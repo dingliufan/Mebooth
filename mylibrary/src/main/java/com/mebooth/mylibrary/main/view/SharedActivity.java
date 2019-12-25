@@ -74,14 +74,14 @@ public class SharedActivity extends BasePopupWindow {
         sharedStr.add("朋友圈");
 //        sharedStr.add("QQ好友");
 //        sharedStr.add("QQ空间");
-        sharedStr.add("新浪微博");
+//        sharedStr.add("新浪微博");
 //        sharedStr.add("复制链接");
 
         imgShared.add(R.drawable.sharewechat);
         imgShared.add(R.drawable.sharefriends);
 //        imgShared.add(R.drawable.qqfriend);
 //        imgShared.add(R.drawable.qqkongjian);
-        imgShared.add(R.drawable.shareweibo);
+//        imgShared.add(R.drawable.shareweibo);
 //        imgShared.add(R.drawable.copyherf);
 
         adapter = new SharedAdapter(context, sharedStr, imgShared);
@@ -103,11 +103,12 @@ public class SharedActivity extends BasePopupWindow {
 
                 } else if (position == 1) {
                     getShareInfo("wechat_timeline");
-                } else if (position == 2) {
-//                    copy();
-                    getShareInfo("weibo");
-//                    ToastUtils.getInstance().showToast("即将开放");
                 }
+//                else if (position == 2) {
+////                    copy();
+//                    getShareInfo("weibo");
+////                    ToastUtils.getInstance().showToast("即将开放");
+//                }
             }
         });
     }
@@ -127,13 +128,14 @@ public class SharedActivity extends BasePopupWindow {
                         if (null != getShareInfoJson && getShareInfoJson.getErrno() == 0) {
 
                             if (type.equals("wechat_friend")) {
-                                AppApplication.getInstance().setShare("WEIXIN",getShareInfoJson.getData().getShare_info().getUrl(),getShareInfoJson.getData().getShare_info().getImage(),getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
+                                AppApplication.getInstance().setShare("WEIXIN", getShareInfoJson.getData().getShare_info().getUrl(), getShareInfoJson.getData().getShare_info().getImage(), getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
                             } else if (type.equals("wechat_timeline")) {
-                                AppApplication.getInstance().setShare("WEIXIN_CIRCLE",getShareInfoJson.getData().getShare_info().getUrl(),getShareInfoJson.getData().getShare_info().getImage(),getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
-                            } else if (type.equals("weibo")) {
-                                AppApplication.getInstance().setShare("SINA",getShareInfoJson.getData().getShare_info().getUrl(),getShareInfoJson.getData().getShare_info().getImage(),getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
-
+                                AppApplication.getInstance().setShare("WEIXIN_CIRCLE", getShareInfoJson.getData().getShare_info().getUrl(), getShareInfoJson.getData().getShare_info().getImage(), getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
                             }
+//                            else if (type.equals("weibo")) {
+//                                AppApplication.getInstance().setShare("SINA",getShareInfoJson.getData().getShare_info().getUrl(),getShareInfoJson.getData().getShare_info().getImage(),getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
+//
+//                            }
 
                         } else if (null != getShareInfoJson && getShareInfoJson.getErrno() == 1101) {
 
