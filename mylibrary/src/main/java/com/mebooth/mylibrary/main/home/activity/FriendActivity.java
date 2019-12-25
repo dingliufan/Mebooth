@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
@@ -45,7 +46,13 @@ public class FriendActivity extends BaseFragment {
     public static FriendActivity newInstance() {
         return new FriendActivity();
     }
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
 
+        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
+        StatusBarUtil.setLightMode(getActivity()); //黑色图标
+    }
 
     public void switchContent() {
 

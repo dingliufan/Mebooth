@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
@@ -66,6 +67,14 @@ public class NewMainFragment extends BaseFragment {
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
+    }
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+
+        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), 0, null);
+        StatusBarUtil.setLightMode(getActivity()); //黑色图标
     }
 
     @Override

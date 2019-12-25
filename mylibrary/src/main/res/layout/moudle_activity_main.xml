@@ -4,8 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_ffffff"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
