@@ -40,8 +40,6 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
     private String type = "";
     private MultiItemTypeAdapter adapter;
     private ArrayList<GetNowJson.NowData.NowDataList> list;
-    private boolean isPraised;
-    private boolean follow;
     private NoPublish noPublish;
 
     public NowItemVIewZero(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list, NoPublish noPublish) {
@@ -136,12 +134,6 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
         holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
 
         if (nowDataList.getUser().isFollowed()) {
-
-            follow = true;
-        } else {
-            follow = false;
-        }
-        if (follow) {
             holder.setText(R.id.recommenditem_follow, "已关注");
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
         } else {
@@ -166,13 +158,6 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
 
 
         if (nowDataList.getTopic().isPraised()) {
-            isPraised = true;
-        } else {
-            isPraised = false;
-        }
-
-
-        if (isPraised) {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
         } else {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
@@ -190,7 +175,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                     AppApplication.getInstance().setLogin();
 
                 } else {
-                    if (follow) {
+                    if (nowDataList.getUser().isFollowed()) {
                         //取消关注
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
@@ -204,7 +189,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            follow = false;
+                                            nowDataList.getUser().setFollowed(false);
                                             ToastUtils.getInstance().showToast("已取消关注");
                                             holder.setText(R.id.recommenditem_follow, "关注");
                                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
@@ -240,7 +225,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            follow = true;
+                                            nowDataList.getUser().setFollowed(true);
                                             ToastUtils.getInstance().showToast("已关注");
                                             holder.setText(R.id.recommenditem_follow, "已关注");
                                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
@@ -273,11 +258,11 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                     AppApplication.getInstance().setLogin();
 
                 } else {
-                    if (isPraised) {
+                    if (nowDataList.getTopic().isPraised()) {
                         //取消收藏
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
-                                .addPraises(nowDataList.getTopic().getTid())
+                                .cancelPraises(nowDataList.getTopic().getTid())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -287,7 +272,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-
+                                            nowDataList.getTopic().setPraised(false);
                                             ToastUtils.getInstance().showToast("已取消收藏");
                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
                                             praises = praises - 1;
@@ -323,7 +308,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-
+                                            nowDataList.getTopic().setPraised(true);
                                             ToastUtils.getInstance().showToast("已收藏");
                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
                                             praises = praises + 1;

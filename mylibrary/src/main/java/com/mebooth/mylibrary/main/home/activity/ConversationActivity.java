@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 
 public class ConversationActivity extends BaseTransparentActivity {

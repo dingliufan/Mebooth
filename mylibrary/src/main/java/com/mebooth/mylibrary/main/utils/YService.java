@@ -97,6 +97,11 @@ public interface YService {
     @POST(BASE_URL + "praise/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<PublicBean> addPraises(@Field("tid") int tid);
+    //取消收藏
+    @FormUrlEncoded
+    @POST(BASE_URL + "praise/cancel")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<PublicBean> cancelPraises(@Field("tid") int tid);
     //获取用户个人信息
 //    @FormUrlEncoded
     @POST(BASE_URL + "user/getMyUserInfo")

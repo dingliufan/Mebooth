@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -173,6 +174,19 @@ public class UIUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context
+     * @return
+     */
+    public static int getStatusBarHeight(Context context) {
+        int result = 24;
+        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        result = resId > 0 ? context.getResources().getDimensionPixelSize(resId) : (int) TypedValue.applyDimension(1, (float) result, Resources.getSystem().getDisplayMetrics());
+        return result;
     }
 
 }

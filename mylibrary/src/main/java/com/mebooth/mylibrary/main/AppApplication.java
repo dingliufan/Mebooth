@@ -34,6 +34,16 @@ public abstract class AppApplication extends Application {
     public UserTokenJson getUserTokenJson() {
         return userTokenJson;
     }
+    //是否显示返回按钮
+    private boolean isShowBack;
+
+    public boolean isShowBack() {
+        return isShowBack;
+    }
+
+    public void setShowBack(boolean showBack) {
+        isShowBack = showBack;
+    }
 
     public void setUserTokenJson(UserTokenJson userTokenJson) {
         this.userTokenJson = userTokenJson;

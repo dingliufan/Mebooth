@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp">
 
         <ImageView
@@ -29,6 +29,8 @@
             app:tabPaddingStart="12dp"
             app:tabPaddingEnd="8dp"
             app:tabMode="scrollable"
+            app:tabBackground="@android:color/transparent"
+            app:tabRippleColor="@android:color/transparent"
             app:tabTextAppearance="@style/TabText"
             app:tabTextColor="@color/bg_9a9a9a" />
 

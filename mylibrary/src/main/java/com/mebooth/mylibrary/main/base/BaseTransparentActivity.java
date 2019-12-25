@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 
 import com.mebooth.mylibrary.main.utils.ActivityCollectorUtil;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.List;
 
@@ -27,7 +28,6 @@ public abstract class BaseTransparentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(getContentViewId());
         ButterKnife.bind(this);
         setStatusBar();

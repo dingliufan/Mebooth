@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.mebooth.mylibrary.utils.StringUtil;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -37,7 +38,6 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         if (null != rootView) {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (null != parent) {

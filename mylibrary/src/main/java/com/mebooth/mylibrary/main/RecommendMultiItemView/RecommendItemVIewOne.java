@@ -30,8 +30,6 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
 
     private Context context;
     private int praises;
-    private boolean follow;
-    private boolean isPraised;
 
     public RecommendItemVIewOne(Context context) {
         this.context = context;
@@ -68,12 +66,6 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
         holder.setText(R.id.recommenditem_nickname, recommendDataList.getUser().getNickname());
 
         if (recommendDataList.getUser().isFollowed()) {
-
-            follow = true;
-        } else {
-            follow = false;
-        }
-        if (follow) {
             holder.setText(R.id.recommenditem_follow, "已关注");
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
         } else {
@@ -97,14 +89,8 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
         holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute);
 
 
-        if(recommendDataList.getFeed().isPraised()){
-            isPraised = true;
-        }else{
-            isPraised = false;
-        }
 
-
-        if (isPraised) {
+        if (recommendDataList.getFeed().isPraised()) {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
         } else {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
@@ -123,7 +109,7 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
                     AppApplication.getInstance().setLogin();
 
                 } else {
-                    if (follow) {
+                    if (recommendDataList.getUser().isFollowed()) {
                         //取消关注
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
@@ -137,7 +123,7 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            follow = false;
+                                            recommendDataList.getUser().setFollowed(false);
                                             ToastUtils.getInstance().showToast("已取消关注");
                                             holder.setText(R.id.recommenditem_follow, "关注");
                                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
@@ -173,7 +159,7 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            follow = true;
+                                            recommendDataList.getUser().setFollowed(true);
                                             ToastUtils.getInstance().showToast("已关注");
                                             holder.setText(R.id.recommenditem_follow, "已关注");
                                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
@@ -207,11 +193,11 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
                     AppApplication.getInstance().setLogin();
 
                 } else {
-                    if (isPraised) {
+                    if (recommendDataList.getFeed().isPraised()) {
                         //取消收藏
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
-                                .addPraises(recommendDataList.getFeed().getRelateid())
+                                .cancelPraises(recommendDataList.getFeed().getRelateid())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -221,7 +207,7 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            isPraised = false;
+                                            recommendDataList.getFeed().setPraised(false);
                                             ToastUtils.getInstance().showToast("已取消收藏");
                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
                                             praises = praises - 1;
@@ -257,7 +243,7 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            isPraised = true;
+                                            recommendDataList.getFeed().setPraised(true);
                                             ToastUtils.getInstance().showToast("已收藏");
                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
                                             praises = praises + 1;
