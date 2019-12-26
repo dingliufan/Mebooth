@@ -274,6 +274,6 @@ public class NewMainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getUserInfo();
-
+        StatusBarUtil.setLightMode(getActivity());
     }
 }
