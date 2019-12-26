@@ -10,6 +10,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 public class ConversationActivity extends BaseTransparentActivity {
     private String title;
@@ -39,6 +40,9 @@ public class ConversationActivity extends BaseTransparentActivity {
 
         back = findViewById(R.id.public_back);
         tvTitle = findViewById(R.id.public_title);
+
+        findViewById(R.id.rongimheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+
 
         title = uri.getQueryParameter("title").toString();
         tvTitle.setText(title);

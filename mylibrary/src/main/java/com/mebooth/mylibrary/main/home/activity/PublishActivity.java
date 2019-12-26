@@ -55,6 +55,7 @@ import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -138,6 +139,10 @@ public class PublishActivity extends BaseTransparentActivity {
         content = findViewById(R.id.et_moment_add_content);
         newlyAddressDefault = findViewById(R.id.newlyaddress_default);
         newlyAddressDefault.setOpen(true);
+
+        findViewById(R.id.publishheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+
+
         title.setText("此刻");
 
         right.setVisibility(View.VISIBLE);

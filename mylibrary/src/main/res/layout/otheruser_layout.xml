@@ -3,17 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/bg_ffffff"
-    android:fitsSystemWindows="true">
+    android:background="@color/bg_ffffff">
 
     <LinearLayout
+        android:id="@+id/otheruserheader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp" />
 
         <FrameLayout
             android:layout_width="match_parent"

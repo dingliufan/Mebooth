@@ -6,9 +6,7 @@
     android:background="@color/bg_ffffff"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/newdetails_header"
-        layout="@layout/public_header" />
+    <include layout="@layout/public_header" />
 
     <View
         android:layout_width="match_parent"

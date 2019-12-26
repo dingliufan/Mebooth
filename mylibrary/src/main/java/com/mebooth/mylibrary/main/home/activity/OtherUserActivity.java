@@ -34,6 +34,7 @@ import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -82,6 +83,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         chat = findViewById(R.id.otheruser_right);
         recyclerView = findViewById(R.id.classify_recycle);
         mSmart = findViewById(R.id.classify_smart);
+        findViewById(R.id.otheruserheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
                 .setColorSchemeColors(ContextCompat.getColor(this, R.color.main_color))); //设置刷新为官方推介

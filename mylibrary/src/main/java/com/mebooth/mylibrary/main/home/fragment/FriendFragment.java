@@ -21,6 +21,7 @@ import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -123,6 +124,9 @@ public class FriendFragment extends BaseFragment {
         title = view.findViewById(R.id.public_title);
         back = view.findViewById(R.id.public_back);
         right = view.findViewById(R.id.public_right);
+
+//        view.findViewById(R.id.friendheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+
     }
 
     @Override

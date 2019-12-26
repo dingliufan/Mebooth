@@ -33,6 +33,7 @@ import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +93,10 @@ public class NewMainFragment extends BaseFragment {
         viewPager = view.findViewById(R.id.pager);
         headerIcon = view.findViewById(R.id.userheadericon);
         back.setVisibility(View.GONE);
+
+//        view.findViewById(R.id.newmainheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+
+
         if(AppApplication.getInstance().isShowBack()){
 
             back.setVisibility(View.VISIBLE);

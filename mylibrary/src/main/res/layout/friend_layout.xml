@@ -3,15 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_ffffff"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="22dp" />
-
-
     <FrameLayout
+        android:id="@+id/friendheader"
         android:layout_width="match_parent"
         android:layout_height="44dp">
 

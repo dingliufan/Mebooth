@@ -46,6 +46,7 @@ import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -115,6 +116,9 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
         noCmment = findViewById(R.id.nowdetails_nocomment);
+
+        findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+
 
         title.setText("此刻");
 

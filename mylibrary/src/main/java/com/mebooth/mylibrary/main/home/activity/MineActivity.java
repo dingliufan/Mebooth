@@ -109,6 +109,9 @@ public class MineActivity extends BaseTransparentActivity {
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
 
+        findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+
+
         GlideImageManager.glideLoader(MineActivity.this, getIntent().getStringExtra("headericon"), headerIcon, GlideImageManager.TAG_ROUND);
         nickName.setText(getIntent().getStringExtra("nickname"));
         uid = getIntent().getIntExtra("uid",0);

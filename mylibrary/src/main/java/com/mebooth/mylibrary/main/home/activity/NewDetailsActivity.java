@@ -131,15 +131,15 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
 //        newdetailsLly.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 //        getWindow().setStatusBarColor(R.color.transparent);
-        findViewById(R.id.newdetails_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            try {
-                Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
-                Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
-                field.setAccessible(true);
-                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
-            } catch (Exception e) {}
-        }
+        findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+//            try {
+//                Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
+//                Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
+//                field.setAccessible(true);
+//                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
+//            } catch (Exception e) {}
+//        }
         title.setText("正文");
 
         id = getIntent().getIntExtra("relateid", 0);
