@@ -48,6 +48,7 @@ import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 
 import java.util.ArrayList;
@@ -127,9 +128,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         noComment = findViewById(R.id.nwdetails_nocomment);
         newdetailsLly = findViewById(R.id.newdetails_lly);
 
-        newdetailsLly.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(R.color.transparent);
-        findViewById(R.id.newdetails_header).setPadding(0, 96, 0, 0);
+//        newdetailsLly.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+//        getWindow().setStatusBarColor(R.color.transparent);
+        findViewById(R.id.newdetails_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         title.setText("正文");
 
