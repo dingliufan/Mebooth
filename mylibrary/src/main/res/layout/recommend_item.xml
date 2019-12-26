@@ -12,9 +12,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="29.5dp"
         android:layout_marginRight="15dp"
-        android:singleLine="true"
-        android:maxEms="45"
         android:ellipsize="end"
+        android:maxLines="2"
         android:textColor="@color/bg_000000"
         android:textSize="16sp" />
 

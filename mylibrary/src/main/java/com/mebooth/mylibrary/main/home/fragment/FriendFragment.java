@@ -125,7 +125,7 @@ public class FriendFragment extends BaseFragment {
         back = view.findViewById(R.id.public_back);
         right = view.findViewById(R.id.public_right);
 
-//        view.findViewById(R.id.friendheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+        view.findViewById(R.id.friendheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
 
     }
 
