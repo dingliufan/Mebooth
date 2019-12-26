@@ -274,6 +274,17 @@ public class NewMainFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         getUserInfo();
-        StatusBarUtil.setLightMode(getActivity());
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (!hidden) {
+
+            StatusBarUtil.setLightMode(getActivity());
+
+        }
+
     }
 }
