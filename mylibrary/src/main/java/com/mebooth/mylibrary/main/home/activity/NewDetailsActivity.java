@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +88,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private ImageView back;
     private TextView title;
     private TextView noComment;
+    private LinearLayout newdetailsLly;
 
 
     @Override
@@ -118,6 +120,10 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
         noComment = findViewById(R.id.nwdetails_nocomment);
+        newdetailsLly = findViewById(R.id.newdetails_lly);
+
+        newdetailsLly.setFitsSystemWindows(false);
+
         title.setText("正文");
 
         id = getIntent().getIntExtra("relateid", 0);
