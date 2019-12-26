@@ -204,4 +204,16 @@ public class FriendFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if (!hidden) {
+
+            StatusBarUtil.setLightMode(getActivity());
+
+        }
+
+    }
+
 }

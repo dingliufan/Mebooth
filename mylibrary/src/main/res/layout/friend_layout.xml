@@ -5,54 +5,12 @@
     android:background="@color/bg_ffffff"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/newmainheader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/friendheader"
-            android:layout_width="match_parent"
-            android:layout_height="44dp">
-
-            <ImageView
-                android:id="@+id/public_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
-                android:padding="10dp"
-                android:src="@drawable/back" />
-
-            <TextView
-                android:id="@+id/public_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/bg_000000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/public_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="20dp"
-                android:textColor="@color/bg_000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-        </FrameLayout>
-    </LinearLayout>
-
+    <include
+        android:id="@+id/friendheader"
+        layout="@layout/public_header" />
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@color/bg_c7c7c7" />
 
     <FrameLayout
