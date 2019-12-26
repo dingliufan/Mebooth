@@ -1,6 +1,7 @@
 package com.mebooth.text;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.mebooth.mylibrary.main.AppApplication;
@@ -41,7 +42,7 @@ public class Application extends AppApplication {
             }
 
             @Override
-            public void setShare(String way, String url, String imgoricon, String title, String description) {
+            public void setShare(String way, String url, Bitmap imgoricon, String title, String description) {
 
 
 

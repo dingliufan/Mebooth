@@ -22,14 +22,11 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
-import com.mebooth.mylibrary.main.home.activity.FriendActivity;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.PublishActivity;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
-import com.mebooth.mylibrary.main.home.bean.UserTokenJson;
 import com.mebooth.mylibrary.main.utils.TabLayoutUtil;
 import com.mebooth.mylibrary.main.utils.YService;
-import com.mebooth.mylibrary.main.view.EdiitNickName;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
@@ -96,10 +93,10 @@ public class NewMainFragment extends BaseFragment {
         headerIcon = view.findViewById(R.id.userheadericon);
         back.setVisibility(View.GONE);
         if(AppApplication.getInstance().isShowBack()){
-            back.setVisibility(View.GONE);
 
-        }else{
             back.setVisibility(View.VISIBLE);
+        }else{
+            back.setVisibility(View.GONE);
         }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +110,7 @@ public class NewMainFragment extends BaseFragment {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mFragments.add(recommendFragment);
-//        mFragments.add(FriendActivity.newInstance());
+//        mFragments.add(FriendFragment.newInstance());
         mFragments.add(nowFragment);
 //        mFragments.add(experienceFragment);
         mFragments.add(informationFragment);
@@ -175,7 +172,7 @@ public class NewMainFragment extends BaseFragment {
 
                 } else {
                     Intent intent = new Intent(getActivity(), MineActivity.class);
-//                    Intent intent = new Intent(getActivity(), FriendActivity.class);
+//                    Intent intent = new Intent(getActivity(), FriendFragment.class);
                     intent.putExtra("uid", uid);
                     intent.putExtra("headericon", headerIconStr);
                     intent.putExtra("nickname", nickName);
@@ -233,7 +230,7 @@ public class NewMainFragment extends BaseFragment {
                                         public void onItemClick(Object o, int position) {
                                             if (position == 0) {
                                                 Intent intent = new Intent(getActivity(), MineActivity.class);
-//                    Intent intent = new Intent(getActivity(), FriendActivity.class);
+//                    Intent intent = new Intent(getActivity(), FriendFragment.class);
                                                 intent.putExtra("uid", uid);
                                                 intent.putExtra("headericon", headerIconStr);
                                                 intent.putExtra("nickname", nickName);

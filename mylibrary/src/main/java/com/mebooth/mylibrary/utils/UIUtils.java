@@ -3,6 +3,8 @@ package com.mebooth.mylibrary.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -13,6 +15,11 @@ import android.webkit.CookieSyncManager;
 
 import com.mebooth.mylibrary.main.AppApplication;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 
 public class UIUtils {
@@ -187,6 +194,35 @@ public class UIUtils {
         int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
         result = resId > 0 ? context.getResources().getDimensionPixelSize(resId) : (int) TypedValue.applyDimension(1, (float) result, Resources.getSystem().getDisplayMetrics());
         return result;
+    }
+
+    public static Bitmap bitmap;
+    public static Bitmap returnBitMap(final String url){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imageurl = null;
+
+                try {
+                    imageurl = new URL(url);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection conn = (HttpURLConnection)imageurl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        return bitmap;
     }
 
 }

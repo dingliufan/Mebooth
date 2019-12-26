@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
@@ -25,6 +27,7 @@ import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -54,6 +57,14 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
         return R.layout.friendlist_layout;
     }
 
+
+    @Override
+    protected void setStatusBar() {
+        super.setStatusBar();
+
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
+        StatusBarUtil.setLightMode(this); //黑色图标
+    }
     @Override
     protected void initView() {
         super.initView();
@@ -62,6 +73,12 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
         mSmart = findViewById(R.id.classify_smart);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
+
+        mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
+                .setColorSchemeColors(ContextCompat.getColor(this, R.color.main_color))); //设置刷新为官方推介
+        mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
+        mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
+
 
     }
 
@@ -84,7 +101,8 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
     protected void initData(Bundle savedInstanceState) {
         title.setText("我关注的人");
         initRecycle();
-        getCareList(REFLUSH_LIST);
+//        getCareList(REFLUSH_LIST);
+        mSmart.autoRefresh();
     }
 
     private void getCareList(final int tag) {
@@ -106,11 +124,12 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
                         } else if (null != getCareJson && getCareJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
+                            cancelRefresh(tag);
                         } else if (null != getCareJson && getCareJson.getErrno() != 200) {
-
+                            cancelRefresh(tag);
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getCareJson.getErrmsg()) ? "数据加载失败" : getCareJson.getErrmsg());
                         } else {
-
+                            cancelRefresh(tag);
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -118,11 +137,28 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        cancelRefresh(tag);
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
     }
+
+    private void cancelRefresh(int tag) {
+
+        if (tag == REFLUSH_LIST) {
+            if (mSmart != null) {
+                mSmart.finishRefresh();
+            }
+
+        } else if (tag == LOADMORE_LIST) {
+            if (mSmart != null) {
+                mSmart.finishLoadMore();
+            }
+
+        }
+
+    }
+
 
     private void initList(int tag, GetCareJson getCareJson) {
 

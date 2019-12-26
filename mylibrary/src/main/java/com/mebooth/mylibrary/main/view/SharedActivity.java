@@ -25,6 +25,7 @@ import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -127,10 +128,12 @@ public class SharedActivity extends BasePopupWindow {
 
                         if (null != getShareInfoJson && getShareInfoJson.getErrno() == 0) {
 
+                            bitmap = UIUtils.returnBitMap(getShareInfoJson.getData().getShare_info().getImage());
+
                             if (type.equals("wechat_friend")) {
-                                AppApplication.getInstance().setShare("WEIXIN", getShareInfoJson.getData().getShare_info().getUrl(), getShareInfoJson.getData().getShare_info().getImage(), getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
+                                AppApplication.getInstance().setShare("WEIXIN", getShareInfoJson.getData().getShare_info().getUrl(), bitmap, getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
                             } else if (type.equals("wechat_timeline")) {
-                                AppApplication.getInstance().setShare("WEIXIN_CIRCLE", getShareInfoJson.getData().getShare_info().getUrl(), getShareInfoJson.getData().getShare_info().getImage(), getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
+                                AppApplication.getInstance().setShare("WEIXIN_CIRCLE", getShareInfoJson.getData().getShare_info().getUrl(), bitmap, getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
                             }
 //                            else if (type.equals("weibo")) {
 //                                AppApplication.getInstance().setShare("SINA",getShareInfoJson.getData().getShare_info().getUrl(),getShareInfoJson.getData().getShare_info().getImage(),getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
@@ -173,5 +176,11 @@ public class SharedActivity extends BasePopupWindow {
         return createPopupById(R.layout.shared_layout);
     }
 
+    @Override
+    public void onDismiss() {
+        super.onDismiss();
 
+        bitmap.recycle();
+
+    }
 }

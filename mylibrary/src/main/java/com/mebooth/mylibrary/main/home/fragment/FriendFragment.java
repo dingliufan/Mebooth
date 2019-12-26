@@ -1,4 +1,4 @@
-package com.mebooth.mylibrary.main.home.activity;
+package com.mebooth.mylibrary.main.home.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +14,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.FriendListActivity;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -30,7 +31,7 @@ import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 
-public class FriendActivity extends BaseFragment {
+public class FriendFragment extends BaseFragment {
     private Fragment mConversationFragment = null;
     private ImageView back;
     private TextView title;
@@ -38,8 +39,8 @@ public class FriendActivity extends BaseFragment {
     private String uids = "";
     private UserInfo userInfo;
 
-    public static FriendActivity newInstance() {
-        return new FriendActivity();
+    public static FriendFragment newInstance() {
+        return new FriendFragment();
     }
 
     @Override

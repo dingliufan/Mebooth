@@ -7,12 +7,9 @@ import android.widget.Button;
 
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
-import com.mebooth.mylibrary.main.home.activity.FriendActivity;
 import com.mebooth.mylibrary.main.home.activity.NewMainActivity;
-import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 
 import butterknife.BindView;
-import io.rong.imkit.RongIM;
 
 public class MainActivity extends BaseTransparentActivity {
     @BindView(R.id.bt_true)
@@ -48,7 +45,7 @@ public class MainActivity extends BaseTransparentActivity {
             public void onClick(View view) {
 //                RongIM.getInstance().startPrivateChat(MainActivity.this, "10001", "标题");
 
-//                Intent intent = new Intent(MainActivity.this, FriendActivity.class);
+//                Intent intent = new Intent(MainActivity.this, FriendFragment.class);
 ////                startActivity(intent);
             }
         });

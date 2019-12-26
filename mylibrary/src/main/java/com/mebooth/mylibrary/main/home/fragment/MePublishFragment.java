@@ -111,12 +111,15 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
                         } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
+                            cancelRefresh(tag);
                         } else if (null != getNowJson && getNowJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowJson.getErrmsg()) ? "数据加载失败" : getNowJson.getErrmsg());
+                            cancelRefresh(tag);
                         } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");
+                            cancelRefresh(tag);
                         }
                     }
 
@@ -125,8 +128,25 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
                         super.onError(e);
 
                         ToastUtils.getInstance().showToast("数据加载失败");
+                        cancelRefresh(tag);
                     }
                 });
+    }
+
+    private void cancelRefresh(int tag) {
+
+        if (tag == REFLUSH_LIST) {
+            if (mSmart != null) {
+                mSmart.finishRefresh();
+            }
+
+        } else if (tag == LOADMORE_LIST) {
+            if (mSmart != null) {
+                mSmart.finishLoadMore();
+            }
+
+        }
+
     }
 
     private void initList(int tag, GetNowJson nowJson) {

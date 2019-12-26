@@ -97,12 +97,15 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
+                            cancelRefresh(tag);
                         }else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
+                            cancelRefresh(tag);
                         } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");
+                            cancelRefresh(tag);
                         }
                     }
 
@@ -111,8 +114,25 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                         super.onError(e);
 
                         ToastUtils.getInstance().showToast("数据加载失败");
+                        cancelRefresh(tag);
                     }
                 });
+    }
+
+    private void cancelRefresh(int tag) {
+
+        if (tag == REFLUSH_LIST) {
+            if (mSmart != null) {
+                mSmart.finishRefresh();
+            }
+
+        } else if (tag == LOADMORE_LIST) {
+            if (mSmart != null) {
+                mSmart.finishLoadMore();
+            }
+
+        }
+
     }
 
     private void initList(int tag, GetRecommendJson getRecommendJson) {

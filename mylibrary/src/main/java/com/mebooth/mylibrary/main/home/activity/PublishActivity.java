@@ -425,10 +425,11 @@ public class PublishActivity extends BaseTransparentActivity {
 
                         if (null != publicBean && publicBean.getErrno() == 0) {
 
-                            Intent intent = new Intent(PublishActivity.this, NewMainActivity.class);
-                            startActivity(intent);
-                            ActivityCollectorUtil.finishAllActivity();
-                            ToastUtils.getInstance().showToast("发布成功");
+//                            Intent intent = new Intent(PublishActivity.this, NewMainActivity.class);
+//                            startActivity(intent);
+//                            ActivityCollectorUtil.finishAllActivity();
+                            finish();
+                            ToastUtils.getInstance().showToast("您的帖子已发布，审核通过后就可以与大家见面了");
 
                         } else if (null != publicBean && publicBean.getErrno() == 1101) {
 

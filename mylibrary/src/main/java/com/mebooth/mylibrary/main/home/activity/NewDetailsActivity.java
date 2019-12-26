@@ -462,9 +462,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             commentList.clear();
                             commentList.addAll(commentOnJson.getData().getList());
 
-                            if(commentList.size() == 0){
+                            if (commentList.size() == 0) {
                                 noComment.setVisibility(View.VISIBLE);
-                            }else{
+                            } else {
                                 noComment.setVisibility(View.GONE);
                             }
 
@@ -500,7 +500,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .requestComment(id, pid, content,1)
+                .requestComment(id, pid, content, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PublicBean>() {
@@ -513,7 +513,8 @@ public class NewDetailsActivity extends BaseTransparentActivity {
 //                            adapter.notifyDataSetChanged();
                             ToastUtils.getInstance().showToast("已发送评论");
 //                            mSmart.autoRefresh();
-
+                            replies += 1;
+                            newdetailsComment.setText("" + replies);
                             getCommentList();
                             initExpandableListView(commentList);
 

@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -163,9 +164,9 @@ public abstract class AppApplication extends Application {
         }
     };
     //分享
-    public void setShare(String way,String url,String imgoricon,String title,String description){
+    public void setShare(String way, String url, Bitmap image, String title, String description){
         if(meboothCallBack != null) {
-            meboothCallBack.setShare(way,url,imgoricon,title,description);
+            meboothCallBack.setShare(way,url,image,title,description);
         }
     };
 

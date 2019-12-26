@@ -9,7 +9,9 @@
         android:id="@+id/fiv"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        tools:src="@color/app_color_f6" />
+        tools:src="@color/app_color_f6"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/iv_del"
