@@ -153,10 +153,10 @@ public class FriendFragment extends BaseFragment {
         });
 
         if (AppApplication.getInstance().isShowBack()) {
-            back.setVisibility(View.GONE);
 
-        }else{
             back.setVisibility(View.VISIBLE);
+        }else{
+            back.setVisibility(View.GONE);
         }
         switchContent();
     }

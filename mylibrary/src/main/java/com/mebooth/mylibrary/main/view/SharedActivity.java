@@ -128,7 +128,9 @@ public class SharedActivity extends BasePopupWindow {
 
                         if (null != getShareInfoJson && getShareInfoJson.getErrno() == 0) {
 
-                            bitmap = UIUtils.returnBitMap(getShareInfoJson.getData().getShare_info().getImage());
+                            if(getShareInfoJson.getData().getShare_info().getImage() != null){
+                                bitmap = UIUtils.returnBitMap(getShareInfoJson.getData().getShare_info().getImage());
+                            }
 
                             if (type.equals("wechat_friend")) {
                                 AppApplication.getInstance().setShare("WEIXIN", getShareInfoJson.getData().getShare_info().getUrl(), bitmap, getShareInfoJson.getData().getShare_info().getTitle(), getShareInfoJson.getData().getShare_info().getDescription());
