@@ -1,6 +1,9 @@
 package com.mebooth.mylibrary.main.home.activity;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -104,6 +107,8 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         StatusBarUtil.setLightMode(this); //黑色图标
     }
 
+    @SuppressLint("ResourceAsColor")
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
@@ -122,7 +127,9 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         noComment = findViewById(R.id.nwdetails_nocomment);
         newdetailsLly = findViewById(R.id.newdetails_lly);
 
-        newdetailsLly.setFitsSystemWindows(false);
+        newdetailsLly.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(R.color.transparent);
+        findViewById(R.id.newdetails_header).setPadding(0, 96, 0, 0);
 
         title.setText("正文");
 
