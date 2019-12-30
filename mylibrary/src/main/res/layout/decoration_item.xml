@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/decoration_itembar"
+        android:layout_width="104.5dp"
+        android:layout_height="27.5dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="27dp"
+        android:gravity="center"
+        android:background="@drawable/decoration_level_bg" />
+
+    <com.mebooth.mylibrary.main.view.MyGridView
+        android:id="@+id/decoration_item_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:verticalSpacing="18dp"
+        android:fadeScrollbars="true"
+        android:numColumns="3"
+        android:scrollbars="none"/>
+
+</LinearLayout>

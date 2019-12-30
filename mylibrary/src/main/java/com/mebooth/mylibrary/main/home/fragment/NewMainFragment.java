@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.DecorationActivity;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.PublishActivity;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
@@ -110,6 +111,16 @@ public class NewMainFragment extends BaseFragment {
             }
         });
         title.setText("发现");
+
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DecorationActivity.class);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

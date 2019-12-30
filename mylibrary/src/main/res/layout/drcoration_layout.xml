@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/decorationbg2">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/decoration_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="302.5dp"
+                    android:background="@drawable/decorationbg1">
+
+                    <LinearLayout
+                        android:id="@+id/decorationheader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp">
+
+                            <ImageView
+                                android:id="@+id/public_back"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="6dp"
+                                android:padding="10dp"
+                                android:src="@drawable/back_ffffff" />
+
+                            <ImageView
+                                android:id="@+id/public_right"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|center_vertical"
+                                android:background="@drawable/decorationshare" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp">
+
+                        <TextView
+                            android:id="@+id/decoration_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="17枚"
+                            android:textColor="@color/bg_ffffff"
+                            android:textSize="24sp" />
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/decorationheader_bg">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/header_yuan">
+
+                                <ImageView
+                                    android:id="@+id/decoration_usericon"
+                                    android:layout_width="70dp"
+                                    android:layout_height="69.5dp"
+                                    android:padding="4dp"/>
+                            </FrameLayout>
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/decoration_rank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:text="前14%"
+                            android:textColor="@color/bg_ffffff"
+                            android:textSize="24sp" />
+
+                    </FrameLayout>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10.5dp"
+                    android:layout_marginTop="229.5dp"
+                    android:layout_marginRight="10.5dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/level_bg"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/decoration_recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="32.5dp"
+                        android:layout_marginTop="33.5dp"
+                        android:layout_marginRight="32.5dp"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/decoration_first"
+                    android:layout_width="104.5dp"
+                    android:layout_height="27.5dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="219.5dp"
+                    android:background="@drawable/decoration_level_bg"
+                    android:gravity="center" />
+
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/decorationheader1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+
+            <ImageView
+                android:id="@+id/public_back1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="6dp"
+                android:padding="10dp"
+                android:src="@drawable/back_ffffff" />
+
+            <ImageView
+                android:id="@+id/public_right1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:background="@drawable/decorationshare" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+</FrameLayout>

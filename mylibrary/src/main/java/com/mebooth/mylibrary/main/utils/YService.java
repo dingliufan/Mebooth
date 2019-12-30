@@ -2,6 +2,7 @@ package com.mebooth.mylibrary.main.utils;
 
 import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
+import com.mebooth.mylibrary.main.home.bean.GetDecorationJson;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsCollectJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsFollowJson;
@@ -159,6 +160,10 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "user/getUserInfos")
     Observable<GetIMUserInfoJson> getIMUserInfo(@Field("uids") String uids);
+    //获取勋章状态
+    @FormUrlEncoded
+    @POST(BASE_URL + "medal/getUserMedalView")
+    Observable<GetDecorationJson> getDecorationInfo(@Field("uid") int uid);
 
 
 }
