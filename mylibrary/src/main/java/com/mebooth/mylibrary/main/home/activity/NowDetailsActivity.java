@@ -576,7 +576,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                                         super.onNext(publicBean);
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                                            getNowDetailsJson.getData().getTopic().setPraised(false);
+                                                            getNowDetailsJson.getData().getTopic().setPraised(true);
                                                             ToastUtils.getInstance().showToast("已收藏");
                                                             collectimg.setImageResource(R.drawable.collect);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -629,7 +629,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetIsFollowJson>() {
                     @Override
-                    public void onNext(GetIsFollowJson getIsFollowJson) {
+                    public void onNext(final GetIsFollowJson getIsFollowJson) {
                         super.onNext(getIsFollowJson);
 
                         if (null != getIsFollowJson && getIsFollowJson.getErrno() == 0) {
@@ -641,6 +641,84 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                 follow.setText("关注");
                                 follow.setBackgroundResource(R.drawable.follow);
                             }
+
+                            follow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
+
+                                        //取消关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .cancelFollow(uid)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            getIsFollowJson.getData().getUsers().get(0).setFollowed(false);
+                                                            ToastUtils.getInstance().showToast("已取消关注");
+                                                            follow.setText("关注");
+                                                            follow.setBackgroundResource(R.drawable.follow);
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    }else{
+                                        //添加关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .addFollow(uid)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            getIsFollowJson.getData().getUsers().get(0).setFollowed(true);
+                                                            ToastUtils.getInstance().showToast("已关注");
+                                                            follow.setText("已关注");
+                                                            follow.setBackgroundResource(R.drawable.nofollow);
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            });
 
                         } else if (null != getIsFollowJson && getIsFollowJson.getErrno() == 1101) {
 
