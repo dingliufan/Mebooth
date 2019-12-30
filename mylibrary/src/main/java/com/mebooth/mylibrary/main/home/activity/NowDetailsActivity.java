@@ -125,7 +125,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         tid = getIntent().getIntExtra("relateid", 0);
         uid = getIntent().getIntExtra("uid", 0);
 
-        sharedPopup = new SharedActivity(NowDetailsActivity.this, tid, "news");
+        sharedPopup = new SharedActivity(NowDetailsActivity.this, tid, "topic");
 
 
         commentEdit.setOnClickListener(new View.OnClickListener() {
