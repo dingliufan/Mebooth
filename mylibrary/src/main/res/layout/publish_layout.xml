@@ -62,7 +62,7 @@
         android:layout_margin="15dp"
         android:background="@android:color/transparent"
         android:gravity="start"
-        android:hint="这一刻的想法..."
+        android:hint="分享美好瞬间~"
         android:lines="8"
         android:padding="10dp"
         android:textColor="#474747"

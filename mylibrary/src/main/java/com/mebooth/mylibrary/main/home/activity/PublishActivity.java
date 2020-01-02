@@ -189,7 +189,7 @@ public class PublishActivity extends BaseTransparentActivity {
             public void onClick(View v) {
                 if (StringUtil.isEmpty(content.getText().toString()) || selectList.size() == 0) {
 
-                    ToastUtils.getInstance().showToast("请输入内容或选择图片");
+                    ToastUtils.getInstance().showToast("请输入内容或至少包含一张图片");
 
                 } else {
 
