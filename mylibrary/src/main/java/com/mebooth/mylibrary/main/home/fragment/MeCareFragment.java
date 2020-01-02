@@ -273,4 +273,12 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
+    }
+
 }

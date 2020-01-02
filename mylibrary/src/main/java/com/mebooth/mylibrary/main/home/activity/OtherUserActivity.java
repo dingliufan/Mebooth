@@ -285,4 +285,12 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         getRecommend(REFLUSH_LIST);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
+    }
+
 }

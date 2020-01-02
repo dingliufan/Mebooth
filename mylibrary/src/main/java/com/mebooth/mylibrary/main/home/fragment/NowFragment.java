@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,6 +50,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
     private int pageSize = 10;
     private int offSet = 0;
+    private MyHandler mHandler;
 
     private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
 
@@ -69,6 +72,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        mHandler = new MyHandler(this);
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
@@ -150,25 +154,36 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
         }
     }
 
-    Handler mHandler = new Handler() {
+    private static class MyHandler extends Handler {
+        WeakReference<Fragment> reference;
+
+        public MyHandler(Fragment context) {
+            reference = new WeakReference<>(context);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+            if (null != reference) {
+                NowFragment activity = (NowFragment) reference.get();
+                if (reference.get() != null) {
+                    if (msg.what == activity.REFLUSH_LIST) {
+                        if (activity.mSmart != null) {
+                            activity.commonAdapter.notifyDataSetChanged();
+                            activity.mSmart.finishRefresh();
+                        }
 
-            if (msg.what == REFLUSH_LIST) {
-                if (mSmart != null) {
-                    commonAdapter.notifyDataSetChanged();
-                    mSmart.finishRefresh();
+                    } else if (msg.what == activity.LOADMORE_LIST) {
+                        if (activity.mSmart != null) {
+                            activity.mSmart.finishLoadMore();
+                        }
+
+                    }
+
                 }
-
-            } else if (msg.what == LOADMORE_LIST) {
-                if (mSmart != null) {
-                    mSmart.finishLoadMore();
-                }
-
             }
+
         }
-    };
+    }
 
 
     @Override
@@ -217,5 +232,12 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         offSet = 0;
         getRecommend(REFLUSH_LIST);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
     }
 }

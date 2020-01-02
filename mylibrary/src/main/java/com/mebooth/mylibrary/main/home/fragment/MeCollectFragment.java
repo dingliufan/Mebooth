@@ -240,5 +240,12 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
         offSet = 0;
         getRecommend(REFLUSH_LIST);
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
+    }
 
 }

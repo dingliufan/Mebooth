@@ -31,6 +31,7 @@ public abstract class AppApplication extends Application {
     public static AppApplication app;
 
     private UserTokenJson userTokenJson;
+    public boolean isFirst = true;
 
     public UserTokenJson getUserTokenJson() {
         return userTokenJson;

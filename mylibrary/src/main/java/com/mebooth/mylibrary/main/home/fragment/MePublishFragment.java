@@ -257,4 +257,12 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
         getRecommend(REFLUSH_LIST);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
+    }
+
 }

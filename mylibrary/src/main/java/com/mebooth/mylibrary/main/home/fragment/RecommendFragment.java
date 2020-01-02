@@ -1,13 +1,18 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 
@@ -34,10 +39,12 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.MainActivity;
 
 public class RecommendFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener {
 
@@ -50,6 +57,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     private int pageSize = 10;
     private int offSet;
+
+    private MyHandler mHandler;
 
     private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend = new ArrayList<>();
 
@@ -72,6 +81,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        mHandler = new MyHandler(this);
         initRecycle();
         mSmart.autoRefresh();
 //        getRecommend(REFLUSH_LIST);
@@ -81,7 +91,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("recommend",offSet,pageSize)
+                .getRecommend("recommend", offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {
@@ -97,7 +107,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                             SharedPreferencesUtils.writeString("token", "");
                             cancelRefresh(tag);
-                        }else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
+                        } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
                             cancelRefresh(tag);
@@ -141,7 +151,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
-        }else {
+        } else {
             if (getRecommendJson.getData().getList().size() == 0) {
 
                 mSmart.finishLoadMoreWithNoMoreData();
@@ -153,25 +163,37 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
         }
     }
 
-    Handler mHandler = new Handler() {
+    private static class MyHandler extends Handler {
+        WeakReference<Fragment> reference;
+
+        public MyHandler(Fragment context) {
+            reference = new WeakReference<>(context);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+            if (null != reference) {
+                RecommendFragment activity = (RecommendFragment) reference.get();
+                if (reference.get() != null) {
+                    if (msg.what == activity.REFLUSH_LIST) {
+                        if (activity.mSmart != null) {
+                            activity.commonAdapter.notifyDataSetChanged();
+                            activity.mSmart.finishRefresh();
+                        }
 
-            if (msg.what == REFLUSH_LIST) {
-                if (mSmart != null) {
-                    commonAdapter.notifyDataSetChanged();
-                    mSmart.finishRefresh();
+                    } else if (msg.what == activity.LOADMORE_LIST) {
+                        if (activity.mSmart != null) {
+                            activity.mSmart.finishLoadMore();
+                        }
+
+                    }
                 }
-
-            } else if (msg.what == LOADMORE_LIST) {
-                if (mSmart != null) {
-                    mSmart.finishLoadMore();
-                }
-
             }
+
         }
-    };
+    }
+
+    ;
 
     @Override
     protected void initListener() {
@@ -182,7 +204,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     }
 
     private void initRecycle() {
-        commonAdapter = new MultiItemTypeAdapter(getActivity(),recommend);
+        commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
         commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity()));
         commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity()));
         commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity()));
@@ -195,20 +217,20 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 详情
-                if(recommend.get(position).getFeed().getType() == 1){
+                if (recommend.get(position).getFeed().getType() == 1) {
                     Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
-                    intent.putExtra("relateid",recommend.get(position).getFeed().getRelateid());
-                    intent.putExtra("uid",recommend.get(position).getUser().getUid());
+                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
                     startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
-                    intent.putExtra("relateid",recommend.get(position).getFeed().getRelateid());
-                    intent.putExtra("uid",recommend.get(position).getUser().getUid());
-                    intent.putExtra("image",recommend.get(position).getUser().getAvatar());
-                    intent.putExtra("nickname",recommend.get(position).getUser().getNickname());
-                    intent.putExtra("browse",recommend.get(position).getFeed().getWatches());
-                    intent.putExtra("replies",recommend.get(position).getFeed().getReplies());
-                    intent.putExtra("praises",recommend.get(position).getFeed().getPraises());
+                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+                    intent.putExtra("image", recommend.get(position).getUser().getAvatar());
+                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                    intent.putExtra("browse", recommend.get(position).getFeed().getWatches());
+                    intent.putExtra("replies", recommend.get(position).getFeed().getReplies());
+                    intent.putExtra("praises", recommend.get(position).getFeed().getPraises());
                     startActivity(intent);
                 }
             }
@@ -232,5 +254,13 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         offSet = 0;
         getRecommend(REFLUSH_LIST);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
     }
 }

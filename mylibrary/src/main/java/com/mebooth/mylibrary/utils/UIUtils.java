@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.widget.ImageView;
 
 import com.mebooth.mylibrary.main.AppApplication;
 
@@ -223,6 +225,27 @@ public class UIUtils {
         }).start();
 
         return bitmap;
+    }
+
+    /**
+     * ImageView图片资源回收
+     * @param imageView
+     */
+    public static void releaseImageViewResource(ImageView imageView) {
+        if (imageView == null) return;
+        try{
+            imageView.setImageBitmap(null);
+            Drawable drawable = imageView.getDrawable();
+            if (drawable != null && drawable instanceof BitmapDrawable) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                if (bitmap != null && !bitmap.isRecycled()) {
+                    bitmap.recycle();
+                }
+            }
+        }catch(Throwable throwable) {
+
+        }
     }
 
 }

@@ -242,5 +242,12 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
+    }
 
 }

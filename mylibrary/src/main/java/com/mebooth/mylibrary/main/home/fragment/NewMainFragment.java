@@ -61,7 +61,7 @@ public class NewMainFragment extends BaseFragment {
     private int uid;
     private String headerIconStr;
     private String nickName;
-    private boolean isFirst = true;
+
     private ImageView back;
     private TextView title;
 
@@ -228,7 +228,7 @@ public class NewMainFragment extends BaseFragment {
                              */
                             RongIM.getInstance().setMessageAttachedUserInfo(true);
                             if (headerIconStr.equals("https://img.baojiawangluo.com/news/20191219160703313.jpg")) {
-                                if (isFirst) {
+                                if (AppApplication.getInstance().isFirst) {
                                     new AlertView("设置头像或昵称", "您还没有设置头像或昵称，请先进行修改", "取消", new String[]{"确定"}, null, getActivity(),
                                             AlertView.Style.Alert, new OnItemClickListener() {
                                         @Override
@@ -243,7 +243,7 @@ public class NewMainFragment extends BaseFragment {
                                             }
                                         }
                                     }).show();
-                                    isFirst = false;
+                                    AppApplication.getInstance().isFirst = false;
                                 }
 
                             }

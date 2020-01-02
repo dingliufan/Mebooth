@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
@@ -34,6 +35,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -50,7 +52,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
     private int pageSize = 10;
     private int offSet;
-
+    private MyHandler mHandler;
     private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend = new ArrayList<>();
 
 
@@ -73,6 +75,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        mHandler = new MyHandler(this);
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
@@ -154,25 +157,35 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
         }
     }
 
-    Handler mHandler = new Handler() {
+    private static class MyHandler extends Handler {
+        WeakReference<Fragment> reference;
+
+        public MyHandler(Fragment context) {
+            reference = new WeakReference<>(context);
+        }
+
         @Override
         public void handleMessage(Message msg) {
-            super.handleMessage(msg);
+            if (null != reference) {
+                InformationFragment activity = (InformationFragment) reference.get();
+                if (reference.get() != null) {
 
-            if (msg.what == REFLUSH_LIST) {
-                if (mSmart != null) {
-                    commonAdapter.notifyDataSetChanged();
-                    mSmart.finishRefresh();
+                    if (msg.what == activity.REFLUSH_LIST) {
+                        if (activity.mSmart != null) {
+                            activity.commonAdapter.notifyDataSetChanged();
+                            activity.mSmart.finishRefresh();
+                        }
+
+                    } else if (msg.what == activity.LOADMORE_LIST) {
+                        if (activity.mSmart != null) {
+                            activity.mSmart.finishLoadMore();
+                        }
+                    }
                 }
-
-            } else if (msg.what == LOADMORE_LIST) {
-                if (mSmart != null) {
-                    mSmart.finishLoadMore();
-                }
-
             }
+
         }
-    };
+    }
 
     @Override
     protected void initListener() {
@@ -233,6 +246,13 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         offSet = 0;
         getRecommend(REFLUSH_LIST);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
     }
 
 }

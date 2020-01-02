@@ -485,5 +485,4 @@ public class PublishActivity extends BaseTransparentActivity {
                     BroadcastAction.ACTION_DELETE_PREVIEW_POSITION);
         }
     }
-
 }

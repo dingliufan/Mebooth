@@ -236,4 +236,12 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
         getRecommend(REFLUSH_LIST);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
+
+    }
+
 }

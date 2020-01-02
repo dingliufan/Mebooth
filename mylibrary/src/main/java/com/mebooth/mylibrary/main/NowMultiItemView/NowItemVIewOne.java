@@ -41,7 +41,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
     private ArrayList<GetNowJson.NowData.NowDataList> list;
     private NoPublish noPublish;
 
-    public NowItemVIewOne(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list,NoPublish noPublish) {
+    public NowItemVIewOne(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list, NoPublish noPublish) {
         this.context = context;
         this.type = type;
         this.adapter = adapter;
@@ -70,7 +70,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
     @Override
     public void convert(final ViewHolder holder, final GetNowJson.NowData.NowDataList nowDataList, final int position) {
 
-        if (type.equals("minepublic") || type.equals("minecollect")) {
+        if (type.equals("minepublic")) {
             holder.setVisible(R.id.recommenditem_follow, View.GONE);
             holder.setVisible(R.id.recommenditem_delete, View.VISIBLE);
         } else {
@@ -97,14 +97,9 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
 
                                     ToastUtils.getInstance().showToast("已删除该话题");
                                     list.remove(position);
-                                    if(type.equals("minepublic")){
-                                        if(list.size() == 0){
+                                    if (type.equals("minepublic")) {
+                                        if (list.size() == 0) {
                                             noPublish.isPublish();
-                                        }
-                                    }else if(type.equals("minecollect")){
-
-                                        if(list.size() == 0){
-                                            noPublish.isCollect();
                                         }
                                     }
                                     adapter.notifyDataSetChanged();
@@ -142,10 +137,10 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
         holder.setText(R.id.recommenditem_content, nowDataList.getTopic().getContent());
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
         if (StringUtil.isEmpty(nowDataList.getTopic().getLocation())) {
-            holder.setVisible(R.id.recommenditem_address,View.GONE);
+            holder.setVisible(R.id.recommenditem_address, View.GONE);
         } else {
             holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
-            holder.setVisible(R.id.recommenditem_address,View.VISIBLE);
+            holder.setVisible(R.id.recommenditem_address, View.VISIBLE);
         }
         int month = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(5, 7)) - 1;
         int date = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(8, 10));
@@ -269,11 +264,21 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            nowDataList.getTopic().setPraised(false);
-                                            ToastUtils.getInstance().showToast("已取消收藏");
-                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
-                                            praises = praises - 1;
-                                            holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                            if (type.equals("minecollect")) {
+                                                ToastUtils.getInstance().showToast("已取消收藏");
+                                                list.remove(position);
+                                                if (list.size() == 0) {
+                                                    noPublish.isCollect();
+                                                }
+                                                adapter.notifyDataSetChanged();
+                                            } else {
+                                                nowDataList.getTopic().setPraised(false);
+                                                ToastUtils.getInstance().showToast("已取消收藏");
+                                                holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+                                                praises = praises - 1;
+                                                holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+
+                                            }
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -339,7 +344,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
 
                     AppApplication.getInstance().setLogin();
 
-                } else{
+                } else {
                     Intent intent = new Intent(context, OtherUserActivity.class);
                     intent.putExtra("uid", nowDataList.getUser().getUid());
                     intent.putExtra("nickname", nowDataList.getUser().getNickname());

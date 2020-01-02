@@ -68,7 +68,7 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
     @Override
     public void convert(final ViewHolder holder, final GetNowJson.NowData.NowDataList nowDataList, final int position) {
 
-        if (type.equals("minepublic") || type.equals("minecollect")) {
+        if (type.equals("minepublic")) {
             holder.setVisible(R.id.recommenditem_follow, View.GONE);
             holder.setVisible(R.id.recommenditem_delete, View.VISIBLE);
         } else {
@@ -98,11 +98,6 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
                                     if(type.equals("minepublic")){
                                         if(list.size() == 0){
                                             noPublish.isPublish();
-                                        }
-                                    }else if(type.equals("minecollect")){
-
-                                        if(list.size() == 0){
-                                            noPublish.isCollect();
                                         }
                                     }
                                     adapter.notifyDataSetChanged();
@@ -271,11 +266,21 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            nowDataList.getTopic().setPraised(false);
-                                            ToastUtils.getInstance().showToast("已取消收藏");
-                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
-                                            praises = praises - 1;
-                                            holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                            if (type.equals("minecollect")) {
+                                                ToastUtils.getInstance().showToast("已取消收藏");
+                                                list.remove(position);
+                                                if (list.size() == 0) {
+                                                    noPublish.isCollect();
+                                                }
+                                                adapter.notifyDataSetChanged();
+                                            } else {
+
+                                                nowDataList.getTopic().setPraised(false);
+                                                ToastUtils.getInstance().showToast("已取消收藏");
+                                                holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+                                                praises = praises - 1;
+                                                holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                            }
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
