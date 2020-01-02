@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_ffffff">
+    android:background="@color/bg_ffffff"
+    android:orientation="vertical">
 
-    <include layout="@layout/public_header"/>
+    <include layout="@layout/public_header" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/bg_c7c7c7"/>
+        android:background="@color/bg_c7c7c7" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,41 +22,89 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"/>
+            android:layout_marginLeft="15dp" />
 
-        <TextView
-            android:id="@+id/mine_nickname"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="黑暗骑士"
-            android:textSize="18sp"
+            android:layout_height="60dp"
+            android:orientation="vertical"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/bg_000000"/>
+            android:layout_marginLeft="20dp">
 
-        <ImageView
-            android:id="@+id/mine_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/editor"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            android:padding="10dp"/>
+            <TextView
+                android:id="@+id/mine_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="黑暗骑士"
+                android:textColor="@color/bg_000000"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="8dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11枚勋章>"
+                    android:textColor="@color/bg_999999"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="2dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
+    
+    <TextView
+        android:id="@+id/mine_editor"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:background="@drawable/follow"
+        android:layout_marginLeft="92dp"
+        android:text="编辑资料"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="@color/bg_333333"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="68dp"
-        app:tabBackground="@drawable/tab_background"
         android:layout_gravity="center_vertical"
+        app:tabBackground="@drawable/tab_background"
         app:tabTextAppearance="@style/MineTabText"
-        app:tabTextColor="@color/bg_000000"/>
+        app:tabTextColor="@color/bg_000000"
+        android:layout_marginTop="34dp"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/bg_c7c7c7"/>
+        android:background="@color/bg_c7c7c7" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"

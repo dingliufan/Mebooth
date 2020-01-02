@@ -1,8 +1,16 @@
 package com.mebooth.mylibrary.main.home.activity;
 
+import android.graphics.Bitmap;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,7 +39,11 @@ import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.mebooth.mylibrary.utils.UIUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -158,6 +170,8 @@ public class DecorationActivity extends BaseTransparentActivity {
                             }
                             commonAdapter.notifyDataSetChanged();
 
+                            saveImage();
+
                         } else if (null != getDecorationJson && getDecorationJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -200,6 +214,15 @@ public class DecorationActivity extends BaseTransparentActivity {
                 gridView.setFocusable(false);
                 gridView.setAdapter(adapter);
 
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+                    }
+                });
+
             }
         };
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
@@ -231,4 +254,73 @@ public class DecorationActivity extends BaseTransparentActivity {
         recyclerView.setAdapter(commonAdapter);
 
     }
+
+    // 1. 初始化布局：
+    private void saveImage() {
+        LayoutInflater from = LayoutInflater.from(this);
+        WindowManager manager = this.getWindowManager();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        manager.getDefaultDisplay().getMetrics(outMetrics);
+        int width = outMetrics.widthPixels;
+        int height = outMetrics.heightPixels;
+        View viewById = from.inflate(R.layout.drcoration_sharelayout, null);
+//        LinearLayout ll_poster = viewById.findViewById(R.id.ll_poster);
+        viewById.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        viewById.layout(0, 0, viewById.getMeasuredWidth(), viewById.getMeasuredHeight());
+//        ImageView imageView = viewById.findViewById(R.id.im_head_portrait);
+//        imageView.setImageResource(R.mipmap.wx_default_male);
+//        TextView textView = viewById.findViewById(R.id.name);
+//        textView.setText("张三");
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.width = width;
+        params.height = height;
+        params.gravity = Gravity.CENTER;
+//        ll_poster.setLayoutParams(params);
+//        viewById.setLayoutParams(params);
+//        manager.addView(viewById, params);
+//        View viewById = findViewById(R.id.ll_poster);
+
+        viewById.setDrawingCacheEnabled(true);
+        viewById.buildDrawingCache();
+        // 2. 将布局转成bitmap
+        createPicture(viewById);
+    }
+    private void createPicture(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        view.destroyDrawingCache();
+        //3.bitmap存本地
+        String strPath = "/testSaveView/" + UUID.randomUUID().toString() + ".png";
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File sdCardDir = Environment.getExternalStorageDirectory();
+            FileOutputStream fos = null;
+            try {
+                File file = new File(sdCardDir, strPath);
+                if (!file.getParentFile().exists()) {
+                    file.getParentFile().mkdirs();
+                }
+                fos = new FileOutputStream(file);
+
+                //当指定压缩格式为PNG时保存下来的图片显示正常
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                Log.e("MainActivity", "图片生成：" + file.getAbsolutePath());
+                //当指定压缩格式为JPEG时保存下来的图片背景为黑色
+//				 bitmap.compress(CompressFormat.JPEG, 100, fos);
+                fos.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fos.close();
+                    if (!bitmap.isRecycled()) {
+                        bitmap.recycle();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
 }
