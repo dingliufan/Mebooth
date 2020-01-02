@@ -206,7 +206,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 2) {
+                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 0) {
                     bt_comment.setBackgroundColor(Color.parseColor("#FFB568"));
                 } else {
                     bt_comment.setBackgroundColor(Color.parseColor("#D8D8D8"));
@@ -335,7 +335,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 2) {
+                if (!TextUtils.isEmpty(charSequence) && charSequence.length() > 0) {
                     bt_comment.setBackgroundColor(Color.parseColor("#FFB568"));
                 } else {
                     bt_comment.setBackgroundColor(Color.parseColor("#D8D8D8"));
