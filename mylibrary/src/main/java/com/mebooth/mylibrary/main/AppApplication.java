@@ -29,6 +29,7 @@ public abstract class AppApplication extends Application {
     private static String cookie;
     private MeboothCallBack meboothCallBack;
     public static AppApplication app;
+    public String userid;
 
     private UserTokenJson userTokenJson;
     public boolean isFirst = true;
@@ -49,6 +50,7 @@ public abstract class AppApplication extends Application {
 
     public void setUserTokenJson(UserTokenJson userTokenJson) {
         this.userTokenJson = userTokenJson;
+        userid = userTokenJson.getUserid();
         Gson gson = new Gson();
 
         String msg = gson.toJson(userTokenJson);

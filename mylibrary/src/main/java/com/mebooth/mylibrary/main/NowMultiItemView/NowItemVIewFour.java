@@ -135,6 +135,11 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
             holder.setText(R.id.recommenditem_follow, "关注");
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
         }
+        if(AppApplication.getInstance().userid.equals(nowDataList.getUser().getUid())){
+            holder.setVisible(R.id.recommenditem_follow,View.GONE);
+        }else{
+            holder.setVisible(R.id.recommenditem_follow,View.VISIBLE);
+        }
 
         holder.setText(R.id.recommenditem_content, nowDataList.getTopic().getContent());
         GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);

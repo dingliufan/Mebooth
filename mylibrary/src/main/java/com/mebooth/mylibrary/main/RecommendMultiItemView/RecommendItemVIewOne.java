@@ -73,6 +73,12 @@ public class RecommendItemVIewOne implements ItemViewDelegate<GetRecommendJson.R
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
         }
 
+        if(AppApplication.getInstance().userid.equals(recommendDataList.getUser().getUid())){
+            holder.setVisible(R.id.recommenditem_follow,View.GONE);
+        }else{
+            holder.setVisible(R.id.recommenditem_follow,View.VISIBLE);
+        }
+
         holder.setText(R.id.recommenditem_content, recommendDataList.getFeed().getContent());
         GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
         if (StringUtil.isEmpty(recommendDataList.getFeed().getLocation())) {

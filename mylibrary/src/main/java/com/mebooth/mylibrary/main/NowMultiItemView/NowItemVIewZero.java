@@ -136,6 +136,12 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
         }
 
+        if(AppApplication.getInstance().userid.equals(nowDataList.getUser().getUid())){
+            holder.setVisible(R.id.recommenditem_follow,View.GONE);
+        }else{
+            holder.setVisible(R.id.recommenditem_follow,View.VISIBLE);
+        }
+
         holder.setText(R.id.recommenditem_content, nowDataList.getTopic().getContent());
 //        GlideImageManager.glideLoader(context, recommendDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
         if (StringUtil.isEmpty(nowDataList.getTopic().getLocation())) {
