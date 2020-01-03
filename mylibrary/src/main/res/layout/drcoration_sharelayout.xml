@@ -1,6 +1,362 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/decorationbg2">
 
-</LinearLayout>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/decoration_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/decoration_lly"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="302.5dp"
+                    android:background="@drawable/decorationbg1">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginRight="34dp">
+
+                        <TextView
+                            android:id="@+id/decoration_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="17枚"
+                            android:textColor="@color/bg_ffffff"
+                            android:textSize="24sp" />
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/decorationheader_bg">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:background="@drawable/header_yuan">
+
+                                <ImageView
+                                    android:id="@+id/decoration_usericon"
+                                    android:layout_width="70dp"
+                                    android:layout_height="69.5dp"
+                                    android:padding="4dp" />
+                            </FrameLayout>
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/decoration_rank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|right"
+                            android:text="前14%"
+                            android:textColor="@color/bg_ffffff"
+                            android:textSize="24sp" />
+
+                    </FrameLayout>
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10.5dp"
+                    android:layout_marginTop="229.5dp"
+                    android:layout_marginRight="10.5dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/level_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="22.5dp"
+                            android:layout_marginTop="65.5dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/decoration_time1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2020年1月3日"
+                                android:textColor="@color/bg_333333"
+                                android:textSize="10.14sp" />
+
+                            <TextView
+                                android:id="@+id/decoration_line1"
+                                android:layout_width="0.5dp"
+                                android:layout_height="57dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="9dp"
+                                android:layout_marginBottom="14dp"
+                                android:background="#E0C1AA" />
+
+                            <TextView
+                                android:id="@+id/decoration_time2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2020年1月3日"
+                                android:textColor="@color/bg_333333"
+                                android:textSize="10.14sp" />
+
+                            <TextView
+                                android:id="@+id/decoration_line2"
+                                android:layout_width="0.5dp"
+                                android:layout_height="57dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="9dp"
+                                android:layout_marginBottom="14dp"
+                                android:background="#E0C1AA" />
+
+                            <TextView
+                                android:id="@+id/decoration_time3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2020年1月3日"
+                                android:textColor="@color/bg_333333"
+                                android:textSize="10.14sp" />
+
+                            <TextView
+                                android:id="@+id/decoration_line3"
+                                android:layout_width="0.5dp"
+                                android:layout_height="57dp"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginTop="9dp"
+                                android:layout_marginBottom="14dp"
+                                android:background="#E0C1AA" />
+
+                            <TextView
+                                android:id="@+id/decoration_time4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2020年1月3日"
+                                android:textColor="@color/bg_333333"
+                                android:textSize="10.14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:layout_marginTop="38dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/decoration_share_img1"
+                                    android:layout_width="72.5dp"
+                                    android:layout_height="72.5dp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="13dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_name1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="16.59sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_content1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="11.5dp"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="19.5dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/decoration_share_img2"
+                                    android:layout_width="72.5dp"
+                                    android:layout_height="72.5dp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="13dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_name2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="16.59sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_content2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="11.5dp"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="18dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/decoration_share_img3"
+                                    android:layout_width="72.5dp"
+                                    android:layout_height="72.5dp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="13dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_name3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="16.59sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_content3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="11.5dp"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="18dp"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/decoration_share_img4"
+                                    android:layout_width="72.5dp"
+                                    android:layout_height="72.5dp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="13dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_name4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="16.59sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/decoration_share_content4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="11.5dp"
+                                        android:text="低碳"
+                                        android:textColor="#BD6F2B"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="105dp"
+                        android:layout_height="105dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="26.5dp"
+                        android:background="@drawable/qecode_bg">
+
+                        <ImageView
+                            android:id="@+id/decoration_sharecode"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="7.5dp" />
+
+                    </FrameLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="14dp"
+                        android:text="长按二维码"
+                        android:textColor="@color/bg_666666"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="7.5dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="长按二维码"
+                        android:textColor="@color/bg_666666"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>

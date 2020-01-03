@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.home.activity;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -115,6 +116,60 @@ public class DecorationActivity extends BaseTransparentActivity {
             }
         });
 
+        right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getShareDecorationInfo();
+            }
+        });
+
+        right1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getShareDecorationInfo();
+            }
+        });
+
+    }
+
+    private void getShareDecorationInfo() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getDecorationInfo(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetDecorationJson>() {
+                    @Override
+                    public void onNext(GetDecorationJson getDecorationJson) {
+                        super.onNext(getDecorationJson);
+
+                        if (null != getDecorationJson && getDecorationJson.getErrno() == 0) {
+
+//                            saveImage();
+
+                        } else if (null != getDecorationJson && getDecorationJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != getDecorationJson && getDecorationJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getDecorationJson.getErrmsg()) ? "数据加载失败" : getDecorationJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+
+
     }
 
     @Override
@@ -169,8 +224,6 @@ public class DecorationActivity extends BaseTransparentActivity {
 
                             }
                             commonAdapter.notifyDataSetChanged();
-
-                            saveImage();
 
                         } else if (null != getDecorationJson && getDecorationJson.getErrno() == 1101) {
 
@@ -264,29 +317,45 @@ public class DecorationActivity extends BaseTransparentActivity {
         int width = outMetrics.widthPixels;
         int height = outMetrics.heightPixels;
         View viewById = from.inflate(R.layout.drcoration_sharelayout, null);
-//        LinearLayout ll_poster = viewById.findViewById(R.id.ll_poster);
+        layoutView(viewById, width, height);//去到指定view大小的函数
+        LinearLayout ll_poster = viewById.findViewById(R.id.decoration_lly);
         viewById.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         viewById.layout(0, 0, viewById.getMeasuredWidth(), viewById.getMeasuredHeight());
-//        ImageView imageView = viewById.findViewById(R.id.im_head_portrait);
-//        imageView.setImageResource(R.mipmap.wx_default_male);
-//        TextView textView = viewById.findViewById(R.id.name);
-//        textView.setText("张三");
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.width = width;
-        params.height = height;
-        params.gravity = Gravity.CENTER;
-//        ll_poster.setLayoutParams(params);
-//        viewById.setLayoutParams(params);
-//        manager.addView(viewById, params);
-//        View viewById = findViewById(R.id.ll_poster);
+        TextView count = viewById.findViewById(R.id.decoration_count);
+        TextView rank = viewById.findViewById(R.id.decoration_rank);
+        count.setText("111");
+        rank.setText("百分之10");
+        createPicture(ll_poster);
+    }
 
-        viewById.setDrawingCacheEnabled(true);
-        viewById.buildDrawingCache();
-        // 2. 将布局转成bitmap
-        createPicture(viewById);
+    private void layoutView(View view, int width, int height) {
+        // 指定整个View的大小 参数是左上角 和右下角的坐标
+        view.layout(0, 0, width, height);
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
+        /** 当然，measure完后，并不会实际改变View的尺寸，需要调用View.layout方法去进行布局。
+         * 按示例调用layout函数后，View的大小将会变成你想要设置成的大小。
+         */
+        view.measure(measuredWidth, measuredHeight);
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+    }
+    /**
+     * 生成一张图片
+     *
+     * @param v
+     * @return
+     */
+//生成图片
+    public Bitmap createViewBitmap(View v) {
+        //如果上面那个布局不在屏幕上找到的话，这里就会报，宽高为0的异常
+        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        v.draw(canvas);
+        return bitmap;
     }
     private void createPicture(View view) {
-        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        Bitmap bitmap = createViewBitmap(view);
         view.setDrawingCacheEnabled(false);
         view.destroyDrawingCache();
         //3.bitmap存本地
