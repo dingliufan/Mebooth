@@ -37,6 +37,7 @@ public abstract class AppApplication extends Application {
     public UserTokenJson getUserTokenJson() {
         return userTokenJson;
     }
+
     //是否显示返回按钮
     private boolean isShowBack;
 
@@ -78,13 +79,22 @@ public abstract class AppApplication extends Application {
         this.addressStr = addressStr;
     }
 
+
+    public void setLogOut(boolean isLogOut) {
+        if (isLogOut) {
+
+            SharedPreferencesUtils.writeString("token", "");
+
+        }
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         app = this;
 
         //融云
-        RongIM.init(this,"8luwapkv8458l");
+        RongIM.init(this, "8luwapkv8458l");
 
     }
 
@@ -151,7 +161,8 @@ public abstract class AppApplication extends Application {
         });
 
     }
-//
+
+    //
 //    @Override
 //    public Request.Builder addOkHttpAddHeader(Request.Builder builder) {
 //        if (cookie != null) {
@@ -161,17 +172,22 @@ public abstract class AppApplication extends Application {
 //        return null;
 //    }
     //登陆
-    public void setLogin(){
-        if(meboothCallBack != null) {
+    public void setLogin() {
+        if (meboothCallBack != null) {
             meboothCallBack.setLogin();
         }
-    };
+    }
+
+    ;
+
     //分享
-    public void setShare(String way, String url, Bitmap image, String title, String description){
-        if(meboothCallBack != null) {
-            meboothCallBack.setShare(way,url,image,title,description);
+    public void setShare(String way, String url, Bitmap image, String title, String description) {
+        if (meboothCallBack != null) {
+            meboothCallBack.setShare(way, url, image, title, description);
         }
-    };
+    }
+
+    ;
 
     @Override
     public File getCacheDir() {
