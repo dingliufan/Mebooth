@@ -6,6 +6,7 @@ import com.mebooth.mylibrary.main.home.bean.GetDecorationJson;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsCollectJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsFollowJson;
+import com.mebooth.mylibrary.main.home.bean.GetMedalLogJson;
 import com.mebooth.mylibrary.main.home.bean.GetMineCountJson;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
 import com.mebooth.mylibrary.main.home.bean.GetNewInfoJson;
@@ -164,6 +165,9 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "medal/getUserMedalView")
     Observable<GetDecorationJson> getDecorationInfo(@Field("uid") int uid);
+    //获取勋章海报列表
+    @POST(BASE_URL + "medal/getUserMedalLog")
+    Observable<GetMedalLogJson> getMedalLog();
 
 
 }

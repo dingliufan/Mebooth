@@ -2,6 +2,7 @@ package com.mebooth.mylibrary.main.home.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -18,11 +19,21 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
@@ -32,6 +43,7 @@ import com.mebooth.mylibrary.main.adapter.DecorationGridAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.GetDecorationJson;
+import com.mebooth.mylibrary.main.home.bean.GetMedalLogJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -68,6 +80,7 @@ public class DecorationActivity extends BaseTransparentActivity {
     private NestedScrollView decorationScroll;
     private ImageView back1;
     private ImageView right1;
+    private LinearLayout ll_poster;
 
     @Override
     protected int getContentViewId() {
@@ -119,14 +132,14 @@ public class DecorationActivity extends BaseTransparentActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getShareDecorationInfo();
+                createPicture(ll_poster);
             }
         });
 
         right1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getShareDecorationInfo();
+                createPicture(ll_poster);
             }
         });
 
@@ -136,24 +149,24 @@ public class DecorationActivity extends BaseTransparentActivity {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getDecorationInfo(uid)
+                .getMedalLog()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CommonObserver<GetDecorationJson>() {
+                .subscribe(new CommonObserver<GetMedalLogJson>() {
                     @Override
-                    public void onNext(GetDecorationJson getDecorationJson) {
-                        super.onNext(getDecorationJson);
+                    public void onNext(GetMedalLogJson getMedalLogJson) {
+                        super.onNext(getMedalLogJson);
 
-                        if (null != getDecorationJson && getDecorationJson.getErrno() == 0) {
+                        if (null != getMedalLogJson && getMedalLogJson.getErrno() == 0) {
 
-//                            saveImage();
+                            saveImage(getMedalLogJson);
 
-                        } else if (null != getDecorationJson && getDecorationJson.getErrno() == 1101) {
+                        } else if (null != getMedalLogJson && getMedalLogJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
-                        } else if (null != getDecorationJson && getDecorationJson.getErrno() != 200) {
+                        } else if (null != getMedalLogJson && getMedalLogJson.getErrno() != 200) {
 
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getDecorationJson.getErrmsg()) ? "数据加载失败" : getDecorationJson.getErrmsg());
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMedalLogJson.getErrmsg()) ? "数据加载失败" : getMedalLogJson.getErrmsg());
                         } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");
@@ -169,7 +182,6 @@ public class DecorationActivity extends BaseTransparentActivity {
                 });
 
 
-
     }
 
     @Override
@@ -177,7 +189,7 @@ public class DecorationActivity extends BaseTransparentActivity {
         super.initData();
 
         uid = getIntent().getIntExtra("uid", 0);
-
+        getShareDecorationInfo();
         initRecycle();
         getDecoration();
 
@@ -272,7 +284,6 @@ public class DecorationActivity extends BaseTransparentActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-
                     }
                 });
 
@@ -309,7 +320,7 @@ public class DecorationActivity extends BaseTransparentActivity {
     }
 
     // 1. 初始化布局：
-    private void saveImage() {
+    private void saveImage(GetMedalLogJson medalLogJson) {
         LayoutInflater from = LayoutInflater.from(this);
         WindowManager manager = this.getWindowManager();
         DisplayMetrics outMetrics = new DisplayMetrics();
@@ -318,14 +329,25 @@ public class DecorationActivity extends BaseTransparentActivity {
         int height = outMetrics.heightPixels;
         View viewById = from.inflate(R.layout.drcoration_sharelayout, null);
         layoutView(viewById, width, height);//去到指定view大小的函数
-        LinearLayout ll_poster = viewById.findViewById(R.id.decoration_lly);
+        ll_poster = viewById.findViewById(R.id.decoration_lly);
         viewById.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         viewById.layout(0, 0, viewById.getMeasuredWidth(), viewById.getMeasuredHeight());
         TextView count = viewById.findViewById(R.id.decoration_count);
         TextView rank = viewById.findViewById(R.id.decoration_rank);
-        count.setText("111");
-        rank.setText("百分之10");
-        createPicture(ll_poster);
+        ImageView userIcon = viewById.findViewById(R.id.decoration_usericon);
+        TextView decorationTime1 = viewById.findViewById(R.id.decoration_time1);
+        TextView decorationTime2 = viewById.findViewById(R.id.decoration_time2);
+        TextView decorationTime3 = viewById.findViewById(R.id.decoration_time3);
+        TextView decorationTime4 = viewById.findViewById(R.id.decoration_time4);
+        TextView decorationLine1 = viewById.findViewById(R.id.decoration_line1);
+        TextView decorationLine2 = viewById.findViewById(R.id.decoration_time2);
+        TextView decorationLine3 = viewById.findViewById(R.id.decoration_time3);
+
+        count.setText(medalLogJson.getData().getStats().getTotal() + "枚");
+        rank.setText("前" + medalLogJson.getData().getStats().getRatio() + "%");
+        GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getUser().getAvatar(), userIcon, GlideImageManager.TAG_ROUND);
+
+
     }
 
     private void layoutView(View view, int width, int height) {
@@ -339,6 +361,7 @@ public class DecorationActivity extends BaseTransparentActivity {
         view.measure(measuredWidth, measuredHeight);
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
     }
+
     /**
      * 生成一张图片
      *
@@ -354,6 +377,7 @@ public class DecorationActivity extends BaseTransparentActivity {
         v.draw(canvas);
         return bitmap;
     }
+
     private void createPicture(View view) {
         Bitmap bitmap = createViewBitmap(view);
         view.setDrawingCacheEnabled(false);
