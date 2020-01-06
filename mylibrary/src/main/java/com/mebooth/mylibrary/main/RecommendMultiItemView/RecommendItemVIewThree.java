@@ -76,10 +76,12 @@ public class RecommendItemVIewThree implements ItemViewDelegate<GetRecommendJson
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
         }
 
-        if(AppApplication.getInstance().userid.equals(recommendDataList.getUser().getUid())){
-            holder.setVisible(R.id.recommenditem_follow,View.GONE);
-        }else{
-            holder.setVisible(R.id.recommenditem_follow,View.VISIBLE);
+        if (AppApplication.getInstance().userid != null) {
+            if (AppApplication.getInstance().userid.equals(recommendDataList.getUser().getUid())) {
+                holder.setVisible(R.id.recommenditem_follow, View.GONE);
+            } else {
+                holder.setVisible(R.id.recommenditem_follow, View.VISIBLE);
+            }
         }
 
         holder.setText(R.id.recommenditem_content, recommendDataList.getFeed().getContent());

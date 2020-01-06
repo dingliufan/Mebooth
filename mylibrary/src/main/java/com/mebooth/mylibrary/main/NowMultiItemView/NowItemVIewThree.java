@@ -133,10 +133,12 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
         }
 
-        if(AppApplication.getInstance().userid.equals(nowDataList.getUser().getUid())){
-            holder.setVisible(R.id.recommenditem_follow,View.GONE);
-        }else{
-            holder.setVisible(R.id.recommenditem_follow,View.VISIBLE);
+        if (AppApplication.getInstance().userid != null) {
+            if (AppApplication.getInstance().userid.equals(nowDataList.getUser().getUid())) {
+                holder.setVisible(R.id.recommenditem_follow, View.GONE);
+            } else {
+                holder.setVisible(R.id.recommenditem_follow, View.VISIBLE);
+            }
         }
 
         holder.setText(R.id.recommenditem_content, nowDataList.getTopic().getContent());
