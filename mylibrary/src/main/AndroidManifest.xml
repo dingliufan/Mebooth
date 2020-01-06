@@ -1,47 +1,48 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mebooth.mylibrary">
+    package="com.mebooth.mylibrary" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
-    <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <!--用于读取手机当前的状态-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <!--用于申请调用A-GPS模块-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
-    <!--用于申请获取蓝牙信息进行室内定位-->
-    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.CALL_PHONE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+    <!--<uses-permission android:name="android.permission.VIBRATE"></uses-permission>-->
+    <!--&lt;!&ndash;允许程序访问CellID或WiFi热点来获取粗略的位置&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.CAMERA" />-->
+    <!--&lt;!&ndash;用于访问GPS定位&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>-->
+    <!--&lt;!&ndash;用于读取手机当前的状态&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>-->
+    <!--&lt;!&ndash;用于申请调用A-GPS模块&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>-->
+    <!--&lt;!&ndash;用于申请获取蓝牙信息进行室内定位&ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>-->
+    <!--<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>-->
+    <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
+    <!--<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>-->
 
     <application>
 
-        <meta-data
-            android:name="com.google.android.actions"
-            android:resource="@xml/network_security_config" />
+        <!--<meta-data-->
+            <!--android:name="com.google.android.actions"-->
+            <!--android:resource="@xml/network_security_config" />-->
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.mebooth.mylibrary.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/rc_file_path" />
-        </provider>
+        <!--<provider-->
+            <!--android:name="androidx.core.content.FileProvider"-->
+            <!--android:authorities="com.mebooth.mylibrary.FileProvider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/rc_file_path" />-->
+        <!--</provider>-->
 
         <!--<activity android:name=".MainActivity">-->
-        <activity android:name="com.mebooth.mylibrary.main.home.activity.NewMainActivity"></activity>
+        <activity android:name="com.mebooth.mylibrary.main.home.activity.NewMainActivity">
+        </activity>
 
         <activity
             android:name="com.mebooth.mylibrary.main.home.activity.PublishActivity"
@@ -73,25 +74,26 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name="com.mebooth.mylibrary.imagepicker.ui.ImageBaseActivity" />
+        <activity android:name="com.mebooth.mylibrary.imagepicker.ui.ImageBaseActivity"/>
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImageGridActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/ImagePickerTheme" />
+            android:theme="@style/ImagePickerTheme"/>
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImageCropActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
-            android:theme="@style/ImagePickerTheme" />
+            android:theme="@style/ImagePickerTheme"/>
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImagePreviewActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/ImagePickerThemeFullScreen" />
+            android:theme="@style/ImagePickerThemeFullScreen"/>
 
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImagePreviewDelActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/ImagePickerThemeFullScreen" />
+            android:theme="@style/ImagePickerThemeFullScreen"/>
+
 
 
         <provider
@@ -101,11 +103,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
 
-        <activity
-            android:name="com.mebooth.mylibrary.main.home.activity.ConversationActivity"
+        <activity android:name="com.mebooth.mylibrary.main.home.activity.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
