@@ -27,9 +27,9 @@ public class Application extends AppApplication {
         UserTokenJson userTokenJson = new UserTokenJson();
         userTokenJson.setUserid("12358333");
         userTokenJson.setFrom("14");
-        userTokenJson.setToken("YfXpbBRG0UWSy1oP");
+        userTokenJson.setToken("9K1Dp0NMTdw3Ytl3");
         userTokenJson.setVersion("4.8.0");
-//        this.setUserTokenJson(userTokenJson);
+        this.setUserTokenJson(userTokenJson);
 
         if (appApplication != null){
             appApplication.onCreate();//用于执行module的一些自定义初始化操作999
