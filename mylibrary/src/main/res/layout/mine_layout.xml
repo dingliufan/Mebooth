@@ -40,39 +40,54 @@
                 android:textSize="18sp" />
 
             <LinearLayout
+                android:id="@+id/otheruser_medal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom">
+
                 <ImageView
+                    android:id="@+id/otheruser_medal_1"
                     android:layout_width="25dp"
                     android:layout_height="24dp" />
+
                 <ImageView
+                    android:id="@+id/otheruser_medal_2"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp" />
+
                 <ImageView
+                    android:id="@+id/otheruser_medal_3"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp" />
+
                 <ImageView
+                    android:id="@+id/otheruser_medal_4"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp" />
+
                 <ImageView
+                    android:id="@+id/otheruser_medal_5"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp" />
+
                 <ImageView
+                    android:id="@+id/otheruser_medal_6"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp"/>
+                    android:layout_marginLeft="8dp" />
+
                 <TextView
+                    android:id="@+id/otheruser_medal_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:text="11枚勋章>"
                     android:textColor="@color/bg_999999"
-                    android:textSize="18sp"
-                    android:layout_marginLeft="2dp"/>
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </FrameLayout>

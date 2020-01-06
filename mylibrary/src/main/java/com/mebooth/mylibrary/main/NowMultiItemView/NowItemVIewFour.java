@@ -70,6 +70,75 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
     @Override
     public void convert(final ViewHolder holder, final GetNowJson.NowData.NowDataList nowDataList, final int position) {
 
+        if(nowDataList.getUser().getMedals().size() == 1){
+
+            holder.setVisible(R.id.otheruser_medal_1, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(0).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_1), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_2, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_3, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_4, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_5, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_6, View.GONE);
+
+        }else if(nowDataList.getUser().getMedals().size() == 2){
+            holder.setVisible(R.id.otheruser_medal_1, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(0).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_1), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_2, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(1).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_2), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_3, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_4, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_5, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_6, View.GONE);
+        }else if(nowDataList.getUser().getMedals().size() == 3){
+            holder.setVisible(R.id.otheruser_medal_1, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(0).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_1), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_2, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(1).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_2), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_3, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(2).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_3), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_4, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_5, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_6, View.GONE);
+        }else if(nowDataList.getUser().getMedals().size() == 4){
+            holder.setVisible(R.id.otheruser_medal_1, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(0).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_1), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_2, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(1).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_2), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_3, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(2).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_3), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_4, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(3).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_4), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_5, View.GONE);
+            holder.setVisible(R.id.otheruser_medal_6, View.GONE);
+        }else if(nowDataList.getUser().getMedals().size() == 5){
+            holder.setVisible(R.id.otheruser_medal_1, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(0).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_1), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_2, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(1).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_2), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_3, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(2).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_3), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_4, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(3).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_4), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_5, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(4).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_5), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_6, View.GONE);
+        }else if(nowDataList.getUser().getMedals().size() == 6){
+            holder.setVisible(R.id.otheruser_medal_1, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(0).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_1), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_2, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(1).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_2), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_3, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(2).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_3), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_4, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(3).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_4), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_5, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(4).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_5), GlideImageManager.TAG_RECTANGLE);
+            holder.setVisible(R.id.otheruser_medal_6, View.VISIBLE);
+            GlideImageManager.glideLoader(context, nowDataList.getUser().getMedals().get(5).getIcon(), (ImageView) holder.getView(R.id.otheruser_medal_6), GlideImageManager.TAG_RECTANGLE);
+
+        }
+
+
         if (type.equals("minepublic") || type.equals("minecollect")) {
             holder.setVisible(R.id.recommenditem_follow, View.GONE);
             holder.setVisible(R.id.recommenditem_delete, View.VISIBLE);

@@ -76,6 +76,15 @@ public class MineActivity extends BaseTransparentActivity {
     private ImageView back;
     private TextView title;
 
+    private LinearLayout otherUserMedal;
+    private ImageView otherUserMedal1;
+    private ImageView otherUserMedal2;
+    private ImageView otherUserMedal3;
+    private ImageView otherUserMedal4;
+    private ImageView otherUserMedal5;
+    private ImageView otherUserMedal6;
+    private TextView otherUserMedalCount;
+
     @Override
     protected int getContentViewId() {
         return R.layout.mine_layout;
@@ -101,6 +110,14 @@ public class MineActivity extends BaseTransparentActivity {
         edit = findViewById(R.id.mine_editor);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
+        otherUserMedal = findViewById(R.id.otheruser_medal);
+        otherUserMedal1 = findViewById(R.id.otheruser_medal_1);
+        otherUserMedal2 = findViewById(R.id.otheruser_medal_2);
+        otherUserMedal3 = findViewById(R.id.otheruser_medal_3);
+        otherUserMedal4 = findViewById(R.id.otheruser_medal_4);
+        otherUserMedal5 = findViewById(R.id.otheruser_medal_5);
+        otherUserMedal6 = findViewById(R.id.otheruser_medal_6);
+        otherUserMedalCount = findViewById(R.id.otheruser_medal_count);
 
         findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
@@ -184,6 +201,64 @@ public class MineActivity extends BaseTransparentActivity {
                             linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
                             linearLayout.setDividerDrawable(ContextCompat.getDrawable(MineActivity.this, R.drawable.tablayout_divider_vertical));
                             linearLayout.setDividerPadding(UIUtils.dp2px(MineActivity.this, 15));
+
+                            if (getMineCountJson.getData().getUser().getMedals().size() == 0) {
+                                otherUserMedal1.setVisibility(View.GONE);
+                                otherUserMedal2.setVisibility(View.GONE);
+                                otherUserMedal3.setVisibility(View.GONE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("0枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 1) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.GONE);
+                                otherUserMedal3.setVisibility(View.GONE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("1枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 2) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.GONE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("2枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 3) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("3枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 4) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.VISIBLE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("4枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 5) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.VISIBLE);
+                                otherUserMedal5.setVisibility(View.VISIBLE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("5枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() >= 6) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.VISIBLE);
+                                otherUserMedal5.setVisibility(View.VISIBLE);
+                                otherUserMedal6.setVisibility(View.VISIBLE);
+                                otherUserMedalCount.setText(getMineCountJson.getData().getUser().getMedals().size() + "枚勋章");
+                            }
 
                         } else if (null != getMineCountJson && getMineCountJson.getErrno() == 1101) {
 

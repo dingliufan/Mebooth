@@ -1,5 +1,6 @@
 package com.mebooth.mylibrary.main.home.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -226,7 +227,6 @@ public class DecorationActivity extends BaseTransparentActivity {
                             decorationRank.setText("前" + getDecorationJson.getData().getView().getStats().getRatio() + "%");
                             GlideImageManager.glideLoader(DecorationActivity.this, getDecorationJson.getData().getUser().getAvatar(), decorationUserIcon, GlideImageManager.TAG_ROUND);
 
-
                             group.clear();
                             group.addAll(getDecorationJson.getData().getView().getGroup());
 
@@ -342,12 +342,146 @@ public class DecorationActivity extends BaseTransparentActivity {
         TextView decorationLine1 = viewById.findViewById(R.id.decoration_line1);
         TextView decorationLine2 = viewById.findViewById(R.id.decoration_time2);
         TextView decorationLine3 = viewById.findViewById(R.id.decoration_time3);
+        ImageView decorationShareImg1 = viewById.findViewById(R.id.decoration_share_img1);
+        ImageView decorationShareImg2 = viewById.findViewById(R.id.decoration_share_img2);
+        ImageView decorationShareImg3 = viewById.findViewById(R.id.decoration_share_img3);
+        ImageView decorationShareImg4 = viewById.findViewById(R.id.decoration_share_img4);
+        TextView decorationShareName1 = viewById.findViewById(R.id.decoration_share_name1);
+        TextView decorationShareName2 = viewById.findViewById(R.id.decoration_share_name2);
+        TextView decorationShareName3 = viewById.findViewById(R.id.decoration_share_name3);
+        TextView decorationShareName4 = viewById.findViewById(R.id.decoration_share_name4);
+        TextView decorationShareContent1 = viewById.findViewById(R.id.decoration_share_content1);
+        TextView decorationShareContent2 = viewById.findViewById(R.id.decoration_share_content2);
+        TextView decorationShareContent3 = viewById.findViewById(R.id.decoration_share_content3);
+        TextView decorationShareContent4 = viewById.findViewById(R.id.decoration_share_content4);
 
         count.setText(medalLogJson.getData().getStats().getTotal() + "枚");
         rank.setText("前" + medalLogJson.getData().getStats().getRatio() + "%");
         GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getUser().getAvatar(), userIcon, GlideImageManager.TAG_ROUND);
 
+        if (medalLogJson.getData().getMedals().size() == 1) {
+            decorationTime1.setVisibility(View.VISIBLE);
+            decorationTime1.setText(medalLogJson.getData().getMedals().get(0).getAddtime());
+            decorationTime2.setVisibility(View.GONE);
+            decorationTime3.setVisibility(View.GONE);
+            decorationTime4.setVisibility(View.GONE);
+            decorationLine1.setVisibility(View.GONE);
+            decorationLine2.setVisibility(View.GONE);
+            decorationLine3.setVisibility(View.GONE);
+            decorationShareImg1.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(0).getImage(), decorationShareImg1, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg2.setVisibility(View.GONE);
+            decorationShareImg3.setVisibility(View.GONE);
+            decorationShareImg4.setVisibility(View.GONE);
+            decorationShareName1.setVisibility(View.VISIBLE);
+            decorationShareName1.setText(medalLogJson.getData().getMedals().get(0).getTitle());
+            decorationShareName2.setVisibility(View.GONE);
+            decorationShareName3.setVisibility(View.GONE);
+            decorationShareName4.setVisibility(View.GONE);
+            decorationShareContent1.setVisibility(View.VISIBLE);
+            decorationShareContent1.setText(medalLogJson.getData().getMedals().get(0).getRestrict());
+            decorationShareContent2.setVisibility(View.GONE);
+            decorationShareContent3.setVisibility(View.GONE);
+            decorationShareContent4.setVisibility(View.GONE);
+        } else if (medalLogJson.getData().getMedals().size() == 2) {
+            decorationTime1.setVisibility(View.VISIBLE);
+            decorationTime1.setText(medalLogJson.getData().getMedals().get(0).getAddtime());
+            decorationTime2.setVisibility(View.VISIBLE);
+            decorationTime2.setText(medalLogJson.getData().getMedals().get(1).getAddtime());
+            decorationTime3.setVisibility(View.GONE);
+            decorationTime4.setVisibility(View.GONE);
+            decorationLine1.setVisibility(View.VISIBLE);
+            decorationLine2.setVisibility(View.GONE);
+            decorationLine3.setVisibility(View.GONE);
+            decorationShareImg1.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(0).getImage(), decorationShareImg1, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg2.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(1).getImage(), decorationShareImg2, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg3.setVisibility(View.GONE);
+            decorationShareImg4.setVisibility(View.GONE);
+            decorationShareName1.setVisibility(View.VISIBLE);
+            decorationShareName1.setText(medalLogJson.getData().getMedals().get(0).getTitle());
+            decorationShareName2.setVisibility(View.VISIBLE);
+            decorationShareName2.setText(medalLogJson.getData().getMedals().get(1).getTitle());
+            decorationShareName3.setVisibility(View.GONE);
+            decorationShareName4.setVisibility(View.GONE);
+            decorationShareContent1.setVisibility(View.VISIBLE);
+            decorationShareContent1.setText(medalLogJson.getData().getMedals().get(0).getRestrict());
+            decorationShareContent2.setVisibility(View.VISIBLE);
+            decorationShareContent2.setText(medalLogJson.getData().getMedals().get(1).getRestrict());
+            decorationShareContent3.setVisibility(View.GONE);
+            decorationShareContent4.setVisibility(View.GONE);
+        } else if (medalLogJson.getData().getMedals().size() == 3) {
+            decorationTime1.setVisibility(View.VISIBLE);
+            decorationTime1.setText(medalLogJson.getData().getMedals().get(0).getAddtime());
+            decorationTime2.setVisibility(View.VISIBLE);
+            decorationTime2.setText(medalLogJson.getData().getMedals().get(1).getAddtime());
+            decorationTime3.setVisibility(View.VISIBLE);
+            decorationTime3.setText(medalLogJson.getData().getMedals().get(2).getAddtime());
+            decorationTime4.setVisibility(View.GONE);
+            decorationLine1.setVisibility(View.VISIBLE);
+            decorationLine2.setVisibility(View.VISIBLE);
+            decorationLine3.setVisibility(View.GONE);
+            decorationShareImg1.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(0).getImage(), decorationShareImg1, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg2.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(1).getImage(), decorationShareImg2, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg3.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(2).getImage(), decorationShareImg3, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg4.setVisibility(View.GONE);
+            decorationShareName1.setVisibility(View.VISIBLE);
+            decorationShareName1.setText(medalLogJson.getData().getMedals().get(0).getTitle());
+            decorationShareName2.setVisibility(View.VISIBLE);
+            decorationShareName2.setText(medalLogJson.getData().getMedals().get(1).getTitle());
+            decorationShareName3.setVisibility(View.VISIBLE);
+            decorationShareName3.setText(medalLogJson.getData().getMedals().get(2).getTitle());
+            decorationShareName4.setVisibility(View.GONE);
+            decorationShareContent1.setVisibility(View.VISIBLE);
+            decorationShareContent1.setText(medalLogJson.getData().getMedals().get(0).getRestrict());
+            decorationShareContent2.setVisibility(View.VISIBLE);
+            decorationShareContent2.setText(medalLogJson.getData().getMedals().get(1).getRestrict());
+            decorationShareContent3.setVisibility(View.VISIBLE);
+            decorationShareContent3.setText(medalLogJson.getData().getMedals().get(2).getRestrict());
+            decorationShareContent4.setVisibility(View.GONE);
 
+        } else if (medalLogJson.getData().getMedals().size() == 4) {
+
+            decorationTime1.setVisibility(View.VISIBLE);
+            decorationTime1.setText(medalLogJson.getData().getMedals().get(0).getAddtime());
+            decorationTime2.setVisibility(View.VISIBLE);
+            decorationTime2.setText(medalLogJson.getData().getMedals().get(1).getAddtime());
+            decorationTime3.setVisibility(View.VISIBLE);
+            decorationTime3.setText(medalLogJson.getData().getMedals().get(2).getAddtime());
+            decorationTime4.setVisibility(View.VISIBLE);
+            decorationTime4.setText(medalLogJson.getData().getMedals().get(3).getAddtime());
+            decorationLine1.setVisibility(View.VISIBLE);
+            decorationLine2.setVisibility(View.VISIBLE);
+            decorationLine3.setVisibility(View.VISIBLE);
+            decorationShareImg1.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(0).getImage(), decorationShareImg1, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg2.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(1).getImage(), decorationShareImg2, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg3.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(2).getImage(), decorationShareImg3, GlideImageManager.TAG_RECTANGLE);
+            decorationShareImg4.setVisibility(View.VISIBLE);
+            GlideImageManager.glideLoader(DecorationActivity.this, medalLogJson.getData().getMedals().get(3).getImage(), decorationShareImg4, GlideImageManager.TAG_RECTANGLE);
+            decorationShareName1.setVisibility(View.VISIBLE);
+            decorationShareName1.setText(medalLogJson.getData().getMedals().get(0).getTitle());
+            decorationShareName2.setVisibility(View.VISIBLE);
+            decorationShareName2.setText(medalLogJson.getData().getMedals().get(1).getTitle());
+            decorationShareName3.setVisibility(View.VISIBLE);
+            decorationShareName3.setText(medalLogJson.getData().getMedals().get(2).getTitle());
+            decorationShareName4.setVisibility(View.VISIBLE);
+            decorationShareName4.setText(medalLogJson.getData().getMedals().get(3).getTitle());
+            decorationShareContent1.setVisibility(View.VISIBLE);
+            decorationShareContent1.setText(medalLogJson.getData().getMedals().get(0).getRestrict());
+            decorationShareContent2.setVisibility(View.VISIBLE);
+            decorationShareContent2.setText(medalLogJson.getData().getMedals().get(1).getRestrict());
+            decorationShareContent3.setVisibility(View.VISIBLE);
+            decorationShareContent3.setText(medalLogJson.getData().getMedals().get(2).getRestrict());
+            decorationShareContent4.setVisibility(View.VISIBLE);
+            decorationShareContent4.setText(medalLogJson.getData().getMedals().get(3).getRestrict());
+        }
     }
 
     private void layoutView(View view, int width, int height) {
@@ -400,6 +534,9 @@ public class DecorationActivity extends BaseTransparentActivity {
                 //当指定压缩格式为JPEG时保存下来的图片背景为黑色
 //				 bitmap.compress(CompressFormat.JPEG, 100, fos);
                 fos.flush();
+                Intent intent = new Intent(DecorationActivity.this,DecorationShareActivity.class);
+                intent.putExtra("imgurl",file.getAbsolutePath());
+                startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

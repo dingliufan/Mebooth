@@ -108,7 +108,7 @@ public class GetDecorationJson {
             public class DecorationStats {
 
                 private int total;
-                private int ratio;
+                private String ratio;
 
                 public int getTotal() {
                     return total;
@@ -118,11 +118,11 @@ public class GetDecorationJson {
                     this.total = total;
                 }
 
-                public int getRatio() {
+                public String getRatio() {
                     return ratio;
                 }
 
-                public void setRatio(int ratio) {
+                public void setRatio(String ratio) {
                     this.ratio = ratio;
                 }
             }

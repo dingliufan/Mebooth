@@ -183,6 +183,15 @@ public class GetRecommendJson {
                 private String nickname;
                 private String avatar;
                 private boolean followed;
+                private ArrayList<GetMineCountJson.CountData.CountUser.MineMedals> medals;
+
+                public ArrayList<GetMineCountJson.CountData.CountUser.MineMedals> getMedals() {
+                    return medals;
+                }
+
+                public void setMedals(ArrayList<GetMineCountJson.CountData.CountUser.MineMedals> medals) {
+                    this.medals = medals;
+                }
 
                 public boolean isFollowed() {
                     return followed;

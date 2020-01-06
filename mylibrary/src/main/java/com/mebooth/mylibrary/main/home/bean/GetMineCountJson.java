@@ -1,5 +1,7 @@
 package com.mebooth.mylibrary.main.home.bean;
 
+import java.util.ArrayList;
+
 public class GetMineCountJson {
 
     private int errno;
@@ -55,6 +57,15 @@ public class GetMineCountJson {
             private int uid;
             private String nickname;
             private String avatar;
+            private ArrayList<MineMedals> medals;
+
+            public ArrayList<MineMedals> getMedals() {
+                return medals;
+            }
+
+            public void setMedals(ArrayList<MineMedals> medals) {
+                this.medals = medals;
+            }
 
             public int getUid() {
                 return uid;
@@ -78,6 +89,55 @@ public class GetMineCountJson {
 
             public void setAvatar(String avatar) {
                 this.avatar = avatar;
+            }
+
+            public class MineMedals {
+
+                private int code;
+                private int level;
+                private String image;
+                private String icon;
+                private String addtime;
+
+                public int getCode() {
+                    return code;
+                }
+
+                public void setCode(int code) {
+                    this.code = code;
+                }
+
+                public int getLevel() {
+                    return level;
+                }
+
+                public void setLevel(int level) {
+                    this.level = level;
+                }
+
+                public String getImage() {
+                    return image;
+                }
+
+                public void setImage(String image) {
+                    this.image = image;
+                }
+
+                public String getIcon() {
+                    return icon;
+                }
+
+                public void setIcon(String icon) {
+                    this.icon = icon;
+                }
+
+                public String getAddtime() {
+                    return addtime;
+                }
+
+                public void setAddtime(String addtime) {
+                    this.addtime = addtime;
+                }
             }
         }
 

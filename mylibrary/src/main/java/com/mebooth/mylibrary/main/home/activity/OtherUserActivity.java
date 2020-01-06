@@ -1,10 +1,12 @@
 package com.mebooth.mylibrary.main.home.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
@@ -24,10 +27,15 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewOne;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewThree;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewTwo;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
+import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
+import com.mebooth.mylibrary.main.home.bean.GetIsFollowJson;
+import com.mebooth.mylibrary.main.home.bean.GetMineCountJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
+import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.NoPublish;
+import com.mebooth.mylibrary.main.utils.TabLayoutUtil;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -52,7 +60,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
 
     private ImageView back;
     private TextView title;
-    private ImageView chat;
+    private TextView chat;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
     private MultiItemTypeAdapter commonAdapter;
@@ -68,6 +76,17 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     private Conversation.ConversationType conversationType;
     private int uid;
     private String nickName;
+    private ImageView headerIcon;
+    private TextView nickNameTv;
+    private LinearLayout otherUserMedal;
+    private ImageView otherUserMedal1;
+    private ImageView otherUserMedal2;
+    private ImageView otherUserMedal3;
+    private ImageView otherUserMedal4;
+    private ImageView otherUserMedal5;
+    private ImageView otherUserMedal6;
+    private TextView otherUserMedalCount;
+    private TextView otherUserFollow;
 
     @Override
     protected int getContentViewId() {
@@ -83,6 +102,18 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         chat = findViewById(R.id.otheruser_right);
         recyclerView = findViewById(R.id.classify_recycle);
         mSmart = findViewById(R.id.classify_smart);
+        headerIcon = findViewById(R.id.mine_headericon);
+        nickNameTv = findViewById(R.id.mine_nickname);
+        otherUserMedal = findViewById(R.id.otheruser_medal);
+        otherUserMedal1 = findViewById(R.id.otheruser_medal_1);
+        otherUserMedal2 = findViewById(R.id.otheruser_medal_2);
+        otherUserMedal3 = findViewById(R.id.otheruser_medal_3);
+        otherUserMedal4 = findViewById(R.id.otheruser_medal_4);
+        otherUserMedal5 = findViewById(R.id.otheruser_medal_5);
+        otherUserMedal6 = findViewById(R.id.otheruser_medal_6);
+        otherUserMedalCount = findViewById(R.id.otheruser_medal_count);
+        otherUserFollow = findViewById(R.id.otheruser_follow);
+
         findViewById(R.id.otheruserheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
@@ -114,10 +145,10 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         super.initData();
 
         uid = getIntent().getIntExtra("uid", 0);
-        nickName = getIntent().getStringExtra("nickname");
 
-        title.setText(nickName);
         initRecycle();
+        getCountInfo();
+        getIsFollow();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
 
@@ -136,6 +167,227 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         });
 
     }
+
+    private void getCountInfo() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getMineCountInfo(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetMineCountJson>() {
+                    @Override
+                    public void onNext(GetMineCountJson getMineCountJson) {
+                        super.onNext(getMineCountJson);
+
+                        if (null != getMineCountJson && getMineCountJson.getErrno() == 0) {
+
+                            GlideImageManager.glideLoader(OtherUserActivity.this, getMineCountJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
+                            nickNameTv.setText(getMineCountJson.getData().getUser().getNickname());
+
+                            if (getMineCountJson.getData().getUser().getMedals().size() == 0) {
+                                otherUserMedal1.setVisibility(View.GONE);
+                                otherUserMedal2.setVisibility(View.GONE);
+                                otherUserMedal3.setVisibility(View.GONE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("0枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 1) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.GONE);
+                                otherUserMedal3.setVisibility(View.GONE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("1枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 2) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.GONE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("2枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 3) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.GONE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("3枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 4) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.VISIBLE);
+                                otherUserMedal5.setVisibility(View.GONE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("4枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() == 5) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.VISIBLE);
+                                otherUserMedal5.setVisibility(View.VISIBLE);
+                                otherUserMedal6.setVisibility(View.GONE);
+                                otherUserMedalCount.setText("5枚勋章");
+                            } else if (getMineCountJson.getData().getUser().getMedals().size() >= 6) {
+                                otherUserMedal1.setVisibility(View.VISIBLE);
+                                otherUserMedal2.setVisibility(View.VISIBLE);
+                                otherUserMedal3.setVisibility(View.VISIBLE);
+                                otherUserMedal4.setVisibility(View.VISIBLE);
+                                otherUserMedal5.setVisibility(View.VISIBLE);
+                                otherUserMedal6.setVisibility(View.VISIBLE);
+                                otherUserMedalCount.setText(getMineCountJson.getData().getUser().getMedals().size() + "枚勋章");
+                            }
+
+                        } else if (null != getMineCountJson && getMineCountJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != getMineCountJson && getMineCountJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMineCountJson.getErrmsg()) ? "数据加载失败" : getMineCountJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+
+    }
+
+    private void getIsFollow() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getIsFollow(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetIsFollowJson>() {
+                    @Override
+                    public void onNext(final GetIsFollowJson getIsFollowJson) {
+                        super.onNext(getIsFollowJson);
+
+                        if (null != getIsFollowJson && getIsFollowJson.getErrno() == 0) {
+
+                            if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
+                                otherUserFollow.setText("已关注");
+                                otherUserFollow.setBackgroundResource(R.drawable.nofollow);
+                            } else {
+                                otherUserFollow.setText("关注");
+                                otherUserFollow.setBackgroundResource(R.drawable.follow);
+                            }
+
+                            otherUserFollow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
+
+                                        //取消关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .cancelFollow(uid)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            getIsFollowJson.getData().getUsers().get(0).setFollowed(false);
+                                                            ToastUtils.getInstance().showToast("已取消关注");
+                                                            otherUserFollow.setText("关注");
+                                                            otherUserFollow.setBackgroundResource(R.drawable.follow);
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    } else {
+                                        //添加关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .addFollow(uid)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            getIsFollowJson.getData().getUsers().get(0).setFollowed(true);
+                                                            ToastUtils.getInstance().showToast("已关注");
+                                                            otherUserFollow.setText("已关注");
+                                                            otherUserFollow.setBackgroundResource(R.drawable.nofollow);
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            });
+
+                        } else if (null != getIsFollowJson && getIsFollowJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != getIsFollowJson && getIsFollowJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIsFollowJson.getErrmsg()) ? "数据加载失败" : getIsFollowJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+    }
+
 
     private void getRecommend(final int tag) {
 
@@ -247,11 +499,11 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         };
 
         commonAdapter = new MultiItemTypeAdapter(this, list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "other", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "other", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "other", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "other", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "other", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "other", commonAdapter, list, noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
