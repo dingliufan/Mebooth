@@ -34,7 +34,7 @@ public class DecorationShareActivity extends BaseTransparentActivity {
     protected void initView() {
         super.initView();
 
-        findViewById(R.id.decorationheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+        findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         img = findViewById(R.id.decorationshareimg);
         /*为什么图片一定要转化为 Bitmap格式的！！ */

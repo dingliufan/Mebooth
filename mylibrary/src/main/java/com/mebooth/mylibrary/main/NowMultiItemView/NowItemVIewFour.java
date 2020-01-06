@@ -138,7 +138,6 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
 
         }
 
-
         if (type.equals("minepublic") || type.equals("minecollect")) {
             holder.setVisible(R.id.recommenditem_follow, View.GONE);
             holder.setVisible(R.id.recommenditem_delete, View.VISIBLE);

@@ -46,31 +46,31 @@
                     android:id="@+id/otheruser_medal_2"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="4dp" />
 
                 <ImageView
                     android:id="@+id/otheruser_medal_3"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="4dp" />
 
                 <ImageView
                     android:id="@+id/otheruser_medal_4"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="4dp" />
 
                 <ImageView
                     android:id="@+id/otheruser_medal_5"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="4dp" />
 
                 <ImageView
                     android:id="@+id/otheruser_medal_6"
                     android:layout_width="25dp"
                     android:layout_height="24dp"
-                    android:layout_marginLeft="8dp" />
+                    android:layout_marginLeft="4dp" />
 
             </LinearLayout>
         </LinearLayout>

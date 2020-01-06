@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/decorationbg2">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/decoration_scrollview"
@@ -13,8 +12,9 @@
         <LinearLayout
             android:id="@+id/decoration_lly"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/decorationbg2">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -25,11 +25,11 @@
                     android:layout_height="302.5dp"
                     android:background="@drawable/decorationbg1">
 
-                    <FrameLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="34dp"
+                        android:layout_marginLeft="48dp"
                         android:layout_marginRight="34dp">
 
                         <TextView
@@ -44,7 +44,7 @@
                         <FrameLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="36.5dp"
                             android:background="@drawable/decorationheader_bg">
 
                             <FrameLayout
@@ -68,9 +68,10 @@
                             android:layout_gravity="center_vertical|right"
                             android:text="前14%"
                             android:textColor="@color/bg_ffffff"
+                            android:layout_marginLeft="25.5dp"
                             android:textSize="24sp" />
 
-                    </FrameLayout>
+                    </LinearLayout>
                 </FrameLayout>
 
                 <LinearLayout

@@ -212,6 +212,7 @@ public class MineActivity extends BaseTransparentActivity {
                                 otherUserMedalCount.setText("0枚勋章");
                             } else if (getMineCountJson.getData().getUser().getMedals().size() == 1) {
                                 otherUserMedal1.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(0).getIcon(), otherUserMedal1, GlideImageManager.TAG_RECTANGLE);
                                 otherUserMedal2.setVisibility(View.GONE);
                                 otherUserMedal3.setVisibility(View.GONE);
                                 otherUserMedal4.setVisibility(View.GONE);
@@ -220,7 +221,10 @@ public class MineActivity extends BaseTransparentActivity {
                                 otherUserMedalCount.setText("1枚勋章");
                             } else if (getMineCountJson.getData().getUser().getMedals().size() == 2) {
                                 otherUserMedal1.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(0).getIcon(), otherUserMedal1, GlideImageManager.TAG_RECTANGLE);
                                 otherUserMedal2.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(1).getIcon(), otherUserMedal2, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal3.setVisibility(View.GONE);
                                 otherUserMedal4.setVisibility(View.GONE);
                                 otherUserMedal5.setVisibility(View.GONE);
@@ -228,35 +232,71 @@ public class MineActivity extends BaseTransparentActivity {
                                 otherUserMedalCount.setText("2枚勋章");
                             } else if (getMineCountJson.getData().getUser().getMedals().size() == 3) {
                                 otherUserMedal1.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(0).getIcon(), otherUserMedal1, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal2.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(1).getIcon(), otherUserMedal2, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal3.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(2).getIcon(), otherUserMedal3, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal4.setVisibility(View.GONE);
                                 otherUserMedal5.setVisibility(View.GONE);
                                 otherUserMedal6.setVisibility(View.GONE);
                                 otherUserMedalCount.setText("3枚勋章");
                             } else if (getMineCountJson.getData().getUser().getMedals().size() == 4) {
                                 otherUserMedal1.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(0).getIcon(), otherUserMedal1, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal2.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(1).getIcon(), otherUserMedal2, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal3.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(2).getIcon(), otherUserMedal3, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal4.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(3).getIcon(), otherUserMedal4, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal5.setVisibility(View.GONE);
                                 otherUserMedal6.setVisibility(View.GONE);
                                 otherUserMedalCount.setText("4枚勋章");
                             } else if (getMineCountJson.getData().getUser().getMedals().size() == 5) {
                                 otherUserMedal1.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(0).getIcon(), otherUserMedal1, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal2.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(1).getIcon(), otherUserMedal2, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal3.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(2).getIcon(), otherUserMedal3, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal4.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(3).getIcon(), otherUserMedal4, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal5.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(4).getIcon(), otherUserMedal5, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal6.setVisibility(View.GONE);
                                 otherUserMedalCount.setText("5枚勋章");
                             } else if (getMineCountJson.getData().getUser().getMedals().size() >= 6) {
                                 otherUserMedal1.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(0).getIcon(), otherUserMedal1, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal2.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(1).getIcon(), otherUserMedal2, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal3.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(2).getIcon(), otherUserMedal3, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal4.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(3).getIcon(), otherUserMedal4, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal5.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(4).getIcon(), otherUserMedal5, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedal6.setVisibility(View.VISIBLE);
+                                GlideImageManager.glideLoader(MineActivity.this, getMineCountJson.getData().getUser().getMedals().get(5).getIcon(), otherUserMedal6, GlideImageManager.TAG_RECTANGLE);
+
                                 otherUserMedalCount.setText(getMineCountJson.getData().getUser().getMedals().size() + "枚勋章");
                             }
 
