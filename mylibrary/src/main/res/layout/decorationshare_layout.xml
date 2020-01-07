@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
-            android:scaleType="matrix" />
+            android:scaleType="fitXY" />
     </ScrollView>
 
     <LinearLayout

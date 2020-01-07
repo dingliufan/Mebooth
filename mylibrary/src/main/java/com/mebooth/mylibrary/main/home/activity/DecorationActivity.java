@@ -3,6 +3,7 @@ package com.mebooth.mylibrary.main.home.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
@@ -43,6 +44,7 @@ import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.adapter.DecorationGridAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
+import com.mebooth.mylibrary.main.home.bean.GetConfigJson;
 import com.mebooth.mylibrary.main.home.bean.GetDecorationJson;
 import com.mebooth.mylibrary.main.home.bean.GetMedalLogJson;
 import com.mebooth.mylibrary.main.utils.YService;
@@ -82,6 +84,8 @@ public class DecorationActivity extends BaseTransparentActivity {
     private ImageView back1;
     private ImageView right1;
     private LinearLayout ll_poster;
+    private NestedScrollView scroll_poster;
+    private ImageView shareQrCode;
 
     @Override
     protected int getContentViewId() {
@@ -133,14 +137,14 @@ public class DecorationActivity extends BaseTransparentActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createPicture(ll_poster);
+                createPicture(scroll_poster);
             }
         });
 
         right1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createPicture(ll_poster);
+                createPicture(scroll_poster);
             }
         });
 
@@ -209,6 +213,45 @@ public class DecorationActivity extends BaseTransparentActivity {
 
     }
 
+    private void getConfig() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getQrCodeInfo("download")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetConfigJson>() {
+                    @Override
+                    public void onNext(GetConfigJson getConfigJson) {
+                        super.onNext(getConfigJson);
+
+                        if (null != getConfigJson && getConfigJson.getErrno() == 0) {
+
+                            GlideImageManager.glideLoader(DecorationActivity.this, getConfigJson.getData().getConfig().getQrcode(), shareQrCode, GlideImageManager.TAG_FILLET);
+
+
+                        } else if (null != getConfigJson && getConfigJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != getConfigJson && getConfigJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getConfigJson.getErrmsg()) ? "数据加载失败" : getConfigJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+    }
+
     private void getDecoration() {
 
         ServiceFactory.getNewInstance()
@@ -232,8 +275,11 @@ public class DecorationActivity extends BaseTransparentActivity {
 
                             if (group.size() != 0) {
 
-                                decorationFirst.setText("- " + group.get(0).getType().getName() + " -");
-
+                                if (group.get(0).getType().getName().equals("限时勋章")) {
+                                    decorationFirst.setText("- " + R.drawable.decoration_levelxian_bg + " -");
+                                } else {
+                                    decorationFirst.setText("- " + group.get(0).getType().getName() + " -");
+                                }
                             }
                             commonAdapter.notifyDataSetChanged();
 
@@ -267,6 +313,7 @@ public class DecorationActivity extends BaseTransparentActivity {
             protected void convert(ViewHolder holder, Object o, final int position) {
 
                 if (position == 0) {
+
                     holder.setVisible(R.id.decoration_itembar, View.GONE);
                 } else {
                     holder.setVisible(R.id.decoration_itembar, View.VISIBLE);
@@ -330,6 +377,9 @@ public class DecorationActivity extends BaseTransparentActivity {
         View viewById = from.inflate(R.layout.drcoration_sharelayout, null);
         layoutView(viewById, width, height);//去到指定view大小的函数
         ll_poster = viewById.findViewById(R.id.decoration_lly);
+        scroll_poster = viewById.findViewById(R.id.decoration_scrollview);
+        shareQrCode = viewById.findViewById(R.id.decoration_sharecode);
+        getConfig();
         viewById.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         viewById.layout(0, 0, viewById.getMeasuredWidth(), viewById.getMeasuredHeight());
         TextView count = viewById.findViewById(R.id.decoration_count);
@@ -503,19 +553,35 @@ public class DecorationActivity extends BaseTransparentActivity {
      * @return
      */
 //生成图片
-    public Bitmap createViewBitmap(View v) {
+    public Bitmap createViewBitmap(NestedScrollView v) {
         //如果上面那个布局不在屏幕上找到的话，这里就会报，宽高为0的异常
-        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
+//        Bitmap bitmap = Bitmap.createBitmap(v.getWidth(), v.getHeight(),
+//                Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(bitmap);
+//        v.draw(canvas);
+//        return bitmap;
+
+        int h = 0;
+        Bitmap bitmap = null;
+        // 获取scrollview实际高度
+        for (int i = 0; i < v.getChildCount(); i++) {
+            h += v.getChildAt(i).getHeight();
+            v.getChildAt(i).setBackgroundColor(
+                    Color.parseColor("#ffffff"));
+        }
+        // 创建对应大小的bitmap
+        bitmap = Bitmap.createBitmap(v.getWidth(), h,
+                Bitmap.Config.RGB_565);
+        final Canvas canvas = new Canvas(bitmap);
         v.draw(canvas);
         return bitmap;
+
     }
 
-    private void createPicture(View view) {
+    private void createPicture(NestedScrollView view) {
         Bitmap bitmap = createViewBitmap(view);
-        view.setDrawingCacheEnabled(false);
-        view.destroyDrawingCache();
+//        view.setDrawingCacheEnabled(false);
+//        view.destroyDrawingCache();
         //3.bitmap存本地
         String strPath = "/testSaveView/" + UUID.randomUUID().toString() + ".png";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -534,8 +600,8 @@ public class DecorationActivity extends BaseTransparentActivity {
                 //当指定压缩格式为JPEG时保存下来的图片背景为黑色
 //				 bitmap.compress(CompressFormat.JPEG, 100, fos);
                 fos.flush();
-                Intent intent = new Intent(DecorationActivity.this,DecorationShareActivity.class);
-                intent.putExtra("imgurl",file.getAbsolutePath());
+                Intent intent = new Intent(DecorationActivity.this, DecorationShareActivity.class);
+                intent.putExtra("imgurl", file.getAbsolutePath());
                 startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();

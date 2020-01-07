@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/decoration_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/decorationbg2"
         android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/decoration_lly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/decorationbg2">
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -66,9 +66,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical|right"
+                            android:layout_marginLeft="25.5dp"
                             android:text="前14%"
                             android:textColor="@color/bg_ffffff"
-                            android:layout_marginLeft="25.5dp"
                             android:textSize="24sp" />
 
                     </LinearLayout>
@@ -76,7 +76,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="616dp"
                     android:layout_marginLeft="10.5dp"
                     android:layout_marginTop="229.5dp"
                     android:layout_marginRight="10.5dp"
