@@ -51,7 +51,8 @@
         android:layout_toRightOf="@id/ll_message_check"
         android:background="@android:color/transparent"
         app:RCCornerRadius="3dp"
-        app:RCDefDrawable="@drawable/rc_ic_def_msg_portrait" />
+        app:RCDefDrawable="@drawable/rc_ic_def_msg_portrait"
+        app:RCShape="circle"/>
 
     <io.rong.imkit.widget.AsyncImageView
         android:id="@+id/rc_right"
@@ -62,7 +63,8 @@
         android:layout_marginLeft="4dp"
         android:background="@android:color/transparent"
         app:RCCornerRadius="3dp"
-        app:RCDefDrawable="@drawable/rc_ic_def_msg_portrait" />
+        app:RCDefDrawable="@drawable/rc_ic_def_msg_portrait"
+        app:RCShape="circle"/>
 
 
     <TextView
