@@ -68,6 +68,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     private Conversation.ConversationType conversationType;
     private int uid;
     private String nickName;
+    private TextView notTopic;
 
     @Override
     protected int getContentViewId() {
@@ -81,6 +82,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         back = findViewById(R.id.otheruser_back);
         title = findViewById(R.id.otheruser_title);
         chat = findViewById(R.id.otheruser_right);
+        notTopic = findViewById(R.id.otheruser_nottopic);
         recyclerView = findViewById(R.id.classify_recycle);
         mSmart = findViewById(R.id.classify_smart);
         findViewById(R.id.otheruserheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
@@ -199,6 +201,11 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         if (tag == REFLUSH_LIST) {
             list.clear();
             list.addAll(nowJson.getData().getList());
+            if(list.size() == 0){
+                notTopic.setVisibility(View.VISIBLE);
+            }else{
+                notTopic.setVisibility(View.GONE);
+            }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         } else {

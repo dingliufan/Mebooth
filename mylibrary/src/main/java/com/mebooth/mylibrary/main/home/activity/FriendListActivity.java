@@ -53,6 +53,7 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
     private final int LOADMORE_LIST = 1;
 
     private ArrayList<GetCareJson.CareData.CareUser> users = new ArrayList<>();
+    private TextView notFollow;
 
     @Override
     protected int getContentViewId() {
@@ -75,6 +76,7 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
         mSmart = findViewById(R.id.classify_smart);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
+        notFollow = findViewById(R.id.friendlist_notfollow);
         findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
@@ -168,6 +170,11 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
         if (tag == REFLUSH_LIST) {
             users.clear();
             users.addAll(getCareJson.getData().getUsers());
+            if(users.size() == 0){
+                notFollow.setVisibility(View.VISIBLE);
+            }else{
+                notFollow.setVisibility(View.GONE);
+            }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         }

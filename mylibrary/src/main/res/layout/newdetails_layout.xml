@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/newdetails_image"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true" />
 
             <TextView
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="暂无评论"
-                    android:textColor="@color/bg_030303"
+                    android:textColor="@color/bg_c7c7c7"
                     android:textSize="18sp" />
 
             </FrameLayout>

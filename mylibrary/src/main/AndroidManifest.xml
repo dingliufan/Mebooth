@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mebooth.mylibrary" >
+    package="com.mebooth.mylibrary">
 
     <!--<uses-permission android:name="android.permission.INTERNET" />-->
     <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
@@ -41,8 +41,7 @@
         <!--</provider>-->
 
         <!--<activity android:name=".MainActivity">-->
-        <activity android:name="com.mebooth.mylibrary.main.home.activity.NewMainActivity">
-        </activity>
+        <activity android:name="com.mebooth.mylibrary.main.home.activity.NewMainActivity"></activity>
 
         <activity
             android:name="com.mebooth.mylibrary.main.home.activity.PublishActivity"
@@ -74,26 +73,25 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity android:name="com.mebooth.mylibrary.imagepicker.ui.ImageBaseActivity"/>
+        <activity android:name="com.mebooth.mylibrary.imagepicker.ui.ImageBaseActivity" />
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImageGridActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/ImagePickerTheme"/>
+            android:theme="@style/ImagePickerTheme" />
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImageCropActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
-            android:theme="@style/ImagePickerTheme"/>
+            android:theme="@style/ImagePickerTheme" />
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImagePreviewActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/ImagePickerThemeFullScreen"/>
+            android:theme="@style/ImagePickerThemeFullScreen" />
 
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImagePreviewDelActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/ImagePickerThemeFullScreen"/>
-
+            android:theme="@style/ImagePickerThemeFullScreen" />
 
 
         <provider
@@ -103,10 +101,11 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name="com.mebooth.mylibrary.main.home.activity.ConversationActivity"
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
 

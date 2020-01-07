@@ -12,6 +12,17 @@ android {
         multiDexEnabled true
     }
     buildTypes {
+
+
+        debug {
+            //是否混淆
+            minifyEnabled false
+            multiDexEnabled true
+            //签名
+//            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

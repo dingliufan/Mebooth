@@ -50,6 +50,7 @@
 -keep class com.mebooth.mylibrary.net.**{*;}
 -keep class com.mebooth.mylibrary.main.utils.**{*;}
 -keep class com.mebooth.mylibrary.main.home.bean.**{*;}
+-keep class com.mebooth.mylibrary.main.home.activity.MineActivity{*;}
 # Retrofit
 -dontwarn retrofit2.**
 -dontwarn org.codehaus.mojo.**

@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
+import com.mebooth.mylibrary.utils.DateUtils;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Author: Moos
@@ -92,13 +94,19 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         GlideImageManager.glideLoader(context, commentBeanList.get(groupPosition).getUser().getAvatar(), groupHolder.logo, GlideImageManager.TAG_ROUND);
 
         groupHolder.tv_name.setText(commentBeanList.get(groupPosition).getUser().getNickname());
-        int month = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(5, 7)) - 1;
-        int date = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(8, 10));
-        int hour = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(11, 13));
-        int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
-        int second = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(17, 19));
+//        int month = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(5, 7)) - 1;
+//        int date = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(8, 10));
+//        int hour = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(11, 13));
+//        int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
+//        int second = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(17, 19));
 
-        groupHolder.tv_time.setText((month + 1) + "-" + date + " " + hour + ":" + minute);
+        Date time = DateUtils.parseDate(commentBeanList.get(groupPosition).getReply().getAddtime(),"yyyy-MM-dd HH:mm:ss");
+        int month = DateUtils.getMonth(time);
+        int hour = DateUtils.getHour(time);
+        int minute = DateUtils.getMinute(time);
+
+
+        groupHolder.tv_time.setText((month + 1) + "-" + month + " " + hour + ":" + minute);
         groupHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getContent());
 
         return convertView;

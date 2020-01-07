@@ -68,7 +68,7 @@ public class MineActivity extends BaseTransparentActivity {
 
     private MineOrderPagerAdapter mAdapter;
 
-    private int PermissionType;//1。单图  2。多图片
+    private int permissionType;//1。单图  2。多图片
     private final int BASIC_PERMISSION_REQUEST_CODE = 1;//单图
 
     private EdiitNickName ediitNickName;
@@ -232,7 +232,7 @@ public class MineActivity extends BaseTransparentActivity {
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
     public void onBasicPermissionSuccess() {
-        if (PermissionType == 1) {//跳转到单图
+        if (permissionType == 1) {//跳转到单图
 
             Intent intent = new Intent(this, ImageGridActivity.class);
             startActivityForResult(intent, 1);
@@ -241,7 +241,7 @@ public class MineActivity extends BaseTransparentActivity {
 
 
     private void requestBasicPermission(int type) {
-        PermissionType = type;
+        permissionType = type;
         MPermission.printMPermissionResult(true, this, BASIC_PERMISSIONS);
         MPermission.with(this)
                 .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)

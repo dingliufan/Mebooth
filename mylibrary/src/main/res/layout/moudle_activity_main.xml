@@ -51,7 +51,10 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="0.5dp"-->
         <!--android:background="@color/bg_c7c7c7"/>-->
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_c7c7c7" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,6 +79,8 @@
             app:tabMode="scrollable"
             app:tabPaddingEnd="8dp"
             app:tabPaddingStart="12dp"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/bg_333333"
             app:tabRippleColor="@android:color/transparent"
             app:tabTextAppearance="@style/TabText"
             app:tabTextColor="@color/bg_9a9a9a" />
@@ -88,11 +93,6 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/publish_img" />
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/bg_c7c7c7" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"

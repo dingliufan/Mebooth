@@ -127,7 +127,7 @@ public class NewMainFragment extends BaseFragment {
         mAdapter = new MineOrderPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), mFragments, mTitles);
         viewPager.setAdapter(mAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setSelectedTabIndicatorHeight(0);
+//        tabLayout.setSelectedTabIndicatorHeight(0);
 
         TabLayout.Tab tabAt = tabLayout.getTabAt(0);
         TextView textView = new TextView(getActivity());
