@@ -93,8 +93,10 @@ public abstract class AppApplication extends Application {
         super.onCreate();
         app = this;
 
-        //融云
-        RongIM.init(this, "8luwapkv8458l");
+        //融云测试
+//        RongIM.init(this, "8luwapkv8458l");
+        //融云线上
+        RongIM.init(this, "8brlm7uf8qp83");
 
     }
 
@@ -144,7 +146,7 @@ public abstract class AppApplication extends Application {
         RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-
+                getConnectToken();
             }
 
             @Override
