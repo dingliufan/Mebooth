@@ -61,7 +61,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="3"
         android:text="十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见"
         android:textColor="@color/bg_000000"
         android:textSize="16sp" />

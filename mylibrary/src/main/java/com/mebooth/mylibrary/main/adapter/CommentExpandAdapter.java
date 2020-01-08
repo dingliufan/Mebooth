@@ -45,10 +45,10 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int i) {
-        if(commentBeanList.get(i).getReply().getReplies() == null){
+        if (commentBeanList.get(i).getReply().getReplies() == null) {
             return 0;
-        }else {
-            return commentBeanList.get(i).getReply().getReplies().size()>0 ? commentBeanList.get(i).getReply().getReplies().size():0;
+        } else {
+            return commentBeanList.get(i).getReply().getReplies().size() > 0 ? commentBeanList.get(i).getReply().getReplies().size() : 0;
         }
 
     }
@@ -77,17 +77,18 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     public boolean hasStableIds() {
         return true;
     }
+
     boolean isLike = false;
 
     @Override
     public View getGroupView(final int groupPosition, boolean isExpand, View convertView, ViewGroup viewGroup) {
         final GroupHolder groupHolder;
 
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.comment_item_layout, viewGroup, false);
             groupHolder = new GroupHolder(convertView);
             convertView.setTag(groupHolder);
-        }else {
+        } else {
             groupHolder = (GroupHolder) convertView.getTag();
         }
 //        Glide.with(context).load().into();
@@ -100,13 +101,14 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 //        int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
 //        int second = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(17, 19));
 
-        Date time = DateUtils.parseDate(commentBeanList.get(groupPosition).getReply().getAddtime(),"yyyy-MM-dd HH:mm:ss");
+        Date time = DateUtils.parseDate(commentBeanList.get(groupPosition).getReply().getAddtime(), "yyyy-MM-dd HH:mm:ss");
         int month = DateUtils.getMonth(time);
+        int day = DateUtils.getDay(time);
         int hour = DateUtils.getHour(time);
         int minute = DateUtils.getMinute(time);
 
 
-        groupHolder.tv_time.setText((month + 1) + "-" + month + " " + hour + ":" + minute);
+        groupHolder.tv_time.setText(month + "-" + day + " " + hour + ":" + minute);
         groupHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getContent());
 
         return convertView;
@@ -115,20 +117,19 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(final int groupPosition, int childPosition, boolean b, View convertView, ViewGroup viewGroup) {
         final ChildHolder childHolder;
-        if(convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.comment_reply_item_layout,viewGroup, false);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.comment_reply_item_layout, viewGroup, false);
             childHolder = new ChildHolder(convertView);
             convertView.setTag(childHolder);
-        }
-        else {
+        } else {
             childHolder = (ChildHolder) convertView.getTag();
         }
 
         String replyUser = commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname();
-        if(!TextUtils.isEmpty(replyUser)){
+        if (!TextUtils.isEmpty(replyUser)) {
             childHolder.tv_name.setText(replyUser + ":");
-        }else {
-            childHolder.tv_name.setText("无名"+":");
+        } else {
+            childHolder.tv_name.setText("无名" + ":");
         }
 
         childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
@@ -141,10 +142,11 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    private class GroupHolder{
+    private class GroupHolder {
         private ImageView logo;
         private TextView tv_name, tv_content, tv_time;
-//        private ImageView iv_like;
+
+        //        private ImageView iv_like;
         public GroupHolder(View view) {
             logo = (ImageView) view.findViewById(R.id.comment_item_logo);
             tv_content = (TextView) view.findViewById(R.id.comment_item_content);
@@ -153,8 +155,9 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         }
     }
 
-    private class ChildHolder{
+    private class ChildHolder {
         private TextView tv_name, tv_content;
+
         public ChildHolder(View view) {
             tv_name = (TextView) view.findViewById(R.id.reply_item_user);
             tv_content = (TextView) view.findViewById(R.id.reply_item_content);
@@ -165,14 +168,15 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     /**
      * by moos on 2018/04/20
      * func:评论成功后插入一条数据
+     *
      * @param commentDetailBean 新的评论数据
      */
-    public void addTheCommentData(CommentOnJson.CommentData.CommentOnList commentDetailBean){
-        if(commentDetailBean!=null){
+    public void addTheCommentData(CommentOnJson.CommentData.CommentOnList commentDetailBean) {
+        if (commentDetailBean != null) {
 
             commentBeanList.add(commentDetailBean);
             notifyDataSetChanged();
-        }else {
+        } else {
             throw new IllegalArgumentException("评论数据为空!");
         }
 
@@ -181,20 +185,21 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     /**
      * by moos on 2018/04/20
      * func:回复成功后插入一条数据
+     *
      * @param replyDetailBean 新的回复数据
      */
-    public void addTheReplyData(CommentOnJson.CommentData.CommentOnList.Reply.Replies replyDetailBean, int groupPosition){
-        if(replyDetailBean!=null){
-            Log.e(TAG, "addTheReplyData: >>>>该刷新回复列表了:"+replyDetailBean.toString() );
-            if(commentBeanList.get(groupPosition).getReply().getReplies() != null ){
+    public void addTheReplyData(CommentOnJson.CommentData.CommentOnList.Reply.Replies replyDetailBean, int groupPosition) {
+        if (replyDetailBean != null) {
+            Log.e(TAG, "addTheReplyData: >>>>该刷新回复列表了:" + replyDetailBean.toString());
+            if (commentBeanList.get(groupPosition).getReply().getReplies() != null) {
                 commentBeanList.get(groupPosition).getReply().getReplies().add(replyDetailBean);
-            }else {
+            } else {
                 ArrayList<CommentOnJson.CommentData.CommentOnList.Reply.Replies> replyList = new ArrayList<>();
                 replyList.add(replyDetailBean);
                 commentBeanList.get(groupPosition).getReply().setReplies(replyList);
             }
             notifyDataSetChanged();
-        }else {
+        } else {
             throw new IllegalArgumentException("回复数据为空!");
         }
 
@@ -203,14 +208,15 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
     /**
      * by moos on 2018/04/20
      * func:添加和展示所有回复
+     *
      * @param replyBeanList 所有回复数据
      * @param groupPosition 当前的评论
      */
-    private void addReplyList(ArrayList<CommentOnJson.CommentData.CommentOnList.Reply.Replies> replyBeanList, int groupPosition){
-        if(commentBeanList.get(groupPosition).getReply().getReplies() != null ){
+    private void addReplyList(ArrayList<CommentOnJson.CommentData.CommentOnList.Reply.Replies> replyBeanList, int groupPosition) {
+        if (commentBeanList.get(groupPosition).getReply().getReplies() != null) {
             commentBeanList.get(groupPosition).getReply().getReplies().clear();
             commentBeanList.get(groupPosition).getReply().getReplies().addAll(replyBeanList);
-        }else {
+        } else {
 
             commentBeanList.get(groupPosition).getReply().setReplies(replyBeanList);
         }
