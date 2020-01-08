@@ -184,7 +184,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
 
                             GlideImageManager.glideLoader(OtherUserActivity.this, getMineCountJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
                             nickNameTv.setText(getMineCountJson.getData().getUser().getNickname());
-
+                            nickName = getMineCountJson.getData().getUser().getNickname();
                             if (getMineCountJson.getData().getUser().getMedals().size() == 0) {
                                 otherUserMedal1.setVisibility(View.GONE);
                                 otherUserMedal2.setVisibility(View.GONE);
