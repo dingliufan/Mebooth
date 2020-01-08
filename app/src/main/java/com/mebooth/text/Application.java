@@ -27,7 +27,7 @@ public class Application extends AppApplication {
         UserTokenJson userTokenJson = new UserTokenJson();
         userTokenJson.setUserid("12358333");
         userTokenJson.setFrom("14");
-        userTokenJson.setToken("9K1Dp0NMTdw3Ytl3");
+        userTokenJson.setToken("e4nPt7XMFzwkGyQf");
         userTokenJson.setVersion("4.8.0");
         this.setUserTokenJson(userTokenJson);
         if (appApplication != null){
