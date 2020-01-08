@@ -137,12 +137,27 @@ public abstract class AppApplication extends Application {
             @Override
             public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
                 if (message.getSenderUserId().equals("12358336")) {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            super.run();
+                            try {
+                                Thread.sleep(3000);//休眠3秒
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            /**
+                             * 要执行的操作
+                             */
+                            RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE,"12358336");
 
-                    RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE,"12358336");
+                        }
+                    }.start();
 
                 }
 
                 return false;
+
             }
         });
 
