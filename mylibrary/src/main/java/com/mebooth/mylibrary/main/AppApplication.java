@@ -116,21 +116,16 @@ public abstract class AppApplication extends Application {
         //融云线上
         RongIM.init(this, "8brlm7uf8qp83");
 
-        final RongIM.MessageInterceptor messageInterceptor = new RongIM.MessageInterceptor() {
-            @Override
-            public boolean intercept(Message message) {
 
-                if (message.getSenderUserId().equals("12358336")) {
-
-                    return true;
-
-                }else{
-                    return false;
-                }
-
-
-            }
-        };
+//        final RongIM.MessageInterceptor messageInterceptor = new RongIM.MessageInterceptor() {
+//            @Override
+//            public boolean intercept(Message message) {
+//
+//
+//
+//
+//            }
+//        };
 
         /**
          * 设置接收消息的监听器。
@@ -140,9 +135,13 @@ public abstract class AppApplication extends Application {
         RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageWrapperListener() {
             @Override
             public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
-                messageInterceptor.intercept(message);
+                if (message.getSenderUserId().equals("12358336")) {
 
-                return false;
+                    return true;
+
+                }else{
+                    return false;
+                }
             }
         });
 
