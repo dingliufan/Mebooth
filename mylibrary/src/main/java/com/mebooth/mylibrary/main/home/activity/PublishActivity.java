@@ -97,7 +97,6 @@ public class PublishActivity extends BaseTransparentActivity {
     public static List<LocalMedia> selectList = new ArrayList<>();
     private GridImageAdapter adapter;
     private int themeId = R.style.picture_default_style;
-    ;
 
     private String gpsStr;
     private String reciverAddress = "";
@@ -151,10 +150,10 @@ public class PublishActivity extends BaseTransparentActivity {
         selectList.clear();
 
         reciverAddress = AppApplication.getInstance().getAddressStr();
-        if(reciverAddress == null || reciverAddress.equals("")){
+        if (reciverAddress == null || reciverAddress.equals("")) {
             publishGPS.setText("暂无法定位到位置");
             reciverAddress = "";
-        }else{
+        } else {
             publishGPS.setText(reciverAddress);
         }
 
@@ -187,9 +186,9 @@ public class PublishActivity extends BaseTransparentActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtil.isEmpty(content.getText().toString()) || selectList.size() == 0) {
+                if (selectList.size() == 0) {
 
-                    ToastUtils.getInstance().showToast("请输入内容或至少包含一张图片");
+                    ToastUtils.getInstance().showToast("至少包含一张图片");
 
                 } else {
 
@@ -212,9 +211,9 @@ public class PublishActivity extends BaseTransparentActivity {
 
                 if (isOpen) {
 
-                    if(reciverAddress.equals("")){
+                    if (reciverAddress.equals("")) {
                         publishGPS.setText("暂无法定位到位置");
-                    }else{
+                    } else {
                         publishGPS.setText(reciverAddress);
                     }
 
@@ -414,7 +413,7 @@ public class PublishActivity extends BaseTransparentActivity {
         String location = "";
 
         if (!publishGPS.getText().toString().equals("不显示位置")) {
-                location = reciverAddress;
+            location = reciverAddress;
         } else {
             location = "";
         }
