@@ -1,12 +1,20 @@
 package com.mebooth.mylibrary.main;
 
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
 import com.google.gson.Gson;
+import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.base.MeboothCallBack;
 import com.mebooth.mylibrary.main.home.bean.GetRongIMTokenJson;
 import com.mebooth.mylibrary.main.home.bean.UserTokenJson;
@@ -16,12 +24,20 @@ import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Message;
+import io.rong.message.TextMessage;
 import okhttp3.Request;
 
 public abstract class AppApplication extends Application {
@@ -75,6 +91,8 @@ public abstract class AppApplication extends Application {
         this.addressStr = addressStr;
     }
 
+    private TextMessage rongMsg;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -84,6 +102,45 @@ public abstract class AppApplication extends Application {
 //        RongIM.init(this,"8luwapkv8458l");
         //融云线上
         RongIM.init(this,"8brlm7uf8qp83");
+
+
+        final RongIM.MessageInterceptor messageInterceptor = new RongIM.MessageInterceptor() {
+            @Override
+            public boolean intercept(Message message) {
+
+                return true;
+            }
+        };
+
+
+        /**
+         * 设置接收消息的监听器。
+         *
+         * 所有接收到的消息、通知、状态都经由此处设置的监听器处理。包括私聊消息、群组消息、聊天室消息以及各种状态。
+         */
+        RongIMClient.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageWrapperListener() {
+            @Override
+            public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
+
+                if (message.getSenderUserId().equals("12358336")) {
+                    messageInterceptor.intercept(message);
+                    rongMsg = (TextMessage) message.getContent();
+                    JSONObject obj = null;//最外层的JSONObject对象
+                    JSONObject content = null;
+                    try {
+                        obj = new JSONObject(rongMsg.getContent());
+                        content = obj.getJSONObject("extends");//通过user字段获取其所包含的JSONObject对象
+//                        ToastUtils.getInstance().showToast(content.getString("nickname"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                return false;
+            }
+        });
+
 
     }
 
