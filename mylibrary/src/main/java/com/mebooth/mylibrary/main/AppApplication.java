@@ -142,7 +142,7 @@ public abstract class AppApplication extends Application {
                         public void run() {
                             super.run();
                             try {
-                                Thread.sleep(3000);//休眠3秒
+                                Thread.sleep(1000);//休眠3秒
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
