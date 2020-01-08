@@ -36,6 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.TextMessage;
 import okhttp3.Request;
@@ -137,11 +138,11 @@ public abstract class AppApplication extends Application {
             public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
                 if (message.getSenderUserId().equals("12358336")) {
 
-                    return true;
+                    RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE,"12358336");
 
-                }else{
-                    return false;
                 }
+
+                return false;
             }
         });
 
