@@ -119,28 +119,33 @@ public abstract class AppApplication extends Application {
         final RongIM.MessageInterceptor messageInterceptor = new RongIM.MessageInterceptor() {
             @Override
             public boolean intercept(Message message) {
-                return true;
+
+                if (message.getSenderUserId().equals("12358336")) {
+
+                    return true;
+
+                }else{
+                    return false;
+                }
+
+
             }
         };
+
         /**
          * 设置接收消息的监听器。
          *
          * 所有接收到的消息、通知、状态都经由此处设置的监听器处理。包括私聊消息、群组消息、聊天室消息以及各种状态。
          */
-        RongIMClient.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageWrapperListener() {
+        RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageWrapperListener() {
             @Override
             public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
-
-                if (message.getSenderUserId().equals("12358336")) {
-
-                    messageInterceptor.intercept(message);
-
-                }
-
+                messageInterceptor.intercept(message);
 
                 return false;
             }
         });
+
 
     }
 
