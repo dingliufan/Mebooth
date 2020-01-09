@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.mebooth.mylibrary.R;
@@ -56,7 +57,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private final int LOADMORE_LIST = 1;
 
     private int pageSize = 10;
-    private int offSet;
+    private String offSet = "";
 
     private MyHandler mHandler;
 
@@ -100,12 +101,13 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         super.onNext(getRecommendJson);
 
                         if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
-                            offSet = (int) getRecommendJson.getData().getOffset();
+                            offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
 
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
+                            Log.d("RecommendFragment","token已被清空");
                             cancelRefresh(tag);
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
 
@@ -183,6 +185,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                     } else if (msg.what == activity.LOADMORE_LIST) {
                         if (activity.mSmart != null) {
+                            activity.commonAdapter.notifyDataSetChanged();
                             activity.mSmart.finishLoadMore();
                         }
 
@@ -200,6 +203,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
         super.initListener();
 
         mSmart.setOnRefreshListener(this);
+        mSmart.setOnLoadMoreListener(this);
 
     }
 
@@ -252,7 +256,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        offSet = 0;
+        offSet = "";
         getRecommend(REFLUSH_LIST);
     }
 

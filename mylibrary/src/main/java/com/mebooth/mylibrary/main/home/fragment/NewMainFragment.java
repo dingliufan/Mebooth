@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -92,16 +93,17 @@ public class NewMainFragment extends BaseFragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.pager);
         headerIcon = view.findViewById(R.id.userheadericon);
-        back.setVisibility(View.GONE);
-
-        view.findViewById(R.id.newmainheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
-
 
         if(AppApplication.getInstance().isShowBack()){
 
-            back.setVisibility(View.VISIBLE);
+            view.findViewById(R.id.newmainheader).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.newmainheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+
+//            view.findViewById(R.id.moudle_headertwo).setVisibility(View.GONE);
         }else{
-            back.setVisibility(View.GONE);
+            view.findViewById(R.id.newmainheader).setVisibility(View.GONE);
+            view.findViewById(R.id.moudle_headertwo).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+
         }
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,6 +253,7 @@ public class NewMainFragment extends BaseFragment {
                         } else if (null != getMyUserInfo && getMyUserInfo.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
+                            Log.d("NewMainFragment","token已被清空");
                         } else if (null != getMyUserInfo && getMyUserInfo.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());

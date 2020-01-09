@@ -51,7 +51,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     private final int LOADMORE_LIST = 1;
 
     private int pageSize = 10;
-    private int offSet;
+    private String offSet = "";
     private MyHandler mHandler;
     private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend = new ArrayList<>();
 
@@ -94,7 +94,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                         super.onNext(getRecommendJson);
 
                         if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
-                            offSet = (int) getRecommendJson.getData().getOffset();
+                            offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
 
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
@@ -178,6 +178,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
                     } else if (msg.what == activity.LOADMORE_LIST) {
                         if (activity.mSmart != null) {
+                            activity.commonAdapter.notifyDataSetChanged();
                             activity.mSmart.finishLoadMore();
                         }
                     }
@@ -192,6 +193,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
         super.initListener();
 
         mSmart.setOnRefreshListener(this);
+        mSmart.setOnLoadMoreListener(this);
 
     }
 
@@ -244,7 +246,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        offSet = 0;
+        offSet = "";
         getRecommend(REFLUSH_LIST);
     }
     @Override

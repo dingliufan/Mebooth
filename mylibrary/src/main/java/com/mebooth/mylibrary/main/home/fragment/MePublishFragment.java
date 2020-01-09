@@ -50,7 +50,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
     private final int LOADMORE_LIST = 1;
 
     private int pageSize = 10;
-    private int offSet = 0;
+    private String offSet = "";
 
     private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
     private int uid;
@@ -105,7 +105,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
                         super.onNext(getNowJson);
 
                         if (null != getNowJson && getNowJson.getErrno() == 0) {
-                            offSet = (int) getNowJson.getData().getOffset();
+                            offSet = String.valueOf(getNowJson.getData().getOffset());
                             initList(tag, getNowJson);
 
                         } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
@@ -186,6 +186,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
 
             } else if (msg.what == LOADMORE_LIST) {
                 if (mSmart != null) {
+                    commonAdapter.notifyDataSetChanged();
                     mSmart.finishLoadMore();
                 }
 
@@ -199,6 +200,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
         super.initListener();
 
         mSmart.setOnRefreshListener(this);
+        mSmart.setOnLoadMoreListener(this);
 
     }
 
@@ -253,7 +255,7 @@ public class MePublishFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        offSet = 0;
+        offSet = "";
         getRecommend(REFLUSH_LIST);
     }
 

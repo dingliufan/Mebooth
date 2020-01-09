@@ -30,6 +30,7 @@ public class Application extends AppApplication {
         userTokenJson.setToken("SjAqglZdPeO40F4Q");
         userTokenJson.setVersion("4.8.0");
         this.setUserTokenJson(userTokenJson);
+        this.setShowBack(false);
 
         if (appApplication != null){
             appApplication.onCreate();//用于执行module的一些自定义初始化操作999

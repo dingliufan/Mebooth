@@ -51,7 +51,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
     private final int LOADMORE_LIST = 1;
 
     private int pageSize = 10;
-    private int offSet;
+    private String offSet = "";
 
     private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend = new ArrayList<>();
 
@@ -92,7 +92,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
                         super.onNext(getRecommendJson);
 
                         if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
-                            offSet = (int) getRecommendJson.getData().getOffset();
+                            offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
 
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
@@ -168,6 +168,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
             } else if (msg.what == LOADMORE_LIST) {
                 if (mSmart != null) {
+                    commonAdapter.notifyDataSetChanged();
                     mSmart.finishLoadMore();
                 }
 
@@ -180,6 +181,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
         super.initListener();
 
         mSmart.setOnRefreshListener(this);
+        mSmart.setOnLoadMoreListener(this);
 
     }
 
@@ -232,7 +234,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        offSet = 0;
+        offSet = "";
         getRecommend(REFLUSH_LIST);
     }
 
