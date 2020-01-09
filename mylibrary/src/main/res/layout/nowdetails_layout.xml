@@ -40,7 +40,6 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
-                    android:text="黑暗骑士"
                     android:textColor="@color/bg_000000"
                     android:textSize="13sp" />
 
@@ -65,7 +64,6 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
-                android:text="121212121212"
                 android:textColor="@color/bg_000000"
                 android:textSize="15sp" />
 

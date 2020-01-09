@@ -101,6 +101,8 @@ public class PublishActivity extends BaseTransparentActivity {
     private String gpsStr;
     private String reciverAddress = "";
 
+    private boolean isSending = true;
+
     @Override
     protected int getContentViewId() {
         return R.layout.publish_layout;
@@ -191,16 +193,19 @@ public class PublishActivity extends BaseTransparentActivity {
                     ToastUtils.getInstance().showToast("至少包含一张图片");
 
                 } else {
+                    if(isSending){
+                        isSending = false;
+                        for (LocalMedia media : selectList) {
+                            Log.i(TAG, "压缩---->" + media.getCompressPath());
+                            Log.i(TAG, "原图---->" + media.getPath());
 
-                    for (LocalMedia media : selectList) {
-                        Log.i(TAG, "压缩---->" + media.getCompressPath());
-                        Log.i(TAG, "原图---->" + media.getPath());
+                            Log.i(TAG, "裁剪---->" + media.getCutPath());
+                            comprossImg.add(media.getCompressPath());
+                        }
 
-                        Log.i(TAG, "裁剪---->" + media.getCutPath());
-                        comprossImg.add(media.getCompressPath());
+                        getToken(comprossImg);
                     }
 
-                    getToken(comprossImg);
                 }
             }
         });
@@ -385,13 +390,13 @@ public class PublishActivity extends BaseTransparentActivity {
                                 position++;
 
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() == 1101) {
-
+                                isSending = true;
                                 SharedPreferencesUtils.writeString("token", "");
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() != 200) {
-
+                                isSending = true;
                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(updateHeaderFileJson.getErrmsg()) ? "数据加载失败" : updateHeaderFileJson.getErrmsg());
                             } else {
-
+                                isSending = true;
                                 ToastUtils.getInstance().showToast("数据加载失败");
                             }
                         }
@@ -399,7 +404,7 @@ public class PublishActivity extends BaseTransparentActivity {
                         @Override
                         public void onError(Throwable e) {
                             super.onError(e);
-
+                            isSending = true;
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     });
@@ -428,7 +433,6 @@ public class PublishActivity extends BaseTransparentActivity {
                         super.onNext(publicBean);
 
                         if (null != publicBean && publicBean.getErrno() == 0) {
-
 //                            Intent intent = new Intent(PublishActivity.this, NewMainActivity.class);
 //                            startActivity(intent);
 //                            ActivityCollectorUtil.finishAllActivity();
@@ -436,13 +440,13 @@ public class PublishActivity extends BaseTransparentActivity {
                             ToastUtils.getInstance().showToast("您的帖子已发布，审核通过后就可以与大家见面了");
 
                         } else if (null != publicBean && publicBean.getErrno() == 1101) {
-
+                            isSending = true;
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != publicBean && publicBean.getErrno() != 200) {
-
+                            isSending = true;
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
                         } else {
-
+                            isSending = true;
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -450,7 +454,7 @@ public class PublishActivity extends BaseTransparentActivity {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        isSending = true;
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
