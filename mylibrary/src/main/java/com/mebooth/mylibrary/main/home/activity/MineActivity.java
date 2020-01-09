@@ -151,6 +151,15 @@ public class MineActivity extends BaseTransparentActivity {
             }
         });
 
+        otherUserMedal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MineActivity.this, DecorationActivity.class);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
+            }
+        });
+
         title.setText("个人中心");
 
     }

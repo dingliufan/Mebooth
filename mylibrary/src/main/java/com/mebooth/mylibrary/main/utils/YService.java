@@ -39,7 +39,7 @@ public interface YService {
     //推荐列表
     @FormUrlEncoded
     @POST(BASE_URL + "topic/getFeeds")
-    Observable<GetRecommendJson> getRecommend(@Field("name") String name, @Field("offset") int offset, @Field("num") int num);
+    Observable<GetRecommendJson> getRecommend(@Field("name") String name, @Field("offset") String offset, @Field("num") int num);
 //    Observable<GetRecommendJson> getRecommend(@Field("name") String name);
     //此刻列表
     @FormUrlEncoded

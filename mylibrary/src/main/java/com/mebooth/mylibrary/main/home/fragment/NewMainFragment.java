@@ -123,15 +123,6 @@ public class NewMainFragment extends BaseFragment {
         });
         title.setText("发现");
 
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DecorationActivity.class);
-                intent.putExtra("uid",uid);
-                startActivity(intent);
-            }
-        });
-
     }
 
     @Override

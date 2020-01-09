@@ -166,6 +166,15 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
             }
         });
 
+        otherUserMedal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OtherUserActivity.this, DecorationActivity.class);
+                intent.putExtra("uid",uid);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void getCountInfo() {
