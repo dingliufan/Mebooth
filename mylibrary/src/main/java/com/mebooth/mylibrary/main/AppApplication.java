@@ -136,7 +136,8 @@ public abstract class AppApplication extends Application {
         RongIM.setOnReceiveMessageListener(new RongIMClient.OnReceiveMessageWrapperListener() {
             @Override
             public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
-                if (message.getSenderUserId().equals("12358336")) {
+//                if (message.getSenderUserId().equals("12358336")) {
+                if (message.getSenderUserId().equals("5057416")) {
                     new Thread() {
                         @Override
                         public void run() {
