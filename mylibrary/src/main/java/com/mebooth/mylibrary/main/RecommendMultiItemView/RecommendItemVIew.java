@@ -31,12 +31,13 @@ public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.Reco
     public boolean isForViewType(GetRecommendJson.RecommendData.RecommendDataList item, int position) {
 
         if (position != 0) {
-            if (item.getFeed().getType() == 1) {
+            if (recommend.get(position).getFeed().getType() == 1) {
                 return false;
 
             } else {
                 return true;
             }
+
         } else {
             return false;
         }
@@ -45,20 +46,20 @@ public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.Reco
     @Override
     public void convert(ViewHolder holder, GetRecommendJson.RecommendData.RecommendDataList recommendDataList, int position) {
 
-        GlideImageManager.glideLoader(context, recommendDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
-        holder.setText(R.id.recommenditem_nickname, recommendDataList.getUser().getNickname());
+        GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
+        holder.setText(R.id.recommenditem_nickname, recommend.get(position).getUser().getNickname());
 
-        holder.setText(R.id.recommenditem_content, recommendDataList.getFeed().getContent());
-        GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
-        int month = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(5, 7)) - 1;
-        int date = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(8, 10));
-        int hour = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(11, 13));
-        int minute = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(14, 16));
-        int second = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(17, 19));
-        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute);
+        holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
+        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
+        int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
+        int date = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
+        int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
+        int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
+        int second = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(17, 19));
+        holder.setText(R.id.recommenditem_time, (month) + "-" + date + " " + hour + ":" + minute);
 
-        holder.setText(R.id.recommenditem_browsecount, String.valueOf(recommendDataList.getFeed().getWatches()));
-        holder.setText(R.id.recommenditem_commentcount, String.valueOf(recommendDataList.getFeed().getReplies()));
+        holder.setText(R.id.recommenditem_browsecount, String.valueOf(recommend.get(position).getFeed().getWatches()));
+        holder.setText(R.id.recommenditem_commentcount, String.valueOf(recommend.get(position).getFeed().getReplies()));
 
     }
 }

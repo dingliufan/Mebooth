@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
+import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemEmptyVIew;
+import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemHeaderVIew;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIew;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewFour;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewOne;
@@ -23,6 +25,7 @@ import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
+import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -142,6 +145,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
         if (tag == REFLUSH_LIST) {
             recommend.clear();
+            recommend.add(new GetRecommendJson.RecommendData.RecommendDataList());
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
@@ -205,6 +209,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
         commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity(),recommend));
         commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity(),recommend));
         commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemEmptyVIew());
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

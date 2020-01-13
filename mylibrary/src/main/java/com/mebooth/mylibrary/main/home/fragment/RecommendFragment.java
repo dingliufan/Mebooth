@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.mebooth.mylibrary.R;
@@ -32,6 +33,7 @@ import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.utils.YService;
+import com.mebooth.mylibrary.main.view.GloriousRecyclerView;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
@@ -73,6 +75,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     protected void initView(View view) {
+
         recyclerView = view.findViewById(R.id.classify_recycle);
         mSmart = view.findViewById(R.id.classify_smart);
 
@@ -197,6 +200,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         if (tag == REFLUSH_LIST) {
             recommend.clear();
+            GetRecommendJson.RecommendData.RecommendDataList recommendDataList = new GetRecommendJson.RecommendData.RecommendDataList();
+            recommend.add(recommendDataList);
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);

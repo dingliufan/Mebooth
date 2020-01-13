@@ -67,7 +67,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private TextView newdetailsBrowse;
     private TextView newdetailsNickName;
     private TextView newdetailsFollow;
-//    private RecyclerView recyclerView;
+    //    private RecyclerView recyclerView;
     private GloriousRecyclerView recyclerView;
     private CommentExpandableListView expandableListView;
     private TextView commentEdit;
@@ -161,16 +161,15 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         replies = getIntent().getIntExtra("replies", 0);
         praises = getIntent().getIntExtra("praises", 0);
 
-        if(nickName == null){
+        if (nickName == null) {
 
-        }else{
+        } else {
             //头像昵称
             GlideImageManager.glideLoader(NewDetailsActivity.this, avatar, newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
             newdetailsNickName.setText(nickName);
             newdetailsBrowse.setText("" + watchs);
             newdetailsComment.setText("" + replies);
         }
-
 
 
         sharedPopup = new SharedActivity(NewDetailsActivity.this, id, "news");
@@ -227,7 +226,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
             }
         });
 
-        if(replies != 0){
+        if (replies != 0) {
             getCommentList();
         }
 
@@ -612,7 +611,10 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
                             newdetailsBrowse.setText("" + getNewInfoJson.getData().getNews().getWatches());
                             newdetailsComment.setText("" + getNewInfoJson.getData().getNews().getReplies());
+                            if (getNewInfoJson.getData().getNews().getReplies() != 0) {
+                                getCommentList();
 
+                            }
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");

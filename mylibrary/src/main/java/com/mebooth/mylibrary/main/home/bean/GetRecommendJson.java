@@ -32,7 +32,7 @@ public class GetRecommendJson {
         this.data = data;
     }
 
-    public class RecommendData {
+    public static class RecommendData {
 
         private ArrayList<RecommendDataList> list;
         private double offset;
@@ -53,7 +53,7 @@ public class GetRecommendJson {
             this.list = list;
         }
 
-        public class RecommendDataList {
+        public static class RecommendDataList {
 
             private RecommendUser user;
             private Recommendfeed feed;
