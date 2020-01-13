@@ -195,7 +195,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         recyclerView.addHeaderView(header);
         recyclerView.addFooterView(footer);
 
-        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setItemViewCacheSize(50);
 
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
