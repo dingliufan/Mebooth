@@ -160,9 +160,18 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         watchs = getIntent().getIntExtra("browse", 0);
         replies = getIntent().getIntExtra("replies", 0);
         praises = getIntent().getIntExtra("praises", 0);
-        //头像昵称
-        GlideImageManager.glideLoader(NewDetailsActivity.this, avatar, newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
-        newdetailsNickName.setText(nickName);
+
+        if(nickName == null){
+
+        }else{
+            //头像昵称
+            GlideImageManager.glideLoader(NewDetailsActivity.this, avatar, newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
+            newdetailsNickName.setText(nickName);
+            newdetailsBrowse.setText("" + watchs);
+            newdetailsComment.setText("" + replies);
+        }
+
+
 
         sharedPopup = new SharedActivity(NewDetailsActivity.this, id, "news");
 
@@ -179,9 +188,6 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                 }
             }
         });
-
-        newdetailsBrowse.setText("" + watchs);
-        newdetailsComment.setText("" + replies);
 
         recyclerView.addItemDecoration(new SpacesItemDecoration(10));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -600,6 +606,12 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             newdetailsTitle.setText(getNewInfoJson.getData().getNews().getTitle());
                             newdetailsTime.setText(getNewInfoJson.getData().getNews().getAddtime());
                             adapter.addData(getNewInfoJson.getData().getNews().getContent());
+
+                            //头像昵称
+                            GlideImageManager.glideLoader(NewDetailsActivity.this, getNewInfoJson.getData().getUser().getAvatar(), newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
+                            newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
+                            newdetailsBrowse.setText("" + getNewInfoJson.getData().getNews().getWatches());
+                            newdetailsComment.setText("" + getNewInfoJson.getData().getNews().getReplies());
 
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
 

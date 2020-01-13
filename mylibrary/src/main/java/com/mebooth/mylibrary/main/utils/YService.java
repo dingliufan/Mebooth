@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.utils;
 
 import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
+import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsCollectJson;
@@ -137,10 +138,10 @@ public interface YService {
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<PublicBean> deleteTopic(@Field("tid") int tid);
     //我关注的人
-//    @FormUrlEncoded
+    @FormUrlEncoded
     @POST(BASE_URL + "follow/getFollowings")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<GetCareJson> getCareList();
+    Observable<GetCareJson> getCareList(@Field("offset") String offset, @Field("num") int num);
     //用户关注的人
     @FormUrlEncoded
     @POST(BASE_URL + "follow/getUserFollowings")
@@ -163,6 +164,12 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "user/getUserInfos")
     Observable<GetIMUserInfoJson> getIMUserInfo(@Field("uids") String uids);
+
+    //获取banner页面
+    @FormUrlEncoded
+    @POST(BASE_URL + "config/getConfig")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<FlushJson> bannerList(@Field("name") String name);
 
 
 }

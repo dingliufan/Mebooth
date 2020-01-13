@@ -25,18 +25,22 @@ import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 
+import java.util.ArrayList;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class RecommendItemVIewFour implements ItemViewDelegate<GetRecommendJson.RecommendData.RecommendDataList> {
 
     private Context context;
+    private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend;
     private int praises;
     private boolean follow;
     private boolean isPraised;
 
-    public RecommendItemVIewFour(Context context) {
+    public RecommendItemVIewFour(Context context, ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend) {
         this.context = context;
+        this.recommend = recommend;
     }
 
     @Override
@@ -47,22 +51,26 @@ public class RecommendItemVIewFour implements ItemViewDelegate<GetRecommendJson.
     @Override
     public boolean isForViewType(GetRecommendJson.RecommendData.RecommendDataList item, int position) {
 
+        if (position != 0) {
+            try {
+                if (item.getFeed().getType() == 1) {
 
-        try {
-            if (item.getFeed().getType() == 1) {
+                    if (item.getFeed().getImages().size() >= 4) {
+                        return true;
+                    } else {
+                        return false;
+                    }
 
-                if (item.getFeed().getImages().size() >= 4) {
-                    return true;
                 } else {
                     return false;
                 }
-
-            } else {
+            } catch (Exception e) {
                 return false;
             }
-        } catch (Exception e) {
+        }else{
             return false;
         }
+
 
     }
 
@@ -80,7 +88,7 @@ public class RecommendItemVIewFour implements ItemViewDelegate<GetRecommendJson.
         }
 
         if (AppApplication.getInstance().userid != null) {
-            if (AppApplication.getInstance().userid.equals(recommendDataList.getUser().getUid())) {
+            if (AppApplication.getInstance().userid.equals(String.valueOf(recommendDataList.getUser().getUid()))) {
                 holder.setVisible(R.id.recommenditem_follow, View.GONE);
             } else {
                 holder.setVisible(R.id.recommenditem_follow, View.VISIBLE);

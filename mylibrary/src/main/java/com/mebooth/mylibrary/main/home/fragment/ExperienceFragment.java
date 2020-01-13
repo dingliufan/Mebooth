@@ -187,12 +187,12 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
     private void initRecycle() {
         commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
-        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity()));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity(),recommend));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

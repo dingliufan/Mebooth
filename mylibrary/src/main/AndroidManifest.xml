@@ -73,6 +73,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.QuicklyActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity android:name="com.mebooth.mylibrary.imagepicker.ui.ImageBaseActivity" />
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImageGridActivity"

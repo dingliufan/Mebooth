@@ -34,6 +34,15 @@ public class GetNewInfoJson {
 
     public class NewInfoData {
         private News news;
+        private NewsUser user;
+
+        public NewsUser getUser() {
+            return user;
+        }
+
+        public void setUser(NewsUser user) {
+            this.user = user;
+        }
 
         public News getNews() {
             return news;
@@ -49,7 +58,26 @@ public class GetNewInfoJson {
             private String title;
             private ArrayList<Content> content;
             private String cover;
+            private int replies;
+            private int watches;
             private String addtime;
+
+
+            public int getReplies() {
+                return replies;
+            }
+
+            public void setReplies(int replies) {
+                this.replies = replies;
+            }
+
+            public int getWatches() {
+                return watches;
+            }
+
+            public void setWatches(int watches) {
+                this.watches = watches;
+            }
 
             public int getNewsid() {
                 return newsid;
@@ -129,6 +157,28 @@ public class GetNewInfoJson {
                 public void setContent(String content) {
                     this.content = content;
                 }
+            }
+        }
+
+        public class NewsUser {
+
+            private String nickname;
+            private String avatar;
+
+            public String getNickname() {
+                return nickname;
+            }
+
+            public void setNickname(String nickname) {
+                this.nickname = nickname;
+            }
+
+            public String getAvatar() {
+                return avatar;
+            }
+
+            public void setAvatar(String avatar) {
+                this.avatar = avatar;
             }
         }
     }

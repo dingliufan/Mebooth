@@ -35,6 +35,15 @@ public class GetCareJson {
     public class CareData {
 
         private ArrayList<CareUser> users;
+        private double offset;
+
+        public double getOffset() {
+            return offset;
+        }
+
+        public void setOffset(double offset) {
+            this.offset = offset;
+        }
 
         public ArrayList<CareUser> getUsers() {
             return users;

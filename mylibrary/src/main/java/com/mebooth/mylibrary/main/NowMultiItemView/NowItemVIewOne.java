@@ -135,7 +135,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
         }
 
         if (AppApplication.getInstance().userid != null) {
-            if (AppApplication.getInstance().userid.equals(nowDataList.getUser().getUid())) {
+            if (AppApplication.getInstance().userid.equals(String.valueOf(nowDataList.getUser().getUid()))) {
                 holder.setVisible(R.id.recommenditem_follow, View.GONE);
             } else {
                 holder.setVisible(R.id.recommenditem_follow, View.VISIBLE);

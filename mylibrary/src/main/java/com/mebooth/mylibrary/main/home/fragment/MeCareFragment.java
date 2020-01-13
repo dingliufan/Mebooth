@@ -56,6 +56,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
     private ArrayList<GetCareJson.CareData.CareUser> users = new ArrayList<>();
 
     private Conversation.ConversationType conversationType;
+    private String offSet = "";
 
 
     @Override
@@ -80,6 +81,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
         super.initListener();
 
         mSmart.setOnRefreshListener(this);
+        mSmart.setOnLoadMoreListener(this);
 
     }
 
@@ -94,7 +96,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getCareList()
+                .getCareList(offSet,10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetCareJson>() {
@@ -103,7 +105,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
                         super.onNext(getCareJson);
 
                         if (null != getCareJson && getCareJson.getErrno() == 0) {
-
+                            offSet = String.valueOf(getCareJson.getData().getOffset());
                             initList(tag, getCareJson);
 
                         } else if (null != getCareJson && getCareJson.getErrno() == 1101) {
@@ -159,6 +161,15 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
             }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
+        }else {
+            if (getCareJson.getData().getUsers().size() == 0) {
+
+                mSmart.finishLoadMoreWithNoMoreData();
+
+            } else {
+                users.addAll(getCareJson.getData().getUsers());
+                mHandler.sendEmptyMessageDelayed(tag, 1000);
+            }
         }
     }
 
@@ -175,6 +186,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
             } else if (msg.what == LOADMORE_LIST) {
                 if (mSmart != null) {
+                    commonAdapter.notifyDataSetChanged();
                     mSmart.finishLoadMore();
                 }
 
@@ -263,12 +275,12 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-
+        getCareList(LOADMORE_LIST);
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-
+        offSet = "";
         getCareList(REFLUSH_LIST);
 
     }

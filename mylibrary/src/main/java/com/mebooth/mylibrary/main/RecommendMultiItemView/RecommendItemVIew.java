@@ -9,13 +9,17 @@ import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 
+import java.util.ArrayList;
+
 
 public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.RecommendData.RecommendDataList> {
 
     private Context context;
+    private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend;
 
-    public RecommendItemVIew(Context context) {
+    public RecommendItemVIew(Context context, ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend) {
         this.context = context;
+        this.recommend = recommend;
     }
 
     @Override
@@ -26,13 +30,16 @@ public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.Reco
     @Override
     public boolean isForViewType(GetRecommendJson.RecommendData.RecommendDataList item, int position) {
 
-        if (item.getFeed().getType() == 1) {
-            return false;
+        if (position != 0) {
+            if (item.getFeed().getType() == 1) {
+                return false;
 
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            return false;
         }
-
     }
 
     @Override
@@ -41,7 +48,7 @@ public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.Reco
         GlideImageManager.glideLoader(context, recommendDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
         holder.setText(R.id.recommenditem_nickname, recommendDataList.getUser().getNickname());
 
-        holder.setText(R.id.recommenditem_content,recommendDataList.getFeed().getContent());
+        holder.setText(R.id.recommenditem_content, recommendDataList.getFeed().getContent());
         GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
         int month = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(5, 7)) - 1;
         int date = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(8, 10));

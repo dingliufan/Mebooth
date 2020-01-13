@@ -7,6 +7,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -40,7 +41,8 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
     private MultiItemTypeAdapter adapter;
     private ArrayList<GetNowJson.NowData.NowDataList> list;
     private NoPublish noPublish;
-    public NowItemVIewFour(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list,NoPublish noPublish) {
+
+    public NowItemVIewFour(Context context, String type, MultiItemTypeAdapter adapter, ArrayList<GetNowJson.NowData.NowDataList> list, NoPublish noPublish) {
         this.context = context;
         this.type = type;
         this.adapter = adapter;
@@ -97,8 +99,8 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
 
                                     ToastUtils.getInstance().showToast("已删除该话题");
                                     list.remove(position);
-                                    if(type.equals("minepublic")){
-                                        if(list.size() == 0){
+                                    if (type.equals("minepublic")) {
+                                        if (list.size() == 0) {
                                             noPublish.isPublish();
                                         }
                                     }
@@ -136,7 +138,8 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
         }
         if (AppApplication.getInstance().userid != null) {
-            if (AppApplication.getInstance().userid.equals(nowDataList.getUser().getUid())) {
+            Log.d("TAG", AppApplication.getInstance().userid);
+            if (AppApplication.getInstance().userid.equals(String.valueOf(nowDataList.getUser().getUid()))) {
                 holder.setVisible(R.id.recommenditem_follow, View.GONE);
             } else {
                 holder.setVisible(R.id.recommenditem_follow, View.VISIBLE);
@@ -156,11 +159,11 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
             holder.setText(R.id.recommenditem_imgmore, nowDataList.getTopic().getImages().size() + "图");
         }
         if (StringUtil.isEmpty(nowDataList.getTopic().getLocation())) {
-            holder.setVisible(R.id.recommenditem_address,View.GONE);
+            holder.setVisible(R.id.recommenditem_address, View.GONE);
 
         } else {
             holder.setText(R.id.recommenditem_address, nowDataList.getTopic().getLocation());
-            holder.setVisible(R.id.recommenditem_address,View.VISIBLE);
+            holder.setVisible(R.id.recommenditem_address, View.VISIBLE);
         }
 
         int month = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(5, 7)) - 1;

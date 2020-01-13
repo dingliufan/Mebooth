@@ -19,6 +19,7 @@ import android.view.View;
 
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
+import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemHeaderVIew;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIew;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewFour;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewOne;
@@ -28,6 +29,7 @@ import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
+import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -62,6 +64,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private MyHandler mHandler;
 
     private ArrayList<GetRecommendJson.RecommendData.RecommendDataList> recommend = new ArrayList<>();
+    private FlushJson bannerJson;
 
     @Override
     protected int getLayoutResId() {
@@ -83,9 +86,53 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     @Override
     protected void initData(Bundle savedInstanceState) {
         mHandler = new MyHandler(this);
-        initRecycle();
-        mSmart.autoRefresh();
+        getConfigBanner();
+
 //        getRecommend(REFLUSH_LIST);
+    }
+
+    private void getConfigBanner() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .bannerList("banner")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<FlushJson>() {
+                    @Override
+                    public void onNext(FlushJson flushJson) {
+                        super.onNext(flushJson);
+
+                        if (null != flushJson && flushJson.getErrno() == 0) {
+
+
+                            bannerJson = flushJson;
+                            initRecycle();
+                            mSmart.autoRefresh();
+                        } else if (null != flushJson && flushJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                            Log.d("RecommendFragment","token已被清空");
+                        } else if (null != flushJson && flushJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(flushJson.getErrmsg()) ? "数据加载失败" : flushJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+
+
+
     }
 
     private void getRecommend(final int tag) {
@@ -209,12 +256,13 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     private void initRecycle() {
         commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
-        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity()));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity()));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity(),recommend));
+        commonAdapter.addItemViewDelegate(new RecommendItemHeaderVIew(getActivity(),bannerJson,recommend));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
