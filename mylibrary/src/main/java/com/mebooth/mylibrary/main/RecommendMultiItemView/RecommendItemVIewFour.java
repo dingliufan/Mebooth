@@ -10,6 +10,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
@@ -98,10 +103,20 @@ public class RecommendItemVIewFour implements ItemViewDelegate<GetRecommendJson.
         }
 
         holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
-        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
-        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
-        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
-        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
+//
+//        RequestOptions filletOptions = new RequestOptions()
+//                .placeholder(R.drawable.errorimage)
+//                .error(R.drawable.errorimage)
+//                .fallback(R.color.bg_ffffff)
+//                .centerCrop()
+//                .transform(new RoundedCorners(8))
+//                .priority(Priority.IMMEDIATE)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL);
+
 
         if (recommendDataList.getFeed().getImages().size() == 4) {
             holder.setVisible(R.id.recommenditem_imgmore, View.GONE);
