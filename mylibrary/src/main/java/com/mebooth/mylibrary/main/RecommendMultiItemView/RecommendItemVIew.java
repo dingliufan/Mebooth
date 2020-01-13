@@ -38,6 +38,9 @@ public class RecommendItemVIew implements ItemViewDelegate<GetRecommendJson.Reco
     @Override
     public void convert(ViewHolder holder, GetRecommendJson.RecommendData.RecommendDataList recommendDataList, int position) {
 
+        GlideImageManager.glideLoader(context, recommendDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
+        holder.setText(R.id.recommenditem_nickname, recommendDataList.getUser().getNickname());
+
         holder.setText(R.id.recommenditem_content,recommendDataList.getFeed().getContent());
         GlideImageManager.glideLoader(context, recommendDataList.getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
         int month = Integer.parseInt(recommendDataList.getFeed().getAddtime().substring(5, 7)) - 1;

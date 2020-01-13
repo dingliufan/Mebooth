@@ -1,7 +1,9 @@
 package com.mebooth.mylibrary.main.adapter;
 
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private ArrayList<GetNewInfoJson.NewInfoData.News.Content> datas;
     public static final String TAG = "ListNormalAdapter22";
+
     public NewsAdapter(Context context, ArrayList<GetNewInfoJson.NewInfoData.News.Content> datas) {
         this.context = context;
         this.datas = datas;
@@ -28,13 +31,13 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == 0) {
+        if (viewType == 5) {
             return new HeadViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.newstext_layout, parent, false));
-        } else if (viewType == 1) {
+        } else if (viewType == 6) {
             return new MessageViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.newsimage_layout, parent, false));
-        } else if (viewType == 2) {
+        } else if (viewType == 7) {
             return new VideoViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.newsvideo_layout, parent, false));
         }
@@ -133,14 +136,17 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
 
-        if (datas.get(position).getType().equals("text")) {
-            return 0;
-        } else if (datas.get(position).getType().equals("image")) {
-            return 1;
-        } else if (datas.get(position).getType().equals("video")) {
-            return 2;
+        if (position != 0) {
+            if (datas.get(position - 1).getType().equals("text")) {
+                return 5;
+            } else if (datas.get(position - 1).getType().equals("image")) {
+                return 6;
+            } else if (datas.get(position - 1).getType().equals("video")) {
+                return 7;
+            }
         }
-        return 3;
+
+        return 7;
     }
 
     /**

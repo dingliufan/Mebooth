@@ -38,6 +38,7 @@ import com.mebooth.mylibrary.main.home.bean.GetNowDetailsJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.CommentExpandableListView;
+import com.mebooth.mylibrary.main.view.GloriousRecyclerView;
 import com.mebooth.mylibrary.main.view.SharedActivity;
 import com.mebooth.mylibrary.main.view.SpacesItemDecoration;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -59,7 +60,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     private TextView nickName;
     private TextView follow;
     private TextView content;
-    private RecyclerView recyclerView;
+    private GloriousRecyclerView recyclerView;
     private CommentExpandableListView expandableListView;
     private TextView commentEdit;
     private ImageView collectimg;
@@ -84,6 +85,8 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     private ImageView back;
     private TextView title;
     private TextView noCmment;
+    private View header;
+    private View footer;
 
     @Override
     protected int getContentViewId() {
@@ -103,19 +106,23 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     protected void initData() {
         super.initData();
 
-        headerIcon = findViewById(R.id.recommenditem_headericon);
-        nickName = findViewById(R.id.recommenditem_nickname);
-        follow = findViewById(R.id.recommenditem_follow);
-        content = findViewById(R.id.nowdetails_content);
+        header = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestheader, null);
+        footer = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestfooter, null);
+
+
+        headerIcon = header.findViewById(R.id.recommenditem_headericon);
+        nickName = header.findViewById(R.id.recommenditem_nickname);
+        follow = header.findViewById(R.id.recommenditem_follow);
+        content = header.findViewById(R.id.nowdetails_content);
         recyclerView = findViewById(R.id.classify_recycle);
-        expandableListView = findViewById(R.id.detail_page_lv_comment);
+        expandableListView = footer.findViewById(R.id.detail_page_lv_comment);
         commentEdit = findViewById(R.id.detail_page_do_comment);
         collectimg = findViewById(R.id.newdetails_collectimg);
         share = findViewById(R.id.newdetails_share);
         sendComment = findViewById(R.id.newdetails_sendcomment);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
-        noCmment = findViewById(R.id.nowdetails_nocomment);
+        noCmment = footer.findViewById(R.id.nowdetails_nocomment);
 
         findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
@@ -146,7 +153,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         initRecycle();
         getNowDetails();
         getIsFollow();
-        getCommentList();
+
         expandableListView.setNestedScrollingEnabled(true);
 
         share.setOnClickListener(new View.OnClickListener() {
@@ -511,6 +518,12 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
                         if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 0) {
 
+                            if(getNowDetailsJson.getData().getTopic().getReplies() != 0){
+                                getCommentList();
+                            }else{
+//                                noCmment.setVisibility(View.VISIBLE);
+                            }
+
                             GlideImageManager.glideLoader(NowDetailsActivity.this, getNowDetailsJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
                             nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
                             content.setText(getNowDetailsJson.getData().getTopic().getContent());
@@ -681,7 +694,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                                     }
                                                 });
 
-                                    }else{
+                                    } else {
                                         //添加关注
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
@@ -748,7 +761,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
             @Override
             protected void convert(ViewHolder holder, Object o, int position) {
 
-                GlideImageManager.glideLoader(NowDetailsActivity.this, list.get(position), (ImageView) holder.getView(R.id.nowitem_img), GlideImageManager.TAG_FILLET);
+                GlideImageManager.glideLoader(NowDetailsActivity.this, list.get(position - 1), (ImageView) holder.getView(R.id.nowitem_img), GlideImageManager.TAG_FILLET);
 
             }
         };
@@ -773,6 +786,8 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         recyclerView.addItemDecoration(new SpacesItemDecoration(10));
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(commonAdapter);
+        recyclerView.addHeaderView(header);
+        recyclerView.addFooterView(footer);
 
     }
 

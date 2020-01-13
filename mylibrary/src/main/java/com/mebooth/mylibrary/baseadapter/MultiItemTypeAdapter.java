@@ -1,7 +1,9 @@
 package com.mebooth.mylibrary.baseadapter;
 
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,12 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         if (!useItemViewDelegateManager()) return super.getItemViewType(position);
-        return mItemViewDelegateManager.getItemViewType(mDatas.get(position), position);
+        if (position == mDatas.size()) {
+            return mItemViewDelegateManager.getItemViewType(mDatas.get(position - 1), position);
+        } else {
+            return mItemViewDelegateManager.getItemViewType(mDatas.get(position), position);
+        }
+
     }
 
 
@@ -88,7 +95,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if(null==mDatas){
+        if (null == mDatas) {
             Log.e("MultiItemTypeAdapter", "mDatas is null");
             return 0;
         }

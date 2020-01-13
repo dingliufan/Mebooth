@@ -1,5 +1,7 @@
 package com.mebooth.mylibrary.net;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.mebooth.mylibrary.net.converter.LenientGsonConverterFactory;
 import com.mebooth.mylibrary.net.netutils.OkHttpProvider;
@@ -53,13 +55,13 @@ public class ServiceFactory {
                 e.printStackTrace();
             }
         }
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(mOkHttpClient)
                 .addConverterFactory(LenientGsonConverterFactory.create(new Gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-
         return retrofit.create(serviceClass);
     }
 

@@ -94,17 +94,22 @@ public class NewMainFragment extends BaseFragment {
         viewPager = view.findViewById(R.id.pager);
         headerIcon = view.findViewById(R.id.userheadericon);
 
-        if(AppApplication.getInstance().isShowBack()){
+        if (AppApplication.getInstance().isShowBack()) {
 
-            view.findViewById(R.id.newmainheader).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.newmainheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
-
+            back.setVisibility(View.VISIBLE);
+            title.setVisibility(View.VISIBLE);
+            view.findViewById(R.id.main_logo).setVisibility(View.GONE);
 //            view.findViewById(R.id.moudle_headertwo).setVisibility(View.GONE);
-        }else{
-            view.findViewById(R.id.newmainheader).setVisibility(View.GONE);
-            view.findViewById(R.id.moudle_headertwo).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+        } else {
+            back.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
+            view.findViewById(R.id.main_logo).setVisibility(View.VISIBLE);
+//            view.findViewById(R.id.newmainheader).setVisibility(View.GONE);
+//            view.findViewById(R.id.moudle_headertwo).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
 
         }
+        view.findViewById(R.id.newmainheader).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,7 +258,7 @@ public class NewMainFragment extends BaseFragment {
                         } else if (null != getMyUserInfo && getMyUserInfo.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
-                            Log.d("NewMainFragment","token已被清空");
+                            Log.d("NewMainFragment", "token已被清空");
                         } else if (null != getMyUserInfo && getMyUserInfo.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());
@@ -276,7 +281,13 @@ public class NewMainFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getUserInfo();
+        if (SharedPreferencesUtils.readString("token") != null) {
+
+            getUserInfo();
+        }
+
+//        StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))||
+
     }
 
     @Override

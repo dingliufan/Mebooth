@@ -40,6 +40,7 @@ import com.mebooth.mylibrary.main.home.bean.GetNewInfoJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.CommentExpandableListView;
+import com.mebooth.mylibrary.main.view.GloriousRecyclerView;
 import com.mebooth.mylibrary.main.view.SharedActivity;
 import com.mebooth.mylibrary.main.view.SpacesItemDecoration;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -66,7 +67,8 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private TextView newdetailsBrowse;
     private TextView newdetailsNickName;
     private TextView newdetailsFollow;
-    private RecyclerView recyclerView;
+//    private RecyclerView recyclerView;
+    private GloriousRecyclerView recyclerView;
     private CommentExpandableListView expandableListView;
     private TextView commentEdit;
     private TextView newdetailsComment;
@@ -95,6 +97,10 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     private TextView noComment;
     private LinearLayout newdetailsLly;
 
+    private View header;
+    private View footer;
+    private String avatar;
+
 
     @Override
     protected int getContentViewId() {
@@ -115,18 +121,23 @@ public class NewDetailsActivity extends BaseTransparentActivity {
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
 
-        newdetailsImage = findViewById(R.id.newdetails_image);
-        newdetailsTitle = findViewById(R.id.newdetails_title);
-        newdetailsTime = findViewById(R.id.newdetails_time);
-        newdetailsBrowse = findViewById(R.id.newdetails_browsecount);
+        header = LayoutInflater.from(NewDetailsActivity.this).inflate(R.layout.newestheader, null);
+        footer = LayoutInflater.from(NewDetailsActivity.this).inflate(R.layout.newestfooter, null);
+
+        newdetailsImage = header.findViewById(R.id.newdetails_image);
+        newdetailsTitle = header.findViewById(R.id.newdetails_title);
+        newdetailsTime = header.findViewById(R.id.newdetails_time);
+        newdetailsBrowse = header.findViewById(R.id.newdetails_browsecount);
+        newdetailsHeaderIcon = header.findViewById(R.id.recommenditem_headericon);
+        newdetailsNickName = header.findViewById(R.id.recommenditem_nickname);
         recyclerView = findViewById(R.id.classify_recycle);
-        expandableListView = findViewById(R.id.detail_page_lv_comment);
+        expandableListView = footer.findViewById(R.id.detail_page_lv_comment);
         commentEdit = findViewById(R.id.detail_page_do_comment);
         newdetailsComment = findViewById(R.id.newdetails_comment);
         newdetailShare = findViewById(R.id.newdetails_share);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
-        noComment = findViewById(R.id.nwdetails_nocomment);
+        noComment = footer.findViewById(R.id.nwdetails_nocomment);
         newdetailsLly = findViewById(R.id.newdetails_lly);
 
 //        newdetailsLly.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -145,9 +156,13 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         id = getIntent().getIntExtra("relateid", 0);
         uid = getIntent().getIntExtra("uid", 0);
         nickName = getIntent().getStringExtra("nickname");
+        avatar = getIntent().getStringExtra("image");
         watchs = getIntent().getIntExtra("browse", 0);
         replies = getIntent().getIntExtra("replies", 0);
         praises = getIntent().getIntExtra("praises", 0);
+        //头像昵称
+        GlideImageManager.glideLoader(NewDetailsActivity.this, avatar, newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
+        newdetailsNickName.setText(nickName);
 
         sharedPopup = new SharedActivity(NewDetailsActivity.this, id, "news");
 
@@ -172,6 +187,8 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NewsAdapter(this, content);
         recyclerView.setAdapter(adapter);
+        recyclerView.addHeaderView(header);
+        recyclerView.addFooterView(footer);
 
         recyclerView.setItemViewCacheSize(20);
 
@@ -203,9 +220,13 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                 }
             }
         });
+
+        if(replies != 0){
+            getCommentList();
+        }
+
         initExpandableListView(commentList);
         getNewDetails();
-        getCommentList();
         expandableListView.setNestedScrollingEnabled(true);
 
         newdetailShare.setOnClickListener(new View.OnClickListener() {
@@ -575,7 +596,6 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                         super.onNext(getNewInfoJson);
 
                         if (null != getNewInfoJson && getNewInfoJson.getErrno() == 0) {
-
                             GlideImageManager.glideLoader(NewDetailsActivity.this, getNewInfoJson.getData().getNews().getCover(), newdetailsImage, GlideImageManager.TAG_RECTANGLE);
                             newdetailsTitle.setText(getNewInfoJson.getData().getNews().getTitle());
                             newdetailsTime.setText(getNewInfoJson.getData().getNews().getAddtime());

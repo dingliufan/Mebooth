@@ -13,111 +13,28 @@
         android:layout_height="0.5dp"
         android:background="@color/bg_c7c7c7" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true">
+    <!--<androidx.core.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:fillViewport="true">-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/newdetails_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true" />
-
-            <TextView
-                android:id="@+id/newdetails_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp"
-                android:text="标题"
-                android:textColor="@color/bg_000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="15dp">
-
-                <TextView
-                    android:id="@+id/newdetails_time"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="2019-12-02"
-                    android:textColor="@color/bg_7d7d7d"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="22.5dp"
-                    android:layout_height="17.5dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/browse" />
-
-                <TextView
-                    android:id="@+id/newdetails_browsecount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="6dp"
-                    android:text="02"
-                    android:textColor="@color/bg_7d7d7d"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
+            <!--<androidx.recyclerview.widget.RecyclerView-->
+            <com.mebooth.mylibrary.main.view.GloriousRecyclerView
                 android:id="@+id/classify_recycle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="22.5dp"
                 android:layout_marginRight="5dp"
                 android:overScrollMode="never" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/bg_c7c7c7" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="30dp">
-
-                <com.mebooth.mylibrary.main.view.CommentExpandableListView
-                    android:id="@+id/detail_page_lv_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@null"
-                    android:listSelector="@android:color/transparent"
-                    android:scrollbars="none"></com.mebooth.mylibrary.main.view.CommentExpandableListView>
-
-                <TextView
-                    android:id="@+id/nwdetails_nocomment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="暂无评论"
-                    android:textColor="@color/bg_c7c7c7"
-                    android:textSize="18sp" />
-
-            </FrameLayout>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    <!--</androidx.core.widget.NestedScrollView>-->
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,9 +1,11 @@
 package com.mebooth.mylibrary.main;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,7 +24,9 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +80,16 @@ public abstract class AppApplication extends Application {
         String msg = gson.toJson(userTokenJson);
         SharedPreferencesUtils.writeString("token", msg);
         //获取融云token（）：
-        getConnectToken();
+        if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+        } else {
+            if (getCurProcessName(app).equals("io.rong.push")||getCurProcessName(app).contains("ipc")) {
+
+            } else {
+                getConnectToken();
+
+            }
+        }
     }
 
     public MeboothCallBack getMeboothCallBack() {
@@ -137,7 +150,7 @@ public abstract class AppApplication extends Application {
             @Override
             public boolean onReceived(final Message message, final int left, boolean hasPackage, boolean offline) {
 //                if (message.getSenderUserId().equals("12358336")) {
-                if (message.getSenderUserId().equals("5057416")) {
+                if (message.getSenderUserId().equals("9501200")) {
                     new Thread() {
                         @Override
                         public void run() {
@@ -150,7 +163,7 @@ public abstract class AppApplication extends Application {
                             /**
                              * 要执行的操作
                              */
-                            RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE,"12358336");
+                            RongIM.getInstance().removeConversation(Conversation.ConversationType.PRIVATE, "12358336");
 
                         }
                     }.start();
@@ -202,6 +215,8 @@ public abstract class AppApplication extends Application {
                         super.onError(e);
 
                         ToastUtils.getInstance().showToast("数据加载失败");
+                        Log.d("TAG", "222222222222222222222233333333333");
+                        Log.d("TAG", getCurProcessName(app));
                     }
                 });
     }
@@ -211,7 +226,11 @@ public abstract class AppApplication extends Application {
         RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-                getConnectToken();
+                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                } else {
+                    getConnectToken();
+                }
             }
 
             @Override
@@ -269,4 +288,15 @@ public abstract class AppApplication extends Application {
     }
 
     public abstract Request.Builder addOkHttpAddHeader(Request.Builder builder);
+
+    private String getCurProcessName(Context context) {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return appProcess.processName;
+            }
+        }
+        return "";
+    }
 }

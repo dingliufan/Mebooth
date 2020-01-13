@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.net.netutils;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
@@ -118,6 +119,7 @@ public class OkHttpProvider {
             if (!TextUtils.isEmpty(token)) {
                 builder.addHeader("Cookie", "token="+token);
             }
+
             request = builder.build();
 //            request = request.newBuilder()
 //                    .cacheControl(CacheControl.FORCE_NETWORK)

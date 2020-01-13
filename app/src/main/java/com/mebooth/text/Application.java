@@ -25,12 +25,12 @@ public class Application extends AppApplication {
         super.onCreate();
         //传递用户信息
         UserTokenJson userTokenJson = new UserTokenJson();
-        userTokenJson.setUserid("12358333");
+        userTokenJson.setUserid("12282731");
         userTokenJson.setFrom("14");
-        userTokenJson.setToken("SjAqglZdPeO40F4Q");
+        userTokenJson.setToken("VK7XVGDSrwKzUE2I");
         userTokenJson.setVersion("4.8.0");
         this.setUserTokenJson(userTokenJson);
-        this.setShowBack(true);
+        this.setShowBack(false);
 
         if (appApplication != null){
             appApplication.onCreate();//用于执行module的一些自定义初始化操作999
