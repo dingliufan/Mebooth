@@ -67,10 +67,10 @@
             android:textSize="14sp"/>
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/browse"
-            android:layout_gravity="center_vertical"/>
+            android:layout_width="13dp"
+            android:layout_height="19dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/browse" />
         <TextView
             android:id="@+id/recommenditem_browsecount"
             android:layout_width="wrap_content"

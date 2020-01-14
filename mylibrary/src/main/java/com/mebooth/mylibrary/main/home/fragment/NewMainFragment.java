@@ -123,13 +123,13 @@ public class NewMainFragment extends BaseFragment {
     protected void initData(Bundle savedInstanceState) {
         mFragments.add(recommendFragment);
 //        mFragments.add(FriendFragment.newInstance());
-        mFragments.add(nowFragment);
+//        mFragments.add(nowFragment);
 //        mFragments.add(experienceFragment);
-        mFragments.add(informationFragment);
+//        mFragments.add(informationFragment);
         mTitles.add("推荐");
-        mTitles.add("此刻");
+//        mTitles.add("此刻");
 //        mTitles.add("体验");
-        mTitles.add("资讯");
+//        mTitles.add("资讯");
 
         mAdapter = new MineOrderPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), mFragments, mTitles);
         viewPager.setAdapter(mAdapter);

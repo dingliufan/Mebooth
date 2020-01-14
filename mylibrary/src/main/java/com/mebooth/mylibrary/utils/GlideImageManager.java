@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -154,6 +155,7 @@ public class GlideImageManager {
             .error(R.drawable.errorimage)
             .fallback(R.color.bg_ffffff)
             .priority(Priority.IMMEDIATE)
+            .format(DecodeFormat.PREFER_RGB_565)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
     //圆形
@@ -165,6 +167,7 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new CircleCrop())
             .priority(Priority.IMMEDIATE)
+            .format(DecodeFormat.PREFER_RGB_565)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
     //圆角(8dip)
@@ -176,6 +179,7 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new RoundedCorners(8))
             .priority(Priority.IMMEDIATE)
+            .format(DecodeFormat.PREFER_RGB_565)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 
@@ -186,6 +190,7 @@ public class GlideImageManager {
             .fallback(R.color.bg_ffffff)
             .centerCrop()
             .priority(Priority.IMMEDIATE)
+            .format(DecodeFormat.PREFER_RGB_565)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 }
