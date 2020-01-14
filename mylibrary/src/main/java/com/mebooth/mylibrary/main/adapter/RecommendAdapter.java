@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -68,6 +70,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        Log.d("onCreateViewHolder", "" + viewType);
+
         if (viewType == 0) {
             return new HeaderViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recommenditem_headerviewlayout, parent, false));
@@ -98,8 +103,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
+
+
         //头部
         if (holder instanceof HeaderViewHolder) {
+            Log.d("onBindViewHolder", "HeaderViewHolder");
             GlideImageManager.glideLoader(context, bannerJson.getData().getConfig().getImage(), ((HeaderViewHolder) holder).headerImg, GlideImageManager.TAG_FILLET);
             ((HeaderViewHolder) holder).headerImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -140,7 +148,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
         //图片
         else if (holder instanceof ItemViewHolder) {
-
+            Log.d("onBindViewHolder", "ItemViewHolder");
             GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), ((ItemViewHolder) holder).headerImg, GlideImageManager.TAG_ROUND);
             ((ItemViewHolder) holder).nickName.setText(recommend.get(position).getUser().getNickname());
             ((ItemViewHolder) holder).content.setText(recommend.get(position).getFeed().getContent());
@@ -156,6 +164,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ItemViewHolder) holder).comment.setText(String.valueOf(recommend.get(position).getFeed().getReplies()));
 
         } else if (holder instanceof OneViewHolder) {
+            Log.d("onBindViewHolder", "OneViewHolder");
             praises = 0;
             GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), ((OneViewHolder) holder).headerImg, GlideImageManager.TAG_ROUND);
 
@@ -388,6 +397,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
         } else if (holder instanceof TwoViewHolder) {
+            Log.d("onBindViewHolder", "TwoViewHolder");
             praises = 0;
             GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), ((TwoViewHolder) holder).headerImg, GlideImageManager.TAG_ROUND);
 
@@ -621,6 +631,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
         } else if (holder instanceof ThreeViewHolder) {
+            Log.d("onBindViewHolder", "ThreeViewHolder");
             praises = 0;
             GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), ((ThreeViewHolder) holder).headerImg, GlideImageManager.TAG_ROUND);
 
@@ -855,6 +866,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
         } else if (holder instanceof FourViewHolder) {
+            Log.d("onBindViewHolder", "FourViewHolder");
             praises = 0;
             GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), ((FourViewHolder) holder).headerImg, GlideImageManager.TAG_ROUND);
 
@@ -1090,6 +1102,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
         } else if (holder instanceof ZeorViewHolder) {
+            Log.d("onBindViewHolder", "ZeorViewHolder");
             praises = 0;
             GlideImageManager.glideLoader(context, recommend.get(position).getUser().getAvatar(), ((ZeorViewHolder) holder).headerImg, GlideImageManager.TAG_ROUND);
 
@@ -1346,7 +1359,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else if (recommend.get(position).getFeed().getImages().size() >= 4) {
                 return RECOMMENDFOURVIEW;
             }
-        }else{
+        } else {
             return RECOMMENDVIEW;
         }
 

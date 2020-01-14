@@ -15,6 +15,7 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.mebooth.mylibrary.main.AppApplication;
 
 import java.io.IOException;
@@ -246,6 +247,14 @@ public class UIUtils {
         }catch(Throwable throwable) {
 
         }
+    }
+
+    /** * 清除内存缓存. */
+    public static void clearMemoryCache(Context context){
+        // This method must be called on the main thread.
+        System.gc();
+        Glide.get(context).clearMemory();
+//        GlideApp.get(context).clearMemory();
     }
 
 }

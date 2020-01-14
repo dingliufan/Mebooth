@@ -27,6 +27,7 @@ import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -93,7 +94,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
                         if (null != getNowJson && getNowJson.getErrno() == 0) {
                             offSet = String.valueOf(getNowJson.getData().getOffset());
                             initList(tag, getNowJson);
-
+//                            UIUtils.clearMemoryCache(getActivity());
                         } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");

@@ -103,10 +103,10 @@ public class RecommendItemVIewFour implements ItemViewDelegate<GetRecommendJson.
         }
 
         holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
-//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
-//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
-//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
-//        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
+        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
+        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
+        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
+        GlideImageManager.glideLoader(context, recommend.get(position).getFeed().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
 //
 //        RequestOptions filletOptions = new RequestOptions()
 //                .placeholder(R.drawable.errorimage)
