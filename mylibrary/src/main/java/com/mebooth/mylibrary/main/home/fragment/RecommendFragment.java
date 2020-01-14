@@ -215,7 +215,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     public void OnItemClick(int position) {
-
+        Log.d("TAG","");
         //TODO 详情
         if (recommend.get(position).getFeed().getType() == 1) {
             Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
