@@ -78,7 +78,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                 .setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.main_color))); //设置刷新为官方推介
         mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
         mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
-
+Log.e("test","test");
     }
 
     @Override
@@ -106,6 +106,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                             bannerJson = flushJson;
                             initRecycle();
+
                             mSmart.autoRefresh();
                         } else if (null != flushJson && flushJson.getErrno() == 1101) {
 
@@ -282,6 +283,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     }
 
     private void initRecycle() {
+        Log.e("test","test");
 //        commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
 //        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity(),recommend));
 //        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity(),recommend));

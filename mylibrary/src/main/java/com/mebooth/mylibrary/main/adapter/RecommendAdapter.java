@@ -72,7 +72,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Log.d("onCreateViewHolder", "" + viewType);
-
+        //这个函数是移除一个，会好很多。但是这个view我想想怎么搞
+//for(int i=0;i<parent.getChildCount();i++){
+//    View views=parent.getChildAt(i);
+//    parent.removeView(views);
+//}
+//        parent.removeView(parent.get);
         if (viewType == 0) {
             return new HeaderViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recommenditem_headerviewlayout, parent, false));
