@@ -61,7 +61,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RecommendFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener, OnItemClickListener {
 
     //    private MultiItemTypeAdapter commonAdapter;
-//    private CommonAdapter commonAdapter;
+    private CommonAdapter commonAdapter;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
 
@@ -86,6 +86,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     @Override
     protected void initView(View view) {
         recyclerView = view.findViewById(R.id.classify_recycle);
+        recyclerView.setItemViewCacheSize(10);
         mSmart = view.findViewById(R.id.classify_smart);
         mSmart.setRefreshHeader(new MaterialHeader(getActivity()).setShowBezierWave(false)
                 .setColorSchemeColors(ContextCompat.getColor(getActivity(), R.color.main_color))); //设置刷新为官方推介
