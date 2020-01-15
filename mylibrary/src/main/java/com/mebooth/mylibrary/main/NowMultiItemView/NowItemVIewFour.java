@@ -24,9 +24,11 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.RoundedCornersTransformation;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -126,8 +128,9 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
             }
         });
 
+        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon),50,nowDataList.getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
-        GlideImageManager.glideLoader(context, nowDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
+//        GlideImageManager.glideLoader(context, nowDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
         holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
 
         if (nowDataList.getUser().isFollowed()) {
@@ -147,10 +150,16 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
         }
 
         holder.setText(R.id.recommenditem_content, nowDataList.getTopic().getContent());
-        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
-        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
-        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
-        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
+
+        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgone),8,nowDataList.getTopic().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
+        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgtwo),8,nowDataList.getTopic().getImages().get(1), RoundedCornersTransformation.CORNER_ALL);
+        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgthree),8,nowDataList.getTopic().getImages().get(2), RoundedCornersTransformation.CORNER_ALL);
+        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgfour),8,nowDataList.getTopic().getImages().get(3), RoundedCornersTransformation.CORNER_ALL);
+
+//        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree), GlideImageManager.TAG_FILLET);
+//        GlideImageManager.glideLoader(context, nowDataList.getTopic().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
 
         if (nowDataList.getTopic().getImages().size() == 4) {
             holder.setVisible(R.id.recommenditem_imgmore, View.GONE);

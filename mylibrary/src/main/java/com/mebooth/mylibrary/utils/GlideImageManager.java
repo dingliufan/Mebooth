@@ -155,10 +155,8 @@ public class GlideImageManager {
             .error(R.drawable.errorimage)
             .fallback(R.color.bg_ffffff)
             .priority(Priority.IMMEDIATE)
-            .format(DecodeFormat.PREFER_RGB_565)
-            .skipMemoryCache(true)
 //            .diskCacheStrategy(DiskCacheStrategy.ALL);
-            .diskCacheStrategy(DiskCacheStrategy.NONE);
+            .diskCacheStrategy(DiskCacheStrategy.ALL);
 
     //圆形
     public static final int TAG_ROUND = 1;
@@ -169,9 +167,7 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new CircleCrop())
             .priority(Priority.IMMEDIATE)
-            .skipMemoryCache(true)
-            .format(DecodeFormat.PREFER_RGB_565)
-            .diskCacheStrategy(DiskCacheStrategy.NONE);
+            .diskCacheStrategy(DiskCacheStrategy.ALL);
 
     //圆角(8dip)
     public static final int TAG_FILLET = 2;
@@ -182,9 +178,7 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new RoundedCorners(8))
             .priority(Priority.IMMEDIATE)
-            .skipMemoryCache(true)
-            .format(DecodeFormat.PREFER_RGB_565)
-            .diskCacheStrategy(DiskCacheStrategy.NONE);
+            .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 
     //设置圆角的公共Options
@@ -194,8 +188,6 @@ public class GlideImageManager {
             .fallback(R.color.bg_ffffff)
             .centerCrop()
             .priority(Priority.IMMEDIATE)
-            .skipMemoryCache(true)
-            .format(DecodeFormat.PREFER_RGB_565)
-            .diskCacheStrategy(DiskCacheStrategy.NONE);
+            .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 }

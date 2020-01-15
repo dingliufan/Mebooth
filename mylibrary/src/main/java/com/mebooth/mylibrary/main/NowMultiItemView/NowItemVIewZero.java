@@ -24,9 +24,11 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.RoundedCornersTransformation;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 
 import java.util.ArrayList;
 
@@ -125,7 +127,9 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
             }
         });
 
-        GlideImageManager.glideLoader(context, nowDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
+        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon),50,nowDataList.getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
+
+//        GlideImageManager.glideLoader(context, nowDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
         holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
 
         if (nowDataList.getUser().isFollowed()) {

@@ -349,4 +349,11 @@ public class MineActivity extends BaseTransparentActivity {
                 });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        UIUtils.clearMemoryCache();
+
+    }
 }

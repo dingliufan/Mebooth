@@ -613,8 +613,10 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                             newdetailsComment.setText("" + getNewInfoJson.getData().getNews().getReplies());
                             if (getNewInfoJson.getData().getNews().getReplies() != 0) {
                                 getCommentList();
-
                             }
+
+                            UIUtils.clearMemoryCache();
+
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -663,6 +665,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         UIUtils.releaseImageViewResource(newdetailsImage);
         dialog = null;
         sharedPopup = null;
+        UIUtils.clearMemoryCache();
     }
 
 }

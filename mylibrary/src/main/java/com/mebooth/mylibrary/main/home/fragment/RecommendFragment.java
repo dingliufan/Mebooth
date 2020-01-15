@@ -42,6 +42,7 @@ import com.mebooth.mylibrary.main.view.OnItemClickListener;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.RoundedCornersTransformation;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
@@ -161,7 +162,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
 
-//                            UIUtils.clearMemoryCache(getActivity());
+                            UIUtils.clearMemoryCache();
 
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
@@ -210,8 +211,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         if (tag == REFLUSH_LIST) {
             recommend.clear();
-            GetRecommendJson.RecommendData.RecommendDataList recommendDataList = new GetRecommendJson.RecommendData.RecommendDataList();
-            recommend.add(recommendDataList);
+            if(getRecommendJson.getData().getList().size() != 0){
+                recommend.add(getRecommendJson.getData().getList().get(0));
+            }
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
@@ -309,7 +311,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     holder.setVisible(R.id.recommend_header_lly, View.VISIBLE);
                     holder.setVisible(R.id.recommendnews_item, View.GONE);
                     holder.setVisible(R.id.recommendnow_item, View.GONE);
-                    GlideImageManager.glideLoader(getActivity(), bannerJson.getData().getConfig().getImage(), (ImageView) holder.getView(R.id.recommenditem_headerimg), GlideImageManager.TAG_FILLET);
+                    UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headerimg),0,bannerJson.getData().getConfig().getImage(), RoundedCornersTransformation.CORNER_ALL);
+
+//                    GlideImageManager.glideLoader(getActivity(), bannerJson.getData().getConfig().getImage(), (ImageView) holder.getView(R.id.recommenditem_headerimg), GlideImageManager.TAG_FILLET);
 
                     holder.setOnClickListener(R.id.recommenditem_headerimg, new View.OnClickListener() {
                         @Override
@@ -354,17 +358,19 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     });
 
                 } else {
-                    holder.setVisible(R.id.recommend_header_lly, View.GONE);
-                    holder.setVisible(R.id.recommendnews_item, View.VISIBLE);
-                    holder.setVisible(R.id.recommendnow_item, View.GONE);
 
                     if (recommend.get(position).getFeed().getType() != 1) {
+                        holder.setVisible(R.id.recommend_header_lly, View.GONE);
+                        holder.setVisible(R.id.recommendnews_item, View.VISIBLE);
+                        holder.setVisible(R.id.recommendnow_item, View.GONE);
+                        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon),50,recommend.get(position).getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
-                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
+//                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
                         holder.setText(R.id.recommenditem_nickname, recommend.get(position).getUser().getNickname());
 
                         holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
-                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
+                        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_img),8,recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
+//                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
                         int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
                         int date = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
                         int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
@@ -377,7 +383,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 
                     } else {
-
+                        holder.setVisible(R.id.recommend_header_lly, View.GONE);
+                        holder.setVisible(R.id.recommendnews_item, View.GONE);
+                        holder.setVisible(R.id.recommendnow_item, View.VISIBLE);
                         if (recommend.get(position).getFeed().getImages().size() == 1) {
 
                             holder.setVisible(R.id.recommenditem_imgone1, View.VISIBLE);
@@ -386,46 +394,61 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             holder.setVisible(R.id.recommenditem_imgthree1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llyfour1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llyfour2, View.GONE);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgone1),8,recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
 
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone1), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone1), GlideImageManager.TAG_FILLET);
 
                         } else if (recommend.get(position).getFeed().getImages().size() == 2) {
-                            holder.setVisible(R.id.recommenditem_imgone1, View.VISIBLE);
+                            holder.setVisible(R.id.recommenditem_imgone1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llytwo, View.VISIBLE);
                             holder.setVisible(R.id.recommenditem_img_llythree, View.GONE);
                             holder.setVisible(R.id.recommenditem_imgthree1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llyfour1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llyfour2, View.GONE);
 
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone2), GlideImageManager.TAG_FILLET);
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo1), GlideImageManager.TAG_FILLET);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgone2),8,recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgtwo1),8,recommend.get(position).getFeed().getImages().get(1), RoundedCornersTransformation.CORNER_ALL);
+
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone2), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo1), GlideImageManager.TAG_FILLET);
 
 
                         } else if (recommend.get(position).getFeed().getImages().size() == 3) {
-                            holder.setVisible(R.id.recommenditem_imgone1, View.VISIBLE);
-                            holder.setVisible(R.id.recommenditem_img_llytwo, View.VISIBLE);
+                            holder.setVisible(R.id.recommenditem_imgone1, View.GONE);
+                            holder.setVisible(R.id.recommenditem_img_llytwo, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llythree, View.VISIBLE);
                             holder.setVisible(R.id.recommenditem_imgthree1, View.VISIBLE);
                             holder.setVisible(R.id.recommenditem_img_llyfour1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llyfour2, View.GONE);
 
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone3), GlideImageManager.TAG_FILLET);
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo2), GlideImageManager.TAG_FILLET);
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree1), GlideImageManager.TAG_FILLET);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgone3),8,recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgtwo2),8,recommend.get(position).getFeed().getImages().get(1), RoundedCornersTransformation.CORNER_ALL);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgthree1),8,recommend.get(position).getFeed().getImages().get(2), RoundedCornersTransformation.CORNER_ALL);
+//
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone3), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo2), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree1), GlideImageManager.TAG_FILLET);
 
 
                         } else if (recommend.get(position).getFeed().getImages().size() >= 4) {
-                            holder.setVisible(R.id.recommenditem_imgone1, View.VISIBLE);
-                            holder.setVisible(R.id.recommenditem_img_llytwo, View.VISIBLE);
-                            holder.setVisible(R.id.recommenditem_img_llythree, View.VISIBLE);
-                            holder.setVisible(R.id.recommenditem_imgthree1, View.VISIBLE);
+                            holder.setVisible(R.id.recommenditem_imgone1, View.GONE);
+                            holder.setVisible(R.id.recommenditem_img_llytwo, View.GONE);
+                            holder.setVisible(R.id.recommenditem_img_llythree, View.GONE);
+                            holder.setVisible(R.id.recommenditem_imgthree1, View.GONE);
                             holder.setVisible(R.id.recommenditem_img_llyfour1, View.VISIBLE);
                             holder.setVisible(R.id.recommenditem_img_llyfour2, View.VISIBLE);
 
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone4), GlideImageManager.TAG_FILLET);
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo3), GlideImageManager.TAG_FILLET);
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree2), GlideImageManager.TAG_FILLET);
-                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
+
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgone4),8,recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgtwo3),8,recommend.get(position).getFeed().getImages().get(1), RoundedCornersTransformation.CORNER_ALL);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgthree2),8,recommend.get(position).getFeed().getImages().get(2), RoundedCornersTransformation.CORNER_ALL);
+                            UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_imgfour),8,recommend.get(position).getFeed().getImages().get(3), RoundedCornersTransformation.CORNER_ALL);
+
+
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_imgone4), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(1), (ImageView) holder.getView(R.id.recommenditem_imgtwo3), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(2), (ImageView) holder.getView(R.id.recommenditem_imgthree2), GlideImageManager.TAG_FILLET);
+//                            GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(3), (ImageView) holder.getView(R.id.recommenditem_imgfour), GlideImageManager.TAG_FILLET);
                             if (recommend.get(position).getFeed().getImages().size() == 4) {
                                 holder.setVisible(R.id.recommenditem_imgmore, View.GONE);
                             } else {
@@ -434,7 +457,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             }
                         }
 
-                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon1), GlideImageManager.TAG_ROUND);
+                        UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon1),50,recommend.get(position).getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
+
+//                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon1), GlideImageManager.TAG_ROUND);
                         holder.setText(R.id.recommenditem_nickname1, recommend.get(position).getUser().getNickname());
 
                         if (recommend.get(position).getUser().isFollowed()) {
@@ -676,7 +701,22 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 订单详情
-
+                if (recommend.get(position).getFeed().getType() == 1) {
+                    Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
+                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
+                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+                    intent.putExtra("image", recommend.get(position).getUser().getAvatar());
+                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                    intent.putExtra("browse", recommend.get(position).getFeed().getWatches());
+                    intent.putExtra("replies", recommend.get(position).getFeed().getReplies());
+                    intent.putExtra("praises", recommend.get(position).getFeed().getPraises());
+                    startActivity(intent);
+                }
 
             }
 
