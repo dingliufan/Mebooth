@@ -23,4 +23,11 @@ public class NewMainActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.onef, NewMainFragment.newInstance()).commitAllowingStateLoss();
     }
 
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+
+
+
+    }
 }

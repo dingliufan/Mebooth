@@ -94,7 +94,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
                         if (null != getNowJson && getNowJson.getErrno() == 0) {
                             offSet = String.valueOf(getNowJson.getData().getOffset());
                             initList(tag, getNowJson);
-//                            UIUtils.clearMemoryCache(getActivity());
+                            UIUtils.clearMemoryCache();
                         } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");

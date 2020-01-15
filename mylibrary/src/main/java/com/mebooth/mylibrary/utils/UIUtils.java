@@ -250,10 +250,10 @@ public class UIUtils {
     }
 
     /** * 清除内存缓存. */
-    public static void clearMemoryCache(Context context){
+    public static void clearMemoryCache(){
         // This method must be called on the main thread.
+        Glide.get(AppApplication.getInstance()).clearMemory();
         System.gc();
-        Glide.get(context).clearMemory();
 //        GlideApp.get(context).clearMemory();
     }
 

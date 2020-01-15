@@ -148,7 +148,7 @@ Log.e("test","test");
                             offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
 
-//                            UIUtils.clearMemoryCache(getActivity());
+                            UIUtils.clearMemoryCache();
 
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
@@ -357,6 +357,7 @@ Log.e("test","test");
         super.onDestroyView();
 
         unbindDrawables(recyclerView);
+
 
     }
 

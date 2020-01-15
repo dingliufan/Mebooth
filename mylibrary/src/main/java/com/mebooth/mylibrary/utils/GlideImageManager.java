@@ -154,6 +154,7 @@ public class GlideImageManager {
             .error(R.drawable.errorimage)
             .fallback(R.color.bg_ffffff)
             .priority(Priority.IMMEDIATE)
+//            .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
     //圆形
@@ -165,8 +166,8 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new CircleCrop())
             .priority(Priority.IMMEDIATE)
+//            .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
-
     //圆角(8dip)
     public static final int TAG_FILLET = 2;
     public static RequestOptions filletOptions = new RequestOptions()
@@ -176,6 +177,7 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new RoundedCorners(8))
             .priority(Priority.IMMEDIATE)
+//            .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 
@@ -186,6 +188,6 @@ public class GlideImageManager {
             .fallback(R.color.bg_ffffff)
             .centerCrop()
             .priority(Priority.IMMEDIATE)
+//            .skipMemoryCache(true)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
-
 }

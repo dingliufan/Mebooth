@@ -100,7 +100,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                         if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
                             offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
-//                            UIUtils.clearMemoryCache(getActivity());
+                            UIUtils.clearMemoryCache();
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
