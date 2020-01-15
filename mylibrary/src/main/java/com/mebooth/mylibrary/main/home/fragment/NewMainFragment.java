@@ -157,6 +157,7 @@ public class NewMainFragment extends BaseFragment {
 
 //                textView.setTranslationX(10);
                 tab.setCustomView(textView);
+                UIUtils.clearMemoryCache();
             }
 
             @Override

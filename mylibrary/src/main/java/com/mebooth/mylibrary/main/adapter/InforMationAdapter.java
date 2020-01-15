@@ -131,4 +131,21 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
             commentCout = view.findViewById(R.id.recommenditem_commentcount);
         }
     }
+
+    @Override
+    public void onViewRecycled(@NonNull VH holder) {
+        super.onViewRecycled(holder);
+
+        clearViewResource(holder,holder.img);
+        clearViewResource(holder,holder.headerIcon);
+
+    }
+
+    private void clearViewResource(VH holder, ImageView imageView) {
+        if (imageView != null) {
+            imageView.setImageDrawable(null);
+            Glide.with(context).clear(imageView);
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.mebooth.mylibrary.baseadapter;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -130,5 +131,10 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
     }
 }

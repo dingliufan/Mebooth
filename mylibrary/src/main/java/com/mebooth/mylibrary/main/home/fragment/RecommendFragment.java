@@ -695,6 +695,25 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 
             }
+
+            @Override
+            public void onViewRecycled(@NonNull ViewHolder holder) {
+                super.onViewRecycled(holder);
+
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_img));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgone1));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgone2));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgone3));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgtwo1));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgtwo2));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgtwo3));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgthree1));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgthree2));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_imgfour));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_headericon1));
+                clearViewResource(holder,(ImageView) holder.getView(R.id.recommenditem_headericon));
+
+            }
         };
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
@@ -730,6 +749,13 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 //        recyclerView.setAdapter(commonAdapter);
 
+    }
+
+    private void clearViewResource(ViewHolder holder, ImageView imageView) {
+        if (imageView != null) {
+            imageView.setImageDrawable(null);
+            Glide.with(AppApplication.getInstance()).clear(imageView);
+        }
     }
 
     @Override

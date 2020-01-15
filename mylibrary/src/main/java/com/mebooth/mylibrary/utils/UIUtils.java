@@ -270,15 +270,14 @@ public class UIUtils {
             return;
         }
         try {
-            RoundedCornersTransformation glideCircleTransform = new RoundedCornersTransformation(radius, 0,
-                    cornerType, RoundedCornersTransformation.CENTER_CROP);
-            RequestOptions options = new RequestOptions().transform(glideCircleTransform);
+//            RoundedCornersTransformation glideCircleTransform = new RoundedCornersTransformation(radius, 0,
+//                    cornerType, RoundedCornersTransformation.CENTER_CROP);
+//            RequestOptions options = new RequestOptions().transform(glideCircleTransform);
 
             Glide.with(AppApplication.getInstance())
                     .asDrawable()//指定Bitmap类型的RequestBuilder
                     .load(url)//网络URL
                     .centerCrop()
-                    .apply(options)
                     .format(DecodeFormat.PREFER_RGB_565)
                     .into(imageView);//当url为空时，显示图片
         } catch (Exception e) {
