@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.home.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +24,7 @@ import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
+import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -216,11 +219,51 @@ public class FriendListActivity extends BaseTransparentActivity implements OnLoa
 
         commonAdapter = new CommonAdapter(this, R.layout.care_item, users) {
             @Override
-            protected void convert(ViewHolder holder, Object o, int position) {
+            protected void convert(ViewHolder holder, Object o, final int position) {
 
                 GlideImageManager.glideLoader(FriendListActivity.this, users.get(position).getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
 
                 holder.setText(R.id.recommenditem_nickname,users.get(position).getNickname());
+
+                holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        //取消关注
+                        ServiceFactory.getNewInstance()
+                                .createService(YService.class)
+                                .cancelFollow(users.get(position).getUid())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CommonObserver<PublicBean>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onNext(PublicBean publicBean) {
+                                        super.onNext(publicBean);
+
+                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                            ToastUtils.getInstance().showToast("已取消关注");
+                                            users.remove(position);
+                                            commonAdapter.notifyDataSetChanged();
+                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                        } else {
+
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        super.onError(e);
+
+                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                    }
+                                });
+
+                    }
+                });
 
             }
         };

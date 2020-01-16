@@ -14,6 +14,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -518,9 +519,9 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
                         if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 0) {
 
-                            if(getNowDetailsJson.getData().getTopic().getReplies() != 0){
+                            if (getNowDetailsJson.getData().getTopic().getReplies() != 0) {
                                 getCommentList();
-                            }else{
+                            } else {
 //                                noCmment.setVisibility(View.VISIBLE);
                             }
 
@@ -646,7 +647,14 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                         super.onNext(getIsFollowJson);
 
                         if (null != getIsFollowJson && getIsFollowJson.getErrno() == 0) {
-
+                            if (AppApplication.getInstance().userid != null) {
+                                Log.d("TAG", AppApplication.getInstance().userid);
+                                if (AppApplication.getInstance().userid.equals(String.valueOf(uid))) {
+                                    follow.setVisibility(View.GONE);
+                                } else {
+                                    follow.setVisibility(View.VISIBLE);
+                                }
+                            }
                             if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
                                 follow.setText("已关注");
                                 follow.setBackgroundResource(R.drawable.nofollow);
