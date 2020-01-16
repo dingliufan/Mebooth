@@ -16,8 +16,13 @@ import android.webkit.CookieSyncManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 
 import java.io.IOException;
@@ -252,13 +257,14 @@ public class UIUtils {
     }
 
     /** * 清除内存缓存. */
-    public static void clearMemoryCache(){
+    public static void clearMemoryCache(Context context){
         // This method must be called on the main thread.
         System.gc();
-        Glide.get(AppApplication.getInstance()).clearMemory();
+        Glide.get(context).clearMemory();
 //        GlideApp.get(context).clearMemory();
     }
 
+    
     /**
      * 加载圆角/圆形图片
      *
@@ -266,18 +272,39 @@ public class UIUtils {
      * @param radius    圆角度数
      */
     public static void loadRoundImage(ImageView imageView, int radius, String url, int cornerType) {
+
         if (imageView == null) {
             return;
         }
         try {
 //            RoundedCornersTransformation glideCircleTransform = new RoundedCornersTransformation(radius, 0,
 //                    cornerType, RoundedCornersTransformation.CENTER_CROP);
-//            RequestOptions options = new RequestOptions().transform(glideCircleTransform);
+//            RequestOptions options = new RequestOptions().transform(glideCircleTransform).override(200,200);
+            RequestOptions roundOptions = null;
+            if(radius == 50){
+                roundOptions = new RequestOptions()
+                        .placeholder(R.drawable.defaulticon)
+                        .error(R.drawable.defaulticon)
+                        .fallback(R.color.bg_ffffff)
+                        .transform(new CircleCrop())
+                        .priority(Priority.IMMEDIATE)
+                        .override(100,100);
+
+            }else{
+                roundOptions = new RequestOptions()
+                        .placeholder(R.drawable.errorimage)
+                        .error(R.drawable.errorimage)
+                        .fallback(R.color.bg_ffffff)
+                        .priority(Priority.IMMEDIATE)
+                        .override(700,700);
+            }
 
             Glide.with(AppApplication.getInstance())
                     .asDrawable()//指定Bitmap类型的RequestBuilder
                     .load(url)//网络URL
-                    .centerCrop()
+                    .apply(roundOptions)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .format(DecodeFormat.PREFER_RGB_565)
                     .into(imageView);//当url为空时，显示图片
         } catch (Exception e) {

@@ -155,6 +155,7 @@ public class GlideImageManager {
             .error(R.drawable.errorimage)
             .fallback(R.color.bg_ffffff)
             .priority(Priority.IMMEDIATE)
+            .override(1000,1000)
 //            .diskCacheStrategy(DiskCacheStrategy.ALL);
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
@@ -178,6 +179,7 @@ public class GlideImageManager {
             .centerCrop()
             .transform(new RoundedCorners(8))
             .priority(Priority.IMMEDIATE)
+            .override(1000,1000)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 
@@ -188,6 +190,7 @@ public class GlideImageManager {
             .fallback(R.color.bg_ffffff)
             .centerCrop()
             .priority(Priority.IMMEDIATE)
+            .override(1000,1000)
             .diskCacheStrategy(DiskCacheStrategy.ALL);
 
 }

@@ -611,7 +611,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                     }
                                 }
                             });
-                            UIUtils.clearMemoryCache();
+                            UIUtils.clearMemoryCache(NowDetailsActivity.this);
                         } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -799,6 +799,6 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         UIUtils.releaseImageViewResource(collectimg);
         dialog = null;
         sharedPopup = null;
-        UIUtils.clearMemoryCache();
+        UIUtils.clearMemoryCache(this);
     }
 }

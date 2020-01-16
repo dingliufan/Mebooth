@@ -615,7 +615,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                                 getCommentList();
                             }
 
-                            UIUtils.clearMemoryCache();
+                            UIUtils.clearMemoryCache(NewDetailsActivity.this);
 
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
 
@@ -665,7 +665,7 @@ public class NewDetailsActivity extends BaseTransparentActivity {
         UIUtils.releaseImageViewResource(newdetailsImage);
         dialog = null;
         sharedPopup = null;
-        UIUtils.clearMemoryCache();
+        UIUtils.clearMemoryCache(NewDetailsActivity.this);
     }
 
 }

@@ -353,7 +353,7 @@ public class MineActivity extends BaseTransparentActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        UIUtils.clearMemoryCache();
+        UIUtils.clearMemoryCache(this);
 
     }
 }

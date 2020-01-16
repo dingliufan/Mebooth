@@ -109,7 +109,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                         if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
                             offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
-                            UIUtils.clearMemoryCache();
+                            UIUtils.clearMemoryCache(getActivity());
                             adapter.setOnItemClickListener(InformationFragment.this);
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
@@ -156,6 +156,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
         if (tag == REFLUSH_LIST) {
             recommend.clear();
+            adapter.notifyDataSetChanged();
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);

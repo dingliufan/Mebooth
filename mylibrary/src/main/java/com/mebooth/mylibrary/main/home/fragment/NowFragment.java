@@ -94,7 +94,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
                         if (null != getNowJson && getNowJson.getErrno() == 0) {
                             offSet = String.valueOf(getNowJson.getData().getOffset());
                             initList(tag, getNowJson);
-                            UIUtils.clearMemoryCache();
+                            UIUtils.clearMemoryCache(getActivity());
                         } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -140,6 +140,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
         if (tag == REFLUSH_LIST) {
             list.clear();
+            commonAdapter.notifyDataSetChanged();
             list.addAll(nowJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);

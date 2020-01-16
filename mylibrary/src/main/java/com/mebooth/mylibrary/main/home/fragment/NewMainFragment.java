@@ -69,7 +69,6 @@ public class NewMainFragment extends BaseFragment {
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
     }
-
     @Override
     protected void setStatusBar() {
         super.setStatusBar();
@@ -85,7 +84,6 @@ public class NewMainFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-
 
         back = view.findViewById(R.id.public_back);
         title = view.findViewById(R.id.public_title);
@@ -157,7 +155,7 @@ public class NewMainFragment extends BaseFragment {
 
 //                textView.setTranslationX(10);
                 tab.setCustomView(textView);
-                UIUtils.clearMemoryCache();
+                UIUtils.clearMemoryCache(getActivity());
             }
 
             @Override

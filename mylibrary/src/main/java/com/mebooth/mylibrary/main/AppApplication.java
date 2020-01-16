@@ -83,9 +83,13 @@ public abstract class AppApplication extends Application {
         if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
         } else {
-            if (getCurProcessName(app).equals("io.rong.push")||getCurProcessName(app).contains("ipc")) {
+            if (getCurProcessName(app).equals("io.rong.push") || getCurProcessName(app).contains("ipc")) {
 
             } else {
+                //融云测试
+                //        RongIM.init(this, "8luwapkv8458l");
+                //融云线上
+                RongIM.init(this, "8brlm7uf8qp83");
                 getConnectToken();
 
             }
@@ -124,12 +128,6 @@ public abstract class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-
-        //融云测试
-//        RongIM.init(this, "8luwapkv8458l");
-        //融云线上
-        RongIM.init(this, "8brlm7uf8qp83");
-
 
 //        final RongIM.MessageInterceptor messageInterceptor = new RongIM.MessageInterceptor() {
 //            @Override

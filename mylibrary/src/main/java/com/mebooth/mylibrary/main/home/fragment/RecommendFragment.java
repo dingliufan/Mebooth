@@ -162,7 +162,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
 
-                            UIUtils.clearMemoryCache();
+                            UIUtils.clearMemoryCache(getActivity());
 
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
@@ -211,6 +211,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         if (tag == REFLUSH_LIST) {
             recommend.clear();
+            commonAdapter.notifyDataSetChanged();
             if(getRecommendJson.getData().getList().size() != 0){
                 recommend.add(getRecommendJson.getData().getList().get(0));
             }
@@ -671,7 +672,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                             }
                         });
-                        holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
+                        holder.setOnClickListener(R.id.recommenditem_headericon1, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
@@ -679,6 +680,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                     AppApplication.getInstance().setLogin();
 
                                 } else {
+
                                     Intent intent = new Intent(getActivity(), OtherUserActivity.class);
                                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
                                     intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
@@ -797,5 +799,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
         }
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
 
+        Glide.get(getActivity()).clearMemory();
+
+    }
 }
