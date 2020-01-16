@@ -603,7 +603,13 @@ public class NewDetailsActivity extends BaseTransparentActivity {
                         if (null != getNewInfoJson && getNewInfoJson.getErrno() == 0) {
                             GlideImageManager.glideLoader(NewDetailsActivity.this, getNewInfoJson.getData().getNews().getCover(), newdetailsImage, GlideImageManager.TAG_RECTANGLE);
                             newdetailsTitle.setText(getNewInfoJson.getData().getNews().getTitle());
-                            newdetailsTime.setText(getNewInfoJson.getData().getNews().getAddtime());
+                            int month = Integer.parseInt(getNewInfoJson.getData().getNews().getAddtime().substring(5, 7)) - 1;
+                            int date = Integer.parseInt(getNewInfoJson.getData().getNews().getAddtime().substring(8, 10));
+                            int hour = Integer.parseInt(getNewInfoJson.getData().getNews().getAddtime().substring(11, 13));
+                            int minute = Integer.parseInt(getNewInfoJson.getData().getNews().getAddtime().substring(14, 16));
+                            newdetailsTime.setText((month + 1) + "-" + date + " " + hour + ":" + minute);
+
+//                            newdetailsTime.setText(getNewInfoJson.getData().getNews().getAddtime());
                             adapter.addData(getNewInfoJson.getData().getNews().getContent());
 
                             //头像昵称
