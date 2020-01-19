@@ -69,6 +69,7 @@ public class NewMainFragment extends BaseFragment {
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
     }
+
     @Override
     protected void setStatusBar() {
         super.setStatusBar();
@@ -235,20 +236,26 @@ public class NewMainFragment extends BaseFragment {
                             RongIM.getInstance().setMessageAttachedUserInfo(true);
                             if (headerIconStr.equals("https://img.baojiawangluo.com/news/20191219160703313.jpg")) {
                                 if (AppApplication.getInstance().isFirst) {
-                                    new AlertView("设置头像或昵称", "您还没有设置头像或昵称，请先进行修改", "取消", new String[]{"确定"}, null, getActivity(),
-                                            AlertView.Style.Alert, new OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(Object o, int position) {
-                                            if (position == 0) {
-                                                Intent intent = new Intent(getActivity(), MineActivity.class);
+
+                                    try {
+                                        new AlertView("设置头像或昵称", "您还没有设置头像或昵称，请先进行修改", "取消", new String[]{"确定"}, null, getActivity(),
+                                                AlertView.Style.Alert, new OnItemClickListener() {
+                                            @Override
+                                            public void onItemClick(Object o, int position) {
+                                                if (position == 0) {
+                                                    Intent intent = new Intent(getActivity(), MineActivity.class);
 //                    Intent intent = new Intent(getActivity(), FriendFragment.class);
-                                                intent.putExtra("uid", uid);
-                                                intent.putExtra("headericon", headerIconStr);
-                                                intent.putExtra("nickname", nickName);
-                                                startActivity(intent);
+                                                    intent.putExtra("uid", uid);
+                                                    intent.putExtra("headericon", headerIconStr);
+                                                    intent.putExtra("nickname", nickName);
+                                                    startActivity(intent);
+                                                }
                                             }
-                                        }
-                                    }).show();
+                                        }).show();
+                                    } catch (Exception e) {
+
+                                    }
+
                                     AppApplication.getInstance().isFirst = false;
                                 }
 

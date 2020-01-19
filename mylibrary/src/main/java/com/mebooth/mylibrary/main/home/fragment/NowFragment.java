@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 
@@ -83,7 +85,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getNow(offSet,pageSize)
+                .getNow(offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetNowJson>() {
@@ -99,7 +101,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
                             SharedPreferencesUtils.writeString("token", "");
                             cancelRefresh(tag);
-                        }else if (null != getNowJson && getNowJson.getErrno() != 200) {
+                        } else if (null != getNowJson && getNowJson.getErrno() != 200) {
 
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowJson.getErrmsg()) ? "数据加载失败" : getNowJson.getErrmsg());
                             cancelRefresh(tag);
@@ -144,7 +146,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
             list.addAll(nowJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
-        }else {
+        } else {
             if (nowJson.getData().getList().size() == 0) {
 
                 mSmart.finishLoadMoreWithNoMoreData();
@@ -199,7 +201,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     }
 
     private void initRecycle() {
-        commonAdapter = new MultiItemTypeAdapter(getActivity(),list);
+        commonAdapter = new MultiItemTypeAdapter(getActivity(), list);
         commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity()));
         commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity()));
         commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity()));
@@ -212,8 +214,8 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
                 //TODO 详情
                 Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
-                intent.putExtra("relateid",list.get(position).getTopic().getTid());
-                intent.putExtra("uid",list.get(position).getTopic().getUid());
+                intent.putExtra("relateid", list.get(position).getTopic().getTid());
+                intent.putExtra("uid", list.get(position).getTopic().getUid());
                 startActivity(intent);
             }
 
@@ -237,11 +239,17 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
         offSet = "";
         getRecommend(REFLUSH_LIST);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mHandler.removeCallbacksAndMessages(null);
+        if (mHandler == null) {
+
+
+        } else {
+            mHandler.removeCallbacksAndMessages(null);
+        }
 
     }
 }

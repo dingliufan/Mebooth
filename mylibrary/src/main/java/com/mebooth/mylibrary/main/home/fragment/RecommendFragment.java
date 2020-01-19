@@ -775,7 +775,12 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     public void onDestroy() {
         super.onDestroy();
 
-        mHandler.removeCallbacksAndMessages(null);
+        if (mHandler == null) {
+//
+        } else {
+            mHandler.removeCallbacksAndMessages(null);
+        }
+
 
     }
 

@@ -301,8 +301,13 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mHandler == null) {
 
-        mHandler.removeCallbacksAndMessages(null);
+
+        } else {
+            mHandler.removeCallbacksAndMessages(null);
+        }
+
 
     }
 
