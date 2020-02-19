@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -122,6 +123,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 
     private int mDistance = 0;
     private int maxDistance = 255;//当距离在[0,255]变化时，透明度在[0,255之间变化]
+    private TextView follow;
 
 
     @Override
@@ -172,6 +174,8 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
         newdetailsCollectImg = findViewById(R.id.newdetails_collect_img);
         newdetailsHeaderIcon = header.findViewById(R.id.recommenditem_headericon);
         newdetailsNickName = header.findViewById(R.id.recommenditem_nickname);
+        follow = header.findViewById(R.id.recommenditem_follow);
+//        follow.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.classify_recycle);
         expandableListView = footer.findViewById(R.id.detail_page_lv_comment);
         commentEdit = findViewById(R.id.detail_page_do_comment);
@@ -349,6 +353,140 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                 finish();
             }
         });
+
+    }
+
+    private void getIsFollow() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .getIsFollow(uid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetIsFollowJson>() {
+                    @Override
+                    public void onNext(final GetIsFollowJson getIsFollowJson) {
+                        super.onNext(getIsFollowJson);
+
+                        if (null != getIsFollowJson && getIsFollowJson.getErrno() == 0) {
+                            follow.setVisibility(View.VISIBLE);
+                            if (AppApplication.getInstance().userid != null) {
+                                Log.d("TAG", AppApplication.getInstance().userid);
+                                if (AppApplication.getInstance().userid.equals(String.valueOf(uid))) {
+                                    follow.setVisibility(View.GONE);
+                                } else {
+                                    follow.setVisibility(View.VISIBLE);
+                                }
+                            }
+                            if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
+                                follow.setText("已关注");
+                                follow.setTextColor(getResources().getColor(R.color.bg_999999));
+                                follow.setBackgroundResource(R.drawable.nofollow);
+                            } else {
+                                follow.setText("关注");
+                                follow.setTextColor(getResources().getColor(R.color.bg_E73828));
+                                follow.setBackgroundResource(R.drawable.follow);
+                            }
+
+                            follow.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
+
+                                        //取消关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .cancelFollow(uid)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            getIsFollowJson.getData().getUsers().get(0).setFollowed(false);
+                                                            ToastUtils.getInstance().showToast("已取消关注");
+                                                            follow.setText("关注");
+                                                            follow.setBackgroundResource(R.drawable.follow);
+                                                            follow.setTextColor(getResources().getColor(R.color.bg_E73828));
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    } else {
+                                        //添加关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .addFollow(uid)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            getIsFollowJson.getData().getUsers().get(0).setFollowed(true);
+                                                            ToastUtils.getInstance().showToast("已关注");
+                                                            follow.setText("已关注");
+                                                            follow.setBackgroundResource(R.drawable.nofollow);
+                                                            follow.setTextColor(getResources().getColor(R.color.bg_999999));
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            });
+
+                        } else if (null != getIsFollowJson && getIsFollowJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                        } else if (null != getIsFollowJson && getIsFollowJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIsFollowJson.getErrmsg()) ? "数据加载失败" : getIsFollowJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
 
     }
 
@@ -730,6 +868,9 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 
                         if (null != getNewInfoJson && getNewInfoJson.getErrno() == 0) {
 
+                            uid = getNewInfoJson.getData().getUser().getUid();
+                            getIsFollow();
+
                             newdetailsTitle.setVisibility(View.VISIBLE);
                             newdetailsTimeLLY.setVisibility(View.VISIBLE);
                             newdetailsNameLLY.setVisibility(View.VISIBLE);
@@ -934,6 +1075,5 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
             getCommentList();
         }
         getNewDetails();
-
     }
 }

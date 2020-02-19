@@ -390,32 +390,60 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         public void onClick(View v) {
 
 //                            Intent intent = new Intent(getActivity(), QuicklyActivity.class);
-                            Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
-                            intent.putExtra("type", config.get(0).getFoward());
-                            intent.putExtra("image", config.get(0).getImage());
-                            intent.putExtra("title", config.get(0).getName());
-                            startActivity(intent);
+
+                            if(config.get(0).getTarget().equals("url")){
+                                Intent intent = new Intent(getActivity(), QuicklyActivity.class);
+                                intent.putExtra("url", config.get(0).getFoward());
+                                intent.putExtra("title", config.get(0).getName());
+                                startActivity(intent);
+                            }else{
+                                Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
+                                intent.putExtra("type", config.get(0).getFoward());
+                                intent.putExtra("image", config.get(0).getImage());
+                                intent.putExtra("title", config.get(0).getName());
+                                startActivity(intent);
+                            }
+
+
 
                         }
                     });
                     holder.setOnClickListener(R.id.publicusecar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
-                            intent.putExtra("type", config.get(1).getFoward());
-                            intent.putExtra("image", config.get(1).getImage());
-                            intent.putExtra("title", config.get(1).getName());
-                            startActivity(intent);
+
+                            if(config.get(1).getTarget().equals("url")){
+                                Intent intent = new Intent(getActivity(), QuicklyActivity.class);
+                                intent.putExtra("url", config.get(1).getFoward());
+                                intent.putExtra("title", config.get(1).getName());
+                                startActivity(intent);
+                            }else{
+                                Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
+                                intent.putExtra("type", config.get(1).getFoward());
+                                intent.putExtra("image", config.get(1).getImage());
+                                intent.putExtra("title", config.get(1).getName());
+                                startActivity(intent);
+                            }
+
+
                         }
                     });
                     holder.setOnClickListener(R.id.logisticsusecar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
-                            intent.putExtra("type", config.get(2).getFoward());
-                            intent.putExtra("image", config.get(2).getImage());
-                            intent.putExtra("title", config.get(2).getName());
-                            startActivity(intent);
+                            if(config.get(1).getTarget().equals("url")){
+                                Intent intent = new Intent(getActivity(), QuicklyActivity.class);
+                                intent.putExtra("url", config.get(2).getFoward());
+                                intent.putExtra("title", config.get(2).getName());
+                                startActivity(intent);
+                            }else{
+                                Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
+                                intent.putExtra("type", config.get(2).getFoward());
+                                intent.putExtra("image", config.get(2).getImage());
+                                intent.putExtra("title", config.get(2).getName());
+                                startActivity(intent);
+                            }
+
                         }
                     });
 

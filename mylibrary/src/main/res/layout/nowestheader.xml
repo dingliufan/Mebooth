@@ -47,7 +47,7 @@
             android:background="@drawable/follow"
             android:gravity="center"
             android:text="关注"
-            android:textColor="@color/bg_000000"
+            android:textColor="@color/bg_E73828"
             android:textSize="14sp" />
 
     </LinearLayout>

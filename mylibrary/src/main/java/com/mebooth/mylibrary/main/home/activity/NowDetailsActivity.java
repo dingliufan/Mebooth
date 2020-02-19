@@ -760,6 +760,8 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             ToastUtils.getInstance().showToast("已取消关注");
                                                             follow.setText("关注");
                                                             follow.setBackgroundResource(R.drawable.follow);
+                                                            follow.setTextColor(getResources().getColor(R.color.bg_E73828));
+
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -795,6 +797,8 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             ToastUtils.getInstance().showToast("已关注");
                                                             follow.setText("已关注");
                                                             follow.setBackgroundResource(R.drawable.nofollow);
+                                                            follow.setTextColor(getResources().getColor(R.color.bg_999999));
+
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());

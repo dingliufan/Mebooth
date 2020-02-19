@@ -14,7 +14,7 @@ import com.mebooth.mylibrary.utils.UIUtils;
 public class QuicklyActivity extends BaseTransparentActivity {
 
     private WebView quicklyWeb;
-    private String type;
+    private String url;
     private ImageView back;
     private TextView title;
 
@@ -39,14 +39,14 @@ public class QuicklyActivity extends BaseTransparentActivity {
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
 
-        type = getIntent().getStringExtra("type");
+        url = getIntent().getStringExtra("url");
 
         title.setText(getIntent().getStringExtra("title"));
 
         findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         //访问网页
-        quicklyWeb.loadUrl("http://static.meboth.cn/xiaomi/metripapp/rmcx/newsList.html?fastType="+type);
+        quicklyWeb.loadUrl(url);
         quicklyWeb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
         quicklyWeb.getSettings().setJavaScriptEnabled(true);//是否允许执行js，默认为false。设置true时，会提醒可能造成XSS漏洞
 

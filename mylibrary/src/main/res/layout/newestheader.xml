@@ -110,7 +110,16 @@
             android:letterSpacing="0.1"
             android:textColor="@color/bg_000000"
             android:textSize="18.5sp" />
-
+        <TextView
+            android:id="@+id/recommenditem_follow"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/follow"
+            android:gravity="center"
+            android:text="关注"
+            android:textColor="@color/bg_E73828"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>
