@@ -62,6 +62,7 @@ public class MineActivity extends BaseTransparentActivity {
     private ImageView edit;
 
     private List<String> mTitles = new ArrayList<>();
+    private String mTitles1[];
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private MeCareFragment meCareFragment = new MeCareFragment();
     private MeCollectFragment meCollectFragment = new MeCollectFragment();
@@ -173,12 +174,14 @@ public class MineActivity extends BaseTransparentActivity {
 
                         if (null != getMineCountJson && getMineCountJson.getErrno() == 0) {
 
-                            mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我发布的");
+                            mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我的发布");
                             mTitles.add(getMineCountJson.getData().getStats().getFollowing()+"\n我的关注");
                             mTitles.add(getMineCountJson.getData().getStats().getPraise()+"\n我的收藏");
 
+                            mTitles1 = mTitles.toArray(new String[mTitles.size()]);
 
-                            mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), MineActivity.this, mFragments, mTitles);
+
+                            mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), MineActivity.this, mFragments, mTitles1);
                             viewPager.setAdapter(mAdapter);
                             tabLayout.setupWithViewPager(viewPager);
                             tabLayout.setSelectedTabIndicatorHeight(0);

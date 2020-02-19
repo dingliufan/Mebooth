@@ -69,6 +69,7 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     private int uid;
     private String nickName;
     private TextView notTopic;
+    private String index = "";
 
     @Override
     protected int getContentViewId() {
@@ -78,6 +79,8 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
     @Override
     protected void initView() {
         super.initView();
+
+        index = getIntent().getStringExtra("index");
 
         back = findViewById(R.id.otheruser_back);
         title = findViewById(R.id.otheruser_title);
@@ -92,7 +95,13 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
         mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
 
+        if(index.equals("newsother")){
 
+            title.setText("ta发布的此刻");
+
+        }else{
+            title.setText("我发布的此刻");
+        }
     }
 
     @Override
@@ -117,9 +126,8 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
         super.initData();
 
         uid = getIntent().getIntExtra("uid", 0);
-        nickName = getIntent().getStringExtra("nickname");
 
-        title.setText(nickName);
+//        title.setText(nickName);
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
@@ -131,12 +139,6 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
             }
         });
 
-        chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RongIM.getInstance().startPrivateChat(OtherUserActivity.this, String.valueOf(uid), nickName);
-            }
-        });
 
     }
 
@@ -253,14 +255,19 @@ public class OtherUserActivity extends BaseTransparentActivity implements OnLoad
             @Override
             public void isCollect() {
             }
+
+            @Override
+            public void showAddButton() {
+
+            }
         };
 
         commonAdapter = new MultiItemTypeAdapter(this, list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "other", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "other", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "others", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "others", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "others", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "others", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "others", commonAdapter, list,noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

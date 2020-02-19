@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
@@ -255,7 +256,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
                 //TODO 订单详情
 
-                Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
                 intent.putExtra("uid", users.get(position).getUid());
                 intent.putExtra("nickname", users.get(position).getNickname());
                 getActivity().startActivity(intent);

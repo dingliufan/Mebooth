@@ -14,15 +14,29 @@
             android:layout_width="50dp"
             android:layout_height="50dp" />
 
-        <TextView
-            android:id="@+id/recommenditem_nickname"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:textColor="@color/bg_000000"
-            android:textSize="13sp" />
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recommenditem_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/bg_000000"
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/recommenditem_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textColor="@color/bg_999999"
+                android:textSize="15sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/recommenditem_follow"
@@ -44,8 +58,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"
+        android:letterSpacing="0.12"
+        android:lineSpacingExtra="10dp"
         android:layout_marginRight="15dp"
         android:textColor="@color/bg_000000"
-        android:textSize="15sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

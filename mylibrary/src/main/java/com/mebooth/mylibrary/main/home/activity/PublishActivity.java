@@ -17,7 +17,9 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +47,7 @@ import com.mebooth.mylibrary.main.utils.BroadcastManager;
 import com.mebooth.mylibrary.main.utils.GlideEngine;
 import com.mebooth.mylibrary.main.utils.GridSpacingItemNotBothDecoration;
 import com.mebooth.mylibrary.main.utils.MyLocationUtil;
+import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.FullyGridLayoutManager;
@@ -144,7 +147,7 @@ public class PublishActivity extends BaseTransparentActivity {
         findViewById(R.id.publishheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
 
-        title.setText("此刻");
+        title.setText("发此刻");
 
         right.setVisibility(View.VISIBLE);
         right.setText("发布");
@@ -193,8 +196,9 @@ public class PublishActivity extends BaseTransparentActivity {
                     ToastUtils.getInstance().showToast("至少包含一张图片");
 
                 } else {
-                    if(isSending){
+                    if (isSending) {
                         isSending = false;
+                        right.setTextColor(getResources().getColor(R.color.bg_999999));
                         for (LocalMedia media : selectList) {
                             Log.i(TAG, "压缩---->" + media.getCompressPath());
                             Log.i(TAG, "原图---->" + media.getPath());
@@ -233,12 +237,31 @@ public class PublishActivity extends BaseTransparentActivity {
     }
 
     private void initRecycle() {
+
+        NoPublish noPublish = new NoPublish() {
+            @Override
+            public void isPublish() {
+//                getIsShowPublish();
+            }
+
+            @Override
+            public void isCollect() {
+
+            }
+
+            @Override
+            public void showAddButton() {
+
+            }
+        };
+
+
         FullyGridLayoutManager manager = new FullyGridLayoutManager(this,
                 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new GridSpacingItemNotBothDecoration(4,
                 ScreenUtils.dip2px(this, 8), true, false));
-        adapter = new GridImageAdapter(PublishActivity.this, onAddPicClickListener);
+        adapter = new GridImageAdapter(PublishActivity.this, onAddPicClickListener, noPublish);
         adapter.setList(selectList);
         adapter.setSelectMax(maxCount);
         recyclerView.setAdapter(adapter);
@@ -391,12 +414,15 @@ public class PublishActivity extends BaseTransparentActivity {
 
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() == 1101) {
                                 isSending = true;
+                                right.setTextColor(getResources().getColor(R.color.bg_E73828));
                                 SharedPreferencesUtils.writeString("token", "");
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() != 200) {
                                 isSending = true;
+                                right.setTextColor(getResources().getColor(R.color.bg_E73828));
                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(updateHeaderFileJson.getErrmsg()) ? "数据加载失败" : updateHeaderFileJson.getErrmsg());
                             } else {
                                 isSending = true;
+                                right.setTextColor(getResources().getColor(R.color.bg_E73828));
                                 ToastUtils.getInstance().showToast("数据加载失败");
                             }
                         }
@@ -441,12 +467,15 @@ public class PublishActivity extends BaseTransparentActivity {
 
                         } else if (null != publicBean && publicBean.getErrno() == 1101) {
                             isSending = true;
+                            right.setTextColor(getResources().getColor(R.color.bg_E73828));
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != publicBean && publicBean.getErrno() != 200) {
                             isSending = true;
+                            right.setTextColor(getResources().getColor(R.color.bg_E73828));
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
                         } else {
                             isSending = true;
+                            right.setTextColor(getResources().getColor(R.color.bg_E73828));
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }

@@ -4,5 +4,6 @@ public interface NoPublish {
 
     void isPublish();
     void isCollect();
+    void showAddButton();
 
 }

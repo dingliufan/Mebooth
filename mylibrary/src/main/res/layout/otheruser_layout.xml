@@ -40,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/chaticon"/>
+                android:src="@drawable/chaticon"
+                android:visibility="gone"/>
 
         </FrameLayout>
 

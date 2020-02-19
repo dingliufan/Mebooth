@@ -305,7 +305,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //取消收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .cancelPraises(recommend.get(position).getFeed().getRelateid())
+                                    .cancelPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -341,7 +341,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //添加收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .addPraises(recommend.get(position).getFeed().getRelateid())
+                                    .addPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -539,7 +539,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //取消收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .cancelPraises(recommend.get(position).getFeed().getRelateid())
+                                    .cancelPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -575,7 +575,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //添加收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .addPraises(recommend.get(position).getFeed().getRelateid())
+                                    .addPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -774,7 +774,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //取消收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .cancelPraises(recommend.get(position).getFeed().getRelateid())
+                                    .cancelPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -810,7 +810,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //添加收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .addPraises(recommend.get(position).getFeed().getRelateid())
+                                    .addPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -1010,7 +1010,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //取消收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .cancelPraises(recommend.get(position).getFeed().getRelateid())
+                                    .cancelPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -1046,7 +1046,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //添加收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .addPraises(recommend.get(position).getFeed().getRelateid())
+                                    .addPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -1242,7 +1242,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //取消收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .cancelPraises(recommend.get(position).getFeed().getRelateid())
+                                    .cancelPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {
@@ -1278,7 +1278,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //添加收藏
                             ServiceFactory.getNewInstance()
                                     .createService(YService.class)
-                                    .addPraises(recommend.get(position).getFeed().getRelateid())
+                                    .addPraises(recommend.get(position).getFeed().getRelateid(),0)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new CommonObserver<PublicBean>() {

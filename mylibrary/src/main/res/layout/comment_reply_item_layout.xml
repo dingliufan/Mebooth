@@ -4,16 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bg_ffffff">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginLeft="48dp"
-        android:layout_marginRight="32dp"
-        android:background="@color/bg_f6f6f6"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="5dp"
         android:layout_marginLeft="48dp"
         android:layout_marginRight="32dp"
         android:orientation="horizontal"
@@ -33,8 +28,10 @@
             android:paddingRight="8dp"
             android:maxLines="10"
             android:ellipsize="end"
-            android:textColor="@color/bg_000000"
-            android:textSize="14sp"
+            android:textColor="@color/bg_666666"
+            android:textSize="16sp"
+            android:letterSpacing="0.1"
+            android:lineSpacingExtra="5dp"
             android:text="世上本没有路，走的人多了，也就成了路"/>
     </LinearLayout>
 

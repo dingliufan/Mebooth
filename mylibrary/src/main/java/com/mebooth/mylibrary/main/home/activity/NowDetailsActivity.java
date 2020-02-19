@@ -5,7 +5,9 @@ import android.graphics.Color;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,18 +47,24 @@ import com.mebooth.mylibrary.main.view.SharedActivity;
 import com.mebooth.mylibrary.main.view.SpacesItemDecoration;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.DateUtils;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.mebooth.mylibrary.utils.UIUtils;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class NowDetailsActivity extends BaseTransparentActivity {
+public class NowDetailsActivity extends BaseTransparentActivity implements OnRefreshListener {
 
     private ImageView headerIcon;
     private TextView nickName;
@@ -89,6 +98,12 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     private View header;
     private View footer;
 
+    private SmartRefreshLayout mSmart;
+    private TextView collectCount;
+    private TextView commentCount;
+    private LinearLayout nowdetailsCommentLLY;
+    private TextView time;
+
     @Override
     protected int getContentViewId() {
         return R.layout.nowdetails_layout;
@@ -104,28 +119,55 @@ public class NowDetailsActivity extends BaseTransparentActivity {
     }
 
     @Override
-    protected void initData() {
-        super.initData();
+    protected void initView() {
+        super.initView();
+
+        mSmart = findViewById(R.id.classify_smart);
+        mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
+                .setColorSchemeColors(ContextCompat.getColor(this, R.color.main_color))); //设置刷新为官方推介
+        mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
+        mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
+
 
         header = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestheader, null);
         footer = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestfooter, null);
 
-
+        footer.setVisibility(View.GONE);
         headerIcon = header.findViewById(R.id.recommenditem_headericon);
         nickName = header.findViewById(R.id.recommenditem_nickname);
+        time = header.findViewById(R.id.recommenditem_time);
         follow = header.findViewById(R.id.recommenditem_follow);
+        follow.setVisibility(View.GONE);
         content = header.findViewById(R.id.nowdetails_content);
         recyclerView = findViewById(R.id.classify_recycle);
         expandableListView = footer.findViewById(R.id.detail_page_lv_comment);
         commentEdit = findViewById(R.id.detail_page_do_comment);
         collectimg = findViewById(R.id.newdetails_collectimg);
+        collectCount = findViewById(R.id.newdetails_collect);
+        commentCount = findViewById(R.id.newdetails_comment);
         share = findViewById(R.id.newdetails_share);
         sendComment = findViewById(R.id.newdetails_sendcomment);
         back = findViewById(R.id.public_back);
+        nowdetailsCommentLLY = findViewById(R.id.nowdetails_comment_lly);
         title = findViewById(R.id.public_title);
         noCmment = footer.findViewById(R.id.nowdetails_nocomment);
 
-        findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+        findViewById(R.id.nowdetails_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+//        findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+
+        mSmart.setOnRefreshListener(this);
+
+    }
+
+    @Override
+    protected void initData() {
+        super.initData();
 
 
         title.setText("此刻");
@@ -152,9 +194,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         initExpandableListView(commentList);
 
         initRecycle();
-        getNowDetails();
-        getIsFollow();
-
+        mSmart.autoRefresh();
         expandableListView.setNestedScrollingEnabled(true);
 
         share.setOnClickListener(new View.OnClickListener() {
@@ -327,7 +367,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 //                    adapter.addTheReplyData(detailBean, position);
 //                    expandableListView.expandGroup(position);
 
-                    requestMessage(commentList.get(position).getReply().getRid(), commentText.getText().toString());
+                    requestMessage(commentList.get(position).getReply().getRid(), "：" + replyContent);
 
 //                    Toast.makeText(mContext,"回复成功",Toast.LENGTH_SHORT).show();
                 } else {
@@ -367,7 +407,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         View commentView = LayoutInflater.from(this).inflate(R.layout.comment_dialog_layout, null);
         final EditText commentText = (EditText) commentView.findViewById(R.id.dialog_comment_et);
         final Button bt_comment = (Button) commentView.findViewById(R.id.dialog_comment_bt);
-        commentText.setText("回复 @" + commentList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname());
+        commentText.setHint("回复 @" + commentList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname());
         dialog.setContentView(commentView);
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,7 +421,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 //                    adapter.addTheReplyData(detailBean, position);
 //                    expandableListView.expandGroup(position);
 
-                    requestMessage(commentList.get(groupPosition).getReply().getRid(), commentText.getText().toString());
+                    requestMessage(commentList.get(groupPosition).getReply().getRid(), "回复" + commentList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname() + "：" + replyContent);
 //                    list.get(position).getReply().getRid()
                     Toast.makeText(NowDetailsActivity.this, "回复成功", Toast.LENGTH_SHORT).show();
                 } else {
@@ -439,6 +479,8 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                             for (int i = 0; i < commentList.size(); i++) {
                                 expandableListView.expandGroup(i);
                             }
+
+                            mSmart.finishRefresh();
 
                         } else if (null != commentOnJson && commentOnJson.getErrno() == 1101) {
 
@@ -519,6 +561,9 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
                         if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 0) {
 
+                            footer.setVisibility(View.VISIBLE);
+                            nowdetailsCommentLLY.setVisibility(View.VISIBLE);
+
                             if (getNowDetailsJson.getData().getTopic().getReplies() != 0) {
                                 getCommentList();
                             } else {
@@ -527,9 +572,31 @@ public class NowDetailsActivity extends BaseTransparentActivity {
 
                             GlideImageManager.glideLoader(NowDetailsActivity.this, getNowDetailsJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
                             nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
+
+                            Date date = DateUtils.parseDate(getNowDetailsJson.getData().getTopic().getAddtime(), "yyyy-MM-dd HH:mm:ss");
+                            if (date == null) {
+                                return;
+                            }
+                            long diff = new Date().getTime() - date.getTime();
+                            long r = (diff / (60 * (60 * 1000)));
+
+                            if (r > 12) {
+                                int month = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(5, 7)) - 1;
+                                int date1 = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(8, 10));
+                                int hour = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(11, 13));
+                                int minute = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(14, 16));
+                                time.setText((month + 1) + "-" + date1);
+                            } else {
+                                String time1 = DateUtils.getTimeFormatText(date);
+                                time.setText("" + time1);
+                            }
+
                             content.setText(getNowDetailsJson.getData().getTopic().getContent());
                             list.addAll(getNowDetailsJson.getData().getTopic().getImages());
                             commonAdapter.notifyDataSetChanged();
+
+                            collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
+                            commentCount.setText("" + getNowDetailsJson.getData().getTopic().getReplies());
 
                             if (getNowDetailsJson.getData().getTopic().isPraised()) {
                                 collectimg.setImageResource(R.drawable.collect);
@@ -546,7 +613,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                         //取消收藏
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
-                                                .cancelPraises(getNowDetailsJson.getData().getTopic().getTid())
+                                                .cancelPraises(getNowDetailsJson.getData().getTopic().getTid(), 0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -559,6 +626,8 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                                             getNowDetailsJson.getData().getTopic().setPraised(false);
                                                             ToastUtils.getInstance().showToast("已取消收藏");
                                                             collectimg.setImageResource(R.drawable.nocollect);
+                                                            getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() - 1);
+                                                            collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -580,7 +649,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                         //添加收藏
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
-                                                .addPraises(getNowDetailsJson.getData().getTopic().getTid())
+                                                .addPraises(getNowDetailsJson.getData().getTopic().getTid(), 0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -593,6 +662,8 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                                             getNowDetailsJson.getData().getTopic().setPraised(true);
                                                             ToastUtils.getInstance().showToast("已收藏");
                                                             collectimg.setImageResource(R.drawable.collect);
+                                                            getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() + 1);
+                                                            collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -613,6 +684,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                                 }
                             });
                             UIUtils.clearMemoryCache(NowDetailsActivity.this);
+                            mSmart.finishRefresh();
                         } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -647,6 +719,7 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                         super.onNext(getIsFollowJson);
 
                         if (null != getIsFollowJson && getIsFollowJson.getErrno() == 0) {
+                            follow.setVisibility(View.VISIBLE);
                             if (AppApplication.getInstance().userid != null) {
                                 Log.d("TAG", AppApplication.getInstance().userid);
                                 if (AppApplication.getInstance().userid.equals(String.valueOf(uid))) {
@@ -657,9 +730,11 @@ public class NowDetailsActivity extends BaseTransparentActivity {
                             }
                             if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
                                 follow.setText("已关注");
+                                follow.setTextColor(getResources().getColor(R.color.bg_999999));
                                 follow.setBackgroundResource(R.drawable.nofollow);
                             } else {
                                 follow.setText("关注");
+                                follow.setTextColor(getResources().getColor(R.color.bg_E73828));
                                 follow.setBackgroundResource(R.drawable.follow);
                             }
 
@@ -808,5 +883,11 @@ public class NowDetailsActivity extends BaseTransparentActivity {
         dialog = null;
         sharedPopup = null;
         UIUtils.clearMemoryCache(this);
+    }
+
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        getNowDetails();
+        getIsFollow();
     }
 }

@@ -14,11 +14,11 @@ import java.util.List;
 public class MineOrderPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> myFragments = new ArrayList<>();
-    private List<String> myFragmentTitles = new ArrayList<>();
+    private String myFragmentTitles[];
     private Context mContext;
 
 
-    public MineOrderPagerAdapter(FragmentManager fm, Context context, List<Fragment> myFragments, List<String> myFragmentTitles) {
+    public MineOrderPagerAdapter(FragmentManager fm, Context context, List<Fragment> myFragments, String[] myFragmentTitles) {
         super(fm);
         this.mContext = context;
         this.myFragments = myFragments;
@@ -38,7 +38,7 @@ public class MineOrderPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return myFragmentTitles.get(position);
+        return myFragmentTitles[position];
     }
 
 }

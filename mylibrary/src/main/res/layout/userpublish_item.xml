@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_ffffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/userpublish_lly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="22.5dp"
+        android:layout_marginRight="25dp">
+
+        <TextView
+            android:id="@+id/userpublish_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="我发布的资讯" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/system_backnew" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="17.5dp"
+        android:layout_marginRight="25dp"
+        android:background="@color/bg_f1f1f3" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userpublish_recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/bgf6f6f6"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/bg_f6f6f6" />
+</LinearLayout>

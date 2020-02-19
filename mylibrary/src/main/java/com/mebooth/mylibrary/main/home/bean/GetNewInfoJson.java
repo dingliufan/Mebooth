@@ -55,13 +55,48 @@ public class GetNewInfoJson {
         public class News {
 
             private int newsid;
+            private int uid;
             private String title;
             private ArrayList<Content> content;
             private String cover;
             private int replies;
             private int watches;
+            private int praises;
             private String addtime;
+            private String describe;
+            private boolean praised;
 
+            public int getUid() {
+                return uid;
+            }
+
+            public void setUid(int uid) {
+                this.uid = uid;
+            }
+
+            public String getDescribe() {
+                return describe;
+            }
+
+            public void setDescribe(String describe) {
+                this.describe = describe;
+            }
+
+            public boolean isPraised() {
+                return praised;
+            }
+
+            public void setPraised(boolean praised) {
+                this.praised = praised;
+            }
+
+            public int getPraises() {
+                return praises;
+            }
+
+            public void setPraises(int praises) {
+                this.praises = praises;
+            }
 
             public int getReplies() {
                 return replies;

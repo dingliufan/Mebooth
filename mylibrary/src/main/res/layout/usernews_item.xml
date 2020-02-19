@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19.5dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp">
+
+            <ImageView
+                android:id="@+id/usernews_img"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/usernews_isreview"
+                android:layout_width="34dp"
+                android:layout_height="16dp"
+                android:layout_gravity="right"
+                android:layout_margin="5dp"
+                android:background="@drawable/underreview"
+                android:gravity="center"
+                android:text="审核中"
+                android:textColor="@color/bg_ffffff"
+                android:textSize="9sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="105dp">
+
+            <TextView
+                android:id="@+id/usernews_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/bg_333333"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/usernews_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="25dp"
+                android:layout_gravity="bottom|right"
+                android:src="@drawable/mebooth_delete" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

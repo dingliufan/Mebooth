@@ -31,9 +31,12 @@ import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.RecommendAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
+import com.mebooth.mylibrary.main.home.activity.NewsFeatureActivity;
+import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.QuicklyActivity;
+import com.mebooth.mylibrary.main.home.bean.EntranceJson;
 import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
@@ -41,6 +44,7 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.OnItemClickListener;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.DateUtils;
 import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.RoundedCornersTransformation;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
@@ -55,6 +59,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -79,6 +84,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     private RecommendAdapter adapter;
 
+    private ArrayList<EntranceJson.EntranceData.EntranceConfig> config = new ArrayList<>();
+
     @Override
     protected int getLayoutResId() {
         return R.layout.recommend_layout;
@@ -100,8 +107,50 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     protected void initData(Bundle savedInstanceState) {
         mHandler = new MyHandler(this);
         getConfigBanner();
-
+//        mSmart.autoRefresh();
 //        getRecommend(REFLUSH_LIST);
+    }
+
+    private void getConfigEntrance() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .entranceList("quick_entrance")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<EntranceJson>() {
+                    @Override
+                    public void onNext(EntranceJson entranceJson) {
+                        super.onNext(entranceJson);
+
+                        if (null != entranceJson && entranceJson.getErrno() == 0) {
+
+                            config.clear();
+                            config.addAll(entranceJson.getData().getConfig());
+                            initRecycle();
+                            mSmart.autoRefresh();
+                        } else if (null != entranceJson && entranceJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                            Log.d("RecommendFragment", "token已被清空");
+                        } else if (null != entranceJson && entranceJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(entranceJson.getErrmsg()) ? "数据加载失败" : entranceJson.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
+
     }
 
     private void getConfigBanner() {
@@ -120,8 +169,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 
                             bannerJson = flushJson;
-                            initRecycle();
-                            mSmart.autoRefresh();
+                            getConfigEntrance();
+
                         } else if (null != flushJson && flushJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -150,7 +199,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("recommend", offSet, pageSize)
+                .getRecommend("feeds_recommend", offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {
@@ -296,8 +345,6 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     }
 
-    private int praises;
-
     private void initRecycle() {
         commonAdapter = new CommonAdapter(getActivity(), R.layout.recommenditem, recommend) {
 
@@ -313,6 +360,14 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     holder.setVisible(R.id.recommendnews_item, View.GONE);
                     holder.setVisible(R.id.recommendnow_item, View.GONE);
                     UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headerimg), 0, bannerJson.getData().getConfig().getImage(), RoundedCornersTransformation.CORNER_ALL);
+                    UIUtils.loadRoundImage((ImageView) holder.getView(R.id.buy_car), 0, config.get(0).getImage(), RoundedCornersTransformation.CORNER_ALL);
+                    UIUtils.loadRoundImage((ImageView) holder.getView(R.id.publicusecar), 0, config.get(1).getImage(), RoundedCornersTransformation.CORNER_ALL);
+                    UIUtils.loadRoundImage((ImageView) holder.getView(R.id.logisticsusecar), 0, config.get(2).getImage(), RoundedCornersTransformation.CORNER_ALL);
+//                    holder.setText(R.id.recommenditem_headertitle, bannerJson.getData().getConfig().getTitle());
+//                    holder.setText(R.id.recommenditem_headername, bannerJson.getData().getConfig().getNickname());
+//                    holder.setText(R.id.recommenditem_headertime, bannerJson.getData().getConfig().getAddtime());
+//                    UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headeravatar), 50, bannerJson.getData().getConfig().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
+
 
 //                    GlideImageManager.glideLoader(getActivity(), bannerJson.getData().getConfig().getImage(), (ImageView) holder.getView(R.id.recommenditem_headerimg), GlideImageManager.TAG_FILLET);
 
@@ -327,14 +382,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         }
                     });
 
-
+                    holder.setText(R.id.buy_car_text, config.get(0).getName());
+                    holder.setText(R.id.publicusecar_text, config.get(1).getName());
+                    holder.setText(R.id.logisticsusecar_text, config.get(2).getName());
                     holder.setOnClickListener(R.id.buy_car, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            Intent intent = new Intent(getActivity(), QuicklyActivity.class);
-                            intent.putExtra("type", "1");
-                            intent.putExtra("title", "购车指南");
+//                            Intent intent = new Intent(getActivity(), QuicklyActivity.class);
+                            Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
+                            intent.putExtra("type", config.get(0).getFoward());
+                            intent.putExtra("image", config.get(0).getImage());
+                            intent.putExtra("title", config.get(0).getName());
                             startActivity(intent);
 
                         }
@@ -342,18 +401,20 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     holder.setOnClickListener(R.id.publicusecar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), QuicklyActivity.class);
-                            intent.putExtra("type", "2");
-                            intent.putExtra("title", "公务用车");
+                            Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
+                            intent.putExtra("type", config.get(1).getFoward());
+                            intent.putExtra("image", config.get(1).getImage());
+                            intent.putExtra("title", config.get(1).getName());
                             startActivity(intent);
                         }
                     });
                     holder.setOnClickListener(R.id.logisticsusecar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getActivity(), QuicklyActivity.class);
-                            intent.putExtra("type", "3");
-                            intent.putExtra("title", "物流用车");
+                            Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
+                            intent.putExtra("type", config.get(2).getFoward());
+                            intent.putExtra("image", config.get(2).getImage());
+                            intent.putExtra("title", config.get(2).getName());
                             startActivity(intent);
                         }
                     });
@@ -366,21 +427,256 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         holder.setVisible(R.id.recommendnow_item, View.GONE);
                         UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon), 50, recommend.get(position).getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
+                        if (AppApplication.getInstance().userid != null) {
+                            if (AppApplication.getInstance().userid.equals(String.valueOf(recommend.get(position).getUser().getUid()))) {
+                                holder.setVisible(R.id.recommenditemzixun_follow, View.GONE);
+                            } else {
+                                holder.setVisible(R.id.recommenditemzixun_follow, View.VISIBLE);
+                            }
+                        }
+
 //                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
                         holder.setText(R.id.recommenditem_nickname, recommend.get(position).getUser().getNickname());
 
                         holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
+                        holder.setText(R.id.recommenditem_zhaiyao, recommend.get(position).getFeed().getDescribe());
                         UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_img), 8, recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
 //                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
-                        int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
-                        int date = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
-                        int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
-                        int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
-                        int second = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(17, 19));
-                        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute);
+//                        int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
+//                        int date = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
+//                        int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
+//                        int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
+//                        int second = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(17, 19));
+
+                        Date date = DateUtils.parseDate(recommend.get(position).getFeed().getAddtime(), "yyyy-MM-dd HH:mm:ss");
+                        if (date == null) {
+                            return;
+                        }
+                        long diff = new Date().getTime() - date.getTime();
+                        long r = (diff / (60 * (60 * 1000)));
+
+                        if (r > 12) {
+                            int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
+                            int date1 = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
+                            int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
+                            int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
+                            holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date1);
+                        } else {
+                            String time = DateUtils.getTimeFormatText(date);
+                            holder.setText(R.id.recommenditem_time, time);
+                        }
+
+
+                        if (recommend.get(position).getUser().isFollowed()) {
+                            holder.setText(R.id.recommenditemzixun_follow, "已关注");
+                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_999999));
+                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.nofollow);
+                        } else {
+                            holder.setText(R.id.recommenditemzixun_follow, "关注");
+                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_E73828));
+                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.follow);
+                        }
+
+
+                        if (recommend.get(position).getFeed().isPraised()) {
+
+                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.collect);
+
+                        } else {
+                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nocollect);
+                        }
 
                         holder.setText(R.id.recommenditem_browsecount, String.valueOf(recommend.get(position).getFeed().getWatches()));
                         holder.setText(R.id.recommenditem_commentcount, String.valueOf(recommend.get(position).getFeed().getReplies()));
+                        holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
+
+                        holder.setOnClickListener(R.id.recommenditemzixun_follow, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                                    AppApplication.getInstance().setLogin();
+
+                                } else {
+                                    if (recommend.get(position).getUser().isFollowed()) {
+                                        //取消关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .cancelFollow(recommend.get(position).getUser().getUid())
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            recommend.get(position).getUser().setFollowed(false);
+                                                            ToastUtils.getInstance().showToast("已取消关注");
+                                                            holder.setText(R.id.recommenditemzixun_follow, "关注");
+                                                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_E73828));
+                                                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.follow);
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+
+                                    } else {
+                                        //添加关注
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .addFollow(recommend.get(position).getUser().getUid())
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            recommend.get(position).getUser().setFollowed(true);
+                                                            ToastUtils.getInstance().showToast("已关注");
+                                                            holder.setText(R.id.recommenditemzixun_follow, "已关注");
+                                                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_999999));
+                                                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.nofollow);
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+
+                                    }
+                                }
+                            }
+                        });
+
+                        holder.setOnClickListener(R.id.recommenditemzixun_collect_img, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                                    AppApplication.getInstance().setLogin();
+
+                                } else {
+                                    if (recommend.get(position).getFeed().isPraised()) {
+                                        //取消收藏
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .cancelPraises(recommend.get(position).getFeed().getRelateid(), 1)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            recommend.get(position).getFeed().setPraised(false);
+                                                            ToastUtils.getInstance().showToast("已取消收藏");
+                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nocollect);
+                                                            recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() - 1);
+                                                            holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+                                    } else {
+
+                                        //添加收藏
+                                        ServiceFactory.getNewInstance()
+                                                .createService(YService.class)
+                                                .addPraises(recommend.get(position).getFeed().getRelateid(), 1)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(new CommonObserver<PublicBean>() {
+                                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                                    @Override
+                                                    public void onNext(PublicBean publicBean) {
+                                                        super.onNext(publicBean);
+
+                                                        if (null != publicBean && publicBean.getErrno() == 0) {
+                                                            recommend.get(position).getFeed().setPraised(true);
+                                                            ToastUtils.getInstance().showToast("已收藏");
+                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.collect);
+                                                            recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
+                                                            holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
+                                                        } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                        } else {
+
+                                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Throwable e) {
+                                                        super.onError(e);
+
+                                                        ToastUtils.getInstance().showToast("数据加载失败");
+                                                    }
+                                                });
+                                    }
+                                }
+
+                            }
+                        });
+                        holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                                    AppApplication.getInstance().setLogin();
+
+                                } else {
+
+                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
+                                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                                    startActivity(intent);
+                                }
+                            }
+                        });
 
 
                     } else {
@@ -454,7 +750,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                 holder.setVisible(R.id.recommenditem_imgmore, View.GONE);
                             } else {
                                 holder.setVisible(R.id.recommenditem_imgmore, View.VISIBLE);
-                                holder.setText(R.id.recommenditem_imgmore, recommend.get(position).getFeed().getImages().size() + "图");
+                                holder.setText(R.id.recommenditem_imgmore, recommend.get(position).getFeed().getImages().size() + "");
                             }
                         }
 
@@ -465,9 +761,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                         if (recommend.get(position).getUser().isFollowed()) {
                             holder.setText(R.id.recommenditem_follow, "已关注");
+                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_999999));
                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
                         } else {
                             holder.setText(R.id.recommenditem_follow, "关注");
+                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_E73828));
                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
                         }
                         if (AppApplication.getInstance().userid != null) {
@@ -485,12 +783,28 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             holder.setText(R.id.recommenditem_address, recommend.get(position).getFeed().getLocation());
                             holder.setVisible(R.id.recommenditem_address, View.VISIBLE);
                         }
-                        int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
-                        int date = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
-                        int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
-                        int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
-                        int second = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(17, 19));
-                        holder.setText(R.id.recommenditem_time1, (month + 1) + "-" + date + " " + hour + ":" + minute);
+//                        int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
+//                        int date = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
+//                        int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
+//                        int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
+//                        int second = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(17, 19));
+                        Date date = DateUtils.parseDate(recommend.get(position).getFeed().getAddtime(), "yyyy-MM-dd HH:mm:ss");
+                        if (date == null) {
+                            return;
+                        }
+                        long diff = new Date().getTime() - date.getTime();
+                        long r = (diff / (60 * (60 * 1000)));
+
+                        if (r > 12) {
+                            int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
+                            int date1 = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
+                            int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
+                            int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
+                            holder.setText(R.id.recommenditem_time1, (month + 1) + "-" + date1);
+                        } else {
+                            String time = DateUtils.getTimeFormatText(date);
+                            holder.setText(R.id.recommenditem_time1, time);
+                        }
 
 
                         if (recommend.get(position).getFeed().isPraised()) {
@@ -498,9 +812,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         } else {
                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
                         }
-                        praises = recommend.get(position).getFeed().getPraises();
                         holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                         holder.setText(R.id.recommenditem_comment, String.valueOf(recommend.get(position).getFeed().getReplies()));
+                        holder.setText(R.id.recommenditem_browsecount1, String.valueOf(recommend.get(position).getFeed().getWatches()));
 
 
                         holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {
@@ -528,6 +842,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getUser().setFollowed(false);
                                                             ToastUtils.getInstance().showToast("已取消关注");
+                                                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_E73828));
                                                             holder.setText(R.id.recommenditem_follow, "关注");
                                                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -565,6 +880,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                             recommend.get(position).getUser().setFollowed(true);
                                                             ToastUtils.getInstance().showToast("已关注");
                                                             holder.setText(R.id.recommenditem_follow, "已关注");
+                                                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_999999));
                                                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
@@ -600,7 +916,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                         //取消收藏
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
-                                                .cancelPraises(recommend.get(position).getFeed().getRelateid())
+                                                .cancelPraises(recommend.get(position).getFeed().getRelateid(), 0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -613,8 +929,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                             recommend.get(position).getFeed().setPraised(false);
                                                             ToastUtils.getInstance().showToast("已取消收藏");
                                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
-                                                            praises = praises - 1;
-                                                            holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                                            recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() - 1);
+                                                            holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -636,7 +952,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                         //添加收藏
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
-                                                .addPraises(recommend.get(position).getFeed().getRelateid())
+                                                .addPraises(recommend.get(position).getFeed().getRelateid(), 0)
                                                 .subscribeOn(Schedulers.io())
                                                 .observeOn(AndroidSchedulers.mainThread())
                                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -649,8 +965,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                             recommend.get(position).getFeed().setPraised(true);
                                                             ToastUtils.getInstance().showToast("已收藏");
                                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
-                                                            praises = praises + 1;
-                                                            holder.setText(R.id.recommenditem_collect, String.valueOf(praises));
+                                                            recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
+                                                            holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -681,7 +997,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                 } else {
 
-                                    Intent intent = new Intent(getActivity(), OtherUserActivity.class);
+                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
                                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
                                     intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
                                     startActivity(intent);

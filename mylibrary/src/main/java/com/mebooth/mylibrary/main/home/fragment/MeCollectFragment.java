@@ -202,6 +202,11 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
             public void isCollect() {
                 noCollect.setVisibility(View.VISIBLE);
             }
+
+            @Override
+            public void showAddButton() {
+
+            }
         };
 
         commonAdapter = new MultiItemTypeAdapter(getActivity(), list);

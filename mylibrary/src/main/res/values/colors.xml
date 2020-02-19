@@ -71,6 +71,8 @@
     <color name="bg_427BED">#427BED</color>
     <color name="bg_232F52">#232F52</color>
     <color name="bg_F6F6F6">#F6F6F6</color>
+    <color name="bg_FEECE9">#FEECE9</color>
+    <color name="bg_E73828">#E73828</color>
     <color name="bg_826428">#826428</color>
     <color name="app_color_f6">#f6f6f6</color>
     <color name="colorPrimary">#008577</color>
@@ -78,6 +80,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="bg_9a9a9a">#9a9a9a</color>
     <color name="bg_333333">#333333</color>
+    <color name="bg_f1f1f3">#f1f1f3</color>
+    <color name="bg_999999">#999999</color>
     <color name="bg_666666">#666666</color>
     <color name="bg_f2f2f7">#f2f2f7</color>
     <color name="bg_e5e5e5">#e5e5e5</color>

@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="29.5dp"
-    android:orientation="vertical"
-    android:background="@color/bg_ffffff">
+    android:background="@color/bg_ffffff"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_weight="1"
             android:text="黑暗骑士"
             android:textColor="@color/bg_000000"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/recommenditem_follow"
@@ -34,22 +34,23 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
             android:background="@drawable/follow"
-            android:text="关注"
             android:gravity="center"
+            android:text="关注"
             android:textColor="@color/bg_333333"
             android:textSize="14sp" />
+
         <ImageView
             android:id="@+id/recommenditem_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
-            android:src="@drawable/mebooth_delete"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:visibility="gone"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp"
+            android:src="@drawable/mebooth_delete"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
@@ -61,19 +62,40 @@
         android:layout_marginRight="15dp"
         android:ellipsize="end"
         android:maxLines="3"
-        android:text="十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见十大富豪是看得见回复可见"
+        android:letterSpacing="0.1"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/bg_000000"
-        android:textSize="16sp" />
+        android:textSize="17sp" />
 
-    <ImageView
-        android:id="@+id/recommenditem_imgone"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="251dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/recommenditem_imgone"
+            android:layout_width="match_parent"
+            android:layout_height="251dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/usertopic_isreview"
+            android:layout_width="34dp"
+            android:layout_height="16dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/underreview"
+            android:gravity="center"
+            android:text="审核中"
+            android:visibility="gone"
+            android:textColor="@color/bg_ffffff"
+            android:textSize="9sp" />
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/recommenditem_address"
@@ -82,12 +104,12 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"
-        android:text="北京市朝阳区奥体中心"
         android:drawableLeft="@drawable/gpsimg"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:drawablePadding="10dp"
+        android:text="北京市朝阳区奥体中心"
         android:textColor="@color/bg_000000"
         android:textSize="14sp" />
 
@@ -104,29 +126,45 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="2019-12-02"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/bg_7d7d7d"
-            android:textSize="14sp" />
+            android:textSize="15sp" />
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"/>
+            android:src="@drawable/browse" />
+
+        <TextView
+            android:id="@+id/recommenditem_browsecount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="02"
+            android:textColor="@color/bg_7d7d7d"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/comment" />
+
         <TextView
             android:id="@+id/recommenditem_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:text="02"
             android:textColor="@color/bg_7d7d7d"
-            android:textSize="12sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/recommenditem_collect_img"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:src="@drawable/nocollect" />
 
@@ -135,10 +173,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
             android:text="12"
             android:textColor="@color/bg_7d7d7d"
-            android:textSize="12sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <View

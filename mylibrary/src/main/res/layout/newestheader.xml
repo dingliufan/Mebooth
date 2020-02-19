@@ -1,19 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bg_ffffff">
 
-    <ImageView
-        android:id="@+id/newdetails_image"
+    <FrameLayout
         android:layout_width="411dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/newdetails_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true" />
+
+        <LinearLayout
+            android:id="@+id/newdetails_header1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <ImageView
+                    android:id="@+id/public_back1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/back2" />
+
+                <ImageView
+                    android:id="@+id/newdetails_share1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/share_img2" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/newdetails_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true" />
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="25dp"
+        android:textColor="@color/bg_000000"
+        android:textSize="26sp"
+        android:letterSpacing="0.1"
+        android:visibility="gone" />
 
     <LinearLayout
+        android:id="@+id/newsHeaderTime_lly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp">
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="25dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/newdetails_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/bg_7d7d7d"
+            android:layout_marginLeft="2dp"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/newdetails_browsecount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/bg_7d7d7d"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/newsHeaderName_lly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="25dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/recommenditem_headericon"
@@ -27,55 +107,9 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
+            android:letterSpacing="0.1"
             android:textColor="@color/bg_000000"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/newdetails_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="15dp"
-        android:text="标题"
-        android:textColor="@color/bg_000000"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="20dp">
-
-        <TextView
-            android:id="@+id/newdetails_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="2019-12-02"
-            android:textColor="@color/bg_7d7d7d"
-            android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="22.5dp"
-            android:layout_height="17.5dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/browse" />
-
-        <TextView
-            android:id="@+id/newdetails_browsecount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
-            android:text="02"
-            android:textColor="@color/bg_7d7d7d"
-            android:textSize="12sp" />
+            android:textSize="18.5sp" />
 
     </LinearLayout>
 

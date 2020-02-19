@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.mebooth.mylibrary.R;
+import com.mebooth.mylibrary.main.utils.NoPublish;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class GridImageAdapter extends
     private List<LocalMedia> list = new ArrayList<>();
     private int selectMax = 9;
     private boolean isAndroidQ;
+    private NoPublish noPublish;
     /**
      * 点击添加图片跳转
      */
@@ -53,9 +55,10 @@ public class GridImageAdapter extends
 
     }
 
-    public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener) {
+    public GridImageAdapter(Context context, onAddPicClickListener mOnAddPicClickListener, NoPublish noPublish) {
         this.mInflater = LayoutInflater.from(context);
         this.mOnAddPicClickListener = mOnAddPicClickListener;
+        this.noPublish = noPublish;
     }
 
     public void setSelectMax(int selectMax) {
@@ -141,6 +144,7 @@ public class GridImageAdapter extends
                         list.remove(index);
                         GridImageAdapter.this.notifyItemRemoved(index);
                         GridImageAdapter.this.notifyItemRangeChanged(index, list.size());
+
                     }
                 }
             });

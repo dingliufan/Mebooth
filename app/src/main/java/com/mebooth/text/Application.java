@@ -25,9 +25,19 @@ public class Application extends AppApplication {
         super.onCreate();
         //传递用户信息
         UserTokenJson userTokenJson = new UserTokenJson();
-        userTokenJson.setUserid("12282731");
+        //我的
+//        userTokenJson.setUserid("12282731");
+        //冬shan
+        userTokenJson.setUserid("13009809");
+        //京林
+//        userTokenJson.setUserid("13122934");
         userTokenJson.setFrom("14");
-        userTokenJson.setToken("Owsbf4n2DbHgyaTB");
+        //我的
+//        userTokenJson.setToken("79oTWzLeVadyE302");
+        //东珊        userTokenJson.setToken("79oTWzLeVadyE302");
+        userTokenJson.setToken("aDfMzJTllcfErdEe");
+        //京林
+//        userTokenJson.setToken("ekrBvtgxUHuGqXcA");
         userTokenJson.setVersion("4.8.0");
         this.setUserTokenJson(userTokenJson);
         this.setShowBack(false);
@@ -40,6 +50,11 @@ public class Application extends AppApplication {
             public void setLogin() {
 
                 Log.d("AppApplication","-------------收到点击事件了");
+
+            }
+
+            @Override
+            public void setIntentScan() {
 
             }
 

@@ -1,91 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/newdetails_lly"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_ffffff"
     android:orientation="vertical">
 
-    <include layout="@layout/public_header" />
-
-    <View
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/classify_smart"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/bg_c7c7c7" />
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false"
+        app:srlEnableRefresh="true">
 
-    <!--<androidx.core.widget.NestedScrollView-->
+        <!--type1 去掉srlDragRate，srlHeaderMaxDragRate，srlHeaderTriggerRate,srlReboundDuration -->
+        <com.scwang.smartrefresh.layout.header.ClassicsHeader
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_40"
+            app:srlTextFinish="刷新成功"/>
+
+        <!-- type2  SmartRefreshLayout设置相关属性
+        app:srlDragRate="1.8"
+        app:srlHeaderMaxDragRate="5"
+        app:srlReboundDuration="600"
+        app:srlHeaderTriggerRate="3"-->
+        <!--<com.scwang.smartrefresh.header.MaterialHeader-->
         <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:fillViewport="true">-->
+        <!--android:layout_height="wrap_content" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <!--<androidx.recyclerview.widget.RecyclerView-->
-            <com.mebooth.mylibrary.main.view.GloriousRecyclerView
-                android:id="@+id/classify_recycle"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!--<androidx.recyclerview.widget.RecyclerView-->
+                <com.mebooth.mylibrary.main.view.GloriousRecyclerView
+                    android:id="@+id/classify_recycle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+            <!--</androidx.core.widget.NestedScrollView>-->
+
+            <LinearLayout
+                android:id="@+id/newsdetails_comment_lly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:overScrollMode="never" />
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/detail_page_do_comment"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0.6"
+                    android:background="@color/bg_eeeeee"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="我也来说~" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.4"
+                    android:gravity="center_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/newdetails_collect_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/nocollect" />
+
+                        <TextView
+                            android:id="@+id/newdetails_collect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="12"
+                            android:textColor="@color/bg_7d7d7d"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/comment" />
+
+                        <TextView
+                            android:id="@+id/newdetails_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="268"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
-    <!--</androidx.core.widget.NestedScrollView>-->
+
+
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/font_48"
+            app:layout_srlSpinnerStyle="Translate"
+            app:srlTextNothing="没有更多内容了"/>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <LinearLayout
+        android:id="@+id/newdetails_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/bg_ffffff"
+        android:visibility="visible">
 
-        <TextView
-            android:id="@+id/detail_page_do_comment"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@color/bg_eeeeee"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="说点什么吧~" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="35dp"
-                android:src="@drawable/comment" />
-
-            <TextView
-                android:id="@+id/newdetails_comment"
+                android:id="@+id/public_back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:text="268"
-                android:textSize="18sp" />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/back" />
 
             <ImageView
                 android:id="@+id/newdetails_share"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="20dp"
                 android:src="@drawable/share_img" />
 
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

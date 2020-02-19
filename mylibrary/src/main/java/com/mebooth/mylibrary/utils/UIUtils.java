@@ -303,7 +303,7 @@ public class UIUtils {
                     .asDrawable()//指定Bitmap类型的RequestBuilder
                     .load(url)//网络URL
                     .apply(roundOptions)
-                    .skipMemoryCache(true)
+//                    .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .format(DecodeFormat.PREFER_RGB_565)
                     .into(imageView);//当url为空时，显示图片

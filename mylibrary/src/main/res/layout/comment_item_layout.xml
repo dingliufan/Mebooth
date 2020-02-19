@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:gravity="center_vertical">
         <ImageView
@@ -28,16 +28,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/bg_333333"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:text="沐风" />
             <TextView
                 android:id="@+id/comment_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1小时前"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:layout_marginTop="3dp"
-                android:textColor="@color/bg_333333"/>
+                android:textColor="@color/bg_999999"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -47,8 +47,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="6dp"
-        android:textColor="#989898"
-        android:textSize="14sp"
+        android:textColor="@color/bg_333333"
+        android:textSize="18sp"
+        android:letterSpacing="0.1"
+        android:lineSpacingExtra="5dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="24dp"
         android:text="从前有座山，山里有座庙，庙里有个老和尚"/>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/newest_smart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="true"
+            app:srlEnableRefresh="true">
+
+            <!--type1 去掉srlDragRate，srlHeaderMaxDragRate，srlHeaderTriggerRate,srlReboundDuration -->
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                app:srlTextFinish="刷新成功"
+                android:layout_height="@dimen/font_40" />
+
+            <!-- type2  SmartRefreshLayout设置相关属性
+            app:srlDragRate="1.8"
+            app:srlHeaderMaxDragRate="5"
+            app:srlReboundDuration="600"
+            app:srlHeaderTriggerRate="3"-->
+            <!--<com.scwang.smartrefresh.header.MaterialHeader-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/classify_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"/>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_48"
+                app:srlTextNothing="没有更多内容了"
+                app:layout_srlSpinnerStyle="Translate" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <LinearLayout
+            android:id="@+id/newdetails_header1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <ImageView
+                    android:id="@+id/public_back1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/back2" />
+
+                <ImageView
+                    android:id="@+id/newdetails_share1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/share_img2"
+                    android:visibility="gone"/>
+            </FrameLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/newdetails_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/bg_ffffff">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <ImageView
+                    android:id="@+id/public_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/back" />
+
+                <ImageView
+                    android:id="@+id/newdetails_share"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/share_img"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</LinearLayout>

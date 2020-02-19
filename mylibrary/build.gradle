@@ -71,6 +71,7 @@ dependencies {
 //    api 'cn.rongcloud.sdk:im_lib:2.9.18'
 //    api 'com.novoda:bintray-release:0.2.7'
     api 'com.github.chrisbanes.photoview:library:1.2.4'
+    api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     api 'com.bigkoo:alertview:1.0.3'
     api project (':IMKit')
     api project (':IMLib')

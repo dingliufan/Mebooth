@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.utils;
 
 import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
+import com.mebooth.mylibrary.main.home.bean.EntranceJson;
 import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.GetIMUserInfoJson;
@@ -16,6 +17,7 @@ import com.mebooth.mylibrary.main.home.bean.GetRongIMTokenJson;
 import com.mebooth.mylibrary.main.home.bean.GetShareInfoJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.home.bean.UpdateHeaderFileJson;
+import com.mebooth.mylibrary.main.home.bean.UserNewsListJson;
 import com.mebooth.mylibrary.utils.DateUtils;
 
 import java.util.Date;
@@ -30,10 +32,10 @@ import retrofit2.http.Part;
 
 public interface YService {
     //测试
-//    String BASE_URL = "http://api.tata.club/";
+    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
     //外网s
 //    String BASE_URL = "http://test.tatabike.com/";
-    String BASE_URL = "http://tataclub.baojiawangluo.com/";
+//    String BASE_URL = "http://tataclub.baojiawangluo.com/";
     //    String BASE_URL_H5 = "http://www.tata.club/";
 //    String BASE_URL_H5 = "https://tatah5.baojiawangluo.com/";
 
@@ -86,6 +88,11 @@ public interface YService {
     @POST(BASE_URL + "topic/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<PublicBean> publishTopic(@Field("content") String content, @Field("location") String location, @Field("images") String images);
+    //发布新闻
+    @FormUrlEncoded
+    @POST(BASE_URL + "news/add")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<PublicBean> publishNews(@Field("title") String title,@Field("cover") String cover,@Field("content") String content, @Field("location") String location);
     //关注
     @FormUrlEncoded
     @POST(BASE_URL + "follow/add")
@@ -100,12 +107,12 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "praise/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<PublicBean> addPraises(@Field("tid") int tid);
+    Observable<PublicBean> addPraises(@Field("tid") int tid,@Field("type") int type);
     //取消收藏
     @FormUrlEncoded
     @POST(BASE_URL + "praise/cancel")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<PublicBean> cancelPraises(@Field("tid") int tid);
+    Observable<PublicBean> cancelPraises(@Field("tid") int tid,@Field("type") int type);
     //获取用户个人信息
 //    @FormUrlEncoded
     @POST(BASE_URL + "user/getMyUserInfo")
@@ -170,6 +177,20 @@ public interface YService {
     @POST(BASE_URL + "config/getConfig")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<FlushJson> bannerList(@Field("name") String name);
-
+    //获取专题页面
+    @FormUrlEncoded
+    @POST(BASE_URL + "config/getConfig")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<EntranceJson> entranceList(@Field("name") String name);
+    //获取我发布的新闻列表
+    @FormUrlEncoded
+    @POST(BASE_URL + "news/getUserNewsList")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<UserNewsListJson> userNewsList(@Field("uid") int uid,@Field("offset") String offset, @Field("num") int num);
+    //删除我发布的单个新闻
+    @FormUrlEncoded
+    @POST(BASE_URL + "news/delete")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<PublicBean> deleteNews(@Field("newsid") int newsid);
 
 }

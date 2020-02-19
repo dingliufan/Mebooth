@@ -78,6 +78,34 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.NewsPublishActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.MePublishNewsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.MePublishTopicActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.NewsFeatureActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
+
+
         <activity android:name="com.mebooth.mylibrary.imagepicker.ui.ImageBaseActivity" />
         <activity
             android:name="com.mebooth.mylibrary.imagepicker.ui.ImageGridActivity"

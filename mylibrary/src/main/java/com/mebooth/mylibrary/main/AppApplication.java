@@ -262,6 +262,13 @@ public abstract class AppApplication extends Application {
         }
     }
 
+    //扫码
+    public void setScan() {
+        if (meboothCallBack != null) {
+            meboothCallBack.setIntentScan();
+        }
+    }
+
     ;
 
     //分享

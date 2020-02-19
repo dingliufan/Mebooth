@@ -1,7 +1,12 @@
 package com.mebooth.mylibrary.main.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,14 +106,33 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 //        int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
 //        int second = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(17, 19));
 
-        Date time = DateUtils.parseDate(commentBeanList.get(groupPosition).getReply().getAddtime(), "yyyy-MM-dd HH:mm:ss");
-        int month = DateUtils.getMonth(time);
-        int day = DateUtils.getDay(time);
-        int hour = DateUtils.getHour(time);
-        int minute = DateUtils.getMinute(time);
+//        Date time = DateUtils.parseDate(commentBeanList.get(groupPosition).getReply().getAddtime(), "yyyy-MM-dd HH:mm:ss");
+//        int month = DateUtils.getMonth(time);
+//        int day = DateUtils.getDay(time);
+//        int hour = DateUtils.getHour(time);
+//        int minute = DateUtils.getMinute(time);
 
 
-        groupHolder.tv_time.setText(month + "-" + day + " " + hour + ":" + minute);
+        Date date = DateUtils.parseDate(commentBeanList.get(groupPosition).getReply().getAddtime(), "yyyy-MM-dd HH:mm:ss");
+
+        long diff = new Date().getTime() - date.getTime();
+        long r = (diff / (60 * (60 * 1000)));
+
+        if (r > 12) {
+            int month = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(5, 7)) - 1;
+            int date1 = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(8, 10));
+            int hour = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(11, 13));
+            int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
+            groupHolder.tv_time.setText((month + 1) + "-" + date1);
+        } else {
+            String time = DateUtils.getTimeFormatText(date);
+            groupHolder.tv_time.setText(time);
+        }
+
+//
+//        Date date = DateUtils.parseDate(, "yyyy-MM-dd HH:mm:ss");
+//        String time = DateUtils.getTimeFormatText(date);
+//        .setText(time);
         groupHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getContent());
 
         return convertView;
@@ -126,13 +150,43 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
         }
 
         String replyUser = commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getUser().getNickname();
-        if (!TextUtils.isEmpty(replyUser)) {
-            childHolder.tv_name.setText(replyUser + ":");
-        } else {
-            childHolder.tv_name.setText("无名" + ":");
-        }
 
-        childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
+
+        String str = commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent();
+
+        if (str.substring(0, 2).equals("回复")) {
+            if (!TextUtils.isEmpty(replyUser)) {
+                childHolder.tv_name.setText(replyUser);
+            } else {
+                childHolder.tv_name.setText("无名");
+            }
+
+            String[] all = str.split("：");
+
+            String all0 = all[0];
+
+
+//            childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
+            if (all.length <= 1) {
+                SpannableStringBuilder spannableString = new SpannableStringBuilder(all0 + "：");
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+                childHolder.tv_content.setText(spannableString);
+            } else {
+                SpannableStringBuilder spannableString = new SpannableStringBuilder(all0 + "：" + all[1]);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+                childHolder.tv_content.setText(spannableString);
+            }
+
+        } else {
+            if (!TextUtils.isEmpty(replyUser)) {
+                childHolder.tv_name.setText(replyUser);
+            } else {
+                childHolder.tv_name.setText("无名");
+            }
+            childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
+        }
 
         return convertView;
     }

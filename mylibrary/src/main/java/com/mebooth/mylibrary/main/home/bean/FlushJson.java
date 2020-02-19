@@ -45,7 +45,43 @@ public class FlushJson {
         public class FlushConfig {
 
             private String image;
+            private String title;
+            private String nickname;
+            private String avatar;
+            private String addtime;
             private int newsid;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getNickname() {
+                return nickname;
+            }
+
+            public void setNickname(String nickname) {
+                this.nickname = nickname;
+            }
+
+            public String getAvatar() {
+                return avatar;
+            }
+
+            public void setAvatar(String avatar) {
+                this.avatar = avatar;
+            }
+
+            public String getAddtime() {
+                return addtime;
+            }
+
+            public void setAddtime(String addtime) {
+                this.addtime = addtime;
+            }
 
             public int getNewsid() {
                 return newsid;

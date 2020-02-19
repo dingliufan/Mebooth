@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_ffffff">
+
+    <FrameLayout
+        android:id="@+id/newspublishheader"
+        android:layout_width="360dp"
+        android:layout_height="360dp"
+        android:background="@color/bg_f6f6f6"
+        android:layout_marginLeft="24.5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/addcover"
+            android:layout_gravity="center"
+            android:text="设置封面"
+            android:textSize="16sp"
+            android:textColor="@color/bg_999999"
+            android:drawablePadding="8dp"/>
+
+        <ImageView
+            android:id="@+id/newspublishheader_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"/>
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/newspublish_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="添加标题(最多30个字)"
+        android:textSize="18sp"
+        android:maxLength="30"
+        android:background="@null"
+        android:layout_marginTop="16.5dp"
+        android:layout_marginLeft="24.5dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_eeeeee"
+        android:layout_marginLeft="24.5dp"
+        android:layout_marginRight="24.5dp"
+        android:layout_marginTop="17dp"/>
+
+    <TextView
+        android:id="@+id/newspublishedit"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="编辑正文"
+        android:textSize="16sp"
+        android:textColor="@color/bg_999999"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="24.5dp"/>
+
+</LinearLayout>

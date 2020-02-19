@@ -32,10 +32,19 @@ public class GetRecommendJson {
         this.data = data;
     }
 
-    public class RecommendData {
+    public static class RecommendData {
 
         private ArrayList<RecommendDataList> list;
+        private RecommendHeader header;
         private double offset;
+
+        public RecommendHeader getHeader() {
+            return header;
+        }
+
+        public void setHeader(RecommendHeader header) {
+            this.header = header;
+        }
 
         public double getOffset() {
             return offset;
@@ -53,7 +62,7 @@ public class GetRecommendJson {
             this.list = list;
         }
 
-        public class RecommendDataList {
+        public static class RecommendDataList {
 
             private RecommendUser user;
             private Recommendfeed feed;
@@ -86,6 +95,15 @@ public class GetRecommendJson {
                 private boolean praised;
                 private String addtime;
                 private String location;
+                private String describe;
+
+                public String getDescribe() {
+                    return describe;
+                }
+
+                public void setDescribe(String describe) {
+                    this.describe = describe;
+                }
 
                 public String getLocation() {
                     return location;
@@ -215,6 +233,37 @@ public class GetRecommendJson {
                 public void setAvatar(String avatar) {
                     this.avatar = avatar;
                 }
+            }
+        }
+
+        public class RecommendHeader {
+
+            private String title;
+            private String image;
+            private int total;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getImage() {
+                return image;
+            }
+
+            public void setImage(String image) {
+                this.image = image;
+            }
+
+            public int getTotal() {
+                return total;
+            }
+
+            public void setTotal(int total) {
+                this.total = total;
             }
         }
     }

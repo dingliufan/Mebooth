@@ -99,8 +99,8 @@
             android:textSize="14sp" />
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/comment"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"/>
@@ -110,14 +110,13 @@
             android:layout_height="wrap_content"
             android:text="02"
             android:textColor="@color/bg_7d7d7d"
-            android:textSize="12sp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"/>
+            android:textSize="14sp"
+            android:layout_gravity="center_vertical"/>
 
         <ImageView
             android:id="@+id/recommenditem_collect_img"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:src="@drawable/nocollect" />
 
@@ -126,10 +125,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
             android:text="12"
             android:textColor="@color/bg_7d7d7d"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <View

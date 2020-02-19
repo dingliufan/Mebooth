@@ -30,8 +30,18 @@
                 android:layout_weight="1"
                 android:text="黑暗骑士"
                 android:textColor="@color/bg_000000"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/recommenditem_follow"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/follow"
+                android:gravity="center"
+                android:text="关注"
+                android:textColor="@color/bg_333333"
                 android:textSize="14sp" />
-
         </LinearLayout>
 
         <TextView
@@ -39,22 +49,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="11dp"
             android:layout_marginRight="15dp"
             android:ellipsize="end"
             android:maxLines="3"
+            android:letterSpacing="0.1"
+            android:lineSpacingExtra="5dp"
             android:textColor="@color/bg_000000"
-            android:textSize="16sp" />
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/recommenditem_zhaiyao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:letterSpacing="0.1"
+            android:lineSpacingExtra="10dp"
+            android:textColor="@color/bg_333333"
+            android:textSize="17sp" />
 
         <ImageView
             android:id="@+id/recommenditem_img"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:adjustViewBounds="true" />
+
+        <TextView
+            android:id="@+id/recommenditem_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@drawable/gpsimg"
+            android:drawablePadding="10dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/bg_000000"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,12 +109,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="2019-12-02"
+                android:layout_gravity="center_vertical"
                 android:textColor="@color/bg_7d7d7d"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <ImageView
-                android:layout_width="13dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/browse" />
 
@@ -83,14 +124,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
                 android:text="02"
                 android:textColor="@color/bg_7d7d7d"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
 
             <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/comment" />
@@ -100,10 +140,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
                 android:text="12"
                 android:textColor="@color/bg_7d7d7d"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
+
+            <ImageView
+                android:id="@+id/recommenditem_collect_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/nocollect" />
+
+            <TextView
+                android:id="@+id/recommenditem_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="12"
+                android:textColor="@color/bg_7d7d7d"
+                android:textSize="15sp" />
+
         </LinearLayout>
 
         <View
@@ -114,7 +170,6 @@
             android:layout_marginRight="15dp"
             android:background="@color/bg_e3e3e3" />
     </LinearLayout>
-
 
 
 </LinearLayout>

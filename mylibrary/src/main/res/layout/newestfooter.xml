@@ -10,11 +10,17 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="10dp"
         android:background="@color/bg_c7c7c7" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最新评论"
+        android:textSize="16sp"
+        android:textColor="@color/bg_999999"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"/>
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30dp">
+        android:layout_width="411dp"
+        android:layout_height="wrap_content">
 
         <com.mebooth.mylibrary.main.view.CommentExpandableListView
             android:id="@+id/detail_page_lv_comment"

@@ -21,15 +21,18 @@ import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewOne;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewThree;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewTwo;
 import com.mebooth.mylibrary.main.RecommendMultiItemView.RecommendItemVIewZero;
+import com.mebooth.mylibrary.main.adapter.InforMationAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.utils.YService;
+import com.mebooth.mylibrary.main.view.OnItemClickListener;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -41,9 +44,10 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ExperienceFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener {
+public class ExperienceFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener , OnItemClickListener {
 
-    private MultiItemTypeAdapter commonAdapter;
+//    private MultiItemTypeAdapter commonAdapter;
+    private InforMationAdapter adapter;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
 
@@ -83,7 +87,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("evaluate", offSet, pageSize)
+                .getRecommend("feeds_notes", offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {
@@ -94,7 +98,8 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
                         if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
                             offSet = String.valueOf(getRecommendJson.getData().getOffset());
                             initList(tag, getRecommendJson);
-
+                            UIUtils.clearMemoryCache(getActivity());
+                            adapter.setOnItemClickListener(ExperienceFragment.this);
                         } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
@@ -140,6 +145,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
         if (tag == REFLUSH_LIST) {
             recommend.clear();
+            adapter.notifyDataSetChanged();
             recommend.addAll(getRecommendJson.getData().getList());
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
@@ -155,6 +161,22 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
         }
     }
 
+    @Override
+    public void OnItemClick(int position) {
+
+        Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
+        intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+        intent.putExtra("uid", recommend.get(position).getUser().getUid());
+        intent.putExtra("image", recommend.get(position).getUser().getAvatar());
+        intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+        intent.putExtra("browse", recommend.get(position).getFeed().getWatches());
+        intent.putExtra("replies", recommend.get(position).getFeed().getReplies());
+        intent.putExtra("praises", recommend.get(position).getFeed().getPraises());
+        startActivity(intent);
+
+
+    }
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -162,13 +184,13 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
 
             if (msg.what == REFLUSH_LIST) {
                 if (mSmart != null) {
-                    commonAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                     mSmart.finishRefresh();
                 }
 
             } else if (msg.what == LOADMORE_LIST) {
                 if (mSmart != null) {
-                    commonAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                     mSmart.finishLoadMore();
                 }
 
@@ -186,44 +208,45 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
     }
 
     private void initRecycle() {
-        commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
-        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity(),recommend));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity(),recommend));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity(),recommend));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity(),recommend));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity(),recommend));
-        commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity(),recommend));
-
-        commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
-                //TODO 详情
-                if (recommend.get(position).getFeed().getType() == 1) {
-                    Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
-                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
-                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
-                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
-                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
-                    intent.putExtra("image", recommend.get(position).getUser().getAvatar());
-                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
-                    intent.putExtra("browse", recommend.get(position).getFeed().getWatches());
-                    intent.putExtra("replies", recommend.get(position).getFeed().getReplies());
-                    intent.putExtra("praises", recommend.get(position).getFeed().getPraises());
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
-                return false;
-            }
-        });
+//        commonAdapter = new MultiItemTypeAdapter(getActivity(), recommend);
+//        commonAdapter.addItemViewDelegate(new RecommendItemVIew(getActivity(),recommend));
+//        commonAdapter.addItemViewDelegate(new RecommendItemVIewZero(getActivity(),recommend));
+//        commonAdapter.addItemViewDelegate(new RecommendItemVIewOne(getActivity(),recommend));
+//        commonAdapter.addItemViewDelegate(new RecommendItemVIewTwo(getActivity(),recommend));
+//        commonAdapter.addItemViewDelegate(new RecommendItemVIewThree(getActivity(),recommend));
+//        commonAdapter.addItemViewDelegate(new RecommendItemVIewFour(getActivity(),recommend));
+//
+//        commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+//
+//                //TODO 详情
+//                if (recommend.get(position).getFeed().getType() == 1) {
+//                    Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
+//                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+//                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+//                    startActivity(intent);
+//                } else {
+//                    Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
+//                    intent.putExtra("relateid", recommend.get(position).getFeed().getRelateid());
+//                    intent.putExtra("uid", recommend.get(position).getUser().getUid());
+//                    intent.putExtra("image", recommend.get(position).getUser().getAvatar());
+//                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+//                    intent.putExtra("browse", recommend.get(position).getFeed().getWatches());
+//                    intent.putExtra("replies", recommend.get(position).getFeed().getReplies());
+//                    intent.putExtra("praises", recommend.get(position).getFeed().getPraises());
+//                    startActivity(intent);
+//                }
+//            }
+//
+//            @Override
+//            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+//                return false;
+//            }
+//        });
+        adapter = new InforMationAdapter(getActivity(), recommend);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(commonAdapter);
+        recyclerView.setAdapter(adapter);
 
     }
 

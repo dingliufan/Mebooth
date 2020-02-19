@@ -41,10 +41,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="20dp"
-                android:textColor="@color/bg_000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textColor="@color/bg_E73828"
+                android:textSize="15sp"/>
 
         </FrameLayout>
 
@@ -99,7 +97,7 @@
             app:lib_pub_tbtn_colorPadding="@color/lib_pub_color_hint"
             app:lib_pub_tbtn_colorThumb="@color/lib_pub_color_white"
             app:lib_pub_tbtn_colorTrackOff="@color/bg_e3e3e3"
-            app:lib_pub_tbtn_colorTrackOpen="@color/bg_FED130"
+            app:lib_pub_tbtn_colorTrackOpen="@color/bg_E73828"
             app:lib_pub_tbtn_duration="250"
             android:layout_gravity="center_vertical"
             app:lib_pub_tbtn_padding="1.5dp" />
