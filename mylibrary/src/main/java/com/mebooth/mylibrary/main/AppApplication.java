@@ -1,5 +1,6 @@
 package com.mebooth.mylibrary.main;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Notification;
@@ -263,9 +264,9 @@ public abstract class AppApplication extends Application {
     }
 
     //扫码
-    public void setScan() {
+    public void setScan(Activity activity) {
         if (meboothCallBack != null) {
-            meboothCallBack.setIntentScan();
+            meboothCallBack.setIntentScan(activity);
         }
     }
 

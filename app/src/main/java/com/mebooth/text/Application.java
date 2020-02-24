@@ -1,6 +1,8 @@
 package com.mebooth.text;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -54,7 +56,10 @@ public class Application extends AppApplication {
             }
 
             @Override
-            public void setIntentScan() {
+            public void setIntentScan(Activity activity) {
+
+                Intent intent = new Intent(activity,MainActivity.class);
+                startActivity(intent);
 
             }
 

@@ -156,7 +156,7 @@ public class NewMainFragment extends BaseFragment {
                     AppApplication.getInstance().setLogin();
 
                 } else {
-                    AppApplication.getInstance().setScan();
+                    AppApplication.getInstance().setScan(getActivity());
                 }
             }
         });
