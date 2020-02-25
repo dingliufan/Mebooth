@@ -82,7 +82,7 @@
             android:name="com.mebooth.mylibrary.main.home.activity.NewsPublishActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden|adjustPan"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.mebooth.mylibrary.main.home.activity.MePublishNewsActivity"

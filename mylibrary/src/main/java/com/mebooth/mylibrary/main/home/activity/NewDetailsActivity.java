@@ -130,6 +130,8 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
     private int maxDistance = 255;//当距离在[0,255]变化时，透明度在[0,255之间变化]
     private TextView follow;
 
+    private boolean isClick = true;
+
 
     @Override
     protected int getContentViewId() {
@@ -951,77 +953,82 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                         AppApplication.getInstance().setLogin();
 
                                     } else {
-                                        if (getNewInfoJson.getData().getNews().isPraised()) {
-                                            //取消收藏
-                                            ServiceFactory.getNewInstance()
-                                                    .createService(YService.class)
-                                                    .cancelPraises(getNewInfoJson.getData().getNews().getNewsid(), 1)
-                                                    .subscribeOn(Schedulers.io())
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(new CommonObserver<PublicBean>() {
-                                                        @RequiresApi(api = Build.VERSION_CODES.O)
-                                                        @Override
-                                                        public void onNext(PublicBean publicBean) {
-                                                            super.onNext(publicBean);
+                                        if(isClick){
+                                            isClick = false;
+                                            if (getNewInfoJson.getData().getNews().isPraised()) {
+                                                //取消收藏
+                                                ServiceFactory.getNewInstance()
+                                                        .createService(YService.class)
+                                                        .cancelPraises(getNewInfoJson.getData().getNews().getNewsid(), 1)
+                                                        .subscribeOn(Schedulers.io())
+                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe(new CommonObserver<PublicBean>() {
+                                                            @RequiresApi(api = Build.VERSION_CODES.O)
+                                                            @Override
+                                                            public void onNext(PublicBean publicBean) {
+                                                                super.onNext(publicBean);
 
-                                                            if (null != publicBean && publicBean.getErrno() == 0) {
-                                                                getNewInfoJson.getData().getNews().setPraised(false);
-                                                                ToastUtils.getInstance().showToast("已取消收藏");
-                                                                newdetailsCollectImg.setImageResource(R.drawable.nocollect);
-                                                                praises = praises - 1;
-                                                                newdetailsCollect.setText(String.valueOf(praises));
-                                                            } else if (null != publicBean && publicBean.getErrno() != 200) {
+                                                                if (null != publicBean && publicBean.getErrno() == 0) {
+                                                                    isClick = true;
+                                                                    getNewInfoJson.getData().getNews().setPraised(false);
+                                                                    ToastUtils.getInstance().showToast("已取消收藏");
+                                                                    newdetailsCollectImg.setImageResource(R.drawable.nocollect);
+                                                                    praises = praises - 1;
+                                                                    newdetailsCollect.setText(String.valueOf(praises));
+                                                                } else if (null != publicBean && publicBean.getErrno() != 200) {
 
-                                                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                                            } else {
+                                                                    ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                                } else {
+
+                                                                    ToastUtils.getInstance().showToast("数据加载失败");
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onError(Throwable e) {
+                                                                super.onError(e);
 
                                                                 ToastUtils.getInstance().showToast("数据加载失败");
                                                             }
-                                                        }
+                                                        });
+                                            } else {
 
-                                                        @Override
-                                                        public void onError(Throwable e) {
-                                                            super.onError(e);
+                                                //添加收藏
+                                                ServiceFactory.getNewInstance()
+                                                        .createService(YService.class)
+                                                        .addPraises(getNewInfoJson.getData().getNews().getNewsid(), 1)
+                                                        .subscribeOn(Schedulers.io())
+                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe(new CommonObserver<PublicBean>() {
+                                                            @RequiresApi(api = Build.VERSION_CODES.O)
+                                                            @Override
+                                                            public void onNext(PublicBean publicBean) {
+                                                                super.onNext(publicBean);
 
-                                                            ToastUtils.getInstance().showToast("数据加载失败");
-                                                        }
-                                                    });
-                                        } else {
+                                                                if (null != publicBean && publicBean.getErrno() == 0) {
+                                                                    isClick = true;
+                                                                    getNewInfoJson.getData().getNews().setPraised(true);
+                                                                    ToastUtils.getInstance().showToast("已收藏");
+                                                                    newdetailsCollectImg.setImageResource(R.drawable.collect);
+                                                                    praises = praises + 1;
+                                                                    newdetailsCollect.setText(String.valueOf(praises));
+                                                                } else if (null != publicBean && publicBean.getErrno() != 200) {
 
-                                            //添加收藏
-                                            ServiceFactory.getNewInstance()
-                                                    .createService(YService.class)
-                                                    .addPraises(getNewInfoJson.getData().getNews().getNewsid(), 1)
-                                                    .subscribeOn(Schedulers.io())
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(new CommonObserver<PublicBean>() {
-                                                        @RequiresApi(api = Build.VERSION_CODES.O)
-                                                        @Override
-                                                        public void onNext(PublicBean publicBean) {
-                                                            super.onNext(publicBean);
+                                                                    ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                                                } else {
 
-                                                            if (null != publicBean && publicBean.getErrno() == 0) {
-                                                                getNewInfoJson.getData().getNews().setPraised(true);
-                                                                ToastUtils.getInstance().showToast("已收藏");
-                                                                newdetailsCollectImg.setImageResource(R.drawable.collect);
-                                                                praises = praises + 1;
-                                                                newdetailsCollect.setText(String.valueOf(praises));
-                                                            } else if (null != publicBean && publicBean.getErrno() != 200) {
+                                                                    ToastUtils.getInstance().showToast("数据加载失败");
+                                                                }
+                                                            }
 
-                                                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                                            } else {
+                                                            @Override
+                                                            public void onError(Throwable e) {
+                                                                super.onError(e);
 
                                                                 ToastUtils.getInstance().showToast("数据加载失败");
                                                             }
-                                                        }
-
-                                                        @Override
-                                                        public void onError(Throwable e) {
-                                                            super.onError(e);
-
-                                                            ToastUtils.getInstance().showToast("数据加载失败");
-                                                        }
-                                                    });
+                                                        });
+                                            }
                                         }
                                     }
 

@@ -113,6 +113,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                     if (type.equals("minepublic")) {
                                         if (list.size() == 0) {
                                             noPublish.isPublish();
+                                            noPublish.showAddButton();
                                         }else{
                                             noPublish.showAddButton();
                                         }
@@ -346,7 +347,9 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                                 adapter.notifyDataSetChanged();
 //                                                adapter.notifyItemRangeChanged(0, list.size());
                                             } else {
-
+                                                if(type.equals("minepublic")){
+                                                    noPublish.showAddButton();
+                                                }
                                                 nowDataList.getTopic().setPraised(false);
                                                 ToastUtils.getInstance().showToast("已取消收藏");
                                                 holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
@@ -384,6 +387,9 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
+                                            if(type.equals("minepublic")){
+                                                noPublish.showAddButton();
+                                            }
                                             nowDataList.getTopic().setPraised(true);
                                             ToastUtils.getInstance().showToast("已收藏");
                                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
