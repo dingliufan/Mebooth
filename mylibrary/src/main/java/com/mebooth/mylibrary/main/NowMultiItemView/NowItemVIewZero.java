@@ -113,8 +113,11 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                     if (type.equals("minepublic")) {
                                         if (list.size() == 0) {
                                             noPublish.isPublish();
+                                        }else{
+                                            noPublish.showAddButton();
                                         }
                                     }
+
                                     adapter.notifyDataSetChanged();
 
                                 } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -223,7 +226,10 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                                 adapter.notifyDataSetChanged();
                                             }else{
                                                 for (GetNowJson.NowData.NowDataList dataList : list) {
-                                                    dataList.getUser().setFollowed(false);
+                                                    if(dataList.getUser().getUid() == nowDataList.getUser().getUid()){
+
+                                                        dataList.getUser().setFollowed(false);
+                                                    }
                                                 }
                                                 adapter.notifyDataSetChanged();
 //                                                nowDataList.getUser().setFollowed(false);
@@ -274,7 +280,10 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                                 adapter.notifyDataSetChanged();
                                             }else{
                                                 for (GetNowJson.NowData.NowDataList dataList : list) {
-                                                    dataList.getUser().setFollowed(true);
+                                                    if(dataList.getUser().getUid() == nowDataList.getUser().getUid()){
+
+                                                        dataList.getUser().setFollowed(true);
+                                                    }
                                                 }
                                                 adapter.notifyDataSetChanged();
 //                                                nowDataList.getUser().setFollowed(true);
@@ -333,6 +342,7 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
                                                 if (list.size() == 0) {
                                                     noPublish.isCollect();
                                                 }
+                                                noPublish.showAddButton();
                                                 adapter.notifyDataSetChanged();
 //                                                adapter.notifyItemRangeChanged(0, list.size());
                                             } else {

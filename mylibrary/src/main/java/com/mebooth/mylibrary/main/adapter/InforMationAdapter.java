@@ -189,10 +189,17 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            recommend.get(position).getUser().setFollowed(false);
+                                            for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
+                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+
+                                                    recommendDataList.getUser().setFollowed(false);
+                                                }
+                                            }
+                                            notifyDataSetChanged();
+//                                            recommend.get(position).getUser().setFollowed(false);
                                             ToastUtils.getInstance().showToast("已取消关注");
-                                            holder.follow.setText("关注");
-                                            holder.follow.setBackgroundResource(R.drawable.follow);
+//                                            holder.follow.setText("关注");
+//                                            holder.follow.setBackgroundResource(R.drawable.follow);
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -225,10 +232,17 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            recommend.get(position).getUser().setFollowed(true);
+                                            for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
+                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+
+                                                    recommendDataList.getUser().setFollowed(true);
+                                                }
+                                            }
+                                            notifyDataSetChanged();
+//                                            recommend.get(position).getUser().setFollowed(true);
                                             ToastUtils.getInstance().showToast("已关注");
-                                            holder.follow.setText("已关注");
-                                            holder.follow.setBackgroundResource(R.drawable.nofollow);
+//                                            holder.follow.setText("已关注");
+//                                            holder.follow.setBackgroundResource(R.drawable.nofollow);
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());

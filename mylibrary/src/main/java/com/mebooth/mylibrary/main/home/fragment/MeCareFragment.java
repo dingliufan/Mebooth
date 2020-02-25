@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
@@ -64,6 +65,11 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
     private Conversation.ConversationType conversationType;
     private String offSet = "";
 
+    private MineActivity.refreshData refreshData;
+
+    public MeCareFragment(MineActivity.refreshData refreshData) {
+        this.refreshData = refreshData;
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -236,6 +242,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
                                             } else {
                                                 meCareTv.setVisibility(View.GONE);
                                             }
+                                            refreshData.refresh();
                                             commonAdapter.notifyDataSetChanged();
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 

@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewThree;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewTwo;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
@@ -56,6 +57,11 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
 
     private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
     private TextView noCollect;
+    private MineActivity.refreshData refreshData;
+
+    public MeCollectFragment(MineActivity.refreshData refreshData) {
+        this.refreshData = refreshData;
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -208,7 +214,7 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
 
             @Override
             public void showAddButton() {
-
+                refreshData.refresh();
             }
         };
 

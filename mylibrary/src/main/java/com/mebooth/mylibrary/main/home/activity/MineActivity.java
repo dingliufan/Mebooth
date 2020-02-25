@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,12 +43,14 @@ import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.mebooth.mylibrary.utils.UIUtils;
 
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.eventbus.ThreadMode;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -61,11 +64,12 @@ public class MineActivity extends BaseTransparentActivity {
     private TextView nickName;
     private ImageView edit;
 
-    private List<String> mTitles = new ArrayList<>();
+    private ArrayList<String> mTitles = new ArrayList<>();
     private String mTitles1[];
     private ArrayList<Fragment> mFragments = new ArrayList<>();
-    private MeCareFragment meCareFragment = new MeCareFragment();
-    private MeCollectFragment meCollectFragment = new MeCollectFragment();
+    private MePublishFragment mePublishFragment ;
+    private MeCareFragment meCareFragment;
+    private MeCollectFragment meCollectFragment;
 
     private MineOrderPagerAdapter mAdapter;
 
@@ -84,6 +88,8 @@ public class MineActivity extends BaseTransparentActivity {
     private ImageView back;
     private TextView title;
 
+    private refreshData refreshData;
+
     @Override
     protected int getContentViewId() {
         return R.layout.mine_layout;
@@ -96,6 +102,8 @@ public class MineActivity extends BaseTransparentActivity {
         StatusBarUtil.setTranslucentForImageViewInFragment(this, 0, null);
         StatusBarUtil.setLightMode(this); //黑色图标
     }
+
+
 
 
     @Override
@@ -126,7 +134,54 @@ public class MineActivity extends BaseTransparentActivity {
         };
         ediitNickName = new EdiitNickName(this,getIntent().getStringExtra("nickname"),myListener);
 
-        mFragments.add(MePublishFragment.getInstance(uid));
+        refreshData = new refreshData() {
+            @Override
+            public void refresh() {
+
+                ServiceFactory.getNewInstance()
+                        .createService(YService.class)
+                        .getMineCountInfo(uid)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new CommonObserver<GetMineCountJson>() {
+                            @Override
+                            public void onNext(GetMineCountJson getMineCountJson) {
+                                super.onNext(getMineCountJson);
+
+                                if (null != getMineCountJson && getMineCountJson.getErrno() == 0) {
+
+
+                                    mTitles.clear();
+                                    mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我的发布");
+                                    mTitles.add(getMineCountJson.getData().getStats().getFollowing()+"\n我的关注");
+                                    mTitles.add(getMineCountJson.getData().getStats().getPraise()+"\n我的收藏");
+                                    mAdapter.notifyDataSetChanged();
+                                } else if (null != getMineCountJson && getMineCountJson.getErrno() == 1101) {
+
+                                    SharedPreferencesUtils.writeString("token", "");
+                                } else if (null != getMineCountJson && getMineCountJson.getErrno() != 200) {
+
+                                    ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMineCountJson.getErrmsg()) ? "数据加载失败" : getMineCountJson.getErrmsg());
+                                } else {
+
+                                    ToastUtils.getInstance().showToast("数据加载失败");
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                super.onError(e);
+
+                                ToastUtils.getInstance().showToast("数据加载失败");
+                            }
+                        });
+
+            }
+        };
+        mePublishFragment = new MePublishFragment(uid,refreshData);
+        meCollectFragment = new MeCollectFragment(refreshData);
+        meCareFragment = new MeCareFragment(refreshData);
+        mFragments.add(mePublishFragment);
         mFragments.add(meCareFragment);
         mFragments.add(meCollectFragment);
 
@@ -160,6 +215,7 @@ public class MineActivity extends BaseTransparentActivity {
 
     }
 
+
     private void getCountInfo() {
 
         ServiceFactory.getNewInstance()
@@ -173,20 +229,19 @@ public class MineActivity extends BaseTransparentActivity {
                         super.onNext(getMineCountJson);
 
                         if (null != getMineCountJson && getMineCountJson.getErrno() == 0) {
-
+                            mTitles.clear();
                             mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我的发布");
                             mTitles.add(getMineCountJson.getData().getStats().getFollowing()+"\n我的关注");
                             mTitles.add(getMineCountJson.getData().getStats().getPraise()+"\n我的收藏");
 
-                            mTitles1 = mTitles.toArray(new String[mTitles.size()]);
 
-
-                            mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), MineActivity.this, mFragments, mTitles1);
+                            mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), MineActivity.this, mFragments, mTitles);
                             viewPager.setAdapter(mAdapter);
                             tabLayout.setupWithViewPager(viewPager);
                             tabLayout.setSelectedTabIndicatorHeight(0);
                             tabLayout.getTabAt(0).select();
                             TabLayoutUtil.reflex(tabLayout);
+
 
                             LinearLayout linearLayout = (LinearLayout) tabLayout.getChildAt(0);
                             linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
@@ -359,4 +414,11 @@ public class MineActivity extends BaseTransparentActivity {
         UIUtils.clearMemoryCache(this);
 
     }
+
+    public interface refreshData{
+
+        void refresh();
+
+    }
+
 }

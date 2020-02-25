@@ -38,6 +38,7 @@ import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.QuicklyActivity;
 import com.mebooth.mylibrary.main.home.bean.EntranceJson;
 import com.mebooth.mylibrary.main.home.bean.FlushJson;
+import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.YService;
@@ -392,12 +393,12 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 //                            Intent intent = new Intent(getActivity(), QuicklyActivity.class);
 
-                            if(config.get(0).getTarget().equals("url")){
+                            if (config.get(0).getTarget().equals("url")) {
                                 Intent intent = new Intent(getActivity(), QuicklyActivity.class);
                                 intent.putExtra("url", config.get(0).getFoward());
                                 intent.putExtra("title", config.get(0).getName());
                                 startActivity(intent);
-                            }else{
+                            } else {
                                 Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
                                 intent.putExtra("type", config.get(0).getFoward());
                                 intent.putExtra("image", config.get(0).getImage());
@@ -406,19 +407,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             }
 
 
-
                         }
                     });
                     holder.setOnClickListener(R.id.publicusecar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            if(config.get(1).getTarget().equals("url")){
+                            if (config.get(1).getTarget().equals("url")) {
                                 Intent intent = new Intent(getActivity(), QuicklyActivity.class);
                                 intent.putExtra("url", config.get(1).getFoward());
                                 intent.putExtra("title", config.get(1).getName());
                                 startActivity(intent);
-                            }else{
+                            } else {
                                 Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
                                 intent.putExtra("type", config.get(1).getFoward());
                                 intent.putExtra("image", config.get(1).getImage());
@@ -432,12 +432,12 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     holder.setOnClickListener(R.id.logisticsusecar, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(config.get(1).getTarget().equals("url")){
+                            if (config.get(1).getTarget().equals("url")) {
                                 Intent intent = new Intent(getActivity(), QuicklyActivity.class);
                                 intent.putExtra("url", config.get(2).getFoward());
                                 intent.putExtra("title", config.get(2).getName());
                                 startActivity(intent);
-                            }else{
+                            } else {
                                 Intent intent = new Intent(getActivity(), NewsFeatureActivity.class);
                                 intent.putExtra("type", config.get(2).getFoward());
                                 intent.putExtra("image", config.get(2).getImage());
@@ -542,11 +542,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         super.onNext(publicBean);
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                                            recommend.get(position).getUser().setFollowed(false);
+                                                            for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
+                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+
+                                                                    recommendDataList.getUser().setFollowed(false);
+                                                                }
+                                                            }
+//                                                            recommend.get(position).getUser().setFollowed(false);
+                                                            commonAdapter.notifyDataSetChanged();
                                                             ToastUtils.getInstance().showToast("已取消关注");
-                                                            holder.setText(R.id.recommenditemzixun_follow, "关注");
-                                                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_E73828));
-                                                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.follow);
+//                                                            holder.setText(R.id.recommenditemzixun_follow, "关注");
+//                                                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_E73828));
+//                                                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.follow);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -579,11 +586,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         super.onNext(publicBean);
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                                            recommend.get(position).getUser().setFollowed(true);
+                                                            for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
+                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+
+                                                                    recommendDataList.getUser().setFollowed(true);
+                                                                }
+                                                            }
+                                                            commonAdapter.notifyDataSetChanged();
+//                                                            recommend.get(position).getUser().setFollowed(true);
                                                             ToastUtils.getInstance().showToast("已关注");
-                                                            holder.setText(R.id.recommenditemzixun_follow, "已关注");
-                                                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_999999));
-                                                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.nofollow);
+//                                                            holder.setText(R.id.recommenditemzixun_follow, "已关注");
+//                                                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_999999));
+//                                                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.nofollow);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -869,11 +883,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         super.onNext(publicBean);
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                                            recommend.get(position).getUser().setFollowed(false);
+                                                            for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
+                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+
+                                                                    recommendDataList.getUser().setFollowed(false);
+                                                                }
+                                                            }
+                                                            commonAdapter.notifyDataSetChanged();
+//                                                            recommend.get(position).getUser().setFollowed(false);
                                                             ToastUtils.getInstance().showToast("已取消关注");
-                                                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_E73828));
-                                                            holder.setText(R.id.recommenditem_follow, "关注");
-                                                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
+//                                                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_E73828));
+//                                                            holder.setText(R.id.recommenditem_follow, "关注");
+//                                                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -906,11 +927,19 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         super.onNext(publicBean);
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                                            recommend.get(position).getUser().setFollowed(true);
+                                                            for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
+                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+
+                                                                    recommendDataList.getUser().setFollowed(true);
+                                                                }
+                                                            }
+
+                                                            commonAdapter.notifyDataSetChanged();
+//                                                            recommend.get(position).getUser().setFollowed(true);
                                                             ToastUtils.getInstance().showToast("已关注");
-                                                            holder.setText(R.id.recommenditem_follow, "已关注");
-                                                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_999999));
-                                                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
+//                                                            holder.setText(R.id.recommenditem_follow, "已关注");
+//                                                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_999999));
+//                                                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -1120,11 +1149,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     public void onResume() {
         super.onResume();
 
-        if(isRecommendRefresh){
+        if (isRecommendRefresh) {
 
             ServiceFactory.getNewInstance()
                     .createService(YService.class)
-                    .getRecommend("feeds_recommend", "", recommend.size()-1)
+                    .getRecommend("feeds_recommend", "", recommend.size() - 1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new CommonObserver<GetRecommendJson>() {

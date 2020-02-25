@@ -27,6 +27,7 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.MePublishNewsActivity;
 import com.mebooth.mylibrary.main.home.activity.MePublishTopicActivity;
+import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
@@ -47,6 +48,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -72,14 +74,20 @@ public class MePublishFragment extends BaseFragment implements OnRefreshListener
 
     private int uid;
     private TextView notPublish;
+    private MineActivity.refreshData refreshData;
 
-    public static MePublishFragment getInstance(int uid) {
-        MePublishFragment sf = new MePublishFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("uid", uid);
-        sf.setArguments(bundle);
-        return sf;
+    public MePublishFragment(int uid, MineActivity.refreshData refreshData) {
+        this.uid = uid;
+        this.refreshData = refreshData;
     }
+
+//    public static MePublishFragment getInstance(int uid) {
+//        MePublishFragment sf = new MePublishFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("uid", uid);
+//        sf.setArguments(bundle);
+//        return sf;
+//    }
 
     @Override
     protected int getLayoutResId() {
@@ -104,8 +112,8 @@ public class MePublishFragment extends BaseFragment implements OnRefreshListener
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        Bundle bundle = getArguments();
-        uid = bundle.getInt("uid");
+//        Bundle bundle = getArguments();
+//        uid = bundle.getInt("uid");
 
         userPublishList.add("我发布的笔记");
         userPublishList.add("我发布的此刻");
@@ -166,7 +174,6 @@ public class MePublishFragment extends BaseFragment implements OnRefreshListener
                                 public void onClick(View v) {
 
                                     deleteNews(userNewsList.get(position).getNewsid());
-
                                 }
                             });
 
@@ -213,7 +220,7 @@ public class MePublishFragment extends BaseFragment implements OnRefreshListener
 
                         @Override
                         public void showAddButton() {
-
+                            refreshData.refresh();
                         }
                     };
 
@@ -281,7 +288,7 @@ public class MePublishFragment extends BaseFragment implements OnRefreshListener
                         super.onNext(publicBean);
 
                         if (null != publicBean && publicBean.getErrno() == 0) {
-
+                            refreshData.refresh();
                             ToastUtils.getInstance().showToast("删除新闻成功");
                             getNews();
 

@@ -66,7 +66,8 @@ public class NewMainFragment extends BaseFragment {
     private ViewPager viewPager;
     private ImageView headerIcon;
 
-    private String mTitles[] = {"推荐", "此刻", "笔记", "资讯"};
+    private ArrayList<String> mTitles = new ArrayList<>();
+    private String mTitles1[] = {"推荐","此刻","笔记","资讯"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private RecommendFragment recommendFragment = new RecommendFragment();
     private NowFragment nowFragment = new NowFragment();
@@ -169,6 +170,11 @@ public class NewMainFragment extends BaseFragment {
         mPopupWindow = new PopupWindow(getActivity());
         animUtil = new AnimUtil();
 
+        mTitles.add("推荐");
+        mTitles.add("此刻");
+        mTitles.add("笔记");
+        mTitles.add("资讯");
+
         mFragments.add(recommendFragment);
 //        mFragments.add(FriendFragment.newInstance());
         mFragments.add(nowFragment);
@@ -178,7 +184,7 @@ public class NewMainFragment extends BaseFragment {
         mAdapter = new MineOrderPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), mFragments, mTitles);
         viewPager.setAdapter(mAdapter);
 
-        tabLayout.setViewPager(viewPager, mTitles);
+        tabLayout.setViewPager(viewPager, mTitles1);
 //        tabLayout.setupWithViewPager(viewPager);
 //        tabLayout.setSelectedTabIndicatorHeight(0);
 

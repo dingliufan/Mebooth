@@ -136,7 +136,7 @@ public class NewsPublishActivity extends BaseTransparentActivity {
                     PictureConfig.APPLY_STORAGE_PERMISSIONS_CODE);
         }
 
-        findViewById(R.id.newspublishheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
+//        findViewById(R.id.newspublishheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

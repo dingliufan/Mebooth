@@ -14,17 +14,25 @@ import java.util.List;
 public class MineOrderPagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> myFragments = new ArrayList<>();
-    private String myFragmentTitles[];
+    private ArrayList<String> myFragmentTitles;
     private Context mContext;
 
 
-    public MineOrderPagerAdapter(FragmentManager fm, Context context, List<Fragment> myFragments, String[] myFragmentTitles) {
+    public MineOrderPagerAdapter(FragmentManager fm, Context context, List<Fragment> myFragments, ArrayList<String> myFragmentTitles) {
         super(fm);
         this.mContext = context;
         this.myFragments = myFragments;
         this.myFragmentTitles = myFragmentTitles;
 
     }
+
+    // 动态设置我们标题的方法
+    public void setPageTitle(int position, String title) {
+
+
+
+    }
+
 
     @Override
     public Fragment getItem(int i) {
@@ -38,7 +46,7 @@ public class MineOrderPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return myFragmentTitles[position];
+        return myFragmentTitles.get(position);
     }
 
 }
