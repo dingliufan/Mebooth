@@ -37,6 +37,11 @@ import java.util.Date;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.mebooth.mylibrary.main.home.fragment.ExperienceFragment.isExperienceRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.InformationFragment.isInformationRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.NowFragment.isNowRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.RecommendFragment.isRecommendRefresh;
+
 public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDataList> {
 
     private Context context;
@@ -54,8 +59,10 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
         this.noPublish = noPublish;
     }
 
-    public NowItemVIewOne(Context context) {
+    public NowItemVIewOne(Context context,ArrayList<GetNowJson.NowData.NowDataList> list,MultiItemTypeAdapter adapter) {
         this.context = context;
+        this.list = list;
+        this.adapter = adapter;
     }
 
     @Override
@@ -206,6 +213,10 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                     AppApplication.getInstance().setLogin();
 
                 } else {
+                    isRecommendRefresh = true;
+                    isNowRefresh = true;
+                    isExperienceRefresh = true;
+                    isInformationRefresh = true;
                     if (nowDataList.getUser().isFollowed()) {
                         //取消关注
                         ServiceFactory.getNewInstance()
@@ -229,11 +240,15 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
 //                                                adapter.notifyDataSetChanged();
                                                 adapter.notifyItemRangeChanged(0, list.size());
                                             } else {
-                                                nowDataList.getUser().setFollowed(false);
+                                                for (GetNowJson.NowData.NowDataList dataList : list) {
+                                                    dataList.getUser().setFollowed(false);
+                                                }
+                                                adapter.notifyDataSetChanged();
+//                                                nowDataList.getUser().setFollowed(false);
                                                 ToastUtils.getInstance().showToast("已取消关注");
-                                                holder.setText(R.id.recommenditem_follow, "关注");
-                                                holder.setTextColor(R.id.recommenditem_follow, context.getResources().getColor(R.color.bg_E73828));
-                                                holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
+//                                                holder.setText(R.id.recommenditem_follow, "关注");
+//                                                holder.setTextColor(R.id.recommenditem_follow, context.getResources().getColor(R.color.bg_E73828));
+//                                                holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
                                             }
 
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -278,11 +293,15 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                                                 adapter.notifyItemRangeChanged(0, list.size());
 
                                             } else {
-                                                nowDataList.getUser().setFollowed(true);
+                                                for (GetNowJson.NowData.NowDataList dataList : list) {
+                                                    dataList.getUser().setFollowed(true);
+                                                }
+                                                adapter.notifyDataSetChanged();
+//                                                nowDataList.getUser().setFollowed(true);
                                                 ToastUtils.getInstance().showToast("已关注");
-                                                holder.setText(R.id.recommenditem_follow, "已关注");
-                                                holder.setTextColor(R.id.recommenditem_follow, context.getResources().getColor(R.color.bg_999999));
-                                                holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
+//                                                holder.setText(R.id.recommenditem_follow, "已关注");
+//                                                holder.setTextColor(R.id.recommenditem_follow, context.getResources().getColor(R.color.bg_999999));
+//                                                holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
                                             }
 
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -318,7 +337,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                         //取消收藏
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
-                                .cancelPraises(nowDataList.getTopic().getTid(), 0)
+                                .cancelPraises(nowDataList.getTopic().getTid(), nowDataList.getTopic().getType())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new CommonObserver<PublicBean>() {
@@ -334,8 +353,8 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                                                 if (list.size() == 0) {
                                                     noPublish.isCollect();
                                                 }
-//                                                adapter.notifyDataSetChanged();
-                                                adapter.notifyItemRangeChanged(0, list.size());
+                                                adapter.notifyDataSetChanged();
+//                                                adapter.notifyItemRangeChanged(0, list.size());
                                             } else {
 
                                                 nowDataList.getTopic().setPraised(false);
@@ -365,7 +384,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                         //添加收藏
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
-                                .addPraises(nowDataList.getTopic().getTid(), 0)
+                                .addPraises(nowDataList.getTopic().getTid(), nowDataList.getTopic().getType())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new CommonObserver<PublicBean>() {

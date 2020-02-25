@@ -57,6 +57,8 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
     private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
 
+    public static boolean isNowRefresh = false;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.now_layout;
@@ -202,11 +204,11 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
     private void initRecycle() {
         commonAdapter = new MultiItemTypeAdapter(getActivity(), list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity()));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity()));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity()));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity()));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity()));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), list, commonAdapter));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), list, commonAdapter));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), list, commonAdapter));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), list, commonAdapter));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), list, commonAdapter));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
@@ -226,6 +228,51 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(commonAdapter);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (isNowRefresh) {
+            ServiceFactory.getNewInstance()
+                    .createService(YService.class)
+                    .getNow("", list.size())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new CommonObserver<GetNowJson>() {
+                        @Override
+                        public void onNext(GetNowJson getNowJson) {
+                            super.onNext(getNowJson);
+
+                            if (null != getNowJson && getNowJson.getErrno() == 0) {
+
+                                list.clear();
+                                list.addAll(getNowJson.getData().getList());
+                                commonAdapter.notifyDataSetChanged();
+                                UIUtils.clearMemoryCache(getActivity());
+                                isNowRefresh = false;
+                            } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
+
+                                SharedPreferencesUtils.writeString("token", "");
+                            } else if (null != getNowJson && getNowJson.getErrno() != 200) {
+
+                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowJson.getErrmsg()) ? "数据加载失败" : getNowJson.getErrmsg());
+                            } else {
+
+                                ToastUtils.getInstance().showToast("数据加载失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    });
+        }
 
     }
 

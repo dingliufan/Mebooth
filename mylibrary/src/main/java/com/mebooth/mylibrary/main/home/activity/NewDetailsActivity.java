@@ -68,6 +68,11 @@ import java.util.Date;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.mebooth.mylibrary.main.home.fragment.ExperienceFragment.isExperienceRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.InformationFragment.isInformationRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.NowFragment.isNowRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.RecommendFragment.isRecommendRefresh;
+
 public class NewDetailsActivity extends BaseTransparentActivity implements OnRefreshListener {
 
     private ImageView newdetailsImage;
@@ -151,6 +156,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
     protected void initView() {
         super.initView();
 
+
         mSmart = findViewById(R.id.classify_smart);
         mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
                 .setColorSchemeColors(ContextCompat.getColor(this, R.color.main_color))); //设置刷新为官方推介
@@ -164,6 +170,9 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
         headerLayout1 = findViewById(R.id.newdetails_header);
         newsdetailsCommentLLY = findViewById(R.id.newsdetails_comment_lly);
         headerLayout2 = header.findViewById(R.id.newdetails_header1);
+        headerLayout2.setFocusable(true);
+        headerLayout2.setFocusableInTouchMode(true);
+        headerLayout2.requestFocus();
         newdetailsImage = header.findViewById(R.id.newdetails_image);
         newdetailsTitle = header.findViewById(R.id.newdetails_title);
         newdetailsTimeLLY = header.findViewById(R.id.newsHeaderTime_lly);
@@ -392,7 +401,10 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                 @Override
                                 public void onClick(View v) {
                                     if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
-
+                                        isRecommendRefresh = true;
+                                        isNowRefresh = true;
+                                        isExperienceRefresh = true;
+                                        isInformationRefresh = true;
                                         //取消关注
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
@@ -876,6 +888,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             newdetailsNameLLY.setVisibility(View.VISIBLE);
                             footer.setVisibility(View.VISIBLE);
                             newsdetailsCommentLLY.setVisibility(View.VISIBLE);
+                            newdetailsImage.setVisibility(View.VISIBLE);
 
                             GlideImageManager.glideLoader(NewDetailsActivity.this, getNewInfoJson.getData().getNews().getCover(), newdetailsImage, GlideImageManager.TAG_RECTANGLE);
                             newdetailsTitle.setText(getNewInfoJson.getData().getNews().getTitle());
@@ -1019,13 +1032,13 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             UIUtils.clearMemoryCache(NewDetailsActivity.this);
                             mSmart.finishRefresh();
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
-
+                            cancelRefresh();
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() != 200) {
-
+                            cancelRefresh();
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNewInfoJson.getErrmsg()) ? "数据加载失败" : getNewInfoJson.getErrmsg());
                         } else {
-
+                            cancelRefresh();
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -1033,10 +1046,18 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        cancelRefresh();
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
+    }
+
+    private void cancelRefresh() {
+
+        if (mSmart != null) {
+            mSmart.finishRefresh();
+        }
+
     }
 
     @Override

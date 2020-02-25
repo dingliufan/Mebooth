@@ -19,7 +19,8 @@
             android:layout_height="wrap_content"
             android:text="沐风:"
             android:textSize="14sp"
-            android:textColor="@color/bg_826428"/>
+            android:textColor="@color/bg_826428"
+            android:visibility="gone"/>
         <TextView
             android:id="@+id/reply_item_content"
             android:layout_width="wrap_content"

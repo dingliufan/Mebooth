@@ -85,6 +85,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private RecommendAdapter adapter;
 
     private ArrayList<EntranceJson.EntranceData.EntranceConfig> config = new ArrayList<>();
+    public static boolean isRecommendRefresh = false;
 
     @Override
     protected int getLayoutResId() {
@@ -1113,6 +1114,59 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         offSet = "";
         getRecommend(REFLUSH_LIST);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(isRecommendRefresh){
+
+            ServiceFactory.getNewInstance()
+                    .createService(YService.class)
+                    .getRecommend("feeds_recommend", "", recommend.size()-1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new CommonObserver<GetRecommendJson>() {
+                        @Override
+                        public void onNext(GetRecommendJson getRecommendJson) {
+                            super.onNext(getRecommendJson);
+
+                            if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
+
+                                recommend.clear();
+                                if (getRecommendJson.getData().getList().size() != 0) {
+                                    recommend.add(getRecommendJson.getData().getList().get(0));
+                                }
+                                recommend.addAll(getRecommendJson.getData().getList());
+                                commonAdapter.notifyDataSetChanged();
+                                isRecommendRefresh = false;
+
+                                UIUtils.clearMemoryCache(getActivity());
+
+                            } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
+
+                                SharedPreferencesUtils.writeString("token", "");
+                                Log.d("RecommendFragment", "token已被清空");
+                            } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
+
+                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
+                            } else {
+
+                                ToastUtils.getInstance().showToast("数据加载失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    });
+
+        }
+
     }
 
     @Override

@@ -69,6 +69,8 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
     private InforMationAdapter adapter;
 
+    public static boolean isInformationRefresh = false;
+
 
     @Override
     protected int getLayoutResId() {
@@ -284,6 +286,54 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        recyclerView.setAdapter(commonAdapter);
         recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if(isInformationRefresh){
+
+            ServiceFactory.getNewInstance()
+                    .createService(YService.class)
+                    .getRecommend("feeds_news", "", recommend.size())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new CommonObserver<GetRecommendJson>() {
+                        @Override
+                        public void onNext(GetRecommendJson getRecommendJson) {
+                            super.onNext(getRecommendJson);
+
+                            if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
+
+                                recommend.clear();
+                                recommend.addAll(getRecommendJson.getData().getList());
+                                adapter.notifyDataSetChanged();
+                                UIUtils.clearMemoryCache(getActivity());
+                                adapter.setOnItemClickListener(InformationFragment.this);
+                                isInformationRefresh = false;
+                            } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
+
+                                SharedPreferencesUtils.writeString("token", "");
+                            } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
+
+                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
+                            } else {
+
+                                ToastUtils.getInstance().showToast("数据加载失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    });
+
+        }
 
     }
 

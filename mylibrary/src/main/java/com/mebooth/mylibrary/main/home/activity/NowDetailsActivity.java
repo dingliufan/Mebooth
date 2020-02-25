@@ -64,6 +64,11 @@ import java.util.Date;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.mebooth.mylibrary.main.home.fragment.ExperienceFragment.isExperienceRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.InformationFragment.isInformationRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.NowFragment.isNowRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.RecommendFragment.isRecommendRefresh;
+
 public class NowDetailsActivity extends BaseTransparentActivity implements OnRefreshListener {
 
     private ImageView headerIcon;
@@ -686,13 +691,13 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             UIUtils.clearMemoryCache(NowDetailsActivity.this);
                             mSmart.finishRefresh();
                         } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
-
+                            cancelRefresh();
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() != 200) {
-
+                            cancelRefresh();
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowDetailsJson.getErrmsg()) ? "数据加载失败" : getNowDetailsJson.getErrmsg());
                         } else {
-
+                            cancelRefresh();
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -700,7 +705,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        cancelRefresh();
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
@@ -742,7 +747,10 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                 @Override
                                 public void onClick(View v) {
                                     if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
-
+                                        isRecommendRefresh = true;
+                                        isNowRefresh = true;
+                                        isExperienceRefresh = true;
+                                        isInformationRefresh = true;
                                         //取消关注
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
@@ -821,13 +829,13 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             });
 
                         } else if (null != getIsFollowJson && getIsFollowJson.getErrno() == 1101) {
-
+                            cancelRefresh();
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getIsFollowJson && getIsFollowJson.getErrno() != 200) {
-
+                            cancelRefresh();
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(getIsFollowJson.getErrmsg()) ? "数据加载失败" : getIsFollowJson.getErrmsg());
                         } else {
-
+                            cancelRefresh();
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -835,10 +843,18 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        cancelRefresh();
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
+
+    }
+
+    private void cancelRefresh() {
+
+        if (mSmart != null) {
+            mSmart.finishRefresh();
+        }
 
     }
 

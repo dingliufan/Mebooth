@@ -86,6 +86,15 @@ public class GetNowJson {
                 private int replies;
                 private String addtime;
                 private boolean praised;
+                private int type;
+
+                public int getType() {
+                    return type;
+                }
+
+                public void setType(int type) {
+                    this.type = type;
+                }
 
                 public boolean isPraised() {
                     return praised;

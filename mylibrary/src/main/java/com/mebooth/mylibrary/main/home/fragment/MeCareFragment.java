@@ -45,6 +45,11 @@ import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 
+import static com.mebooth.mylibrary.main.home.fragment.ExperienceFragment.isExperienceRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.InformationFragment.isInformationRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.NowFragment.isNowRefresh;
+import static com.mebooth.mylibrary.main.home.fragment.RecommendFragment.isRecommendRefresh;
+
 public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener {
     private CommonAdapter commonAdapter;
     private RecyclerView recyclerView;
@@ -97,7 +102,7 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getCareList(offSet,10)
+                .getCareList(offSet, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetCareJson>() {
@@ -155,14 +160,14 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
         if (tag == REFLUSH_LIST) {
             users.clear();
             users.addAll(getCareJson.getData().getUsers());
-            if(users.size() == 0){
+            if (users.size() == 0) {
                 meCareTv.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 meCareTv.setVisibility(View.GONE);
             }
 //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
-        }else {
+        } else {
             if (getCareJson.getData().getUsers().size() == 0) {
 
                 mSmart.finishLoadMoreWithNoMoreData();
@@ -207,7 +212,10 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
                 holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        isRecommendRefresh = true;
+                        isNowRefresh = true;
+                        isExperienceRefresh = true;
+                        isInformationRefresh = true;
                         //取消关注
                         ServiceFactory.getNewInstance()
                                 .createService(YService.class)
@@ -223,9 +231,9 @@ public class MeCareFragment extends BaseFragment implements OnLoadMoreListener, 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             ToastUtils.getInstance().showToast("已取消关注");
                                             users.remove(position);
-                                            if(users.size() == 0){
+                                            if (users.size() == 0) {
                                                 meCareTv.setVisibility(View.VISIBLE);
-                                            }else{
+                                            } else {
                                                 meCareTv.setVisibility(View.GONE);
                                             }
                                             commonAdapter.notifyDataSetChanged();

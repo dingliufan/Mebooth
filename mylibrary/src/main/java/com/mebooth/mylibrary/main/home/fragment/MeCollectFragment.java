@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +22,7 @@ import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewThree;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewTwo;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewZero;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.utils.NoPublish;
@@ -140,9 +143,9 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
         if (tag == REFLUSH_LIST) {
             list.clear();
             list.addAll(nowJson.getData().getList());
-            if(list.size() == 0){
+            if (list.size() == 0) {
                 noCollect.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 noCollect.setVisibility(View.GONE);
             }
 //            recyclerView.setAdapter(commonAdapter);
@@ -210,21 +213,37 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
         };
 
         commonAdapter = new MultiItemTypeAdapter(getActivity(), list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "minecollect", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 详情
-                Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
-                intent.putExtra("relateid", list.get(position).getTopic().getTid());
-                intent.putExtra("uid", list.get(position).getTopic().getUid());
-                startActivity(intent);
+                if (list.get(position).getTopic().getType() == 0) {
+                    Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
+                    intent.putExtra("relateid", list.get(position).getTopic().getTid());
+                    intent.putExtra("uid", list.get(position).getTopic().getUid());
+                    startActivity(intent);
+
+                } else {
+
+                    Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
+                    intent.putExtra("relateid", list.get(position).getTopic().getTid());
+                    intent.putExtra("uid", list.get(position).getUser().getUid());
+                    intent.putExtra("image", list.get(position).getUser().getAvatar());
+                    intent.putExtra("nickname", list.get(position).getUser().getNickname());
+                    intent.putExtra("browse", list.get(position).getTopic().getWatches());
+                    intent.putExtra("replies", list.get(position).getTopic().getReplies());
+                    intent.putExtra("praises", list.get(position).getTopic().getPraises());
+                    startActivity(intent);
+
+                }
+
             }
 
             @Override
@@ -247,6 +266,7 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
         offSet = "";
         getRecommend(REFLUSH_LIST);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
