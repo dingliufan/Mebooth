@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.bigkoo.alertview.AlertView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -131,6 +132,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
     private TextView follow;
 
     private boolean isClick = true;
+    private FrameLayout newDetailsFooterFrame;
 
 
     @Override
@@ -168,10 +170,11 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 
         header = LayoutInflater.from(NewDetailsActivity.this).inflate(R.layout.newestheader, null);
         footer = LayoutInflater.from(NewDetailsActivity.this).inflate(R.layout.newestfooter, null);
+
         footer.setVisibility(View.GONE);
         headerLayout1 = findViewById(R.id.newdetails_header);
         newsdetailsCommentLLY = findViewById(R.id.newsdetails_comment_lly);
-        headerLayout2 = header.findViewById(R.id.newdetails_header1);
+        headerLayout2 = findViewById(R.id.newdetails_header1);
         headerLayout2.setFocusable(true);
         headerLayout2.setFocusableInTouchMode(true);
         headerLayout2.requestFocus();
@@ -189,14 +192,21 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 //        follow.setVisibility(View.GONE);
         recyclerView = findViewById(R.id.classify_recycle);
         expandableListView = footer.findViewById(R.id.detail_page_lv_comment);
+        newDetailsFooterFrame = footer.findViewById(R.id.newsdetailsfooter_frame);
+
+        LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) newDetailsFooterFrame.getLayoutParams();
+        // 取控件aaa当前的布局参数
+        linearParams.width = UIUtils.getScreenWidth(this); // 当控件的高强制设成365象素
+        newDetailsFooterFrame.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
+
         commentEdit = findViewById(R.id.detail_page_do_comment);
         newdetailsComment = findViewById(R.id.newdetails_comment);
         newdetailShare = findViewById(R.id.newdetails_share);
         newdetailShare.setVisibility(View.GONE);
-        newdetailShare1 = header.findViewById(R.id.newdetails_share1);
+        newdetailShare1 = findViewById(R.id.newdetails_share1);
         back = findViewById(R.id.public_back);
         back.setVisibility(View.GONE);
-        back1 = header.findViewById(R.id.public_back1);
+        back1 = findViewById(R.id.public_back1);
         setSystemBarAlpha(0);
 //        title = findViewById(R.id.public_title);
         noComment = footer.findViewById(R.id.nwdetails_nocomment);
@@ -929,7 +939,6 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
                             newdetailsBrowse.setText(getNewInfoJson.getData().getNews().getWatches() + "人浏览");
                             newdetailsComment.setText("" + getNewInfoJson.getData().getNews().getReplies());
-                            newdetailsCollect.setText("" + getNewInfoJson.getData().getNews().getPraises());
 
                             praises = getNewInfoJson.getData().getNews().getPraises();
                             if (getNewInfoJson.getData().getNews().getReplies() != 0) {
@@ -940,9 +949,10 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             if (getNewInfoJson.getData().getNews().isPraised()) {
 
                                 newdetailsCollectImg.setImageResource(R.drawable.collect);
-
+                                newdetailsCollect.setText(String.valueOf(getNewInfoJson.getData().getNews().getPraises()));
                             } else {
                                 newdetailsCollectImg.setImageResource(R.drawable.nocollect);
+                                newdetailsCollect.setText(String.valueOf(getNewInfoJson.getData().getNews().getPraises()));
                             }
 
                             newdetailsCollectImg.setOnClickListener(new View.OnClickListener() {
@@ -953,7 +963,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                         AppApplication.getInstance().setLogin();
 
                                     } else {
-                                        if(isClick){
+                                        if (isClick) {
                                             isClick = false;
                                             if (getNewInfoJson.getData().getNews().isPraised()) {
                                                 //取消收藏
@@ -1038,6 +1048,20 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 
                             UIUtils.clearMemoryCache(NewDetailsActivity.this);
                             mSmart.finishRefresh();
+                        } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 9003) {
+
+                            new AlertView("温馨提示", "您访问的内容不存在或已被删除", null, new String[]{"确定"}, null, NewDetailsActivity.this,
+                                    AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(Object o, int position) {
+                                    if (position == 0) {
+
+                                        finish();
+                                    }
+                                }
+                            }).show();
+
+
                         } else if (null != getNewInfoJson && getNewInfoJson.getErrno() == 1101) {
                             cancelRefresh();
                             SharedPreferencesUtils.writeString("token", "");

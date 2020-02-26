@@ -1,6 +1,7 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
@@ -173,7 +176,16 @@ public class MePublishFragment extends BaseFragment implements OnRefreshListener
                                 @Override
                                 public void onClick(View v) {
 
-                                    deleteNews(userNewsList.get(position).getNewsid());
+                                    new AlertView("温馨提示", "您确定要删除？", "取消", new String[]{"确定"}, null, getActivity(),
+                                            AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(Object o, int position) {
+                                            if (position == 0) {
+
+                                                deleteNews(userNewsList.get(position).getNewsid());
+                                            }
+                                        }
+                                    }).show();
                                 }
                             });
 

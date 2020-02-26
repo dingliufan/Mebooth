@@ -16,35 +16,6 @@
             android:adjustViewBounds="true"
             android:src="@drawable/errorimage"
             android:visibility="gone"/>
-
-        <LinearLayout
-            android:id="@+id/newdetails_header1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp">
-
-                <ImageView
-                    android:id="@+id/public_back1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/back2" />
-
-                <ImageView
-                    android:id="@+id/newdetails_share1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="12dp"
-                    android:src="@drawable/share_img2" />
-            </FrameLayout>
-        </LinearLayout>
     </FrameLayout>
 
     <TextView

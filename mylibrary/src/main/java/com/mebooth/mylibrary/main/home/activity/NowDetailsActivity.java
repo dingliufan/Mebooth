@@ -2,6 +2,7 @@ package com.mebooth.mylibrary.main.home.activity;
 
 import android.graphics.Color;
 
+import com.bigkoo.alertview.AlertView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -22,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -109,6 +111,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
     private LinearLayout nowdetailsCommentLLY;
     private TextView time;
     private boolean isClick = true;
+    private FrameLayout nowDetailsFooterFrame;
 
     @Override
     protected int getContentViewId() {
@@ -137,6 +140,12 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
 
         header = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestheader, null);
         footer = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestfooter, null);
+
+        nowDetailsFooterFrame = footer.findViewById(R.id.nowdetails_footer_frame);
+        LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) nowDetailsFooterFrame.getLayoutParams();
+        // 取控件aaa当前的布局参数
+        linearParams.width = UIUtils.getScreenWidth(this); //
+        nowDetailsFooterFrame.setLayoutParams(linearParams); // 使设置好的布局参数应用到控件aaa
 
         footer.setVisibility(View.GONE);
         headerIcon = header.findViewById(R.id.recommenditem_headericon);
@@ -696,7 +705,20 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
 
                             UIUtils.clearMemoryCache(NowDetailsActivity.this);
                             mSmart.finishRefresh();
-                        } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
+                        } else if(null != getNowDetailsJson && getNowDetailsJson.getErrno() == 9002){
+
+                            new AlertView("温馨提示", "您访问的内容不存在或已被删除", null, new String[]{"确定"}, null, NowDetailsActivity.this,
+                                    AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(Object o, int position) {
+                                    if (position == 0) {
+
+                                        finish();
+                                    }
+                                }
+                            }).show();
+
+                        }else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
                             cancelRefresh();
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() != 200) {

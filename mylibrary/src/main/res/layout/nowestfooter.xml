@@ -21,7 +21,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"/>
     <FrameLayout
-        android:layout_width="411dp"
+        android:id="@+id/nowdetails_footer_frame"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.mebooth.mylibrary.main.view.CommentExpandableListView

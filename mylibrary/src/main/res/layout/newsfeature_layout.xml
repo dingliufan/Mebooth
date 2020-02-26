@@ -45,7 +45,7 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         <LinearLayout
-            android:id="@+id/newdetails_header1"
+            android:id="@+id/newdeature_header1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -55,7 +55,7 @@
                 android:layout_height="44dp">
 
                 <ImageView
-                    android:id="@+id/public_back1"
+                    android:id="@+id/newdeature_header_back1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -64,7 +64,7 @@
                     android:src="@drawable/back2" />
 
                 <ImageView
-                    android:id="@+id/newdetails_share1"
+                    android:id="@+id/newdeature_header_share1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -74,7 +74,7 @@
             </FrameLayout>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/newdetails_header"
+            android:id="@+id/newdeature_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -85,7 +85,7 @@
                 android:layout_height="44dp">
 
                 <ImageView
-                    android:id="@+id/public_back"
+                    android:id="@+id/newdeature_header_back"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -94,7 +94,7 @@
                     android:src="@drawable/back" />
 
                 <ImageView
-                    android:id="@+id/newdetails_share"
+                    android:id="@+id/newdeature_header_share"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_gravity="right|center_vertical"

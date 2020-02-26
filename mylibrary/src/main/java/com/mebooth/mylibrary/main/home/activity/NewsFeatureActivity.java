@@ -99,10 +99,10 @@ public class NewsFeatureActivity extends BaseTransparentActivity implements OnLo
 //        headerTitle = header.findViewById(R.id.newsfeature_header_title);
 //        headerCount = header.findViewById(R.id.newsfeature_header_count);
 
-        headerlly = findViewById(R.id.newdetails_header);
-        headerlly1 = findViewById(R.id.newdetails_header1);
-        back = findViewById(R.id.public_back);
-        back1 = findViewById(R.id.public_back1);
+        headerlly = findViewById(R.id.newdeature_header);
+        headerlly1 = findViewById(R.id.newdeature_header1);
+        back = findViewById(R.id.newdeature_header_back);
+        back1 = findViewById(R.id.newdeature_header_back1);
         setSystemBarAlpha(0);
 
         mRecycleView = findViewById(R.id.classify_recycle);

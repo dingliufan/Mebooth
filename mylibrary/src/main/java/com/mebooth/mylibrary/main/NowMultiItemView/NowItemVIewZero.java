@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 
+import com.bigkoo.alertview.AlertView;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
@@ -95,48 +96,59 @@ public class NowItemVIewZero implements ItemViewDelegate<GetNowJson.NowData.NowD
             @Override
             public void onClick(View v) {
 
-                ServiceFactory.getNewInstance()
-                        .createService(YService.class)
-                        .deleteTopic(nowDataList.getTopic().getTid())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new CommonObserver<PublicBean>() {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            @Override
-                            public void onNext(PublicBean publicBean) {
-                                super.onNext(publicBean);
+                new AlertView("温馨提示", "您确定要删除？", "取消", new String[]{"确定"}, null, context,
+                        AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Object o, final int position) {
+                        if (position == 0) {
 
-                                if (null != publicBean && publicBean.getErrno() == 0) {
+                            ServiceFactory.getNewInstance()
+                                    .createService(YService.class)
+                                    .deleteTopic(nowDataList.getTopic().getTid())
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new CommonObserver<PublicBean>() {
+                                        @RequiresApi(api = Build.VERSION_CODES.O)
+                                        @Override
+                                        public void onNext(PublicBean publicBean) {
+                                            super.onNext(publicBean);
 
-                                    ToastUtils.getInstance().showToast("已删除该话题");
-                                    list.remove(position);
-                                    if (type.equals("minepublic")) {
-                                        if (list.size() == 0) {
-                                            noPublish.isPublish();
-                                            noPublish.showAddButton();
-                                        }else{
-                                            noPublish.showAddButton();
+                                            if (null != publicBean && publicBean.getErrno() == 0) {
+
+                                                ToastUtils.getInstance().showToast("已删除该话题");
+                                                list.remove(position);
+                                                if (type.equals("minepublic")) {
+                                                    if (list.size() == 0) {
+                                                        noPublish.isPublish();
+                                                        noPublish.showAddButton();
+                                                    }else{
+                                                        noPublish.showAddButton();
+                                                    }
+                                                }
+
+                                                adapter.notifyDataSetChanged();
+
+                                            } else if (null != publicBean && publicBean.getErrno() != 200) {
+
+                                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                                            } else {
+
+                                                ToastUtils.getInstance().showToast("数据加载失败");
+                                            }
                                         }
-                                    }
 
-                                    adapter.notifyDataSetChanged();
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            super.onError(e);
 
-                                } else if (null != publicBean && publicBean.getErrno() != 200) {
+                                            ToastUtils.getInstance().showToast("数据加载失败");
+                                        }
+                                    });
+                        }
+                    }
+                }).show();
 
-                                    ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
-                                } else {
 
-                                    ToastUtils.getInstance().showToast("数据加载失败");
-                                }
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                super.onError(e);
-
-                                ToastUtils.getInstance().showToast("数据加载失败");
-                            }
-                        });
             }
         });
 

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bigkoo.alertview.AlertView;
 import com.jaeger.library.StatusBarUtil;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
@@ -254,8 +255,16 @@ public class MePublishNewsActivity extends BaseTransparentActivity implements On
                     @Override
                     public void onClick(View v) {
 
-                        deleteNews(userNewsList.get(position).getNewsid(), position);
+                        new AlertView("温馨提示", "您确定要删除？", "取消", new String[]{"确定"}, null, MePublishNewsActivity.this,
+                                AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Object o, int position) {
+                                if (position == 0) {
 
+                                    deleteNews(userNewsList.get(position).getNewsid(), position);
+                                }
+                            }
+                        }).show();
 
                     }
                 });

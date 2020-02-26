@@ -20,8 +20,10 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"/>
     <FrameLayout
-        android:layout_width="411dp"
-        android:layout_height="wrap_content">
+        android:id="@+id/newsdetailsfooter_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <com.mebooth.mylibrary.main.view.CommentExpandableListView
             android:id="@+id/detail_page_lv_comment"
