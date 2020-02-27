@@ -58,6 +58,7 @@ public class MePublishNewsActivity extends BaseTransparentActivity implements On
     private ImageView back;
     private TextView title;
     private String index = "";
+    private TextView nopublish;
 
     @Override
     protected int getContentViewId() {
@@ -81,6 +82,7 @@ public class MePublishNewsActivity extends BaseTransparentActivity implements On
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
         mSmart = findViewById(R.id.classify_smart);
+        nopublish = findViewById(R.id.mepublishnewlist_nopublish);
         mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
                 .setColorSchemeColors(ContextCompat.getColor(this, R.color.main_color))); //设置刷新为官方推介
         mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
@@ -190,6 +192,15 @@ public class MePublishNewsActivity extends BaseTransparentActivity implements On
 //                noPublish.setVisibility(View.GONE);
 //            }
 //            recyclerView.setAdapter(commonAdapter);
+            if(userNewsList.size() == 0){
+
+                recyclerView.setVisibility(View.GONE);
+                nopublish.setVisibility(View.VISIBLE);
+
+            }else{
+                recyclerView.setVisibility(View.VISIBLE);
+                nopublish.setVisibility(View.GONE);
+            }
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         } else {
             if (nowJson.getData().getList().size() == 0) {
