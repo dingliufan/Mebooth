@@ -154,7 +154,7 @@ public class NewsPublishActivity extends BaseTransparentActivity {
         selectList1.clear();
         newPublishesList.clear();
         newPublishesList.add(new NewPublish());
-
+        publishNewsTitle = "";
         initRecycle();
 
         reciverAddress = AppApplication.getInstance().getAddressStr();
