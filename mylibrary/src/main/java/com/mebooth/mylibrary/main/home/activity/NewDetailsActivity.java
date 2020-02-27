@@ -133,6 +133,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 
     private boolean isClick = true;
     private FrameLayout newDetailsFooterFrame;
+    private LinearLayout commentLLY;
 
 
     @Override
@@ -173,6 +174,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 
         footer.setVisibility(View.GONE);
         headerLayout1 = findViewById(R.id.newdetails_header);
+        commentLLY = findViewById(R.id.newdetails_comment_lly);
         newsdetailsCommentLLY = findViewById(R.id.newsdetails_comment_lly);
         headerLayout2 = findViewById(R.id.newdetails_header1);
         headerLayout2.setFocusable(true);
@@ -211,6 +213,17 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 //        title = findViewById(R.id.public_title);
         noComment = footer.findViewById(R.id.nwdetails_nocomment);
         newdetailsLly = findViewById(R.id.newdetails_lly);
+
+        commentLLY.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(adapter.getItemCount());
+//                expandableListView.setFocusable(true);
+//                expandableListView.setFocusableInTouchMode(true);
+//                expandableListView.requestFocus();
+            }
+        });
+
     }
 
     @SuppressLint("ResourceAsColor")
@@ -695,7 +708,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
 //                    adapter.addTheReplyData(detailBean, position);
 //                    expandableListView.expandGroup(position);
 
-                    requestMessage(commentList.get(position).getReply().getRid(), "：" + commentText.getText().toString());
+                    requestMessage(commentList.get(position).getReply().getRid(), commentText.getText().toString());
 
 //                    Toast.makeText(mContext,"回复成功",Toast.LENGTH_SHORT).show();
                 } else {

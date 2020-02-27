@@ -450,16 +450,21 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
         holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+                if(type.equals("others")||type.equals("minepublic")){
 
-                    AppApplication.getInstance().setLogin();
+                }else{
+                    if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-                } else {
-                    Intent intent = new Intent(context, NewsOtherUserActivity.class);
-                    intent.putExtra("uid", nowDataList.getUser().getUid());
-                    intent.putExtra("nickname", nowDataList.getUser().getNickname());
-                    context.startActivity(intent);
+                        AppApplication.getInstance().setLogin();
+
+                    } else {
+                        Intent intent = new Intent(context, NewsOtherUserActivity.class);
+                        intent.putExtra("uid", nowDataList.getUser().getUid());
+                        intent.putExtra("nickname", nowDataList.getUser().getNickname());
+                        context.startActivity(intent);
+                    }
                 }
+
 
             }
         });

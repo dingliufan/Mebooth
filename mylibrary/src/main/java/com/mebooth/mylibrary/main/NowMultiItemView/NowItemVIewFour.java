@@ -123,7 +123,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
                                                     if (list.size() == 0) {
                                                         noPublish.isPublish();
                                                         noPublish.showAddButton();
-                                                    }else{
+                                                    } else {
                                                         noPublish.showAddButton();
                                                     }
                                                 }
@@ -401,7 +401,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
 //                                                adapter.notifyItemRangeChanged(0, list.size());
                                             } else {
 
-                                                if(type.equals("minepublic")){
+                                                if (type.equals("minepublic")) {
                                                     noPublish.showAddButton();
                                                 }
 
@@ -442,7 +442,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
                                         super.onNext(publicBean);
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
-                                            if(type.equals("minepublic")){
+                                            if (type.equals("minepublic")) {
                                                 noPublish.showAddButton();
                                             }
                                             nowDataList.getTopic().setPraised(true);
@@ -475,17 +475,23 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
         holder.setOnClickListener(R.id.recommenditem_headericon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-                    AppApplication.getInstance().setLogin();
+                if (type.equals("others") || type.equals("minepublic")) {
 
                 } else {
-                    Intent intent = new Intent(context, NewsOtherUserActivity.class);
-                    intent.putExtra("uid", nowDataList.getUser().getUid());
-                    intent.putExtra("nickname", nowDataList.getUser().getNickname());
+                    if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-                    context.startActivity(intent);
+                        AppApplication.getInstance().setLogin();
+
+                    } else {
+                        Intent intent = new Intent(context, NewsOtherUserActivity.class);
+                        intent.putExtra("uid", nowDataList.getUser().getUid());
+                        intent.putExtra("nickname", nowDataList.getUser().getNickname());
+
+                        context.startActivity(intent);
+                    }
                 }
+
 
             }
         });

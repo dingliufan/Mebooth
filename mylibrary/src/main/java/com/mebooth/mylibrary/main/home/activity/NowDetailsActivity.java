@@ -382,7 +382,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
 //                    adapter.addTheReplyData(detailBean, position);
 //                    expandableListView.expandGroup(position);
 
-                    requestMessage(commentList.get(position).getReply().getRid(), "：" + replyContent);
+                    requestMessage(commentList.get(position).getReply().getRid(), replyContent);
 
 //                    Toast.makeText(mContext,"回复成功",Toast.LENGTH_SHORT).show();
                 } else {

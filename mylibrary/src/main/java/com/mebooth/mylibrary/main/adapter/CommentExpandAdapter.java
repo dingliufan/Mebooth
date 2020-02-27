@@ -154,52 +154,68 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
 
         String str = commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent();
 
-        if (str.substring(0, 2).equals("回复")) {
+        if (str.length() <= 1) {
             if (!TextUtils.isEmpty(replyUser)) {
-                childHolder.tv_name.setText(replyUser);
+                childHolder.tv_name.setText(replyUser + "：");
             } else {
-                childHolder.tv_name.setText("无名");
+                childHolder.tv_name.setText("无名" + "：");
             }
-
-            String[] all = str.split("：");
-
-            String all0 = all[0];
-
-
-//            childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
-            if (all.length <= 1) {
-//                SpannableStringBuilder spannableString = new SpannableStringBuilder(all0 + "：");
-                SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser+all0 + "：");
-
-//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 0, replyUser.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), replyUser.length()+2, (replyUser.length()+all[0].length()), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-
-                childHolder.tv_content.setText(spannableString);
-            } else {
-//                SpannableStringBuilder spannableString = new SpannableStringBuilder(all0 + "：" + all[1]);
-                SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser+all0 + "：" + all[1]);
-
-//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 0, replyUser.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), replyUser.length()+2, (replyUser.length()+all[0].length()), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-
-                childHolder.tv_content.setText(spannableString);
-            }
-
-        } else {
-            if (!TextUtils.isEmpty(replyUser)) {
-                childHolder.tv_name.setText(replyUser);
-            } else {
-                childHolder.tv_name.setText("无名");
-            }
-            SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser+commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent() + "：");
+            SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser + "：" + commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
 
 //                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
             spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 0, replyUser.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
 //            childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
             childHolder.tv_content.setText(spannableString);
+        }else{
+            if (str.substring(0, 2).equals("回复")) {
+                if (!TextUtils.isEmpty(replyUser)) {
+                    childHolder.tv_name.setText(replyUser);
+                } else {
+                    childHolder.tv_name.setText("无名");
+                }
+
+                String[] all = str.split("：");
+
+                String all0 = all[0];
+
+
+//            childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
+                if (all.length <= 1) {
+//                SpannableStringBuilder spannableString = new SpannableStringBuilder(all0 + "：");
+                    SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser + all0 + "：");
+
+//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 0, replyUser.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), replyUser.length() + 2, (replyUser.length() + all[0].length()), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+                    childHolder.tv_content.setText(spannableString);
+                } else {
+//                SpannableStringBuilder spannableString = new SpannableStringBuilder(all0 + "：" + all[1]);
+                    SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser + all0 + "：" + all[1]);
+
+//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 0, replyUser.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), replyUser.length() + 2, (replyUser.length() + all[0].length()), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+                    childHolder.tv_content.setText(spannableString);
+                }
+
+            } else {
+                if (!TextUtils.isEmpty(replyUser)) {
+                    childHolder.tv_name.setText(replyUser + "：");
+                } else {
+                    childHolder.tv_name.setText("无名" + "：");
+                }
+                SpannableStringBuilder spannableString = new SpannableStringBuilder(replyUser + "：" + commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
+
+//                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 2, all[0].length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#826428")), 0, replyUser.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+//            childHolder.tv_content.setText(commentBeanList.get(groupPosition).getReply().getReplies().get(childPosition).getReply().getContent());
+                childHolder.tv_content.setText(spannableString);
+            }
+
         }
 
         return convertView;

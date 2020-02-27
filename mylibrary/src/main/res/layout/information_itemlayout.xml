@@ -88,12 +88,11 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="15dp"
-            android:drawableLeft="@drawable/gpsimg"
             android:drawablePadding="10dp"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/bg_000000"
+            android:textColor="@color/bg_999999"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -110,7 +109,7 @@
                 android:layout_weight="1"
                 android:text="2019-12-02"
                 android:layout_gravity="center_vertical"
-                android:textColor="@color/bg_7d7d7d"
+                android:textColor="@color/bg_999999"
                 android:textSize="15sp" />
 
             <ImageView
@@ -125,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="02"
-                android:textColor="@color/bg_7d7d7d"
+                android:textColor="@color/bg_999999"
                 android:textSize="15sp" />
 
             <ImageView
@@ -141,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="12"
-                android:textColor="@color/bg_7d7d7d"
+                android:textColor="@color/bg_999999"
                 android:textSize="15sp" />
 
             <ImageView
@@ -157,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="12"
-                android:textColor="@color/bg_7d7d7d"
+                android:textColor="@color/bg_999999"
                 android:textSize="15sp" />
 
         </LinearLayout>

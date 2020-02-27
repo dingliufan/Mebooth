@@ -99,6 +99,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/newdetails_comment_lly"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

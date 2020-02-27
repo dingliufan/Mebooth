@@ -238,8 +238,8 @@ public class NewsPublishActivity extends BaseTransparentActivity {
         } else if (StringUtil.isEmpty(publishNewsTitle)) {
             ToastUtils.getInstance().showToast("请输入标题");
             return;
-        } else if (newPublishesList.size() == 0) {
-            ToastUtils.getInstance().showToast("请完善发布内容");
+        } else if (newPublishesList.size() <= 1) {
+            ToastUtils.getInstance().showToast("内容不能为空");
             return;
         } else {
             if (isSending) {
