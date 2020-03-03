@@ -113,7 +113,7 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
         holder.nickName.setText(recommend.get(position).getUser().getNickname());
         holder.content.setText(recommend.get(position).getFeed().getContent());
-        holder.zhaiYao.setText(recommend.get(position).getFeed().getDescribe());
+        holder.zhaiYao.setText(recommend.get(position).getFeed().getDescribe().replace("\\n", "\n"));
 
         if (StringUtil.isEmpty(recommend.get(position).getFeed().getLocation())) {
             holder.address.setVisibility(View.GONE);
@@ -190,7 +190,7 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
-                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+                                                if (recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()) {
 
                                                     recommendDataList.getUser().setFollowed(false);
                                                 }
@@ -233,7 +233,7 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
-                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+                                                if (recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()) {
 
                                                     recommendDataList.getUser().setFollowed(true);
                                                 }

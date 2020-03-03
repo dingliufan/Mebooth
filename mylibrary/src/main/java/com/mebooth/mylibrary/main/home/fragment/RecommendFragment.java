@@ -464,19 +464,19 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             }
                         }
 
-                        if(recommend.get(position).getFeed().getLocation().equals("")){
-                            holder.setVisible(R.id.news_address,View.GONE);
-                        }else{
-                            holder.setVisible(R.id.news_address,View.VISIBLE);
+                        if (recommend.get(position).getFeed().getLocation().equals("")) {
+                            holder.setVisible(R.id.news_address, View.GONE);
+                        } else {
+                            holder.setVisible(R.id.news_address, View.VISIBLE);
                         }
 
-                        holder.setText(R.id.news_address,recommend.get(position).getFeed().getLocation());
+                        holder.setText(R.id.news_address, recommend.get(position).getFeed().getLocation());
 
 //                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
                         holder.setText(R.id.recommenditem_nickname, recommend.get(position).getUser().getNickname());
 
                         holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
-                        holder.setText(R.id.recommenditem_zhaiyao, recommend.get(position).getFeed().getDescribe());
+                        holder.setText(R.id.recommenditem_zhaiyao, recommend.get(position).getFeed().getDescribe().replace("\\n", "\n"));
                         UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_img), 8, recommend.get(position).getFeed().getImages().get(0), RoundedCornersTransformation.CORNER_ALL);
 //                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getFeed().getImages().get(0), (ImageView) holder.getView(R.id.recommenditem_img), GlideImageManager.TAG_FILLET);
 //                        int month = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(5, 7)) - 1;
@@ -551,7 +551,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
-                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+                                                                if (recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()) {
 
                                                                     recommendDataList.getUser().setFollowed(false);
                                                                 }
@@ -595,7 +595,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
-                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+                                                                if (recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()) {
 
                                                                     recommendDataList.getUser().setFollowed(true);
                                                                 }
@@ -892,7 +892,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
-                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+                                                                if (recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()) {
 
                                                                     recommendDataList.getUser().setFollowed(false);
                                                                 }
@@ -936,7 +936,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             for (GetRecommendJson.RecommendData.RecommendDataList recommendDataList : recommend) {
-                                                                if(recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()){
+                                                                if (recommendDataList.getUser().getUid() == recommend.get(position).getUser().getUid()) {
 
                                                                     recommendDataList.getUser().setFollowed(true);
                                                                 }
