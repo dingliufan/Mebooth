@@ -108,8 +108,10 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     @Override
     protected void initData(Bundle savedInstanceState) {
         mHandler = new MyHandler(this);
-        getConfigBanner();
-//        mSmart.autoRefresh();
+//        getConfigBanner();
+        mSmart.setEnableLoadMore(false);
+        initRecycle();
+        mSmart.autoRefresh();
 //        getRecommend(REFLUSH_LIST);
     }
 
@@ -129,17 +131,23 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                             config.clear();
                             config.addAll(entranceJson.getData().getConfig());
-                            initRecycle();
-                            mSmart.autoRefresh();
-                        } else if (null != entranceJson && entranceJson.getErrno() == 1101) {
 
+                            getRecommend(REFLUSH_LIST);
+                        } else if (null != entranceJson && entranceJson.getErrno() == 1101) {
+                            if (mSmart != null) {
+                                mSmart.finishRefresh();
+                            }
                             SharedPreferencesUtils.writeString("token", "");
                             Log.d("RecommendFragment", "token已被清空");
                         } else if (null != entranceJson && entranceJson.getErrno() != 200) {
-
+                            if (mSmart != null) {
+                                mSmart.finishRefresh();
+                            }
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(entranceJson.getErrmsg()) ? "数据加载失败" : entranceJson.getErrmsg());
                         } else {
-
+                            if (mSmart != null) {
+                                mSmart.finishRefresh();
+                            }
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -147,7 +155,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        if (mSmart != null) {
+                            mSmart.finishRefresh();
+                        }
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
@@ -177,11 +187,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                             SharedPreferencesUtils.writeString("token", "");
                             Log.d("RecommendFragment", "token已被清空");
+                            if (mSmart != null) {
+                                mSmart.finishRefresh();
+                            }
                         } else if (null != flushJson && flushJson.getErrno() != 200) {
-
+                            if (mSmart != null) {
+                                mSmart.finishRefresh();
+                            }
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(flushJson.getErrmsg()) ? "数据加载失败" : flushJson.getErrmsg());
                         } else {
-
+                            if (mSmart != null) {
+                                mSmart.finishRefresh();
+                            }
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -189,7 +206,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-
+                        if (mSmart != null) {
+                            mSmart.finishRefresh();
+                        }
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });
@@ -261,6 +280,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private void initList(int tag, GetRecommendJson getRecommendJson) {
 
         if (tag == REFLUSH_LIST) {
+            mSmart.setEnableLoadMore(true);
             recommend.clear();
             commonAdapter.notifyDataSetChanged();
             if (getRecommendJson.getData().getList().size() != 0) {
@@ -1150,7 +1170,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         offSet = "";
-        getRecommend(REFLUSH_LIST);
+        getConfigBanner();
+
     }
 
     @Override

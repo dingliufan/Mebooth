@@ -134,6 +134,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
     private boolean isClick = true;
     private FrameLayout newDetailsFooterFrame;
     private LinearLayout commentLLY;
+    private LinearLayout newdetailsHeaderLly;
 
 
     @Override
@@ -180,6 +181,12 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
         headerLayout2.setFocusable(true);
         headerLayout2.setFocusableInTouchMode(true);
         headerLayout2.requestFocus();
+        newdetailsHeaderLly = header.findViewById(R.id.newdetailsheader_lly);
+        LinearLayout.LayoutParams linearParams1 = (LinearLayout.LayoutParams) newdetailsHeaderLly.getLayoutParams();
+        // 取控件aaa当前的布局参数
+        linearParams1.width = UIUtils.getScreenWidth(this); // 当控件的高强制设成365象素
+        newdetailsHeaderLly.setLayoutParams(linearParams1); // 使设置好的布局参数应用到控件aaa
+
         newdetailsImage = header.findViewById(R.id.newdetails_image);
         newdetailsTitle = header.findViewById(R.id.newdetails_title);
         newdetailsTimeLLY = header.findViewById(R.id.newsHeaderTime_lly);

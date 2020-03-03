@@ -2,97 +2,105 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/bg_ffffff">
-
-    <FrameLayout
-        android:layout_width="411dp"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/newdetails_image"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/errorimage"
-            android:visibility="gone"/>
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/newdetails_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="25dp"
-        android:textColor="@color/bg_000000"
-        android:textSize="26sp"
-        android:letterSpacing="0.1"
-        android:visibility="gone" />
+    android:background="@color/bg_ffffff"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/newsHeaderTime_lly"
+        android:id="@+id/newdetailsheader_lly"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="25dp"
-        android:visibility="gone">
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/newdetails_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/errorimage"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <TextView
-            android:id="@+id/newdetails_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/bg_7d7d7d"
-            android:layout_marginLeft="2dp"
-            android:textSize="16sp" />
-        <TextView
-            android:id="@+id/newdetails_browsecount"
+            android:id="@+id/newdetails_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
-            android:textColor="@color/bg_7d7d7d"
-            android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/newsHeaderName_lly"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="25dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/recommenditem_headericon"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
-
-        <TextView
-            android:id="@+id/recommenditem_nickname"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="1"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
             android:letterSpacing="0.1"
             android:textColor="@color/bg_000000"
-            android:textSize="18.5sp" />
-        <TextView
-            android:id="@+id/recommenditem_follow"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/follow"
-            android:gravity="center"
-            android:text="关注"
-            android:textColor="@color/bg_E73828"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:textSize="26sp"
+            android:visibility="gone" />
 
+        <LinearLayout
+            android:id="@+id/newsHeaderTime_lly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/newdetails_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:textColor="@color/bg_7d7d7d"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/newdetails_browsecount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="6dp"
+                android:textColor="@color/bg_7d7d7d"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/newsHeaderName_lly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/recommenditem_headericon"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+
+            <TextView
+                android:id="@+id/recommenditem_nickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:letterSpacing="0.1"
+                android:textColor="@color/bg_000000"
+                android:textSize="18.5sp" />
+
+            <TextView
+                android:id="@+id/recommenditem_follow"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/follow"
+                android:gravity="center"
+                android:text="关注"
+                android:textColor="@color/bg_E73828"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
