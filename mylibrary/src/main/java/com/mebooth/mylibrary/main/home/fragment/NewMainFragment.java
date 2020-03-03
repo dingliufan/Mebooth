@@ -421,7 +421,7 @@ public class NewMainFragment extends BaseFragment {
                             Log.d("NewMainFragment", "token已被清空");
                         } else if (null != getMyUserInfo && getMyUserInfo.getErrno() != 200) {
 
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());
+//                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());
                         } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");

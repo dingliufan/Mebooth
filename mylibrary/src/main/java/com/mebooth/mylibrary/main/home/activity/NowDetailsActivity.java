@@ -112,6 +112,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
     private TextView time;
     private boolean isClick = true;
     private FrameLayout nowDetailsFooterFrame;
+    private LinearLayout nowDetailsHeaderrFrame;
 
     @Override
     protected int getContentViewId() {
@@ -142,6 +143,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
         footer = LayoutInflater.from(NowDetailsActivity.this).inflate(R.layout.nowestfooter, null);
 
         nowDetailsFooterFrame = footer.findViewById(R.id.nowdetails_footer_frame);
+        nowDetailsHeaderrFrame = header.findViewById(R.id.nowdetails_framheader);
         LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) nowDetailsFooterFrame.getLayoutParams();
         // 取控件aaa当前的布局参数
         linearParams.width = UIUtils.getScreenWidth(this); //
@@ -154,6 +156,12 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
         follow = header.findViewById(R.id.recommenditem_follow);
         follow.setVisibility(View.GONE);
         content = header.findViewById(R.id.nowdetails_content);
+
+        LinearLayout.LayoutParams linearParamsHeader = (LinearLayout.LayoutParams) nowDetailsHeaderrFrame.getLayoutParams();
+        // 取控件aaa当前的布局参数
+        linearParamsHeader.width = UIUtils.getScreenWidth(this); //
+        nowDetailsHeaderrFrame.setLayoutParams(linearParamsHeader); // 使设置好的布局参数应用到控件aaa
+
         recyclerView = findViewById(R.id.classify_recycle);
         expandableListView = footer.findViewById(R.id.detail_page_lv_comment);
         commentEdit = findViewById(R.id.detail_page_do_comment);
@@ -607,6 +615,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             }
 
                             content.setText(getNowDetailsJson.getData().getTopic().getContent());
+                            list.clear();
                             list.addAll(getNowDetailsJson.getData().getTopic().getImages());
                             commonAdapter.notifyDataSetChanged();
 

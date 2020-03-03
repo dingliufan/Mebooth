@@ -51,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         //文字
         if (holder instanceof HeadViewHolder) {
-            ((HeadViewHolder) holder).recommenditem_content.setText(datas.get(position).getContent());
+            ((HeadViewHolder) holder).recommenditem_content.setText(datas.get(position).getContent().replace("\\n","\n"));
 
         }
         //图片

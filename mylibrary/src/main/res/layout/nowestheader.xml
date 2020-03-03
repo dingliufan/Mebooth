@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/bg_ffffff">
+    android:background="@color/bg_ffffff"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,8 +19,8 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -29,6 +30,7 @@
                 android:layout_marginLeft="15dp"
                 android:textColor="@color/bg_000000"
                 android:textSize="17sp" />
+
             <TextView
                 android:id="@+id/recommenditem_time"
                 android:layout_width="wrap_content"
@@ -53,17 +55,22 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/nowdetails_content"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
-        android:letterSpacing="0.12"
-        android:lineSpacingExtra="10dp"
-        android:layout_marginRight="15dp"
-        android:textColor="@color/bg_000000"
-        android:textSize="18sp" />
+    <LinearLayout
+        android:id="@+id/nowdetails_framheader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/nowdetails_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="16dp"
+            android:letterSpacing="0.12"
+            android:lineSpacingExtra="10dp"
+            android:textColor="@color/bg_000000"
+            android:textSize="18sp" />
+    </LinearLayout>
 </LinearLayout>

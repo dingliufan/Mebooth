@@ -249,7 +249,15 @@ public class NewsPublishActivity extends BaseTransparentActivity {
                 for (int i = 0; i < newPublishesList.size() - 1; i++) {
 
                     if (newPublishesList.get(i + 1).getType().equals("text")) {
-                        content += "[text]" + newPublishesList.get(i + 1).getContent() + "[/text]\n";
+                        String text = newPublishesList.get(i + 1).getContent();
+
+                        String lines[] = text.split("\n");
+
+                        String multi_text = "";
+                        for(int m = 0; m < lines.length; m++) {
+                            multi_text += lines[m] + "\\n";
+                        }
+                        content += "[text]" + multi_text + "[/text]\n";
                     } else if (newPublishesList.get(i + 1).getType().equals("image")) {
                         content += "[image]" + newPublishesList.get(i + 1).getContent() + "[/image]\n";
                     } else if (newPublishesList.get(i + 1).getType().equals("video")) {

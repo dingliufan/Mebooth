@@ -105,12 +105,12 @@ public class PublishAdapter implements ItemViewDelegate<NewPublish> {
             }
         });
 
-        edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                return true;
-            }
-        });
+//        edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                return true;
+//            }
+//        });
 
         holder.setOnClickListener(R.id.publish_up, new View.OnClickListener() {
             @Override
