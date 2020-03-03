@@ -202,7 +202,7 @@ public abstract class AppApplication extends Application {
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getRongIMTokenJson && getRongIMTokenJson.getErrno() != 200) {
 
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRongIMTokenJson.getErrmsg()) ? "数据加载失败" : getRongIMTokenJson.getErrmsg());
+//                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRongIMTokenJson.getErrmsg()) ? "数据加载失败" : getRongIMTokenJson.getErrmsg());
                         } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");
