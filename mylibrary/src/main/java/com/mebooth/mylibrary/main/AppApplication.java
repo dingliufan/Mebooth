@@ -222,7 +222,8 @@ public abstract class AppApplication extends Application {
 
     private void connect(String rongToken) {
 
-        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
+//        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
+        RongIMClient.connect(rongToken, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
