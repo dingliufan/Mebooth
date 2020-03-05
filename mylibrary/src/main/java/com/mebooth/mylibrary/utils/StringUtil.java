@@ -43,7 +43,7 @@ public class StringUtil {
         return false;
     }
 
-    private static final boolean DEBUG=false;
+    private static final boolean DEBUG=true;
     public static void  toastDebug(Context context, String msg){
         //by lee 测试期间toast方法
         //会将接口请求返回适当打印
