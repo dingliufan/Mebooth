@@ -254,8 +254,14 @@ public class NewsPublishActivity extends BaseTransparentActivity {
                         String lines[] = text.split("\n");
 
                         String multi_text = "";
-                        for(int m = 0; m < lines.length; m++) {
-                            multi_text += lines[m] + "\\n";
+                        for (int m = 0; m < lines.length; m++) {
+                            if (m == lines.length - 1) {
+
+                                multi_text += lines[m];
+                            } else {
+                                multi_text += lines[m] + "\\n";
+                            }
+
                         }
                         content += "[text]" + multi_text + "[/text]\n";
                     } else if (newPublishesList.get(i + 1).getType().equals("image")) {
