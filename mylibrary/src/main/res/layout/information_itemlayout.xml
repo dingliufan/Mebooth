@@ -40,7 +40,7 @@
                 android:background="@drawable/follow"
                 android:gravity="center"
                 android:text="关注"
-                android:textColor="@color/bg_333333"
+                android:textColor="@color/bg_E73828"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -148,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:src="@drawable/nocollect" />
+                android:src="@drawable/nopraise" />
 
             <TextView
                 android:id="@+id/recommenditem_collect"

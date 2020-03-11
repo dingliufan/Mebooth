@@ -1,5 +1,6 @@
 package com.mebooth.mylibrary.main.home.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 
 import com.bigkoo.alertview.AlertView;
@@ -608,7 +609,17 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                 int date1 = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(8, 10));
                                 int hour = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(11, 13));
                                 int minute = Integer.parseInt(getNowDetailsJson.getData().getTopic().getAddtime().substring(14, 16));
-                                time.setText((month + 1) + "-" + date1);
+
+                                if (month < 10 && date1 < 10) {
+
+                                    time.setText("0" + (month + 1) + "-0" + date1);
+                                } else if (month < 10) {
+                                    time.setText("0" + (month + 1) + "-" + date1);
+                                } else if (date1 < 10) {
+                                    time.setText((month + 1) + "-0" + date1);
+                                }
+
+//                                time.setText((month + 1) + "-" + date1);
                             } else {
                                 String time1 = DateUtils.getTimeFormatText(date);
                                 time.setText("" + time1);
@@ -623,13 +634,13 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             commentCount.setText("" + getNowDetailsJson.getData().getTopic().getReplies());
 
                             if (getNowDetailsJson.getData().getTopic().isPraised()) {
-                                collectimg.setImageResource(R.drawable.collect);
+                                collectimg.setImageResource(R.drawable.praise);
 
                             } else {
-                                collectimg.setImageResource(R.drawable.nocollect);
+                                collectimg.setImageResource(R.drawable.nopraise);
                             }
 
-                            if(isClick){
+                            if (isClick) {
                                 collectimg.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -650,10 +661,18 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             if (null != publicBean && publicBean.getErrno() == 0) {
                                                                 isClick = true;
                                                                 getNowDetailsJson.getData().getTopic().setPraised(false);
-                                                                ToastUtils.getInstance().showToast("已取消收藏");
-                                                                collectimg.setImageResource(R.drawable.nocollect);
+                                                                ToastUtils.getInstance().showToast("已取消点赞");
+                                                                collectimg.setImageResource(R.drawable.nopraise);
                                                                 getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() - 1);
                                                                 collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
+
+                                                                Intent intent = new Intent("dataRefresh");
+                                                                intent.putExtra("index", "cancel");
+                                                                intent.putExtra("type", 1);
+                                                                intent.putExtra("id", getNowDetailsJson.getData().getTopic().getTid());
+                                                                intent.putExtra("isPraise", false);
+                                                                sendBroadcast(intent);
+
                                                             } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -687,10 +706,18 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             if (null != publicBean && publicBean.getErrno() == 0) {
                                                                 isClick = true;
                                                                 getNowDetailsJson.getData().getTopic().setPraised(true);
-                                                                ToastUtils.getInstance().showToast("已收藏");
-                                                                collectimg.setImageResource(R.drawable.collect);
+                                                                ToastUtils.getInstance().showToast("已点赞");
+                                                                collectimg.setImageResource(R.drawable.praise);
                                                                 getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() + 1);
                                                                 collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
+
+                                                                Intent intent = new Intent("dataRefresh");
+                                                                intent.putExtra("index", "cancel");
+                                                                intent.putExtra("type", 1);
+                                                                intent.putExtra("id", getNowDetailsJson.getData().getTopic().getTid());
+                                                                intent.putExtra("isPraise", true);
+                                                                sendBroadcast(intent);
+
                                                             } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -714,7 +741,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
 
                             UIUtils.clearMemoryCache(NowDetailsActivity.this);
                             mSmart.finishRefresh();
-                        } else if(null != getNowDetailsJson && getNowDetailsJson.getErrno() == 9002){
+                        } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 9002) {
 
                             new AlertView("温馨提示", "您访问的内容不存在或已被删除", null, new String[]{"确定"}, null, NowDetailsActivity.this,
                                     AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
@@ -727,7 +754,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                 }
                             }).show();
 
-                        }else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
+                        } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() == 1101) {
                             cancelRefresh();
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != getNowDetailsJson && getNowDetailsJson.getErrno() != 200) {

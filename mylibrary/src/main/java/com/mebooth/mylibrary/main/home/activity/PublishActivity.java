@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -154,13 +155,13 @@ public class PublishActivity extends BaseTransparentActivity {
 
         selectList.clear();
 
-        reciverAddress = AppApplication.getInstance().getAddressStr();
-        if (reciverAddress == null || reciverAddress.equals("")) {
-            publishGPS.setText("暂无法定位到位置");
-            reciverAddress = "";
-        } else {
-            publishGPS.setText(reciverAddress);
-        }
+//        reciverAddress = AppApplication.getInstance().getAddressStr();
+//        if (reciverAddress == null || reciverAddress.equals("")) {
+//            publishGPS.setText("暂无法定位到位置");
+//            reciverAddress = "";
+//        } else {
+//            publishGPS.setText(reciverAddress);
+//        }
 
 //        location = MyLocationUtil.getMyLocation();
 //        try {
@@ -230,6 +231,15 @@ public class PublishActivity extends BaseTransparentActivity {
                 } else {
                     publishGPS.setText("不显示位置");
                 }
+            }
+        });
+
+        publishGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(PublishActivity.this, ChooseNearbyActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -369,6 +379,39 @@ public class PublishActivity extends BaseTransparentActivity {
                      */
                     break;
             }
+        } else {
+
+            if (requestCode == 1 && resultCode == 3) {
+
+                String result = data.getStringExtra("result");
+                if (result.equals("不显示位置") || result.equals("我在这里")) {
+                    reciverAddress = "";
+                    publishGPS.setTextColor(getResources().getColor(R.color.bg_666666));
+                    Drawable drawableRight = getResources().getDrawable(
+                            R.drawable.gpsimg);
+
+                    publishGPS.setCompoundDrawablesWithIntrinsicBounds(drawableRight,
+                            null, null, null);
+
+                    publishGPS.setCompoundDrawablePadding(10);
+                } else {
+                    reciverAddress = result;
+
+                    publishGPS.setTextColor(getResources().getColor(R.color.bg_E73828));
+                    Drawable drawableRight = getResources().getDrawable(
+                            R.drawable.gpsimgred);
+
+                    publishGPS.setCompoundDrawablesWithIntrinsicBounds(drawableRight,
+                            null, null, null);
+
+                    publishGPS.setCompoundDrawablePadding(10);
+
+                }
+                publishGPS.setText(result);
+//                publishGPS.setTextColor(getResources().getColor(R.color.bg_E73828));
+
+            }
+
         }
     }
 
@@ -443,7 +486,7 @@ public class PublishActivity extends BaseTransparentActivity {
 
         String location = "";
 
-        if (!publishGPS.getText().toString().equals("不显示位置")) {
+        if (!publishGPS.getText().toString().equals("不显示位置") || !publishGPS.getText().toString().equals("我在这里")) {
             location = reciverAddress;
         } else {
             location = "";

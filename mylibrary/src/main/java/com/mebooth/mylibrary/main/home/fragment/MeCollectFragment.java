@@ -1,21 +1,27 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mebooth.mylibrary.R;
+import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
+import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewFour;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewOne;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewThree;
@@ -25,13 +31,18 @@ import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
+import com.mebooth.mylibrary.main.home.bean.GetMeCollectJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
+import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
+import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
+import com.mebooth.mylibrary.utils.GlideImageManager;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.ToastUtils;
+import com.mebooth.mylibrary.utils.UIUtils;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -45,7 +56,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MeCollectFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener {
 
-    private MultiItemTypeAdapter commonAdapter;
+    private CommonAdapter commonAdapter;
     private RecyclerView recyclerView;
     private SmartRefreshLayout mSmart;
 
@@ -55,9 +66,11 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
     private int pageSize = 10;
     private String offSet = "";
 
-    private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
+    private ArrayList<GetMeCollectJson.MeCollectData.MeCollectList> list = new ArrayList<>();
     private TextView noCollect;
     private MineActivity.refreshData refreshData;
+
+    public static boolean isMeCollectRefresh = false;
 
     public MeCollectFragment(MineActivity.refreshData refreshData) {
         this.refreshData = refreshData;
@@ -94,22 +107,22 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
                 .userPraiseList(offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CommonObserver<GetNowJson>() {
+                .subscribe(new CommonObserver<GetMeCollectJson>() {
                     @Override
-                    public void onNext(GetNowJson getNowJson) {
-                        super.onNext(getNowJson);
+                    public void onNext(GetMeCollectJson getMeCollectJson) {
+                        super.onNext(getMeCollectJson);
 
-                        if (null != getNowJson && getNowJson.getErrno() == 0) {
-                            offSet = String.valueOf(getNowJson.getData().getOffset());
-                            initList(tag, getNowJson);
+                        if (null != getMeCollectJson && getMeCollectJson.getErrno() == 0) {
+                            offSet = String.valueOf(getMeCollectJson.getData().getOffset());
+                            initList(tag, getMeCollectJson);
 
-                        } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
+                        } else if (null != getMeCollectJson && getMeCollectJson.getErrno() == 1101) {
 
                             SharedPreferencesUtils.writeString("token", "");
                             cancelRefresh(tag);
-                        } else if (null != getNowJson && getNowJson.getErrno() != 200) {
+                        } else if (null != getMeCollectJson && getMeCollectJson.getErrno() != 200) {
 
-                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowJson.getErrmsg()) ? "数据加载失败" : getNowJson.getErrmsg());
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMeCollectJson.getErrmsg()) ? "数据加载失败" : getMeCollectJson.getErrmsg());
                             cancelRefresh(tag);
                         } else {
 
@@ -144,7 +157,7 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
 
     }
 
-    private void initList(int tag, GetNowJson nowJson) {
+    private void initList(int tag, GetMeCollectJson nowJson) {
 
         if (tag == REFLUSH_LIST) {
             list.clear();
@@ -218,37 +231,35 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
             }
         };
 
-        commonAdapter = new MultiItemTypeAdapter(getActivity(), list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(getActivity(), "minecollect", commonAdapter, list, noPublishinterface));
+        commonAdapter = new CommonAdapter(getActivity(), R.layout.mecollect_item_layout, list) {
+            @Override
+            protected void convert(ViewHolder holder, Object o, final int position) {
+
+                GlideImageManager.glideLoader(getActivity(), list.get(position).getNews().getCover(), (ImageView) holder.getView(R.id.mecollect_item_img), GlideImageManager.TAG_RECTANGLE);
+
+                holder.setText(R.id.mecollect_item_title, list.get(position).getNews().getTitle());
+                holder.setText(R.id.mecollect_item_content, list.get(position).getNews().getDescribe());
+
+            }
+        };
+
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 详情
-                if (list.get(position).getTopic().getType() == 0) {
-                    Intent intent = new Intent(getActivity(), NowDetailsActivity.class);
-                    intent.putExtra("relateid", list.get(position).getTopic().getTid());
-                    intent.putExtra("uid", list.get(position).getTopic().getUid());
-                    startActivity(intent);
 
-                } else {
+                Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
+                intent.putExtra("relateid", list.get(position).getNews().getNewsid());
+                intent.putExtra("uid", list.get(position).getUser().getUid());
+                intent.putExtra("image", list.get(position).getUser().getAvatar());
+                intent.putExtra("nickname", list.get(position).getUser().getNickname());
+                intent.putExtra("browse", list.get(position).getNews().getWatches());
+                intent.putExtra("replies", list.get(position).getNews().getReplies());
+                intent.putExtra("praises", list.get(position).getNews().getPraises());
+                startActivity(intent);
 
-                    Intent intent = new Intent(getActivity(), NewDetailsActivity.class);
-                    intent.putExtra("relateid", list.get(position).getTopic().getTid());
-                    intent.putExtra("uid", list.get(position).getUser().getUid());
-                    intent.putExtra("image", list.get(position).getUser().getAvatar());
-                    intent.putExtra("nickname", list.get(position).getUser().getNickname());
-                    intent.putExtra("browse", list.get(position).getTopic().getWatches());
-                    intent.putExtra("replies", list.get(position).getTopic().getReplies());
-                    intent.putExtra("praises", list.get(position).getTopic().getPraises());
-                    startActivity(intent);
-
-                }
 
             }
 
@@ -271,6 +282,61 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         offSet = "";
         getRecommend(REFLUSH_LIST);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (isMeCollectRefresh) {
+
+            ServiceFactory.getNewInstance()
+                    .createService(YService.class)
+                    .userPraiseList("", list.size() - 1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new CommonObserver<GetMeCollectJson>() {
+                        @Override
+                        public void onNext(GetMeCollectJson getMeCollectJson) {
+                            super.onNext(getMeCollectJson);
+
+                            if (null != getMeCollectJson && getMeCollectJson.getErrno() == 0) {
+                                offSet = String.valueOf(getMeCollectJson.getData().getOffset());
+
+                                list.clear();
+                                list.addAll(getMeCollectJson.getData().getList());
+                                if (list.size() == 0) {
+                                    noCollect.setVisibility(View.VISIBLE);
+                                } else {
+                                    noCollect.setVisibility(View.GONE);
+                                }
+
+                                commonAdapter.notifyDataSetChanged();
+                                refreshData.refresh();
+                                isMeCollectRefresh = false;
+                                UIUtils.clearMemoryCache(getActivity());
+                            } else if (null != getMeCollectJson && getMeCollectJson.getErrno() == 1101) {
+
+                                SharedPreferencesUtils.writeString("token", "");
+                            } else if (null != getMeCollectJson && getMeCollectJson.getErrno() != 200) {
+
+                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMeCollectJson.getErrmsg()) ? "数据加载失败" : getMeCollectJson.getErrmsg());
+                            } else {
+
+                                ToastUtils.getInstance().showToast("数据加载失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    });
+
+        }
+
     }
 
     @Override

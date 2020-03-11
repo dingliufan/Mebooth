@@ -202,7 +202,14 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
             int date1 = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(8, 10));
             int hour = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(11, 13));
             int minute = Integer.parseInt(nowDataList.getTopic().getAddtime().substring(14, 16));
-            holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date1);
+            if (month < 10 && date1 < 10) {
+
+                holder.setText(R.id.recommenditem_time, "0" + (month + 1) + "-0" + date1);
+            } else if (month < 10) {
+                holder.setText(R.id.recommenditem_time, "0" + (month + 1) + "-" + date1);
+            } else if (date1 < 10) {
+                holder.setText(R.id.recommenditem_time, (month + 1) + "-0" + date1);
+            }
         } else {
             String time = DateUtils.getTimeFormatText(date);
             holder.setText(R.id.recommenditem_time, time);
@@ -210,9 +217,9 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
 //        holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date + " " + hour + ":" + minute);
 
         if (nowDataList.getTopic().isPraised()) {
-            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
+            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
         } else {
-            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
         }
         praises = nowDataList.getTopic().getPraises();
         holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
@@ -368,7 +375,7 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             if (type.equals("minecollect")) {
-                                                ToastUtils.getInstance().showToast("已取消收藏");
+                                                ToastUtils.getInstance().showToast("已取消点赞");
                                                 list.remove(position);
                                                 if (list.size() == 0) {
                                                     noPublish.isCollect();
@@ -381,8 +388,8 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                                                     noPublish.showAddButton();
                                                 }
                                                 nowDataList.getTopic().setPraised(false);
-                                                ToastUtils.getInstance().showToast("已取消收藏");
-                                                holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+                                                ToastUtils.getInstance().showToast("已取消点赞");
+                                                holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
                                                 nowDataList.getTopic().setPraises(nowDataList.getTopic().getPraises() - 1);
                                                 holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
                                             }
@@ -421,8 +428,8 @@ public class NowItemVIewOne implements ItemViewDelegate<GetNowJson.NowData.NowDa
                                                 noPublish.showAddButton();
                                             }
                                             nowDataList.getTopic().setPraised(true);
-                                            ToastUtils.getInstance().showToast("已收藏");
-                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
+                                            ToastUtils.getInstance().showToast("已点赞");
+                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
                                             nowDataList.getTopic().setPraises(nowDataList.getTopic().getPraises() + 1);
                                             holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {

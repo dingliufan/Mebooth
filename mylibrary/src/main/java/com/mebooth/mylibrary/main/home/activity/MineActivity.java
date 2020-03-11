@@ -154,7 +154,7 @@ public class MineActivity extends BaseTransparentActivity {
                                     mTitles.clear();
                                     mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我的发布");
                                     mTitles.add(getMineCountJson.getData().getStats().getFollowing()+"\n我的关注");
-                                    mTitles.add(getMineCountJson.getData().getStats().getPraise()+"\n我的收藏");
+                                    mTitles.add(getMineCountJson.getData().getStats().getFavorite()+"\n我的收藏");
                                     mAdapter.notifyDataSetChanged();
                                 } else if (null != getMineCountJson && getMineCountJson.getErrno() == 1101) {
 
@@ -232,7 +232,7 @@ public class MineActivity extends BaseTransparentActivity {
                             mTitles.clear();
                             mTitles.add(getMineCountJson.getData().getStats().getTopic()+"\n我的发布");
                             mTitles.add(getMineCountJson.getData().getStats().getFollowing()+"\n我的关注");
-                            mTitles.add(getMineCountJson.getData().getStats().getPraise()+"\n我的收藏");
+                            mTitles.add(getMineCountJson.getData().getStats().getFavorite()+"\n我的收藏");
 
 
                             mAdapter = new MineOrderPagerAdapter(getSupportFragmentManager(), MineActivity.this, mFragments, mTitles);

@@ -3,7 +3,11 @@ package com.mebooth.mylibrary.main.home.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -14,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -157,13 +162,13 @@ public class NewsPublishActivity extends BaseTransparentActivity {
         publishNewsTitle = "";
         initRecycle();
 
-        reciverAddress = AppApplication.getInstance().getAddressStr();
-        if (reciverAddress == null || reciverAddress.equals("")) {
-            publishGPS.setText("暂无法定位到位置");
-            reciverAddress = "";
-        } else {
-            publishGPS.setText(reciverAddress);
-        }
+//        reciverAddress = AppApplication.getInstance().getAddressStr();
+//        if (reciverAddress == null || reciverAddress.equals("")) {
+//            publishGPS.setText("暂无法定位到位置");
+//            reciverAddress = "";
+//        } else {
+//            publishGPS.setText(reciverAddress);
+//        }
 
         //设置是否显示地址
         newlyAddressDefault.setOnToggleListener(new ToggleView.OnToggleListener() {
@@ -227,6 +232,16 @@ public class NewsPublishActivity extends BaseTransparentActivity {
 
             }
         });
+
+        publishGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(NewsPublishActivity.this, ChooseNearbyActivity.class);
+                startActivityForResult(intent, 1);
+            }
+        });
+
     }
 
     private void publishNews() {
@@ -274,7 +289,7 @@ public class NewsPublishActivity extends BaseTransparentActivity {
 
                 String location = "";
 
-                if (!publishGPS.getText().toString().equals("不显示位置")) {
+                if (!publishGPS.getText().toString().equals("不显示位置") || !publishGPS.getText().toString().equals("我在这里")) {
                     location = reciverAddress;
                 } else {
                     location = "";
@@ -451,7 +466,41 @@ public class NewsPublishActivity extends BaseTransparentActivity {
                     getToken(selectList1.get(0).getCompressPath(), "item");
 
                     break;
+
             }
+        } else {
+
+            if (requestCode == 1 && resultCode == 3) {
+
+                String result = data.getStringExtra("result");
+                if (result.equals("不显示位置") || result.equals("我在这里")) {
+                    reciverAddress = "";
+                    publishGPS.setTextColor(getResources().getColor(R.color.bg_666666));
+
+                    Drawable drawableRight = getResources().getDrawable(
+                            R.drawable.gpsimg);
+
+                    publishGPS.setCompoundDrawablesWithIntrinsicBounds(drawableRight,
+                            null, null, null);
+
+                    publishGPS.setCompoundDrawablePadding(10);
+
+                } else {
+                    reciverAddress = result;
+                    publishGPS.setTextColor(getResources().getColor(R.color.bg_E73828));
+                    Drawable drawableRight = getResources().getDrawable(
+                            R.drawable.gpsimgred);
+
+                    publishGPS.setCompoundDrawablesWithIntrinsicBounds(drawableRight,
+                            null, null, null);
+
+                    publishGPS.setCompoundDrawablePadding(10);
+                }
+                publishGPS.setText(result);
+
+
+            }
+
         }
     }
 
@@ -562,5 +611,4 @@ public class NewsPublishActivity extends BaseTransparentActivity {
 
 
     }
-
 }

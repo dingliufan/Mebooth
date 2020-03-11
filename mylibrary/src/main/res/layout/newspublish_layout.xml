@@ -103,16 +103,26 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="47.5dp">
+        
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="33.33dp"
+            android:background="@drawable/address_bg">
 
-        <TextView
-            android:id="@+id/publish_gps"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/gpsimg"
-            android:layout_gravity="center_vertical"
-            android:drawablePadding="5dp"
-            android:text="中国北京" />
+            <TextView
+                android:id="@+id/publish_gps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/gpsimg"
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:drawablePadding="5dp"
+                android:text="我在这里" />
+
+        </FrameLayout>
+
         <com.mebooth.mylibrary.main.view.ToggleButton
             android:id="@+id/newlyaddress_default"
             android:layout_width="60dp"
@@ -124,7 +134,8 @@
             app:lib_pub_tbtn_colorTrackOpen="@color/bg_E73828"
             app:lib_pub_tbtn_duration="250"
             android:layout_gravity="center_vertical"
-            app:lib_pub_tbtn_padding="1.5dp" />
+            app:lib_pub_tbtn_padding="1.5dp"
+            android:visibility="gone"/>
     </LinearLayout>
 
 </LinearLayout>

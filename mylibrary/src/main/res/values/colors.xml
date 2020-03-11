@@ -29,9 +29,9 @@
     <color name="bg_ccbababa">#ccbababa</color>
     <color name="bg_4d000000">#4d000000</color>
 
-    <color name="bg_030303">#030303 </color>
-    <color name="bg_f2f2f2">#f2f2f2 </color>
-    <color name="bg_28354c">#28354c </color>
+    <color name="bg_030303">#030303</color>
+    <color name="bg_f2f2f2">#f2f2f2</color>
+    <color name="bg_28354c">#28354c</color>
     <color name="bg_33b5e5">#33b5e5</color>
     <color name="view_line">#C7C8D1</color>
     <color name="bg_eeeeee">#eeeeee</color>
@@ -68,6 +68,7 @@
     <color name="bg_66000000">#66000000</color>
     <color name="bg_050f20">#050f20</color>
     <color name="bg_232f52">#232f52</color>
+    <color name="bg_242424">#242424</color>
     <color name="bg_427BED">#427BED</color>
     <color name="bg_232F52">#232F52</color>
     <color name="bg_F6F6F6">#F6F6F6</color>
@@ -80,6 +81,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="bg_9a9a9a">#9a9a9a</color>
     <color name="bg_333333">#333333</color>
+    <color name="bg_dddddd">#dddddd</color>
     <color name="bg_f1f1f3">#f1f1f3</color>
     <color name="bg_999999">#999999</color>
     <color name="bg_666666">#666666</color>

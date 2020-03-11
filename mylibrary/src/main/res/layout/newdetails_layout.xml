@@ -103,7 +103,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -115,6 +114,30 @@
 
                         <TextView
                             android:id="@+id/newdetails_comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newdetails_praise_lly"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/newdetails_praise_img"
+                            android:layout_width="29dp"
+                            android:layout_height="29dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/nopraise" />
+
+                        <TextView
+                            android:id="@+id/newdetails_praise"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"

@@ -116,6 +116,26 @@ public abstract class AppApplication extends Application {
         this.addressStr = addressStr;
     }
 
+    //获取经度
+    private String lng;
+    //获取纬度
+    private String lat;
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
 
     public void setLogOut(boolean isLogOut) {
         if (isLogOut) {

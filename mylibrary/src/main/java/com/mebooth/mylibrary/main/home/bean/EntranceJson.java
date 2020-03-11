@@ -47,9 +47,18 @@ public class EntranceJson {
         public class EntranceConfig {
 
             private String name;
+            private String title;
             private String image;
             private String target;
             private String foward;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
 
             public String getName() {
                 return name;

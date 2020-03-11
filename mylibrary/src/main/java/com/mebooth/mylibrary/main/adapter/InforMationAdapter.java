@@ -105,10 +105,10 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
         if (recommend.get(position).getFeed().isPraised()) {
 
-            holder.collectImg.setImageResource(R.drawable.collect);
+            holder.collectImg.setImageResource(R.drawable.praise);
 
         } else {
-            holder.collectImg.setImageResource(R.drawable.nocollect);
+            holder.collectImg.setImageResource(R.drawable.nopraise);
         }
 
         holder.nickName.setText(recommend.get(position).getUser().getNickname());
@@ -151,7 +151,17 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
             int date1 = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
             int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
             int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
-            holder.time.setText((month + 1) + "-" + date1);
+
+            if (month < 10 && date1 < 10) {
+
+                holder.time.setText("0" + (month + 1) + "-0" + date1);
+            } else if (month < 10) {
+                holder.time.setText("0" + (month + 1) + "-" + date1);
+            } else if (date1 < 10) {
+                holder.time.setText((month + 1) + "-0" + date1);
+            }
+
+//            .setText((month + 1) + "-" + date1);
         } else {
             String time = DateUtils.getTimeFormatText(date);
             holder.time.setText(time);
@@ -288,8 +298,8 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             recommend.get(position).getFeed().setPraised(false);
-                                            ToastUtils.getInstance().showToast("已取消收藏");
-                                            holder.collectImg.setImageResource(R.drawable.nocollect);
+                                            ToastUtils.getInstance().showToast("已取消点赞");
+                                            holder.collectImg.setImageResource(R.drawable.nopraise);
                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() - 1);
                                             holder.collect.setText(String.valueOf(recommend.get(position).getFeed().getPraises()));
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -324,8 +334,8 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             recommend.get(position).getFeed().setPraised(true);
-                                            ToastUtils.getInstance().showToast("已收藏");
-                                            holder.collectImg.setImageResource(R.drawable.collect);
+                                            ToastUtils.getInstance().showToast("已点赞");
+                                            holder.collectImg.setImageResource(R.drawable.praise);
                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
                                             holder.collect.setText(String.valueOf(recommend.get(position).getFeed().getPraises()));
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {

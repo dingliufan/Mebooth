@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16.67dp">
+
+        <ImageView
+            android:id="@+id/mecollect_item_img"
+            android:layout_width="64.67dp"
+            android:layout_height="64.67dp"
+            android:layout_marginLeft="25.33dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13.33dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/mecollect_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="@color/bg_333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/mecollect_item_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="9dp"
+                android:lineSpacingExtra="5dp"
+                android:maxLines="2"
+                android:textColor="@color/bg_999999"
+                android:textSize="11.33sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

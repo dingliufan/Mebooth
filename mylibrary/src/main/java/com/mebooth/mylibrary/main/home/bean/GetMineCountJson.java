@@ -86,6 +86,15 @@ public class GetMineCountJson {
             private int topic;
             private int following;
             private int praise;
+            private int favorite;
+
+            public int getFavorite() {
+                return favorite;
+            }
+
+            public void setFavorite(int favorite) {
+                this.favorite = favorite;
+            }
 
             public int getTopic() {
                 return topic;

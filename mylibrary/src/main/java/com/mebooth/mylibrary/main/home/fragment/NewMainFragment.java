@@ -37,6 +37,7 @@ import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsPublishActivity;
 import com.mebooth.mylibrary.main.home.activity.PublishActivity;
+import com.mebooth.mylibrary.main.home.bean.EntranceJson;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
 import com.mebooth.mylibrary.main.utils.AnimUtil;
 import com.mebooth.mylibrary.main.utils.TabLayoutUtil;
@@ -67,12 +68,13 @@ public class NewMainFragment extends BaseFragment {
     private ImageView headerIcon;
 
     private ArrayList<String> mTitles = new ArrayList<>();
-    private String mTitles1[] = {"推荐","此刻","笔记","资讯"};
+    private String mTitles1[] = {"推荐", "此刻", "笔记", "资讯"};
     private ArrayList<Fragment> mFragments = new ArrayList<>();
     private RecommendFragment recommendFragment = new RecommendFragment();
     private NowFragment nowFragment = new NowFragment();
     private ExperienceFragment experienceFragment = new ExperienceFragment();
     private InformationFragment informationFragment = new InformationFragment();
+    private CustomizeFragment customizeFragment = new CustomizeFragment();
 
     private MineOrderPagerAdapter mAdapter;
     private int uid;
@@ -170,21 +172,8 @@ public class NewMainFragment extends BaseFragment {
         mPopupWindow = new PopupWindow(getActivity());
         animUtil = new AnimUtil();
 
-        mTitles.add("推荐");
-        mTitles.add("此刻");
-        mTitles.add("笔记");
-        mTitles.add("资讯");
+        getTagInfo();
 
-        mFragments.add(recommendFragment);
-//        mFragments.add(FriendFragment.newInstance());
-        mFragments.add(nowFragment);
-        mFragments.add(experienceFragment);
-        mFragments.add(informationFragment);
-
-        mAdapter = new MineOrderPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), mFragments, mTitles);
-        viewPager.setAdapter(mAdapter);
-
-        tabLayout.setViewPager(viewPager, mTitles1);
 //        tabLayout.setupWithViewPager(viewPager);
 //        tabLayout.setSelectedTabIndicatorHeight(0);
 
@@ -266,6 +255,89 @@ public class NewMainFragment extends BaseFragment {
 
             }
         });
+
+    }
+
+    private void getTagInfo() {
+
+        ServiceFactory.getNewInstance()
+                .createService(YService.class)
+                .entranceList("menu")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<EntranceJson>() {
+                    @Override
+                    public void onNext(EntranceJson entranceJson) {
+                        super.onNext(entranceJson);
+
+                        if (null != entranceJson && entranceJson.getErrno() == 0) {
+
+                            mTitles.clear();
+                            mFragments.clear();
+
+                            for (EntranceJson.EntranceData.EntranceConfig entranceConfig : entranceJson.getData().getConfig()) {
+
+                                mTitles.add(entranceConfig.getTitle());
+                                switch (entranceConfig.getName()) {
+
+                                    case "recommend":
+                                        mFragments.add(recommendFragment);
+                                        break;
+                                    case "moment":
+                                        mFragments.add(nowFragment);
+                                        break;
+                                    case "notes":
+                                        mFragments.add(experienceFragment);
+                                        break;
+                                    case "news":
+                                        mFragments.add(informationFragment);
+                                        break;
+                                    case "custom1":
+                                        mFragments.add(customizeFragment);
+                                        break;
+
+                                }
+
+                            }
+
+//                            mTitles.add("推荐");
+//                            mTitles.add("此刻");
+//                            mTitles.add("笔记");
+//                            mTitles.add("资讯");
+//
+//                            mFragments.add(recommendFragment);
+////        mFragments.add(FriendFragment.newInstance());
+//                            mFragments.add(nowFragment);
+//                            mFragments.add(experienceFragment);
+//                            mFragments.add(informationFragment);
+
+                            mAdapter = new MineOrderPagerAdapter(getActivity().getSupportFragmentManager(), getActivity(), mFragments, mTitles);
+                            viewPager.setAdapter(mAdapter);
+
+                            tabLayout.setViewPager(viewPager, mTitles.toArray(new String[mTitles.size()]));
+
+
+                        } else if (null != entranceJson && entranceJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                            Log.d("NewMainFragment", "token已被清空");
+                        } else if (null != entranceJson && entranceJson.getErrno() != 200) {
+
+//                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());
+                        } else {
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
+
 
     }
 

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/customiseitem_headerimg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/customiseitem_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33.33dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/customiseitem_title_lly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/customiseitem_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_weight="1"
+                android:text="标题"
+                android:textColor="@color/bg_242424"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="24.67dp"
+                android:src="@drawable/system_backnew" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24.67dp"
+                android:layout_marginRight="24.67dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/customiseitem_lly1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.mebooth.mylibrary.utils.SquareRelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:id="@+id/customiseitem_image1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop" />
+                    </com.mebooth.mylibrary.utils.SquareRelativeLayout>
+
+                    <TextView
+                        android:id="@+id/customiseitem_text1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:lineSpacingExtra="5dp"
+                        android:maxLines="2"
+                        android:textColor="@color/bg_333333"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/customiseitem_lly2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.mebooth.mylibrary.utils.SquareRelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/customiseitem_image2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:scaleType="centerCrop" />
+
+                        </com.mebooth.mylibrary.utils.SquareRelativeLayout>
+
+                        <TextView
+                            android:id="@+id/customiseitem_text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:lineSpacingExtra="5dp"
+                            android:maxLines="2"
+                            android:textColor="@color/bg_333333"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        //
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13.33dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24.67dp"
+                android:layout_marginRight="24.67dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/customiseitem_lly3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <com.mebooth.mylibrary.utils.SquareRelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/customiseitem_image3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop" />
+
+                    </com.mebooth.mylibrary.utils.SquareRelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/customiseitem_text3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:lineSpacingExtra="5dp"
+                        android:maxLines="2"
+                        android:textColor="@color/bg_333333"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:id="@+id/customiseitem_lly4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.mebooth.mylibrary.utils.SquareRelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/customiseitem_image4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:scaleType="centerCrop" />
+
+                        </com.mebooth.mylibrary.utils.SquareRelativeLayout>
+
+
+                        <TextView
+                            android:id="@+id/customiseitem_text4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:lineSpacingExtra="5dp"
+                            android:maxLines="2"
+                            android:textColor="@color/bg_333333"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="24.67dp"
+            android:layout_marginRight="24.67dp"
+            android:background="@color/bg_dddddd"
+            android:layout_marginTop="31.33dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

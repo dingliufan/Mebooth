@@ -1,6 +1,9 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -70,6 +73,10 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     private InforMationAdapter adapter;
 
     public static boolean isInformationRefresh = false;
+    private String index = "";
+    private int type;
+    private int id;
+    private boolean isPraise;
 
 
     @Override
@@ -90,11 +97,57 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        //注册广播
+        IntentFilter filter = new IntentFilter("dataRefresh");
+        getActivity().registerReceiver(broadcastReceiver, filter);
+
         mHandler = new MyHandler(this);
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+
+            index = intent.getStringExtra("index");
+            type = intent.getIntExtra("type", 1111);
+            id = intent.getIntExtra("id", 0);
+            isPraise = intent.getBooleanExtra("isPraise", false);
+
+            if (index.equals("cancel")) {
+
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getFeed().getRelateid() == id) {
+                        if (type == 2) {
+                            recommend.get(i).getFeed().setPraised(isPraise);
+                            recommend.get(i).getFeed().setPraises(recommend.get(i).getFeed().getPraises() - 1);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+            } else if (index.equals("add")) {
+
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getFeed().getRelateid() == id) {
+                        if (type == 2) {
+                            recommend.get(i).getFeed().setPraised(isPraise);
+                            recommend.get(i).getFeed().setPraises(recommend.get(i).getFeed().getPraises() + 1);
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+            }
+        }
+    };
 
     private void getRecommend(final int tag) {
 

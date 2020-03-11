@@ -123,7 +123,17 @@ public class CommentExpandAdapter extends BaseExpandableListAdapter {
             int date1 = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(8, 10));
             int hour = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(11, 13));
             int minute = Integer.parseInt(commentBeanList.get(groupPosition).getReply().getAddtime().substring(14, 16));
-            groupHolder.tv_time.setText((month + 1) + "-" + date1);
+
+            if (month < 10 && date1 < 10) {
+
+                groupHolder.tv_time.setText("0" + (month + 1) + "-0" + date1);
+            } else if (month < 10) {
+                groupHolder.tv_time.setText("0" + (month + 1) + "-" + date1);
+            } else if (date1 < 10) {
+                groupHolder.tv_time.setText((month + 1) + "-0" + date1);
+            }
+
+//            .setText((month + 1) + "-" + date1);
         } else {
             String time = DateUtils.getTimeFormatText(date);
             groupHolder.tv_time.setText(time);

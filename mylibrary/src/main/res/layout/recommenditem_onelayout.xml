@@ -165,7 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/nocollect" />
+            android:src="@drawable/nopraise" />
 
         <TextView
             android:id="@+id/recommenditem_collect"

@@ -1,6 +1,9 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,6 +61,10 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     private ArrayList<GetNowJson.NowData.NowDataList> list = new ArrayList<>();
 
     public static boolean isNowRefresh = false;
+    private String index = "";
+    private int id;
+    private boolean isPraise;
+    private int type;
 
     @Override
     protected int getLayoutResId() {
@@ -77,11 +84,57 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        //注册广播
+        IntentFilter filter = new IntentFilter("dataRefresh");
+        getActivity().registerReceiver(broadcastReceiver, filter);
+
         mHandler = new MyHandler(this);
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+
+            index = intent.getStringExtra("index");
+            type = intent.getIntExtra("type", 1111);
+            id = intent.getIntExtra("id", 0);
+            isPraise = intent.getBooleanExtra("isPraise", false);
+
+            if (index.equals("cancel")) {
+
+                for (int i = 0; i < list.size(); i++) {
+
+                    if (list.get(i).getTopic().getTid() == id) {
+                        if (type == 1) {
+                            list.get(i).getTopic().setPraised(isPraise);
+                            list.get(i).getTopic().setPraises(list.get(i).getTopic().getPraises() - 1);
+                            commonAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+            } else if (index.equals("add")) {
+
+                for (int i = 0; i < list.size(); i++) {
+
+                    if (list.get(i).getTopic().getTid() == id) {
+                        if (type == 1) {
+                            list.get(i).getTopic().setPraised(isPraise);
+                            list.get(i).getTopic().setPraises(list.get(i).getTopic().getPraises() + 1);
+                            commonAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+            }
+        }
+    };
 
     private void getRecommend(final int tag) {
 

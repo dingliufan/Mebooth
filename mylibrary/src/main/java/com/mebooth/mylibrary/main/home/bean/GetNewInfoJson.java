@@ -62,9 +62,27 @@ public class GetNewInfoJson {
             private int replies;
             private int watches;
             private int praises;
+            private int favorites;
             private String addtime;
             private String describe;
             private boolean praised;
+            private boolean favorited;
+
+            public int getFavorites() {
+                return favorites;
+            }
+
+            public void setFavorites(int favorites) {
+                this.favorites = favorites;
+            }
+
+            public boolean isFavorited() {
+                return favorited;
+            }
+
+            public void setFavorited(boolean favorited) {
+                this.favorited = favorited;
+            }
 
             public int getUid() {
                 return uid;

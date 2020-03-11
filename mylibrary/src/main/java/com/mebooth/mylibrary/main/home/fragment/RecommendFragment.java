@@ -1,6 +1,9 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -87,6 +90,10 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     private ArrayList<EntranceJson.EntranceData.EntranceConfig> config = new ArrayList<>();
     public static boolean isRecommendRefresh = false;
+    private int id;
+    private boolean isPraise = false;
+    private String index = "";
+    private int type;
 
     @Override
     protected int getLayoutResId() {
@@ -107,6 +114,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        //注册广播
+        IntentFilter filter = new IntentFilter("dataRefresh");
+        getActivity().registerReceiver(broadcastReceiver, filter);
+
         mHandler = new MyHandler(this);
 //        getConfigBanner();
         mSmart.setEnableLoadMore(false);
@@ -114,6 +126,48 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
         mSmart.autoRefresh();
 //        getRecommend(REFLUSH_LIST);
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+
+            index = intent.getStringExtra("index");
+            type = intent.getIntExtra("type", 11111);
+            id = intent.getIntExtra("id", 0);
+            isPraise = intent.getBooleanExtra("isPraise", false);
+
+            if (index.equals("cancel")) {
+
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getFeed().getRelateid() == id) {
+
+                        if (recommend.get(i).getFeed().getType() == type) {
+                            recommend.get(i).getFeed().setPraised(isPraise);
+                            recommend.get(i).getFeed().setPraises(recommend.get(i).getFeed().getPraises() - 1);
+                            commonAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+            } else if (index.equals("add")) {
+
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getFeed().getRelateid() == id) {
+                        if (recommend.get(i).getFeed().getType() == type) {
+                            recommend.get(i).getFeed().setPraised(isPraise);
+                            recommend.get(i).getFeed().setPraises(recommend.get(i).getFeed().getPraises() + 1);
+                            commonAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+
+            }
+        }
+    };
 
     private void getConfigEntrance() {
 
@@ -517,7 +571,16 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             int date1 = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
                             int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
                             int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
-                            holder.setText(R.id.recommenditem_time, (month + 1) + "-" + date1);
+
+                            if (month < 10 && date1 < 10) {
+
+                                holder.setText(R.id.recommenditem_time, "0" + (month + 1) + "-0" + date1);
+                            } else if (month < 10) {
+                                holder.setText(R.id.recommenditem_time, "0" + (month + 1) + "-" + date1);
+                            } else if (date1 < 10) {
+                                holder.setText(R.id.recommenditem_time, (month + 1) + "-0" + date1);
+                            }
+
                         } else {
                             String time = DateUtils.getTimeFormatText(date);
                             holder.setText(R.id.recommenditem_time, time);
@@ -537,10 +600,10 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                         if (recommend.get(position).getFeed().isPraised()) {
 
-                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.collect);
+                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.praise);
 
                         } else {
-                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nocollect);
+                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nopraise);
                         }
 
                         holder.setText(R.id.recommenditem_browsecount, String.valueOf(recommend.get(position).getFeed().getWatches()));
@@ -671,8 +734,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getFeed().setPraised(false);
-                                                            ToastUtils.getInstance().showToast("已取消收藏");
-                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nocollect);
+                                                            ToastUtils.getInstance().showToast("已取消点赞");
+                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nopraise);
                                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() - 1);
                                                             holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -707,8 +770,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getFeed().setPraised(true);
-                                                            ToastUtils.getInstance().showToast("已收藏");
-                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.collect);
+                                                            ToastUtils.getInstance().showToast("已点赞");
+                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.praise);
                                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
                                                             holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -871,7 +934,17 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             int date1 = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(8, 10));
                             int hour = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(11, 13));
                             int minute = Integer.parseInt(recommend.get(position).getFeed().getAddtime().substring(14, 16));
-                            holder.setText(R.id.recommenditem_time1, (month + 1) + "-" + date1);
+
+                            if (month < 10 && date1 < 10) {
+
+                                holder.setText(R.id.recommenditem_time1, "0" + (month + 1) + "-0" + date1);
+                            } else if (month < 10) {
+                                holder.setText(R.id.recommenditem_time1, "0" + (month + 1) + "-" + date1);
+                            } else if (date1 < 10) {
+                                holder.setText(R.id.recommenditem_time1, (month + 1) + "-0" + date1);
+                            }
+
+//                            holder.setText(R.id., (month + 1) + "-" + date1);
                         } else {
                             String time = DateUtils.getTimeFormatText(date);
                             holder.setText(R.id.recommenditem_time1, time);
@@ -879,9 +952,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 
                         if (recommend.get(position).getFeed().isPraised()) {
-                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
+                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
                         } else {
-                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
                         }
                         holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                         holder.setText(R.id.recommenditem_comment, String.valueOf(recommend.get(position).getFeed().getReplies()));
@@ -1013,8 +1086,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getFeed().setPraised(false);
-                                                            ToastUtils.getInstance().showToast("已取消收藏");
-                                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nocollect);
+                                                            ToastUtils.getInstance().showToast("已取消点赞");
+                                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
                                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() - 1);
                                                             holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -1049,8 +1122,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getFeed().setPraised(true);
-                                                            ToastUtils.getInstance().showToast("已收藏");
-                                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.collect);
+                                                            ToastUtils.getInstance().showToast("已点赞");
+                                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
                                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
                                                             holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
