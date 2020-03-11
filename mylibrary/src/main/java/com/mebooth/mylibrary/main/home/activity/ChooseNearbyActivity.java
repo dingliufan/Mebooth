@@ -21,6 +21,7 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
+import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.PlacesInfoJson;
@@ -112,7 +113,7 @@ public class ChooseNearbyActivity extends BaseTransparentActivity implements OnR
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .placesInfo("39.8851746500", "116.3162899000")
+                .placesInfo(AppApplication.getInstance().getLng(), AppApplication.getInstance().getLat())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PlacesInfoJson>() {
