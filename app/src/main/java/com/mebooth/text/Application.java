@@ -28,13 +28,13 @@ public class Application extends AppApplication {
         //传递用户信息
         UserTokenJson userTokenJson = new UserTokenJson();
         //冬shan
-        userTokenJson.setUserid("13009809");
+        userTokenJson.setUserid("12358413");
 //        userTokenJson.setUserid("13122934");
         //我的
 //        userTokenJson.setUserid("12282731");
         userTokenJson.setFrom("14");
         //东珊
-        userTokenJson.setToken("FBNxGfcSnIVVi1NE");
+        userTokenJson.setToken("7U0s9H5Q0nnmWbVg");
         //我的
 //        userTokenJson.setToken("HalTTthItkVmoLnh");
         userTokenJson.setVersion("4.8.0");
