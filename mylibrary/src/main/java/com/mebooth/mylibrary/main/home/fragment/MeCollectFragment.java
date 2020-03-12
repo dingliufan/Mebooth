@@ -95,6 +95,7 @@ public class MeCollectFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        isMeCollectRefresh = false;
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
