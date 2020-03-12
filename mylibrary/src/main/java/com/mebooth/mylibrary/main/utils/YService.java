@@ -35,10 +35,10 @@ import retrofit2.http.Part;
 
 public interface YService {
     //测试
-    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
+//    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
     //外网s
 //    String BASE_URL = "http://test.tatabike.com/";
-//    String BASE_URL = "http://tataclub.baojiawangluo.com/";
+    String BASE_URL = "http://tataclub.baojiawangluo.com/";
     //    String BASE_URL_H5 = "http://www.tata.club/";
 //    String BASE_URL_H5 = "https://tatah5.baojiawangluo.com/";
 

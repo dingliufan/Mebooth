@@ -162,10 +162,11 @@
             android:textSize="15sp" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="18dp"
+            android:layout_height="3dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/browse" />
+            android:src="@drawable/browse"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/recommenditem_browsecount"
@@ -174,7 +175,8 @@
             android:layout_gravity="center_vertical"
             android:text="02"
             android:textColor="@color/bg_999999"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:visibility="gone"/>
 
         <ImageView
             android:layout_width="wrap_content"
