@@ -122,11 +122,11 @@
             app:tl_indicator_color="@color/bg_E73828"
             app:tl_indicator_corner_radius="1.5dp"
             app:tl_indicator_height="3dp"
-            app:tl_tab_padding="15dp"
+            app:tl_tab_padding="7.5dp"
             app:tl_indicator_width_equal_title="true"
             app:tl_textSelectColor="@color/bg_333333"
             app:tl_textUnselectColor="@color/bg_999999"
-            app:tl_textsize="18sp" />
+            app:tl_textsize="16sp" />
 
         <ImageView
             android:id="@+id/userheadericon"

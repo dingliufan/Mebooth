@@ -114,6 +114,7 @@ public class ChooseNearbyActivity extends BaseTransparentActivity implements OnR
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
                 .placesInfo(AppApplication.getInstance().getLng(), AppApplication.getInstance().getLat())
+//                .placesInfo("116.537997", "39.913537")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PlacesInfoJson>() {

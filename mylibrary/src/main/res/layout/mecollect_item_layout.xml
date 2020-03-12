@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="13.33dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -36,7 +35,7 @@
                 android:id="@+id/mecollect_item_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="5dp"
                 android:lineSpacingExtra="5dp"
                 android:maxLines="2"
                 android:textColor="@color/bg_999999"
