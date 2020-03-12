@@ -19,7 +19,7 @@ import okhttp3.Response;
 
 public class OkHttpProvider {
 
-    private final static long DEFAULT_TIMEOUT = 10;
+    private final static long DEFAULT_TIMEOUT = 60;
 
     public static OkHttpClient getDefaultOkHttpClient() {
         return getOkHttpClient(new CacheControlInterceptor());

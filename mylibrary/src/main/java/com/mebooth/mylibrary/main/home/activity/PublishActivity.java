@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
@@ -70,6 +71,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import io.rong.imkit.MainActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -290,6 +292,18 @@ public class PublishActivity extends BaseTransparentActivity {
                     PictureSelector.create(PublishActivity.this)
                             .themeStyle(themeId) // xml设置主题
                             .openExternalPreview(position, selectList);
+
+                    PictureSelector.create(PublishActivity.this)
+                            .themeStyle(R.style.picture_default_style) // xml设置主题
+//                            .setPictureStyle(mPictureParameterStyle)// 动态自定义相册主题
+                            //.setPictureWindowAnimationStyle(animationStyle)// 自定义页面启动动画
+                            .setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)// 设置相册Activity方向，不设置默认使用系统
+                            .isNotPreviewDownload(true)// 预览图片长按是否可以下载
+                            //.bindCustomPlayVideoCallback(callback)// 自定义播放回调控制，用户可以使用自己的视频播放界面
+                            .loadImageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
+                            .openExternalPreview(position, selectList);
+
+
                     //.setPictureStyle(mPictureParameterStyle)// 动态自定义相册主题
                     //.setPictureWindowAnimationStyle(animationStyle)// 自定义页面启动动画
 //                        .loadImageEngine(GlideEngine.createGlideEngine())// 外部传入图片加载引擎，必传项
@@ -417,6 +431,7 @@ public class PublishActivity extends BaseTransparentActivity {
 
 
     private void getToken(final ArrayList<String> pathImage) {
+        ToastUtils.getInstance().showToast("正在发布，请稍后...");
         ArrayList<MultipartBody.Part> stringArrayList = new ArrayList<MultipartBody.Part>();
 //
         for (String imgStr : pathImage) {

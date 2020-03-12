@@ -88,7 +88,7 @@ public abstract class AppApplication extends Application {
 
             } else {
                 //融云测试
-                //        RongIM.init(this, "8luwapkv8458l");
+//                RongIM.init(this, "8luwapkv8458l");
                 //融云线上
                 RongIM.init(this, "8brlm7uf8qp83");
                 getConnectToken();

@@ -34,7 +34,7 @@ public class Application extends AppApplication {
 //        userTokenJson.setUserid("12282731");
         userTokenJson.setFrom("14");
         //东珊
-        userTokenJson.setToken("7U0s9H5Q0nnmWbVg");
+        userTokenJson.setToken("rZwPnn5Cn0aYA2sj");
         //我的
 //        userTokenJson.setToken("HalTTthItkVmoLnh");
         userTokenJson.setVersion("4.8.0");
