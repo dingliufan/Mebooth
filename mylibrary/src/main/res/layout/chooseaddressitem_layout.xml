@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/bg_999999"
+                android:maxLines="1"
                 android:textSize="12sp" />
         </LinearLayout>
 
