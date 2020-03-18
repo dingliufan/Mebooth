@@ -25,6 +25,7 @@ android {
     }
 
     flavorDimensions "mebike"
+    publishNonDefault true //注意，这里的配置是为了去除gradle对library module默认只编译release buildType的限制
     productFlavors {
 
         // 小蜜单车
@@ -102,5 +103,5 @@ dependencies {
     api 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     api 'com.bigkoo:alertview:1.0.3'
     api project (':IMKit')
-    api project (':IMLib')
+//    api project (':IMLib')
 }
