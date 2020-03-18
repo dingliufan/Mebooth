@@ -170,11 +170,14 @@ public class NewMainFragment extends BaseFragment {
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        if (BuildConfig.AppFrom == 2) {
+        Log.d("packagename1", getActivity().getApplication().getPackageName());
+        Log.d("packagename2", getActivity().getApplicationInfo().processName);
+
+        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
 
             homeMenu = "mfmenu";
 
-        } else if (BuildConfig.AppFrom == 1) {
+        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
             homeMenu = "xmmenu";
         } else {
             homeMenu = "menu";

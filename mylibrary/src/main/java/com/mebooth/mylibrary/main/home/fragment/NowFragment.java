@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.mebooth.mylibrary.R;
@@ -87,24 +88,17 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        if (BuildConfig.AppFrom == 2) {
-            foward = "mifeng";
-        }else if (BuildConfig.AppFrom == 1) {
-            foward = "xiaomi";
-        }else{
+        Log.d("packagename", getActivity().getApplicationInfo().processName);
 
+        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
+
+            foward = "mifeng";
+
+        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+            foward = "xiaomi";
+        } else {
             foward = "renmin";
         }
-
-//        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
-//
-//            foward = "mifeng";
-//
-//        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
-//            foward = "xiaomi";
-//        } else {
-//            foward = "renmin";
-//        }
 
         //注册广播
         IntentFilter filter = new IntentFilter("dataRefresh");
