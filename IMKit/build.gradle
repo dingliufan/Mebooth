@@ -16,6 +16,33 @@ android {
         }
     }
 
+    flavorDimensions "mebike"
+    publishNonDefault true
+    productFlavors {
+
+        // 小蜜单车
+        mebike {
+            dimension "mebike"
+        }
+        // 蜜蜂出行
+        mifeng {
+            dimension "mebike"
+        }
+
+        // 人民出行
+        personal {
+            dimension "mebike"
+        }
+
+        knightchuxing{
+            dimension "mebike"
+        }
+        xiaoma{
+            dimension "mebike"
+        }
+
+    }
+
     sourceSets {
         main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
