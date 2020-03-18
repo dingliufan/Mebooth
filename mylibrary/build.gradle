@@ -42,6 +42,13 @@ android {
             dimension "mebike"
         }
 
+        knightchuxing{
+            dimension "mebike"
+        }
+        xiaoma{
+            dimension "mebike"
+        }
+
     }
 
 }
