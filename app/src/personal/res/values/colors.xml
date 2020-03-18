@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--社区插件tablayout下划线颜色    -->
+    <color name="bg_E73828">#E73828</color>
+</resources>

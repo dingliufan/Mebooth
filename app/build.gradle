@@ -29,6 +29,29 @@ android {
         }
     }
 
+    flavorDimensions "mebike"
+
+    productFlavors {
+
+        // 小蜜单车
+        mebike {
+            applicationId "com.baojia.mebike"
+            dimension "mebike"
+        }
+        // 蜜蜂出行
+        mifeng {
+            applicationId "com.mmuu.travel.client"
+            dimension "mebike"
+        }
+
+        // 人民出行
+        personal {
+            applicationId "com.baojia.personal"
+            dimension "mebike"
+        }
+
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
