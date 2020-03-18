@@ -25,7 +25,6 @@ android {
     }
 
     flavorDimensions "mebike"
-    publishNonDefault true
     productFlavors {
 
         // 小蜜单车
