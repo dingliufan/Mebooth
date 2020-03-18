@@ -37,7 +37,6 @@ import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.mebooth.mylibrary.R;
-import com.mebooth.mylibrary.R2;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.GridImageAdapter;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
