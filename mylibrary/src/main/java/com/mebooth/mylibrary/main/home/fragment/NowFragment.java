@@ -87,15 +87,24 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
-
+        if (BuildConfig.AppFrom == 2) {
             foward = "mifeng";
-
-        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+        }else if (BuildConfig.AppFrom == 1) {
             foward = "xiaomi";
-        } else {
+        }else{
+
             foward = "renmin";
         }
+
+//        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
+//
+//            foward = "mifeng";
+//
+//        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+//            foward = "xiaomi";
+//        } else {
+//            foward = "renmin";
+//        }
 
         //注册广播
         IntentFilter filter = new IntentFilter("dataRefresh");

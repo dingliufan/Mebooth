@@ -139,15 +139,23 @@ public class PublishActivity extends BaseTransparentActivity {
     protected void initData() {
         super.initData();
 
-        if (getApplicationInfo().processName == "com.mmuu.travel.client") {
-
+        if (BuildConfig.AppFrom == 2) {
             platform = "mifeng";
-
-        } else if (getApplicationInfo().processName == "com.baojia.mebike") {
+        }else if (BuildConfig.AppFrom == 1) {
             platform = "xiaomi";
-        } else {
+        }else{
+
             platform = "renmin";
         }
+//        if (getApplicationInfo().processName == "com.mmuu.travel.client") {
+//
+//            platform = "mifeng";
+//
+//        } else if (getApplicationInfo().processName == "com.baojia.mebike") {
+//            platform = "xiaomi";
+//        } else {
+//            platform = "renmin";
+//        }
 
 
         recyclerView = findViewById(R.id.recycler);
