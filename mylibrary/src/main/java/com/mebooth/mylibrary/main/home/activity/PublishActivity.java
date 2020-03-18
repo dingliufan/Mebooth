@@ -139,13 +139,13 @@ public class PublishActivity extends BaseTransparentActivity {
     protected void initData() {
         super.initData();
 
-        Log.d("packagename", getApplicationInfo().processName);
+//        Log.d("packagename", getApplicationInfo().processName);
 
-        if (getApplicationInfo().processName == "com.mmuu.travel.client") {
+        if (getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
 
             platform = "mifeng";
 
-        } else if (getApplicationInfo().processName == "com.baojia.mebike") {
+        } else if (getApplicationInfo().processName.equals("com.baojia.mebike")) {
             platform = "xiaomi";
         } else {
             platform = "renmin";

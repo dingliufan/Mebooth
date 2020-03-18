@@ -127,14 +127,14 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     @Override
     protected void initData(Bundle savedInstanceState) {
 
-        Log.d("packagename", getActivity().getApplicationInfo().processName);
+//        Log.d("packagename", getActivity().getApplicationInfo().processName);
 
-        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
+        if (getActivity().getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
 
             banner = "mfbanner";
             entrance = "mfquick_entrance";
 
-        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+        } else if (getActivity().getApplicationInfo().processName.equals("com.baojia.mebike")) {
             banner = "xmbanner";
             entrance = "xmquick_entrance";
         } else {
