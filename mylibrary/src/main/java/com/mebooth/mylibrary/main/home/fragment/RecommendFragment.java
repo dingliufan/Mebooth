@@ -94,6 +94,18 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private boolean isPraise = false;
     private String index = "";
     private int type;
+    private String foward = "";
+    private String banner = "";
+    private String entrance = "";
+
+    public static RecommendFragment getInstance(String foward) {
+        RecommendFragment sf = new RecommendFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("foward", foward);
+        sf.setArguments(bundle);
+        return sf;
+    }
+
 
     @Override
     protected int getLayoutResId() {
@@ -114,6 +126,23 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+
+        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
+
+            banner = "mfbanner";
+            entrance = "mfquick_entrance";
+
+        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+            banner = "xmbanner";
+            entrance = "xmquick_entrance";
+        } else {
+            banner = "banner";
+            entrance = "quick_entrance";
+        }
+
+        Bundle bundle = getArguments();
+        foward = bundle.getString("foward");
 
         //注册广播
         IntentFilter filter = new IntentFilter("dataRefresh");
@@ -223,7 +252,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .bannerList("banner")
+                .bannerList(banner)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<FlushJson>() {
@@ -274,7 +303,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("feeds_recommend", offSet, pageSize)
+                .getRecommend(foward, offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {
@@ -1255,7 +1284,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
             ServiceFactory.getNewInstance()
                     .createService(YService.class)
-                    .getRecommend("feeds_recommend", "", recommend.size() - 1)
+                    .getRecommend(foward, "", recommend.size() - 1)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new CommonObserver<GetRecommendJson>() {

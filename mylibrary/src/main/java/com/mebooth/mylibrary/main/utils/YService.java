@@ -32,13 +32,14 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Url;
 
 public interface YService {
     //测试
-//    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
+    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
     //外网s
 //    String BASE_URL = "http://test.tatabike.com/";
-    String BASE_URL = "http://tataclub.baojiawangluo.com/";
+//    String BASE_URL = "http://tataclub.baojiawangluo.com/";
     //    String BASE_URL_H5 = "http://www.tata.club/";
 //    String BASE_URL_H5 = "https://tatah5.baojiawangluo.com/";
 
@@ -51,7 +52,7 @@ public interface YService {
     //此刻列表
     @FormUrlEncoded
     @POST(BASE_URL + "topic/getLatest")
-    Observable<GetNowJson> getNow(@Field("offset") String offset, @Field("num") int num);
+    Observable<GetNowJson> getNow(@Field("platform") String platform,@Field("offset") String offset, @Field("num") int num);
 
     //    Observable<GetNowJson> getNow();
     //此刻列表详情
@@ -100,7 +101,7 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "topic/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<PublicBean> publishTopic(@Field("content") String content, @Field("location") String location, @Field("images") String images);
+    Observable<PublicBean> publishTopic(@Field("content") String content, @Field("location") String location, @Field("images") String images,@Field("platform") String platform);
 
     //发布新闻
     @FormUrlEncoded
@@ -238,9 +239,9 @@ public interface YService {
 
     //获取自定义标签列表
 //    @FormUrlEncoded
-    @POST(BASE_URL + "config/getCustomIndex")
+    @POST()
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<CustomizeJson> customiseInfo();
+    Observable<CustomizeJson> customiseInfo(@Url String url);
     //获取附近地点
     @FormUrlEncoded
     @POST(BASE_URL + "config/getPlaces")

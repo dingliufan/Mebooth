@@ -65,6 +65,8 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     private int id;
     private boolean isPraise;
     private int type;
+    private String foward = "";
+
 
     @Override
     protected int getLayoutResId() {
@@ -84,6 +86,16 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
+
+            foward = "mifeng";
+
+        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+            foward = "xiaomi";
+        } else {
+            foward = "renmin";
+        }
 
         //注册广播
         IntentFilter filter = new IntentFilter("dataRefresh");
@@ -140,7 +152,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getNow(offSet, pageSize)
+                .getNow(foward, offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetNowJson>() {
@@ -291,7 +303,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
         if (isNowRefresh) {
             ServiceFactory.getNewInstance()
                     .createService(YService.class)
-                    .getNow("", list.size())
+                    .getNow(foward, "", list.size())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new CommonObserver<GetNowJson>() {

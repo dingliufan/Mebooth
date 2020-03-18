@@ -97,6 +97,7 @@ public class NewMainFragment extends BaseFragment {
     private LinearLayout news;
     private LinearLayout topic;
     private ImageView qrCode;
+    private String homeMenu = "";
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
@@ -168,6 +169,16 @@ public class NewMainFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        if (getActivity().getApplicationInfo().processName == "com.mmuu.travel.client") {
+
+            homeMenu = "mfmenu";
+
+        } else if (getActivity().getApplicationInfo().processName == "com.baojia.mebike") {
+            homeMenu = "xmmenu";
+        } else {
+            homeMenu = "menu";
+        }
 
         mPopupWindow = new PopupWindow(getActivity());
         animUtil = new AnimUtil();
@@ -262,7 +273,7 @@ public class NewMainFragment extends BaseFragment {
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .entranceList("menu")
+                .entranceList(homeMenu)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<EntranceJson>() {
@@ -281,19 +292,19 @@ public class NewMainFragment extends BaseFragment {
                                 switch (entranceConfig.getName()) {
 
                                     case "recommend":
-                                        mFragments.add(recommendFragment);
+                                        mFragments.add(RecommendFragment.getInstance(entranceConfig.getFoward()));
                                         break;
                                     case "moment":
                                         mFragments.add(nowFragment);
                                         break;
                                     case "notes":
-                                        mFragments.add(experienceFragment);
+                                        mFragments.add(ExperienceFragment.getInstance(entranceConfig.getFoward()));
                                         break;
                                     case "news":
-                                        mFragments.add(informationFragment);
+                                        mFragments.add(InformationFragment.getInstance(entranceConfig.getFoward()));
                                         break;
                                     case "custom1":
-                                        mFragments.add(customizeFragment);
+                                        mFragments.add(CustomizeFragment.getInstance(entranceConfig.getFoward()));
                                         break;
 
                                 }

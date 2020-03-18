@@ -66,7 +66,15 @@ public class CustomizeFragment extends BaseFragment implements OnRefreshListener
     private ArrayList<CustomizeJson.CustomizeData.CustomizeSubjects> subjects = new ArrayList<>();
     private String headerImage = "";
     private String newid = "";
+    private String foward = "";
 
+    public static CustomizeFragment getInstance(String foward) {
+        CustomizeFragment sf = new CustomizeFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("foward", foward);
+        sf.setArguments(bundle);
+        return sf;
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -89,6 +97,10 @@ public class CustomizeFragment extends BaseFragment implements OnRefreshListener
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        foward = bundle.getString("foward");
+
         mHandler = new MyHandler(this);
 //        getConfigBanner();
         initRecycle();
@@ -99,7 +111,7 @@ public class CustomizeFragment extends BaseFragment implements OnRefreshListener
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .customiseInfo()
+                .customiseInfo(YService.BASE_URL + foward)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<CustomizeJson>() {

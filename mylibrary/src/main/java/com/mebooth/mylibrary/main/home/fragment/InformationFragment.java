@@ -77,7 +77,15 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     private int type;
     private int id;
     private boolean isPraise;
+    private String foward = "";
 
+    public static InformationFragment getInstance(String foward) {
+        InformationFragment sf = new InformationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("foward", foward);
+        sf.setArguments(bundle);
+        return sf;
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -97,6 +105,9 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        foward = bundle.getString("foward");
 
         //注册广播
         IntentFilter filter = new IntentFilter("dataRefresh");
@@ -153,7 +164,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .getRecommend("feeds_news", offSet, pageSize)
+                .getRecommend(foward, offSet, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<GetRecommendJson>() {
@@ -350,7 +361,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
 
             ServiceFactory.getNewInstance()
                     .createService(YService.class)
-                    .getRecommend("feeds_news", "", recommend.size())
+                    .getRecommend(foward, "", recommend.size())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new CommonObserver<GetRecommendJson>() {

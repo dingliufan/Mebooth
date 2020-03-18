@@ -108,6 +108,7 @@ public class PublishActivity extends BaseTransparentActivity {
     private String reciverAddress = "";
 
     private boolean isSending = true;
+    private String platform = "";
 
     @Override
     protected int getContentViewId() {
@@ -137,6 +138,17 @@ public class PublishActivity extends BaseTransparentActivity {
     @Override
     protected void initData() {
         super.initData();
+
+        if (getApplicationInfo().processName == "com.mmuu.travel.client") {
+
+            platform = "mifeng";
+
+        } else if (getApplicationInfo().processName == "com.baojia.mebike") {
+            platform = "xiaomi";
+        } else {
+            platform = "renmin";
+        }
+
 
         recyclerView = findViewById(R.id.recycler);
         publishGPS = findViewById(R.id.publish_gps);
@@ -279,6 +291,7 @@ public class PublishActivity extends BaseTransparentActivity {
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
+            @SuppressLint("SourceLockedOrientationActivity")
             @Override
             public void onItemClick(int position, View v) {
                 if (selectList.size() > 0) {
@@ -508,7 +521,7 @@ public class PublishActivity extends BaseTransparentActivity {
         }
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .publishTopic(content.getText().toString(), location, imgPathStr)
+                .publishTopic(content.getText().toString(), location, imgPathStr, platform)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<PublicBean>() {
