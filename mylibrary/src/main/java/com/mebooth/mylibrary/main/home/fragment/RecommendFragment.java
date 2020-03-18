@@ -203,7 +203,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
         ServiceFactory.getNewInstance()
                 .createService(YService.class)
-                .entranceList("quick_entrance")
+                .entranceList(entrance)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new CommonObserver<EntranceJson>() {
