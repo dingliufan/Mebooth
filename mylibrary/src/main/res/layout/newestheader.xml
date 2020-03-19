@@ -96,9 +96,7 @@
                 android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/follow"
                 android:gravity="center"
-                android:text="关注"
                 android:textColor="@color/bg_E73828"
                 android:textSize="14sp" />
         </LinearLayout>

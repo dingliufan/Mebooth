@@ -40,6 +40,7 @@ import com.mebooth.mylibrary.main.home.activity.PublishActivity;
 import com.mebooth.mylibrary.main.home.bean.EntranceJson;
 import com.mebooth.mylibrary.main.home.bean.GetMyUserInfo;
 import com.mebooth.mylibrary.main.utils.AnimUtil;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.TabLayoutUtil;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.ConfirmPopWindow;
@@ -98,6 +99,7 @@ public class NewMainFragment extends BaseFragment {
     private LinearLayout topic;
     private ImageView qrCode;
     private String homeMenu = "";
+    private ImageView mainLogo;
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
@@ -126,17 +128,23 @@ public class NewMainFragment extends BaseFragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.pager);
         headerIcon = view.findViewById(R.id.userheadericon);
+        mainLogo = view.findViewById(R.id.main_logo);
+
+        //动态设置tablayout下划线颜色
+        tabLayout.setIndicatorColor(getResources().getColor(ResourcseMessage.getFontColor()));
+
+        mainLogo.setImageResource(ResourcseMessage.getAppLogo());
 
         if (AppApplication.getInstance().isShowBack()) {
 
             back.setVisibility(View.VISIBLE);
             title.setVisibility(View.VISIBLE);
-            view.findViewById(R.id.main_logo).setVisibility(View.GONE);
+            mainLogo.setVisibility(View.GONE);
 //            view.findViewById(R.id.moudle_headertwo).setVisibility(View.GONE);
         } else {
             back.setVisibility(View.GONE);
             title.setVisibility(View.GONE);
-            view.findViewById(R.id.main_logo).setVisibility(View.VISIBLE);
+            mainLogo.setVisibility(View.VISIBLE);
 //            view.findViewById(R.id.newmainheader).setVisibility(View.GONE);
 //            view.findViewById(R.id.moudle_headertwo).setPadding(0, UIUtils.getStatusBarHeight(getActivity()), 0, 0);
 

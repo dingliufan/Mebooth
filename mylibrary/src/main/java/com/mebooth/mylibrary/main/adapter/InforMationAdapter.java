@@ -26,6 +26,7 @@ import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.OnItemClickListener;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -98,14 +99,14 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
             holder.follow.setBackgroundResource(R.drawable.nofollow);
         } else {
             holder.follow.setText("关注");
-            holder.follow.setTextColor(context.getResources().getColor(R.color.bg_E73828));
-            holder.follow.setBackgroundResource(R.drawable.follow);
+            holder.follow.setTextColor(context.getResources().getColor(ResourcseMessage.getFontColor()));
+            holder.follow.setBackgroundResource(ResourcseMessage.getFollowBackground());
         }
 
 
         if (recommend.get(position).getFeed().isPraised()) {
 
-            holder.collectImg.setImageResource(R.drawable.praise);
+            holder.collectImg.setImageResource(ResourcseMessage.getPraiseRes());
 
         } else {
             holder.collectImg.setImageResource(R.drawable.nopraise);
@@ -335,7 +336,7 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                             recommend.get(position).getFeed().setPraised(true);
                                             ToastUtils.getInstance().showToast("已点赞");
-                                            holder.collectImg.setImageResource(R.drawable.praise);
+                                            holder.collectImg.setImageResource(ResourcseMessage.getPraiseRes());
                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
                                             holder.collect.setText(String.valueOf(recommend.get(position).getFeed().getPraises()));
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {

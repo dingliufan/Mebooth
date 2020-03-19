@@ -44,6 +44,7 @@ import com.mebooth.mylibrary.main.home.bean.FlushJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.OnItemClickListener;
 import com.mebooth.mylibrary.net.CommonObserver;
@@ -623,14 +624,14 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.nofollow);
                         } else {
                             holder.setText(R.id.recommenditemzixun_follow, "关注");
-                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(R.color.bg_E73828));
-                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, R.drawable.follow);
+                            holder.setTextColor(R.id.recommenditemzixun_follow, getResources().getColor(ResourcseMessage.getFontColor()));
+                            holder.setBackgroundRes(R.id.recommenditemzixun_follow, ResourcseMessage.getFollowBackground());
                         }
 
 
                         if (recommend.get(position).getFeed().isPraised()) {
 
-                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.praise);
+                            holder.setImageResource(R.id.recommenditemzixun_collect_img, ResourcseMessage.getPraiseRes());
 
                         } else {
                             holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nopraise);
@@ -801,7 +802,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getFeed().setPraised(true);
                                                             ToastUtils.getInstance().showToast("已点赞");
-                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.praise);
+                                                            holder.setImageResource(R.id.recommenditemzixun_collect_img, ResourcseMessage.getPraiseRes());
                                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
                                                             holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
@@ -929,8 +930,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
                         } else {
                             holder.setText(R.id.recommenditem_follow, "关注");
-                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(R.color.bg_E73828));
-                            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
+                            holder.setTextColor(R.id.recommenditem_follow, getResources().getColor(ResourcseMessage.getFontColor()));
+                            holder.setBackgroundRes(R.id.recommenditem_follow, ResourcseMessage.getFollowBackground());
                         }
                         if (AppApplication.getInstance().userid != null) {
                             if (AppApplication.getInstance().userid.equals(String.valueOf(recommend.get(position).getUser().getUid()))) {
@@ -982,7 +983,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
 
                         if (recommend.get(position).getFeed().isPraised()) {
-                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
+                            holder.setImageResource(R.id.recommenditem_collect_img, ResourcseMessage.getPraiseRes());
                         } else {
                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
                         }
@@ -1153,7 +1154,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                                         if (null != publicBean && publicBean.getErrno() == 0) {
                                                             recommend.get(position).getFeed().setPraised(true);
                                                             ToastUtils.getInstance().showToast("已点赞");
-                                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
+                                                            holder.setImageResource(R.id.recommenditem_collect_img, ResourcseMessage.getPraiseRes());
                                                             recommend.get(position).getFeed().setPraises(recommend.get(position).getFeed().getPraises() + 1);
                                                             holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {

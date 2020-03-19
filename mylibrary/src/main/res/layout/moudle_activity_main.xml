@@ -36,7 +36,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/people_pluginlogo"
                     android:visibility="gone" />
             </FrameLayout>
 
@@ -119,7 +118,6 @@
             android:layout_height="48dp"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            app:tl_indicator_color="@color/bg_E73828"
             app:tl_indicator_corner_radius="1.5dp"
             app:tl_indicator_height="3dp"
             app:tl_tab_padding="10dp"

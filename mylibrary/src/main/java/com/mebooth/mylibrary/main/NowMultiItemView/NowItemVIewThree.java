@@ -19,6 +19,7 @@ import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.utils.NoPublish;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -160,8 +161,8 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
             holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.nofollow);
         } else {
             holder.setText(R.id.recommenditem_follow, "关注");
-            holder.setTextColor(R.id.recommenditem_follow,context.getResources().getColor(R.color.bg_E73828));
-            holder.setBackgroundRes(R.id.recommenditem_follow, R.drawable.follow);
+            holder.setTextColor(R.id.recommenditem_follow,context.getResources().getColor(ResourcseMessage.getFontColor()));
+            holder.setBackgroundRes(R.id.recommenditem_follow, ResourcseMessage.getFollowBackground());
         }
 
         if (AppApplication.getInstance().userid != null) {
@@ -220,7 +221,7 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
 
 
         if (nowDataList.getTopic().isPraised()) {
-            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
+            holder.setImageResource(R.id.recommenditem_collect_img, ResourcseMessage.getPraiseRes());
         } else {
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
         }
@@ -433,7 +434,7 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
                                             }
                                             nowDataList.getTopic().setPraised(true);
                                             ToastUtils.getInstance().showToast("已点赞");
-                                            holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.praise);
+                                            holder.setImageResource(R.id.recommenditem_collect_img, ResourcseMessage.getPraiseRes());
                                             nowDataList.getTopic().setPraises(nowDataList.getTopic().getPraises() + 1);
                                             holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {

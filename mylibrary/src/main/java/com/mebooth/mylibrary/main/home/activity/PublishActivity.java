@@ -50,6 +50,7 @@ import com.mebooth.mylibrary.main.utils.GridSpacingItemNotBothDecoration;
 import com.mebooth.mylibrary.main.utils.MyLocationUtil;
 import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.FullyGridLayoutManager;
 import com.mebooth.mylibrary.main.view.ToggleButton;
@@ -138,6 +139,7 @@ public class PublishActivity extends BaseTransparentActivity {
     protected void initData() {
         super.initData();
 
+
 //        Log.d("packagename", getApplicationInfo().processName);
 
         if (getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
@@ -159,6 +161,9 @@ public class PublishActivity extends BaseTransparentActivity {
         content = findViewById(R.id.et_moment_add_content);
         newlyAddressDefault = findViewById(R.id.newlyaddress_default);
         newlyAddressDefault.setOpen(true);
+
+        right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
+
 
         findViewById(R.id.publishheader).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
@@ -425,9 +430,9 @@ public class PublishActivity extends BaseTransparentActivity {
                 } else {
                     reciverAddress = result;
 
-                    publishGPS.setTextColor(getResources().getColor(R.color.bg_E73828));
+                    publishGPS.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                     Drawable drawableRight = getResources().getDrawable(
-                            R.drawable.gpsimgred);
+                            ResourcseMessage.getGpsRes());
 
                     publishGPS.setCompoundDrawablesWithIntrinsicBounds(drawableRight,
                             null, null, null);
@@ -486,15 +491,15 @@ public class PublishActivity extends BaseTransparentActivity {
 
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() == 1101) {
                                 isSending = true;
-                                right.setTextColor(getResources().getColor(R.color.bg_E73828));
+                                right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                                 SharedPreferencesUtils.writeString("token", "");
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() != 200) {
                                 isSending = true;
-                                right.setTextColor(getResources().getColor(R.color.bg_E73828));
+                                right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(updateHeaderFileJson.getErrmsg()) ? "数据加载失败" : updateHeaderFileJson.getErrmsg());
                             } else {
                                 isSending = true;
-                                right.setTextColor(getResources().getColor(R.color.bg_E73828));
+                                right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                                 ToastUtils.getInstance().showToast("数据加载失败");
                             }
                         }
@@ -503,6 +508,7 @@ public class PublishActivity extends BaseTransparentActivity {
                         public void onError(Throwable e) {
                             super.onError(e);
                             isSending = true;
+                            right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     });
@@ -539,15 +545,15 @@ public class PublishActivity extends BaseTransparentActivity {
 
                         } else if (null != publicBean && publicBean.getErrno() == 1101) {
                             isSending = true;
-                            right.setTextColor(getResources().getColor(R.color.bg_E73828));
+                            right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             SharedPreferencesUtils.writeString("token", "");
                         } else if (null != publicBean && publicBean.getErrno() != 200) {
                             isSending = true;
-                            right.setTextColor(getResources().getColor(R.color.bg_E73828));
+                            right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
                         } else {
                             isSending = true;
-                            right.setTextColor(getResources().getColor(R.color.bg_E73828));
+                            right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -556,6 +562,7 @@ public class PublishActivity extends BaseTransparentActivity {
                     public void onError(Throwable e) {
                         super.onError(e);
                         isSending = true;
+                        right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });

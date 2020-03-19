@@ -43,6 +43,7 @@ import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
 import com.mebooth.mylibrary.main.home.bean.GetIsFollowJson;
 import com.mebooth.mylibrary.main.home.bean.GetNowDetailsJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.main.view.CommentExpandableListView;
 import com.mebooth.mylibrary.main.view.GloriousRecyclerView;
@@ -634,7 +635,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             commentCount.setText("" + getNowDetailsJson.getData().getTopic().getReplies());
 
                             if (getNowDetailsJson.getData().getTopic().isPraised()) {
-                                collectimg.setImageResource(R.drawable.praise);
+                                collectimg.setImageResource(ResourcseMessage.getPraiseRes());
 
                             } else {
                                 collectimg.setImageResource(R.drawable.nopraise);
@@ -707,7 +708,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                 isClick = true;
                                                                 getNowDetailsJson.getData().getTopic().setPraised(true);
                                                                 ToastUtils.getInstance().showToast("已点赞");
-                                                                collectimg.setImageResource(R.drawable.praise);
+                                                                collectimg.setImageResource(ResourcseMessage.getPraiseRes());
                                                                 getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() + 1);
                                                                 collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
 
@@ -803,8 +804,8 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                 follow.setBackgroundResource(R.drawable.nofollow);
                             } else {
                                 follow.setText("关注");
-                                follow.setTextColor(getResources().getColor(R.color.bg_E73828));
-                                follow.setBackgroundResource(R.drawable.follow);
+                                follow.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
+                                follow.setBackgroundResource(ResourcseMessage.getFollowBackground());
                             }
 
                             follow.setOnClickListener(new View.OnClickListener() {
@@ -831,8 +832,8 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             getIsFollowJson.getData().getUsers().get(0).setFollowed(false);
                                                             ToastUtils.getInstance().showToast("已取消关注");
                                                             follow.setText("关注");
-                                                            follow.setBackgroundResource(R.drawable.follow);
-                                                            follow.setTextColor(getResources().getColor(R.color.bg_E73828));
+                                                            follow.setBackgroundResource(ResourcseMessage.getFollowBackground());
+                                                            follow.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
 
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
