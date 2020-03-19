@@ -100,6 +100,7 @@ public class NewMainFragment extends BaseFragment {
     private ImageView qrCode;
     private String homeMenu = "";
     private ImageView mainLogo;
+    private TextView clickRefresh;
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
@@ -127,6 +128,7 @@ public class NewMainFragment extends BaseFragment {
         qrCode = view.findViewById(R.id.consult_qrcode);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.pager);
+        clickRefresh = view.findViewById(R.id.click_refresh);
         headerIcon = view.findViewById(R.id.userheadericon);
         mainLogo = view.findViewById(R.id.main_logo);
 
@@ -173,6 +175,14 @@ public class NewMainFragment extends BaseFragment {
             }
         });
         title.setText("发现");
+
+        clickRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getTagInfo();
+                getUserInfo();
+            }
+        });
     }
 
     @Override
@@ -294,7 +304,7 @@ public class NewMainFragment extends BaseFragment {
                         super.onNext(entranceJson);
 
                         if (null != entranceJson && entranceJson.getErrno() == 0) {
-
+                            clickRefresh.setVisibility(View.GONE);
                             mTitles.clear();
                             mFragments.clear();
 
@@ -341,14 +351,32 @@ public class NewMainFragment extends BaseFragment {
 
 
                         } else if (null != entranceJson && entranceJson.getErrno() == 1101) {
+                            if(mFragments.size() == 0){
 
+                                clickRefresh.setVisibility(View.VISIBLE);
+
+                            }else{
+                                clickRefresh.setVisibility(View.GONE);
+                            }
                             SharedPreferencesUtils.writeString("token", "");
                             Log.d("NewMainFragment", "token已被清空");
                         } else if (null != entranceJson && entranceJson.getErrno() != 200) {
+                            if(mFragments.size() == 0){
 
+                                clickRefresh.setVisibility(View.VISIBLE);
+
+                            }else{
+                                clickRefresh.setVisibility(View.GONE);
+                            }
 //                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMyUserInfo.getErrmsg()) ? "数据加载失败" : getMyUserInfo.getErrmsg());
                         } else {
+                            if(mFragments.size() == 0){
 
+                                clickRefresh.setVisibility(View.VISIBLE);
+
+                            }else{
+                                clickRefresh.setVisibility(View.GONE);
+                            }
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
@@ -356,7 +384,13 @@ public class NewMainFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
+                        if(mFragments.size() == 0){
 
+                            clickRefresh.setVisibility(View.VISIBLE);
+
+                        }else{
+                            clickRefresh.setVisibility(View.GONE);
+                        }
                         ToastUtils.getInstance().showToast("数据加载失败");
                     }
                 });

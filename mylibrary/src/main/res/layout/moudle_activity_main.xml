@@ -152,7 +152,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -161,6 +161,15 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/click_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="网络无法连接，请检查网络后点击重试"
+            android:textSize="18sp"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 </LinearLayout>
