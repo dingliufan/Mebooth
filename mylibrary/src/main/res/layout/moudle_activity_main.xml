@@ -162,14 +162,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <TextView
+        <ImageView
             android:id="@+id/click_refresh"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:src="@drawable/homeerrorimage"
             android:layout_gravity="center"
-            android:text="网络无法连接，请检查网络后点击重试"
-            android:textSize="18sp"
-            android:visibility="gone"/>
+            android:adjustViewBounds="true"
+            android:visibility="gone" />
     </FrameLayout>
 
 </LinearLayout>

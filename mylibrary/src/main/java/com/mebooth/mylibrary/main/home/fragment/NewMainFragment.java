@@ -100,7 +100,7 @@ public class NewMainFragment extends BaseFragment {
     private ImageView qrCode;
     private String homeMenu = "";
     private ImageView mainLogo;
-    private TextView clickRefresh;
+    private ImageView clickRefresh;
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
