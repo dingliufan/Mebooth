@@ -179,6 +179,7 @@ public class NewMainFragment extends BaseFragment {
         clickRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clickRefresh.setImageResource(R.drawable.homeerror_loading);
                 getTagInfo();
                 getUserInfo();
             }
@@ -354,7 +355,7 @@ public class NewMainFragment extends BaseFragment {
                             if(mFragments.size() == 0){
 
                                 clickRefresh.setVisibility(View.VISIBLE);
-
+                                clickRefresh.setImageResource(R.drawable.homeerrorimage);
                             }else{
                                 clickRefresh.setVisibility(View.GONE);
                             }
@@ -364,7 +365,7 @@ public class NewMainFragment extends BaseFragment {
                             if(mFragments.size() == 0){
 
                                 clickRefresh.setVisibility(View.VISIBLE);
-
+                                clickRefresh.setImageResource(R.drawable.homeerrorimage);
                             }else{
                                 clickRefresh.setVisibility(View.GONE);
                             }
@@ -373,7 +374,7 @@ public class NewMainFragment extends BaseFragment {
                             if(mFragments.size() == 0){
 
                                 clickRefresh.setVisibility(View.VISIBLE);
-
+                                clickRefresh.setImageResource(R.drawable.homeerrorimage);
                             }else{
                                 clickRefresh.setVisibility(View.GONE);
                             }
@@ -387,7 +388,7 @@ public class NewMainFragment extends BaseFragment {
                         if(mFragments.size() == 0){
 
                             clickRefresh.setVisibility(View.VISIBLE);
-
+                            clickRefresh.setImageResource(R.drawable.homeerrorimage);
                         }else{
                             clickRefresh.setVisibility(View.GONE);
                         }
