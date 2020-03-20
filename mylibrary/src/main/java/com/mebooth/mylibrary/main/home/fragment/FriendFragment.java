@@ -123,12 +123,6 @@ public class FriendFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
 
-        if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
-
-            AppApplication.getInstance().setUserTokenJson(AppApplication.getInstance().getUserTokenJson());
-
-        }
-
         title = view.findViewById(R.id.public_title);
         back = view.findViewById(R.id.public_back);
         right = view.findViewById(R.id.public_right);
@@ -219,6 +213,11 @@ public class FriendFragment extends BaseFragment {
         if (!hidden) {
 
             StatusBarUtil.setLightMode(getActivity());
+            if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+
+                AppApplication.getInstance().setUserTokenJson(AppApplication.getInstance().getUserTokenJson());
+
+            }
 
         }
 
