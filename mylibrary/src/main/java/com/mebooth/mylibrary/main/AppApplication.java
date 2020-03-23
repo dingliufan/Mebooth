@@ -92,6 +92,7 @@ public abstract class AppApplication extends Application {
                 //融云线上
                 RongIM.init(this, "8brlm7uf8qp83");
                 getConnectToken();
+                connect();
 
             }
         }
@@ -215,7 +216,7 @@ public abstract class AppApplication extends Application {
 
                         if (null != getRongIMTokenJson && getRongIMTokenJson.getErrno() == 0) {
 
-                            connect(getRongIMTokenJson.getData().getToken());
+                            SharedPreferencesUtils.writeString("rong_token", getRongIMTokenJson.getData().getToken());
 
                         } else if (null != getRongIMTokenJson && getRongIMTokenJson.getErrno() == 1101) {
 
@@ -240,10 +241,10 @@ public abstract class AppApplication extends Application {
                 });
     }
 
-    private void connect(String rongToken) {
+    private void connect() {
 
 //        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
-        RongIMClient.connect(rongToken, new RongIMClient.ConnectCallback() {
+        RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {

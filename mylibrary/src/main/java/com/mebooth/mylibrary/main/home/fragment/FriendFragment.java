@@ -213,11 +213,6 @@ public class FriendFragment extends BaseFragment {
         if (!hidden) {
 
             StatusBarUtil.setLightMode(getActivity());
-            if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
-
-                AppApplication.getInstance().setUserTokenJson(AppApplication.getInstance().getUserTokenJson());
-
-            }
 
         }
 
