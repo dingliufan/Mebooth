@@ -191,15 +191,16 @@
 
             <TextView
                 android:id="@+id/recommenditem_nickname"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:layout_weight="1"
-                android:text="黑暗骑士"
                 android:textColor="@color/bg_000000"
                 android:textSize="17sp" />
-
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/recommenditemzixun_follow"
                 android:layout_width="70dp"
@@ -363,14 +364,16 @@
 
                 <TextView
                     android:id="@+id/recommenditem_nickname1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:text="黑暗骑士"
                     android:textColor="@color/bg_000000"
                     android:textSize="17sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/recommenditem_follow"

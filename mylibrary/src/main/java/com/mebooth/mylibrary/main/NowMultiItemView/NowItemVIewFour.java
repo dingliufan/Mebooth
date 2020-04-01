@@ -2,6 +2,7 @@ package com.mebooth.mylibrary.main.NowMultiItemView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
 import com.mebooth.mylibrary.R;
@@ -17,6 +19,7 @@ import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.AppApplication;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
@@ -157,7 +160,19 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
         UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon), 50, nowDataList.getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
 //        GlideImageManager.glideLoader(context, nowDataList.getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
-        holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
+        if (nowDataList.getUser().getEmployee().equals("Y")) {
+            //昵称
+            Drawable drawableRight = context.getResources().getDrawable(
+                    ResourcseMessage.getIsStaffRes());
+            TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname);
+            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                    null, drawableRight, null);
+            tvNickNameSex.setCompoundDrawablePadding(10);
+            tvNickNameSex.setText(nowDataList.getUser().getNickname());
+        } else {
+            holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
+        }
+
 
         if (nowDataList.getUser().isFollowed()) {
             holder.setText(R.id.recommenditem_follow, "已关注");
@@ -495,9 +510,9 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
                         AppApplication.getInstance().setLogin();
 
                     } else {
-                        Intent intent = new Intent(context, NewsOtherUserActivity.class);
+                        Intent intent = new Intent(context, NewMineActivity.class);
                         intent.putExtra("uid", nowDataList.getUser().getUid());
-                        intent.putExtra("nickname", nowDataList.getUser().getNickname());
+                        intent.putExtra("index", "other");
 
                         context.startActivity(intent);
                     }

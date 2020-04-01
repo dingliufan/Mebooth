@@ -67,6 +67,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
     private boolean isPraise;
     private int type;
     private String foward = "";
+    private boolean isFllow = false;
 
 
     @Override
@@ -120,6 +121,7 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
             type = intent.getIntExtra("type", 1111);
             id = intent.getIntExtra("id", 0);
             isPraise = intent.getBooleanExtra("isPraise", false);
+            isFllow = intent.getBooleanExtra("isFollow", false);
 
             if (index.equals("cancel")) {
 
@@ -147,6 +149,14 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
                     }
                 }
 
+            }else if (index.equals("follow")) {
+                for (int i = 0; i < list.size(); i++) {
+
+                    if (list.get(i).getUser().getUid() == id) {
+                        list.get(i).getUser().setFollowed(isFllow);
+                        commonAdapter.notifyDataSetChanged();
+                    }
+                }
             }
         }
     };
@@ -365,6 +375,6 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
         } else {
             mHandler.removeCallbacksAndMessages(null);
         }
-
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 }

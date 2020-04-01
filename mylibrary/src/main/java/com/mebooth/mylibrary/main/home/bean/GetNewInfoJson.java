@@ -218,6 +218,15 @@ public class GetNewInfoJson {
             private String nickname;
             private String avatar;
             private int uid;
+            private String employee;
+
+            public String getEmployee() {
+                return employee;
+            }
+
+            public void setEmployee(String employee) {
+                this.employee = employee;
+            }
 
             public int getUid() {
                 return uid;

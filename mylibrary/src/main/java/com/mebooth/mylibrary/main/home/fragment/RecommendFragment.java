@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bigkoo.alertview.AlertView;
 import com.bumptech.glide.Glide;
@@ -34,6 +36,7 @@ import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.RecommendAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsFeatureActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
@@ -98,6 +101,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private String foward = "";
     private String banner = "";
     private String entrance = "";
+    private boolean isFllow = false;
 
     public static RecommendFragment getInstance(String foward) {
         RecommendFragment sf = new RecommendFragment();
@@ -168,6 +172,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
             type = intent.getIntExtra("type", 11111);
             id = intent.getIntExtra("id", 0);
             isPraise = intent.getBooleanExtra("isPraise", false);
+            isFllow = intent.getBooleanExtra("isFollow", false);
 
             if (index.equals("cancel")) {
 
@@ -196,6 +201,14 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     }
                 }
 
+            } else if (index.equals("follow")) {
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getUser().getUid() == id) {
+                        recommend.get(i).getUser().setFollowed(isFllow);
+                        commonAdapter.notifyDataSetChanged();
+                    }
+                }
             }
         }
     };
@@ -578,7 +591,20 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         holder.setText(R.id.news_address, recommend.get(position).getFeed().getLocation());
 
 //                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon), GlideImageManager.TAG_ROUND);
-                        holder.setText(R.id.recommenditem_nickname, recommend.get(position).getUser().getNickname());
+                        //昵称
+                        if (recommend.get(position).getUser().getEmployee().equals("Y")) {
+
+                            Drawable drawableRight = getResources().getDrawable(
+                                    ResourcseMessage.getIsStaffRes());
+                            TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname);
+                            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    null, drawableRight, null);
+                            tvNickNameSex.setCompoundDrawablePadding(10);
+                            tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
+                        }else{
+                            holder.setText(R.id.recommenditem_nickname,recommend.get(position).getUser().getNickname());
+
+                        }
 
                         holder.setText(R.id.recommenditem_content, recommend.get(position).getFeed().getContent());
                         holder.setText(R.id.recommenditem_zhaiyao, recommend.get(position).getFeed().getDescribe().replace("\\n", "\n"));
@@ -835,9 +861,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                 } else {
 
-                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
+//                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
+                                    Intent intent = new Intent(getActivity(), NewMineActivity.class);
+                                    intent.putExtra("index", "other");
                                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
-                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+//                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
                                     startActivity(intent);
                                 }
                             }
@@ -922,7 +950,21 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon1), 50, recommend.get(position).getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
 //                        GlideImageManager.glideLoader(getActivity(), recommend.get(position).getUser().getAvatar(), (ImageView) holder.getView(R.id.recommenditem_headericon1), GlideImageManager.TAG_ROUND);
-                        holder.setText(R.id.recommenditem_nickname1, recommend.get(position).getUser().getNickname());
+
+                        if (recommend.get(position).getUser().getEmployee().equals("Y")) {
+
+                            //昵称
+                            Drawable drawableRight = getResources().getDrawable(
+                                    ResourcseMessage.getIsStaffRes());
+                            TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname1);
+                            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    null, drawableRight, null);
+                            tvNickNameSex.setCompoundDrawablePadding(10);
+                            tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
+                        }else{
+                            holder.setText(R.id.recommenditem_nickname1,recommend.get(position).getUser().getNickname());
+
+                        }
 
                         if (recommend.get(position).getUser().isFollowed()) {
                             holder.setText(R.id.recommenditem_follow, "已关注");
@@ -1186,10 +1228,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                     AppApplication.getInstance().setLogin();
 
                                 } else {
-
-                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
+//                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
+                                    Intent intent = new Intent(getActivity(), NewMineActivity.class);
+                                    intent.putExtra("index", "other");
                                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
-                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+//                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
                                     startActivity(intent);
                                 }
                             }
@@ -1341,6 +1384,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
             mHandler.removeCallbacksAndMessages(null);
         }
 
+        getActivity().unregisterReceiver(broadcastReceiver);
 
     }
 

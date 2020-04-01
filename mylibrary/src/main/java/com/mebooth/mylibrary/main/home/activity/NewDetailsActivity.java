@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -977,7 +978,20 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             headerLayout2.setFocusable(true);
                             //头像昵称
                             GlideImageManager.glideLoader(NewDetailsActivity.this, getNewInfoJson.getData().getUser().getAvatar(), newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
-                            newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
+                            if(getNewInfoJson.getData().getUser().getEmployee().equals("Y")){
+
+                                //昵称
+                                Drawable drawableRight = getResources().getDrawable(
+                                        ResourcseMessage.getIsStaffRes());
+                                newdetailsNickName.setCompoundDrawablesWithIntrinsicBounds(null,
+                                        null, drawableRight, null);
+                                newdetailsNickName.setCompoundDrawablePadding(10);
+                                newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
+
+                            }else{
+                                newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
+                            }
+
                             newdetailsBrowse.setText(getNewInfoJson.getData().getNews().getWatches() + "人浏览");
                             newdetailsComment.setText("" + getNewInfoJson.getData().getNews().getReplies());
 

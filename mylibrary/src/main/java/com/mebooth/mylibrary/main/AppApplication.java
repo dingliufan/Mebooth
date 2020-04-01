@@ -83,8 +83,8 @@ public abstract class AppApplication extends Application {
         //获取融云token（）：
         if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-        } else {
-            if (getCurProcessName(app).equals("io.rong.push") || getCurProcessName(app).contains("ipc")) {
+            } else {
+                if (getCurProcessName(app).equals("io.rong.push") || getCurProcessName(app).contains("ipc")) {
 
             } else {
                 //融云测试

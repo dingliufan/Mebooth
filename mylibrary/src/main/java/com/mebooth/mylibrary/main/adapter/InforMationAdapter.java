@@ -2,6 +2,7 @@ package com.mebooth.mylibrary.main.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
@@ -112,7 +114,22 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
             holder.collectImg.setImageResource(R.drawable.nopraise);
         }
 
-        holder.nickName.setText(recommend.get(position).getUser().getNickname());
+        if (recommend.get(position).getUser().getEmployee().equals("Y")) {
+            //昵称
+            //昵称
+            Drawable drawableRight = context.getResources().getDrawable(
+                    ResourcseMessage.getIsStaffRes());
+            TextView tvNickNameSex = holder.nickName;
+            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                    null, drawableRight, null);
+            tvNickNameSex.setCompoundDrawablePadding(10);
+            tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
+        } else {
+            holder.nickName.setText(recommend.get(position).getUser().getNickname());
+        }
+
+
+
         holder.content.setText(recommend.get(position).getFeed().getContent());
         holder.zhaiYao.setText(recommend.get(position).getFeed().getDescribe().replace("\\n", "\n"));
 
@@ -369,9 +386,9 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
                 } else {
 
-                    Intent intent = new Intent(context, NewsOtherUserActivity.class);
+                    Intent intent = new Intent(context, NewMineActivity.class);
                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
-                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                    intent.putExtra("index", "other");
                     context.startActivity(intent);
                 }
             }

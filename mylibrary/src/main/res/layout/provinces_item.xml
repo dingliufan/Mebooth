@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/bg_f6f6f6">
+
+    <LinearLayout
+        android:id="@+id/provincesitem_hotcity_lly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24.67dp"
+            android:layout_marginTop="20dp"
+            android:text="热门城市"
+            android:textColor="@color/bg_666666"
+            android:textSize="13.33sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/provincesitem_hotcity_recycle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24.67dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginBottom="12dp"
+            android:text="国内其他地区"
+            android:textColor="@color/bg_666666"
+            android:textSize="13.33sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/provincesitem_city_lly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/bg_ffffff">
+
+        <TextView
+            android:id="@+id/provincesitem_city"
+            android:layout_width="match_parent"
+            android:layout_height="45.33dp"
+            android:layout_marginLeft="24dp"
+            android:gravity="center_vertical"
+            android:text="北京市"
+            android:textColor="@color/bg_333333" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="24.67dp"
+            android:layout_marginRight="24.67dp"
+            android:background="@color/bg_dddddd" />
+    </LinearLayout>
+
+</LinearLayout>

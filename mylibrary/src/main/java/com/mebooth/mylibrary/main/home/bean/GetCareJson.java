@@ -60,6 +60,24 @@ public class GetCareJson {
             private String avatar;
             private String mobile;
             private String addtime;
+            private String signature;
+            private boolean followed;
+
+            public String getSignature() {
+                return signature;
+            }
+
+            public void setSignature(String signature) {
+                this.signature = signature;
+            }
+
+            public boolean isFollowed() {
+                return followed;
+            }
+
+            public void setFollowed(boolean followed) {
+                this.followed = followed;
+            }
 
             public int getUid() {
                 return uid;

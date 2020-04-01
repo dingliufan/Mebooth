@@ -78,6 +78,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     private int id;
     private boolean isPraise;
     private String foward = "";
+    private boolean isFllow = false;
 
     public static InformationFragment getInstance(String foward) {
         InformationFragment sf = new InformationFragment();
@@ -129,7 +130,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
             type = intent.getIntExtra("type", 1111);
             id = intent.getIntExtra("id", 0);
             isPraise = intent.getBooleanExtra("isPraise", false);
-
+            isFllow = intent.getBooleanExtra("isFollow", false);
             if (index.equals("cancel")) {
 
                 for (int i = 0; i < recommend.size(); i++) {
@@ -156,6 +157,14 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
                     }
                 }
 
+            } else if (index.equals("follow")) {
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getUser().getUid() == id) {
+                        recommend.get(i).getUser().setFollowed(isFllow);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
             }
         }
     };
@@ -357,7 +366,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
     public void onResume() {
         super.onResume();
 
-        if(isInformationRefresh){
+        if (isInformationRefresh) {
 
             ServiceFactory.getNewInstance()
                     .createService(YService.class)
@@ -421,7 +430,7 @@ public class InformationFragment extends BaseFragment implements OnLoadMoreListe
         } else {
             mHandler.removeCallbacksAndMessages(null);
         }
-
+        getActivity().unregisterReceiver(broadcastReceiver);
 
     }
 

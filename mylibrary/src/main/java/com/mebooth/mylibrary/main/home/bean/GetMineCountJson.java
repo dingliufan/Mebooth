@@ -55,6 +55,45 @@ public class GetMineCountJson {
             private int uid;
             private String nickname;
             private String avatar;
+            private String employee;
+            //性别
+            private String gender;
+            //城市
+            private String city;
+            //签名
+            private String signature;
+
+            public String getEmployee() {
+                return employee;
+            }
+
+            public void setEmployee(String employee) {
+                this.employee = employee;
+            }
+
+            public String getGender() {
+                return gender;
+            }
+
+            public void setGender(String gender) {
+                this.gender = gender;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getSignature() {
+                return signature;
+            }
+
+            public void setSignature(String signature) {
+                this.signature = signature;
+            }
 
             public int getUid() {
                 return uid;
@@ -87,6 +126,15 @@ public class GetMineCountJson {
             private int following;
             private int praise;
             private int favorite;
+            private int follower;
+
+            public int getFollower() {
+                return follower;
+            }
+
+            public void setFollower(int follower) {
+                this.follower = follower;
+            }
 
             public int getFavorite() {
                 return favorite;

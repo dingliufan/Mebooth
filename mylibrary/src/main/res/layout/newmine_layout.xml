@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_ffffff">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/classify_smart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false"
+            app:srlEnableRefresh="true">
+
+            <!--type1 去掉srlDragRate，srlHeaderMaxDragRate，srlHeaderTriggerRate,srlReboundDuration -->
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_40"
+                app:srlTextFinish="刷新成功"/>
+
+            <!-- type2  SmartRefreshLayout设置相关属性
+            app:srlDragRate="1.8"
+            app:srlHeaderMaxDragRate="5"
+            app:srlReboundDuration="600"
+            app:srlHeaderTriggerRate="3"-->
+            <!--<com.scwang.smartrefresh.header.MaterialHeader-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/classify_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never" />
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:id="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/font_48"
+                app:layout_srlSpinnerStyle="Translate"
+                app:srlTextNothing="没有更多内容了"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <LinearLayout
+            android:id="@+id/newmine_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/bg_ffffff">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <ImageView
+                    android:id="@+id/newmine_header_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/back" />
+
+                <ImageView
+                    android:id="@+id/newmine_header_chat"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/chaticon"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/newmine_editinfo"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:text="编辑个人信息"
+        android:textColor="@color/bg_ffffff"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:background="@color/bg_E73828"/>
+    
+</LinearLayout>

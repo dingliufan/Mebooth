@@ -68,6 +68,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
     private int id;
     private boolean isPraise;
     private String foward = "";
+    private boolean isFllow = false;
 
     public static ExperienceFragment getInstance(String foward) {
         ExperienceFragment sf = new ExperienceFragment();
@@ -118,7 +119,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
             type = intent.getIntExtra("type", 1111);
             id = intent.getIntExtra("id", 0);
             isPraise = intent.getBooleanExtra("isPraise", false);
-
+            isFllow = intent.getBooleanExtra("isFollow", false);
             if (index.equals("cancel")) {
 
                 for (int i = 0; i < recommend.size(); i++) {
@@ -145,6 +146,14 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
                     }
                 }
 
+            }else if (index.equals("follow")) {
+                for (int i = 0; i < recommend.size(); i++) {
+
+                    if (recommend.get(i).getUser().getUid() == id) {
+                        recommend.get(i).getUser().setFollowed(isFllow);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
             }
         }
     };
@@ -380,7 +389,7 @@ public class ExperienceFragment extends BaseFragment implements OnLoadMoreListen
         super.onDestroy();
 
         mHandler.removeCallbacksAndMessages(null);
-
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 
 }

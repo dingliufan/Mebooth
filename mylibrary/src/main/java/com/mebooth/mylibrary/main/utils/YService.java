@@ -1,5 +1,6 @@
 package com.mebooth.mylibrary.main.utils;
 
+import com.mebooth.mylibrary.main.home.bean.CityListJson;
 import com.mebooth.mylibrary.main.home.bean.CommentOnJson;
 import com.mebooth.mylibrary.main.home.bean.CustomizeJson;
 import com.mebooth.mylibrary.main.home.bean.EntranceJson;
@@ -18,6 +19,7 @@ import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
 import com.mebooth.mylibrary.main.home.bean.GetRongIMTokenJson;
 import com.mebooth.mylibrary.main.home.bean.GetShareInfoJson;
 import com.mebooth.mylibrary.main.home.bean.PlacesInfoJson;
+import com.mebooth.mylibrary.main.home.bean.ProvincesListJson;
 import com.mebooth.mylibrary.main.home.bean.PublicBean;
 import com.mebooth.mylibrary.main.home.bean.UpdateHeaderFileJson;
 import com.mebooth.mylibrary.main.home.bean.UserNewsListJson;
@@ -36,10 +38,10 @@ import retrofit2.http.Url;
 
 public interface YService {
     //测试
-//    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
+    String BASE_URL = "http://test-tataclub.baojiawangluo.com/";
     //外网s
 //    String BASE_URL = "http://test.tatabike.com/";
-    String BASE_URL = "http://tataclub.baojiawangluo.com/";
+//    String BASE_URL = "http://tataclub.baojiawangluo.com/";
     //    String BASE_URL_H5 = "http://www.tata.club/";
 //    String BASE_URL_H5 = "https://tatah5.baojiawangluo.com/";
 
@@ -52,7 +54,7 @@ public interface YService {
     //此刻列表
     @FormUrlEncoded
     @POST(BASE_URL + "topic/getLatest")
-    Observable<GetNowJson> getNow(@Field("platform") String platform,@Field("offset") String offset, @Field("num") int num);
+    Observable<GetNowJson> getNow(@Field("platform") String platform, @Field("offset") String offset, @Field("num") int num);
 
     //    Observable<GetNowJson> getNow();
     //此刻列表详情
@@ -101,7 +103,7 @@ public interface YService {
     @FormUrlEncoded
     @POST(BASE_URL + "topic/add")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<PublicBean> publishTopic(@Field("content") String content, @Field("location") String location, @Field("images") String images,@Field("platform") String platform);
+    Observable<PublicBean> publishTopic(@Field("content") String content, @Field("location") String location, @Field("images") String images, @Field("platform") String platform);
 
     //发布新闻
     @FormUrlEncoded
@@ -186,6 +188,11 @@ public interface YService {
     @POST(BASE_URL + "follow/getFollowings")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<GetCareJson> getCareList(@Field("offset") String offset, @Field("num") int num);
+    //我的粉丝
+    @FormUrlEncoded
+    @POST(BASE_URL + "follow/getFollowers")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<GetCareJson> getFansList(@Field("offset") String offset, @Field("num") int num);
 
     //用户关注的人
     @FormUrlEncoded
@@ -242,10 +249,28 @@ public interface YService {
     @POST()
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
     Observable<CustomizeJson> customiseInfo(@Url String url);
+
     //获取附近地点
     @FormUrlEncoded
     @POST(BASE_URL + "config/getPlaces")
 //    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
-    Observable<PlacesInfoJson> placesInfo(@Field("lng") String lng,@Field("lat") String lat);
+    Observable<PlacesInfoJson> placesInfo(@Field("lng") String lng, @Field("lat") String lat);
 
+    //获取省份
+//    @FormUrlEncoded
+    @POST(BASE_URL + "config/getProvinces")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<ProvincesListJson> ProvincesListInfo();
+
+    //获取省份所管辖的市
+    @FormUrlEncoded
+    @POST(BASE_URL + "config/getCitys")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<CityListJson> CityListInfo(@Field("province") String province);
+
+    //保存个人信息
+    @FormUrlEncoded
+    @POST(BASE_URL + "user/setUserInfo")
+//    Observable<UpdateHeaderFileJson> updateRepairFile(@PartMap Map<String, RequestBody> params);
+    Observable<PublicBean> setUserInfo(@Field("avatar") String avatar,@Field("nickname") String nickname,@Field("gender") String gender,@Field("city") String city,@Field("signature") String signature);
 }

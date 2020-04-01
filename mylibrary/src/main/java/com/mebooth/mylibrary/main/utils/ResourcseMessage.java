@@ -89,4 +89,18 @@ public class ResourcseMessage {
         }
     }
 
+    //不同的包名 不同的点赞
+    public static int getIsStaffRes() {
+
+        if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
+
+            return R.drawable.staff_tab_xiaomi;
+
+        } else if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.baojia.mebike")) {
+            return R.drawable.staff_tab_xiaomi;
+        } else {
+            return R.drawable.staff_tab;
+        }
+    }
+
 }

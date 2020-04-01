@@ -81,6 +81,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="bg_9a9a9a">#9a9a9a</color>
     <color name="bg_333333">#333333</color>
+    <color name="bg_979797">#979797</color>
     <color name="bg_dddddd">#dddddd</color>
     <color name="bg_f1f1f3">#f1f1f3</color>
     <color name="bg_999999">#999999</color>
@@ -88,6 +89,8 @@
     <color name="bg_f2f2f7">#f2f2f7</color>
     <color name="bg_e5e5e5">#e5e5e5</color>
     <color name="bg_80ffffff">#80ffffff</color>
+    <color name="bg_F0EDF1">#F0EDF1</color>
+    <color name="bg_bebebe">#bebebe</color>
 
     <color name="ic_back_press">#323336</color>
     <color name="ip_color_primary">#393A3F</color>

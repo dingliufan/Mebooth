@@ -34,7 +34,9 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.adapter.MineOrderPagerAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
+import com.mebooth.mylibrary.main.home.activity.EditUserInfoActivity;
 import com.mebooth.mylibrary.main.home.activity.MineActivity;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsPublishActivity;
 import com.mebooth.mylibrary.main.home.activity.PublishActivity;
 import com.mebooth.mylibrary.main.home.bean.EntranceJson;
@@ -259,9 +261,10 @@ public class NewMainFragment extends BaseFragment {
                     AppApplication.getInstance().setLogin();
 
                 } else {
-                    Intent intent = new Intent(getActivity(), MineActivity.class);
-//                    Intent intent = new Intent(getActivity(), FriendFragment.class);
+//                    Intent intent = new Intent(getActivity(), MineActivity.class);
+                    Intent intent = new Intent(getActivity(), NewMineActivity.class);
                     intent.putExtra("uid", uid);
+                    intent.putExtra("index", "mine");
                     intent.putExtra("headericon", headerIconStr);
                     intent.putExtra("nickname", nickName);
                     startActivity(intent);
@@ -527,7 +530,7 @@ public class NewMainFragment extends BaseFragment {
                                             @Override
                                             public void onItemClick(Object o, int position) {
                                                 if (position == 0) {
-                                                    Intent intent = new Intent(getActivity(), MineActivity.class);
+                                                    Intent intent = new Intent(getActivity(), EditUserInfoActivity.class);
 //                    Intent intent = new Intent(getActivity(), FriendFragment.class);
                                                     intent.putExtra("uid", uid);
                                                     intent.putExtra("headericon", headerIconStr);

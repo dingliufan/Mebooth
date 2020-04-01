@@ -184,6 +184,15 @@ public class GetNowJson {
                 private String nickname;
                 private String avatar;
                 private boolean followed;
+                private String employee;
+
+                public String getEmployee() {
+                    return employee;
+                }
+
+                public void setEmployee(String employee) {
+                    this.employee = employee;
+                }
 
                 public boolean isFollowed() {
                     return followed;

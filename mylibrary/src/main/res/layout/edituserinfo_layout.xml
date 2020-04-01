@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_F0EDF1">
+
+    <include layout="@layout/public_header"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_eeeeee"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="146dp"
+        android:background="@color/bg_ffffff">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/edituserinfo_headericon"
+                android:layout_width="97dp"
+                android:layout_height="99dp"
+                android:src="@drawable/defaulticon"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/edit_photo_icon"
+                android:layout_gravity="bottom|right"
+                android:layout_marginRight="5dp"/>
+
+        </FrameLayout>
+
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/bg_ffffff"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="昵称"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_marginLeft="22.5dp"/>
+        <EditText
+            android:id="@+id/edituserinfo_nickname"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_gravity="center_vertical"
+            android:hint="请输入您的昵称"
+            android:background="@null"
+            android:maxLines="12"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/edituserinfo_nickname_delete"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/editclear"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_eeeeee"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/bg_ffffff">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="简介"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_marginLeft="22.5dp"/>
+        <EditText
+            android:id="@+id/edituserinfo_autograph"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_gravity="center_vertical"
+            android:hint="请输入您的简介"
+            android:background="@null"
+            android:maxLines="10"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/edituserinfo_autograph_delete"
+            android:layout_width="0dp"
+            android:layout_weight="0.1"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/editclear"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_eeeeee"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/bg_ffffff">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="性别"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_marginLeft="22.5dp"/>
+        <RadioGroup
+            android:id="@+id/edituserinfo_rg"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
+
+            <RadioButton
+                android:id="@+id/edituserinfo_rb_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="男"
+                android:textSize="16sp"
+                android:textColor="@color/bg_333333"
+                android:paddingHorizontal="10dp"
+                android:button="@drawable/edituserinfo_choosesex"/>
+
+            <RadioButton
+                android:id="@+id/edituserinfo_rb_woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:textSize="16sp"
+                android:layout_marginLeft="48.5dp"
+                android:textColor="@color/bg_979797"
+                android:paddingHorizontal="10dp"
+                android:button="@drawable/edituserinfo_choosesex"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/bg_eeeeee"
+        android:layout_marginLeft="22.5dp"
+        android:layout_marginRight="22.5dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/bg_ffffff">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:text="用车城市"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_marginLeft="22.5dp"/>
+        <TextView
+            android:id="@+id/edituserinfo_city"
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/bg_333333"
+            android:textSize="16sp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -596,7 +597,20 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             }
 
                             GlideImageManager.glideLoader(NowDetailsActivity.this, getNowDetailsJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
-                            nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
+
+                            if(getNowDetailsJson.getData().getUser().getEmployee().equals("Y")){
+
+                                //昵称
+                                Drawable drawableRight = getResources().getDrawable(
+                                        ResourcseMessage.getIsStaffRes());
+                                nickName.setCompoundDrawablesWithIntrinsicBounds(null,
+                                        null, drawableRight, null);
+                                nickName.setCompoundDrawablePadding(10);
+                                nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
+
+                            }else{
+                                nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
+                            }
 
                             Date date = DateUtils.parseDate(getNowDetailsJson.getData().getTopic().getAddtime(), "yyyy-MM-dd HH:mm:ss");
                             if (date == null) {
@@ -713,7 +727,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                 collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
 
                                                                 Intent intent = new Intent("dataRefresh");
-                                                                intent.putExtra("index", "cancel");
+                                                                intent.putExtra("index", "add");
                                                                 intent.putExtra("type", 1);
                                                                 intent.putExtra("id", getNowDetailsJson.getData().getTopic().getTid());
                                                                 intent.putExtra("isPraise", true);

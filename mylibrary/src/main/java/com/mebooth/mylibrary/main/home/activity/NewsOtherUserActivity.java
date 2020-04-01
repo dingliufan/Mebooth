@@ -163,7 +163,7 @@ public class NewsOtherUserActivity extends BaseTransparentActivity implements On
                 });
 
                 if (position == 0) {
-                    holder.setVisible(R.id.bgf6f6f6,View.VISIBLE);
+//                    holder.setVisible(R.id.bgf6f6f6,View.VISIBLE);
                     commonAdapter1 = new CommonAdapter(NewsOtherUserActivity.this, R.layout.usernews_item, userNewsList) {
                         @Override
                         protected void convert(ViewHolder holder, Object o, final int position) {
@@ -201,7 +201,7 @@ public class NewsOtherUserActivity extends BaseTransparentActivity implements On
                     recyclerView1.setAdapter(commonAdapter1);
 
                 } else if (position == 1) {
-                    holder.setVisible(R.id.bgf6f6f6,View.GONE);
+//                    holder.setVisible(R.id.bgf6f6f6,View.GONE);
                     NoPublish noPublishinterface = new NoPublish() {
                         @Override
                         public void isPublish() {
