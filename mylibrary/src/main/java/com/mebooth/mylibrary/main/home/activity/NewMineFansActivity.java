@@ -377,7 +377,6 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
     }
 
     private void connect(final int uidIndex, final String nickName) {
-        ToastUtils.getInstance().showToast("开始链接");
 //        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
         RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
             @Override

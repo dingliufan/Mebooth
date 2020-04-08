@@ -209,7 +209,6 @@ public class FriendFragment extends BaseFragment {
     }
 
     private void connect() {
-        ToastUtils.getInstance().showToast("开始链接");
 //        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
         RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
             @Override
