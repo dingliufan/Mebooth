@@ -263,9 +263,9 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
         }
 
-        holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
-        holder.setText(R.id.recommenditem_comment, String.valueOf(nowDataList.getTopic().getReplies()));
-        holder.setText(R.id.recommenditem_browsecount, String.valueOf(nowDataList.getTopic().getWatches()));
+        holder.setText(R.id.recommenditem_collect, StringUtil.formatBigNum(String.valueOf(nowDataList.getTopic().getPraises())));
+        holder.setText(R.id.recommenditem_comment, StringUtil.formatBigNum(String.valueOf(nowDataList.getTopic().getReplies())));
+        holder.setText(R.id.recommenditem_browsecount, StringUtil.formatBigNum(String.valueOf(nowDataList.getTopic().getWatches())));
 
         holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {
             @Override
@@ -435,7 +435,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
                                                 ToastUtils.getInstance().showToast("已取消点赞");
                                                 holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
                                                 nowDataList.getTopic().setPraises(nowDataList.getTopic().getPraises() - 1);
-                                                holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
+                                                holder.setText(R.id.recommenditem_collect, StringUtil.formatBigNum(String.valueOf(nowDataList.getTopic().getPraises())));
                                             }
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
@@ -475,7 +475,7 @@ public class NowItemVIewFour implements ItemViewDelegate<GetNowJson.NowData.NowD
                                             ToastUtils.getInstance().showToast("已点赞");
                                             holder.setImageResource(R.id.recommenditem_collect_img, ResourcseMessage.getPraiseRes());
                                             nowDataList.getTopic().setPraises(nowDataList.getTopic().getPraises() + 1);
-                                            holder.setText(R.id.recommenditem_collect, String.valueOf(nowDataList.getTopic().getPraises()));
+                                            holder.setText(R.id.recommenditem_collect, StringUtil.formatBigNum(String.valueOf(nowDataList.getTopic().getPraises())));
                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());

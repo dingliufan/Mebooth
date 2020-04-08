@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
 import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
+import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.mebooth.mylibrary.utils.UIUtils;
 
@@ -206,6 +208,34 @@ public class FriendFragment extends BaseFragment {
 
     }
 
+    private void connect() {
+        ToastUtils.getInstance().showToast("开始链接");
+//        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
+        RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+//                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+//
+//                } else {
+//                    getConnectToken();
+//                }
+            }
+
+            @Override
+            public void onSuccess(String userid) {
+                Log.d("TAG", "--onSuccess" + userid);
+//                ToastUtils.getInstance().showToast("已连接融云");
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.d("TAG", "--onSuccess" + errorCode);
+                ToastUtils.getInstance().showToast("连接融云失败");
+            }
+        });
+
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -213,6 +243,10 @@ public class FriendFragment extends BaseFragment {
         if (!hidden) {
 
             StatusBarUtil.setLightMode(getActivity());
+            if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+
+                connect();
+            }
 
         }
 

@@ -92,7 +92,7 @@ public abstract class AppApplication extends Application {
                 //融云线上
                 RongIM.init(this, "8brlm7uf8qp83");
                 getConnectToken();
-                connect();
+//                connect();
 
             }
         }
@@ -239,34 +239,6 @@ public abstract class AppApplication extends Application {
                         Log.d("TAG", getCurProcessName(app));
                     }
                 });
-    }
-
-    private void connect() {
-
-//        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
-        RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
-
-                } else {
-                    getConnectToken();
-                }
-            }
-
-            @Override
-            public void onSuccess(String userid) {
-                Log.d("TAG", "--onSuccess" + userid);
-//                ToastUtils.getInstance().showToast("已连接融云");
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                Log.d("TAG", "--onSuccess" + errorCode);
-                ToastUtils.getInstance().showToast("连接融云失败");
-            }
-        });
-
     }
 
     //

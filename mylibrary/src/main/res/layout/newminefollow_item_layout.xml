@@ -49,9 +49,7 @@
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
-            android:background="@drawable/follow"
             android:gravity="center"
-            android:text="聊天"
             android:textColor="@color/bg_E73828"
             android:textSize="14sp" />
 

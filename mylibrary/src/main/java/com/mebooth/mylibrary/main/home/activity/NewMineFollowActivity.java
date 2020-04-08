@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.base.BaseTransparentActivity;
 import com.mebooth.mylibrary.main.home.bean.GetCareJson;
 import com.mebooth.mylibrary.main.home.bean.GetMeCollectJson;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class NewMineFollowActivity extends BaseTransparentActivity implements OnLoadMoreListener, OnRefreshListener {
 
@@ -266,11 +269,20 @@ public class NewMineFollowActivity extends BaseTransparentActivity implements On
                     holder.setText(R.id.newminefollow_item_signature, list.get(position).getSignature());
                 }
 
+                holder.setTextColor(R.id.newminefollow_item_follow, getResources().getColor(ResourcseMessage.getFontColor()));
+                holder.setBackgroundRes(R.id.newminefollow_item_follow, ResourcseMessage.getFollowBackground());
+
                 holder.setOnClickListener(R.id.newminefollow_item_follow, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        RongIM.getInstance().startPrivateChat(NewMineFollowActivity.this, String.valueOf(list.get(position).getUid()), list.get(position).getNickname());
+                        if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+
+                            connect(list.get(position).getUid(),list.get(position).getNickname());
+                        }else{
+
+                            RongIM.getInstance().startPrivateChat(NewMineFollowActivity.this, String.valueOf(list.get(position).getUid()), list.get(position).getNickname());
+                        }
 
                     }
                 });
@@ -300,6 +312,38 @@ public class NewMineFollowActivity extends BaseTransparentActivity implements On
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(commonAdapter);
+
+    }
+
+    private void connect(final int uidIndex, final String nickName) {
+        ToastUtils.getInstance().showToast("开始链接");
+//        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
+        RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+//                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+//
+//                } else {
+//                    getConnectToken();
+//                }
+            }
+
+            @Override
+            public void onSuccess(String userid) {
+                Log.d("TAG", "--onSuccess" + userid);
+//                ToastUtils.getInstance().showToast("已连接融云");
+
+                RongIM.getInstance().startPrivateChat(NewMineFollowActivity.this, String.valueOf(uidIndex), nickName);
+
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.d("TAG", "--onSuccess" + errorCode);
+                ToastUtils.getInstance().showToast("连接融云失败");
+            }
+        });
 
     }
 

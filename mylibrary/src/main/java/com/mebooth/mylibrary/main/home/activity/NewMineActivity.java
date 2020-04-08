@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class NewMineActivity extends BaseTransparentActivity implements OnRefreshListener {
 
@@ -190,6 +191,8 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
         IntentFilter filter = new IntentFilter("dataRefresh");
         registerReceiver(broadcastReceiver, filter);
 
+        editInfo.setBackgroundColor(getResources().getColor(ResourcseMessage.getFontColor()));
+
         if (!index.equals("mine")) {
             getIsFollow();
             editInfo.setText("关注");
@@ -258,7 +261,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                             } else {
                                 editInfo.setText("关注");
                                 editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
-                                editInfo.setBackgroundColor(getResources().getColor(R.color.bg_E73828));
+                                editInfo.setBackgroundColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             }
 
                             editInfo.setOnClickListener(new View.OnClickListener() {
@@ -415,6 +418,8 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                     holder.setVisible(R.id.newmine_header, View.VISIBLE);
                     holder.setVisible(R.id.newmine_header_recycle, View.GONE);
 
+                    holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
+
                     if (newUserInfo.getData().getUser().getEmployee().equals("Y")) {
                         holder.setVisible(R.id.staff_tab, View.VISIBLE);
                     } else {
@@ -554,8 +559,8 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 //                        holder.setVisible(R.id.newmine_header_recycle, View.GONE);
 //                    }else{
 
-                        holder.setVisible(R.id.newmine_header, View.GONE);
-                        holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
+                    holder.setVisible(R.id.newmine_header, View.GONE);
+                    holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
 //                    }
                     commonAdapter1 = new CommonAdapter(NewMineActivity.this, R.layout.usernews_item, userNewsList) {
                         @Override
@@ -634,9 +639,9 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 //                        holder.setVisible(R.id.bgf6f6f6, View.GONE);
 //                    }else{
 
-                        holder.setVisible(R.id.newmine_header, View.GONE);
-                        holder.setVisible(R.id.bgf6f6f6, View.GONE);
-                        holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
+                    holder.setVisible(R.id.newmine_header, View.GONE);
+                    holder.setVisible(R.id.bgf6f6f6, View.GONE);
+                    holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
 //                    }
 
 //                    holder.setVisible(R.id.newmine_header, View.GONE);
@@ -885,8 +890,15 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                             chat.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    RongIM.getInstance().startPrivateChat(NewMineActivity.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
 
+                                    if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+
+                                        connect();
+                                    }else{
+
+                                        RongIM.getInstance().startPrivateChat(NewMineActivity.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
+
+                                    }
                                 }
                             });
 
@@ -914,6 +926,38 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                     }
                 });
 
+
+    }
+
+    private void connect() {
+        ToastUtils.getInstance().showToast("开始链接");
+//        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
+        RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+//                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+//
+//                } else {
+//                    getConnectToken();
+//                }
+            }
+
+            @Override
+            public void onSuccess(String userid) {
+                Log.d("TAG", "--onSuccess" + userid);
+//                ToastUtils.getInstance().showToast("已连接融云");
+
+                RongIM.getInstance().startPrivateChat(NewMineActivity.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
+
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.d("TAG", "--onSuccess" + errorCode);
+                ToastUtils.getInstance().showToast("连接融云失败");
+            }
+        });
 
     }
 

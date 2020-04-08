@@ -663,9 +663,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             holder.setImageResource(R.id.recommenditemzixun_collect_img, R.drawable.nopraise);
                         }
 
-                        holder.setText(R.id.recommenditem_browsecount, String.valueOf(recommend.get(position).getFeed().getWatches()));
-                        holder.setText(R.id.recommenditem_commentcount, String.valueOf(recommend.get(position).getFeed().getReplies()));
-                        holder.setText(R.id.recommenditemzixun_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
+                        holder.setText(R.id.recommenditem_browsecount, StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getWatches())));
+                        holder.setText(R.id.recommenditem_commentcount, StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getReplies())));
+                        holder.setText(R.id.recommenditemzixun_collect, StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getPraises())));
 
                         holder.setOnClickListener(R.id.recommenditemzixun_follow, new View.OnClickListener() {
                             @Override
@@ -1029,9 +1029,9 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         } else {
                             holder.setImageResource(R.id.recommenditem_collect_img, R.drawable.nopraise);
                         }
-                        holder.setText(R.id.recommenditem_collect, String.valueOf(recommend.get(position).getFeed().getPraises()));
-                        holder.setText(R.id.recommenditem_comment, String.valueOf(recommend.get(position).getFeed().getReplies()));
-                        holder.setText(R.id.recommenditem_browsecount1, String.valueOf(recommend.get(position).getFeed().getWatches()));
+                        holder.setText(R.id.recommenditem_collect, StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getPraises())));
+                        holder.setText(R.id.recommenditem_comment, StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getReplies())));
+                        holder.setText(R.id.recommenditem_browsecount1, StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getWatches())));
 
 
                         holder.setOnClickListener(R.id.recommenditem_follow, new View.OnClickListener() {

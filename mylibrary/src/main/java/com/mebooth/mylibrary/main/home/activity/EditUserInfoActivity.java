@@ -33,6 +33,7 @@ import com.mebooth.mylibrary.main.home.bean.UpdateHeaderFileJson;
 import com.mebooth.mylibrary.main.utils.GlideEngine;
 import com.mebooth.mylibrary.main.utils.GlideLoader;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
+import com.mebooth.mylibrary.main.utils.ResourcseMessage;
 import com.mebooth.mylibrary.main.utils.YService;
 import com.mebooth.mylibrary.net.CommonObserver;
 import com.mebooth.mylibrary.net.ServiceFactory;
@@ -76,7 +77,7 @@ public class EditUserInfoActivity extends BaseTransparentActivity {
     private TextView right;
 
     private int chooseMode = PictureMimeType.ofImage();
-    public static List<LocalMedia> selectList = new ArrayList<>();
+    public List<LocalMedia> selectList = new ArrayList<>();
 
     @Override
     protected int getContentViewId() {
@@ -104,6 +105,9 @@ public class EditUserInfoActivity extends BaseTransparentActivity {
         sexRadioGroup = findViewById(R.id.edituserinfo_rg);
         sexRadioButtonMan = findViewById(R.id.edituserinfo_rb_man);
         sexRadioButtonWoMan = findViewById(R.id.edituserinfo_rb_woman);
+
+        sexRadioButtonMan.setButtonDrawable(ResourcseMessage.getEditMineSexBg());
+        sexRadioButtonWoMan.setButtonDrawable(ResourcseMessage.getEditMineSexBg());
 
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);

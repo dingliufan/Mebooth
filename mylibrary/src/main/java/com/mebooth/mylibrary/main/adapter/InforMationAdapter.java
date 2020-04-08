@@ -190,9 +190,9 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 //        holder..setText(time);
 
 
-        holder.browseCount.setText(String.valueOf(recommend.get(position).getFeed().getWatches()));
-        holder.commentCout.setText(String.valueOf(recommend.get(position).getFeed().getReplies()));
-        holder.collect.setText(String.valueOf(recommend.get(position).getFeed().getPraises()));
+        holder.browseCount.setText(StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getWatches())));
+        holder.commentCout.setText(StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getReplies())));
+        holder.collect.setText(StringUtil.formatBigNum(String.valueOf(recommend.get(position).getFeed().getPraises())));
 
         holder.follow.setOnClickListener(new View.OnClickListener() {
             @Override

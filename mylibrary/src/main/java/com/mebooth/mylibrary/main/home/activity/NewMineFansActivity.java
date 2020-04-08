@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import java.util.ArrayList;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 public class NewMineFansActivity extends BaseTransparentActivity implements OnLoadMoreListener, OnRefreshListener {
 
@@ -289,7 +291,13 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
 
                         if(list.get(position).isFollowed()){
 
-                            RongIM.getInstance().startPrivateChat(NewMineFansActivity.this, String.valueOf(list.get(position).getUid()), list.get(position).getNickname());
+                            if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+
+                                connect(list.get(position).getUid(),list.get(position).getNickname());
+                            }else{
+                                RongIM.getInstance().startPrivateChat(NewMineFansActivity.this, String.valueOf(list.get(position).getUid()), list.get(position).getNickname());
+                            }
+
                         }else{
 
                             //添加关注
@@ -365,6 +373,38 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(commonAdapter);
+
+    }
+
+    private void connect(final int uidIndex, final String nickName) {
+        ToastUtils.getInstance().showToast("开始链接");
+//        RongIM.connect(rongToken, new RongIMClient.ConnectCallback() {
+        RongIMClient.connect(SharedPreferencesUtils.readString("rong_token"), new RongIMClient.ConnectCallback() {
+            @Override
+            public void onTokenIncorrect() {
+//                if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+//
+//                } else {
+//                    getConnectToken();
+//                }
+            }
+
+            @Override
+            public void onSuccess(String userid) {
+                Log.d("TAG", "--onSuccess" + userid);
+//                ToastUtils.getInstance().showToast("已连接融云");
+
+                RongIM.getInstance().startPrivateChat(NewMineFansActivity.this, String.valueOf(uidIndex), nickName);
+
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.d("TAG", "--onSuccess" + errorCode);
+                ToastUtils.getInstance().showToast("连接融云失败");
+            }
+        });
 
     }
 

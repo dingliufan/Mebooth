@@ -89,7 +89,7 @@ public class ResourcseMessage {
         }
     }
 
-    //不同的包名 不同的点赞
+    //员工标记区别
     public static int getIsStaffRes() {
 
         if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
@@ -100,6 +100,32 @@ public class ResourcseMessage {
             return R.drawable.staff_tab_xiaomi;
         } else {
             return R.drawable.staff_tab;
+        }
+    }
+    //个人中心背景
+    public static int getMineBg() {
+
+        if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
+
+            return R.drawable.xiaomi_newminebg;
+
+        } else if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.baojia.mebike")) {
+            return R.drawable.xiaomi_newminebg;
+        } else {
+            return R.drawable.newminebg;
+        }
+    }
+    //编辑个人中心男女选择背景
+    public static int getEditMineSexBg() {
+
+        if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
+
+            return R.drawable.xiaomi_edituserinfo_choosesex;
+
+        } else if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.baojia.mebike")) {
+            return R.drawable.xiaomi_edituserinfo_choosesex;
+        } else {
+            return R.drawable.edituserinfo_choosesex;
         }
     }
 
