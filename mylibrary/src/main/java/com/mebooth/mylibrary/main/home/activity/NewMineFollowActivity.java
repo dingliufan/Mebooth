@@ -260,14 +260,14 @@ public class NewMineFollowActivity extends BaseTransparentActivity implements On
 
                 GlideImageManager.glideLoader(NewMineFollowActivity.this, list.get(position).getAvatar(), (ImageView) holder.getView(R.id.newminefollow_item_headericon), GlideImageManager.TAG_ROUND);
                 holder.setText(R.id.newminefollow_item_nickname, list.get(position).getNickname());
-                if (list.get(position).getSignature().isEmpty()) {
+//                if (list.get(position).getSignature().isEmpty()) {
 
-                    holder.setVisible(R.id.newminefollow_item_signature, View.GONE);
+                holder.setVisible(R.id.newminefollow_item_signature, View.GONE);
 
-                } else {
-                    holder.setVisible(R.id.newminefollow_item_signature, View.VISIBLE);
-                    holder.setText(R.id.newminefollow_item_signature, list.get(position).getSignature());
-                }
+//                } else {
+//                    holder.setVisible(R.id.newminefollow_item_signature, View.VISIBLE);
+//                    holder.setText(R.id.newminefollow_item_signature, list.get(position).getSignature());
+//                }
 
                 holder.setTextColor(R.id.newminefollow_item_follow, getResources().getColor(ResourcseMessage.getFontColor()));
                 holder.setBackgroundRes(R.id.newminefollow_item_follow, ResourcseMessage.getFollowBackground());
@@ -278,8 +278,8 @@ public class NewMineFollowActivity extends BaseTransparentActivity implements On
 
                         if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
 
-                            connect(list.get(position).getUid(),list.get(position).getNickname());
-                        }else{
+                            connect(list.get(position).getUid(), list.get(position).getNickname());
+                        } else {
 
                             RongIM.getInstance().startPrivateChat(NewMineFollowActivity.this, String.valueOf(list.get(position).getUid()), list.get(position).getNickname());
                         }

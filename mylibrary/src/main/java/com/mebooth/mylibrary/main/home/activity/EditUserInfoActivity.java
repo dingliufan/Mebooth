@@ -139,7 +139,7 @@ public class EditUserInfoActivity extends BaseTransparentActivity {
         if (sexStr.equals("男")) {
             sexRadioButtonMan.setChecked(true);
         } else if (sexStr.equals("女")) {
-            sexRadioButtonMan.setChecked(true);
+            sexRadioButtonWoMan.setChecked(true);
         }
 
         city.setText(cityStr);
@@ -214,6 +214,16 @@ public class EditUserInfoActivity extends BaseTransparentActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(sexRadioButtonMan.isChecked()){
+
+                    sexStr = "男";
+
+                }
+                if(sexRadioButtonWoMan.isChecked()){
+                    sexStr = "女";
+                }
+
 
                 if (nickName.getText().toString().isEmpty()) {
 

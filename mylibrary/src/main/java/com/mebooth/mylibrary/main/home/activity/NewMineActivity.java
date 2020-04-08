@@ -491,6 +491,8 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                         tvNickNameSex.setCompoundDrawablePadding(10);
                         tvNickNameSex.setText(newUserInfo.getData().getUser().getNickname());
+                    } else {
+                        holder.setText(R.id.personal_nickname, newUserInfo.getData().getUser().getNickname());
                     }
 
                     if (index.equals("mine")) {
@@ -894,7 +896,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                                     if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
 
                                         connect();
-                                    }else{
+                                    } else {
 
                                         RongIM.getInstance().startPrivateChat(NewMineActivity.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
 

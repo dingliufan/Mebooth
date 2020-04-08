@@ -497,6 +497,8 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
 
                         tvNickNameSex.setCompoundDrawablePadding(10);
                         tvNickNameSex.setText(newUserInfo.getData().getUser().getNickname());
+                    } else {
+                        holder.setText(R.id.personal_nickname, newUserInfo.getData().getUser().getNickname());
                     }
 
                     if (index.equals("mine")) {
