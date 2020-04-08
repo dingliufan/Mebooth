@@ -52,6 +52,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:text="拉卡的山"
+                    android:maxLines="1"
+                    android:maxEms="10"
+                    android:ellipsize="end"
                     android:textSize="16sp"
                     android:textColor="@color/bg_333333" />
                     <ImageView

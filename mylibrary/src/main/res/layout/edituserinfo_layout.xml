@@ -60,7 +60,7 @@
             android:layout_gravity="center_vertical"
             android:hint="请输入您的昵称"
             android:background="@null"
-            android:maxLines="12"
+            android:maxLength="12"
             android:textColor="@color/bg_333333"
             android:textSize="16sp"
             android:layout_height="wrap_content"/>
@@ -102,7 +102,7 @@
             android:layout_gravity="center_vertical"
             android:hint="请输入您的简介"
             android:background="@null"
-            android:maxLines="10"
+            android:maxLength="20"
             android:textColor="@color/bg_333333"
             android:textSize="16sp"
             android:layout_height="wrap_content"/>

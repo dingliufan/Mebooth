@@ -27,6 +27,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
+                android:maxLines="1"
+                android:maxEms="9"
+                android:ellipsize="end"
                 android:textColor="@color/bg_000000"
                 android:textSize="17sp" />
 

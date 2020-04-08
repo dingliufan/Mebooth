@@ -848,6 +848,11 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             follow.setText("关注");
                                                             follow.setBackgroundResource(ResourcseMessage.getFollowBackground());
                                                             follow.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
+                                                            Intent intent = new Intent("dataRefresh");
+                                                            intent.putExtra("index", "follow");
+                                                            intent.putExtra("id", uid);
+                                                            intent.putExtra("isFollow", false);
+                                                            sendBroadcast(intent);
 
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
@@ -885,6 +890,11 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             follow.setText("已关注");
                                                             follow.setBackgroundResource(R.drawable.nofollow);
                                                             follow.setTextColor(getResources().getColor(R.color.bg_999999));
+                                                            Intent intent = new Intent("dataRefresh");
+                                                            intent.putExtra("index", "follow");
+                                                            intent.putExtra("id", uid);
+                                                            intent.putExtra("isFollow", true);
+                                                            sendBroadcast(intent);
 
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 

@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
@@ -28,7 +27,6 @@ import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.baseadapter.CommonAdapter;
 import com.mebooth.mylibrary.baseadapter.MultiItemTypeAdapter;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
-import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewFour;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewOne;
 import com.mebooth.mylibrary.main.NowMultiItemView.NowItemVIewThree;
@@ -55,7 +53,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -63,7 +60,7 @@ import io.reactivex.schedulers.Schedulers;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 
-public class NewMineActivity extends BaseTransparentActivity implements OnRefreshListener {
+public class NewMineActivity1 extends BaseTransparentActivity implements OnRefreshListener {
 
     private RecyclerView recyclerView;
     private CommonAdapter commonAdapter;
@@ -186,10 +183,10 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
         initRecycle();
         mSmart.autoRefresh();
-//
-//        //注册广播
-//        IntentFilter filter = new IntentFilter("dataRefresh");
-//        registerReceiver(broadcastReceiver, filter);
+
+        //注册广播
+        IntentFilter filter = new IntentFilter("dataRefresh");
+        registerReceiver(broadcastReceiver, filter);
 
         editInfo.setBackgroundColor(getResources().getColor(ResourcseMessage.getFontColor()));
 
@@ -211,32 +208,41 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
         });
 
     }
-//
-//    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            // TODO Auto-generated method stub
-//
-//            index = intent.getStringExtra("index");
-//            id = intent.getIntExtra("id", 0);
-//            isFllow = intent.getBooleanExtra("isFollow", false);
-//            if (index.equals("follow")) {
-//                if (uid == id) {
-//                    getIsFollowJson1.getData().getUsers().get(0).setFollowed(isFllow);
-//                    if (getIsFollowJson1.getData().getUsers().get(0).isFollowed()) {
-//                        editInfo.setText("已关注");
-//                        editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
-//                        editInfo.setBackgroundColor(getResources().getColor(R.color.bg_909090));
-//                    } else {
-//                        editInfo.setText("关注");
-//                        editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
-//                        editInfo.setBackgroundColor(getResources().getColor(R.color.bg_E73828));
-//                    }
-//                }
-//            }
-//        }
-//    };
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+
+            index = intent.getStringExtra("index");
+            id = intent.getIntExtra("id", 0);
+            isFllow = intent.getBooleanExtra("isFollow", false);
+            if (index.equals("follow")) {
+                if (uid == id) {
+                    getIsFollowJson1.getData().getUsers().get(0).setFollowed(isFllow);
+                    if (getIsFollowJson1.getData().getUsers().get(0).isFollowed()) {
+                        editInfo.setText("已关注");
+                        editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
+                        editInfo.setBackgroundColor(getResources().getColor(R.color.bg_909090));
+                    } else {
+                        editInfo.setText("关注");
+                        editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
+                        editInfo.setBackgroundColor(getResources().getColor(R.color.bg_E73828));
+                    }
+
+                    for (int i = 0; i < userTopicList.size(); i++) {
+
+                        if (userTopicList.get(i).getUser().getUid() == id) {
+                            userTopicList.get(i).getUser().setFollowed(isFllow);
+                            commonAdapter2.notifyDataSetChanged();
+                        }
+                    }
+
+                }
+            }
+        }
+    };
 
     private void getIsFollow() {
 
@@ -379,7 +385,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
         ImageView imgView = new ImageView(this);
         imgView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
 
-        GlideImageManager.glideLoader(NewMineActivity.this, url, imgView, GlideImageManager.TAG_ROUND);
+        GlideImageManager.glideLoader(NewMineActivity1.this, url, imgView, GlideImageManager.TAG_ROUND);
 
         return imgView;
     }
@@ -399,13 +405,13 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                     @Override
                     public void onClick(View v) {
                         if (position == 1) {
-                            Intent intent = new Intent(NewMineActivity.this, MePublishNewsActivity.class);
+                            Intent intent = new Intent(NewMineActivity1.this, MePublishNewsActivity.class);
                             intent.putExtra("uid", uid);
                             intent.putExtra("index", "");
                             startActivity(intent);
 
                         } else if (position == 2) {
-                            Intent intent = new Intent(NewMineActivity.this, MePublishTopicActivity.class);
+                            Intent intent = new Intent(NewMineActivity1.this, MePublishTopicActivity.class);
                             intent.putExtra("uid", uid);
                             intent.putExtra("index", "");
                             startActivity(intent);
@@ -428,14 +434,14 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
 //                    UIUtils.loadRoundImage((ImageView) holder.getView(R.id.personal_headericon), 50, newUserInfo.getData().getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
-                    GlideImageManager.glideLoader(NewMineActivity.this, newUserInfo.getData().getUser().getAvatar(), (ImageView) holder.getView(R.id.personal_headericon), GlideImageManager.TAG_ROUND);
+                    GlideImageManager.glideLoader(NewMineActivity1.this, newUserInfo.getData().getUser().getAvatar(), (ImageView) holder.getView(R.id.personal_headericon), GlideImageManager.TAG_ROUND);
 
                     holder.setOnClickListener(R.id.personal_headericon, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
                             // 全屏显示的方法
-                            final Dialog dialog = new Dialog(NewMineActivity.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                            final Dialog dialog = new Dialog(NewMineActivity1.this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
                             ImageView imgView = getView(newUserInfo.getData().getUser().getAvatar());
                             dialog.setContentView(imgView);
                             dialog.show();
@@ -518,7 +524,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                             if (index.equals("mine")) {
 
-                                Intent intent = new Intent(NewMineActivity.this, NewCollectActivity.class);
+                                Intent intent = new Intent(NewMineActivity1.this, NewCollectActivity.class);
                                 startActivity(intent);
 
                             }
@@ -531,7 +537,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                             if (index.equals("mine")) {
 
-                                Intent intent = new Intent(NewMineActivity.this, NewMineFollowActivity.class);
+                                Intent intent = new Intent(NewMineActivity1.this, NewMineFollowActivity.class);
                                 startActivity(intent);
 
                             }
@@ -544,7 +550,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                             if (index.equals("mine")) {
 
-                                Intent intent = new Intent(NewMineActivity.this, NewMineFansActivity.class);
+                                Intent intent = new Intent(NewMineActivity1.this, NewMineFansActivity.class);
                                 startActivity(intent);
 
                             }
@@ -562,7 +568,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                     holder.setVisible(R.id.newmine_header, View.GONE);
                     holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
 //                    }
-                    commonAdapter1 = new CommonAdapter(NewMineActivity.this, R.layout.usernews_item, userNewsList) {
+                    commonAdapter1 = new CommonAdapter(NewMineActivity1.this, R.layout.usernews_item, userNewsList) {
                         @Override
                         protected void convert(ViewHolder holder, Object o, final int position) {
 
@@ -593,7 +599,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                                 @Override
                                 public void onClick(View v) {
 
-                                    new AlertView("温馨提示", "您确定要删除？", "取消", new String[]{"确定"}, null, NewMineActivity.this,
+                                    new AlertView("温馨提示", "您确定要删除？", "取消", new String[]{"确定"}, null, NewMineActivity1.this,
                                             AlertView.Style.Alert, new com.bigkoo.alertview.OnItemClickListener() {
                                         @Override
                                         public void onItemClick(Object o, int position) {
@@ -614,7 +620,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                             //TODO 订单详情
 
-                            Intent intent = new Intent(NewMineActivity.this, NewDetailsActivity.class);
+                            Intent intent = new Intent(NewMineActivity1.this, NewDetailsActivity.class);
                             intent.putExtra("uid", userNewsList.get(position).getUid());
                             intent.putExtra("relateid", userNewsList.get(position).getNewsid());
                             startActivity(intent);
@@ -628,7 +634,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                         }
                     });
                     RecyclerView recyclerView1 = holder.getView(R.id.userpublish_recycleview);
-                    recyclerView1.setLayoutManager(new LinearLayoutManager(NewMineActivity.this));
+                    recyclerView1.setLayoutManager(new LinearLayoutManager(NewMineActivity1.this));
                     recyclerView1.setAdapter(commonAdapter1);
 
                 } else if (position == 2) {
@@ -667,19 +673,19 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                         }
                     };
 
-                    commonAdapter2 = new MultiItemTypeAdapter(NewMineActivity.this, userTopicList);
-                    commonAdapter2.addItemViewDelegate(new NowItemVIewZero(NewMineActivity.this, type, commonAdapter2, userTopicList, noPublishinterface));
-                    commonAdapter2.addItemViewDelegate(new NowItemVIewOne(NewMineActivity.this, type, commonAdapter2, userTopicList, noPublishinterface));
-                    commonAdapter2.addItemViewDelegate(new NowItemVIewTwo(NewMineActivity.this, type, commonAdapter2, userTopicList, noPublishinterface));
-                    commonAdapter2.addItemViewDelegate(new NowItemVIewThree(NewMineActivity.this, type, commonAdapter2, userTopicList, noPublishinterface));
-                    commonAdapter2.addItemViewDelegate(new NowItemVIewFour(NewMineActivity.this, type, commonAdapter2, userTopicList, noPublishinterface));
+                    commonAdapter2 = new MultiItemTypeAdapter(NewMineActivity1.this, userTopicList);
+                    commonAdapter2.addItemViewDelegate(new NowItemVIewZero(NewMineActivity1.this, type, commonAdapter2, userTopicList, noPublishinterface));
+                    commonAdapter2.addItemViewDelegate(new NowItemVIewOne(NewMineActivity1.this, type, commonAdapter2, userTopicList, noPublishinterface));
+                    commonAdapter2.addItemViewDelegate(new NowItemVIewTwo(NewMineActivity1.this, type, commonAdapter2, userTopicList, noPublishinterface));
+                    commonAdapter2.addItemViewDelegate(new NowItemVIewThree(NewMineActivity1.this, type, commonAdapter2, userTopicList, noPublishinterface));
+                    commonAdapter2.addItemViewDelegate(new NowItemVIewFour(NewMineActivity1.this, type, commonAdapter2, userTopicList, noPublishinterface));
 
                     commonAdapter2.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                             //TODO 详情
-                            Intent intent = new Intent(NewMineActivity.this, NowDetailsActivity.class);
+                            Intent intent = new Intent(NewMineActivity1.this, NowDetailsActivity.class);
                             intent.putExtra("relateid", userTopicList.get(position).getTopic().getTid());
                             intent.putExtra("uid", userTopicList.get(position).getTopic().getUid());
                             startActivity(intent);
@@ -691,7 +697,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                         }
                     });
                     RecyclerView recyclerView1 = holder.getView(R.id.userpublish_recycleview);
-                    recyclerView1.setLayoutManager(new LinearLayoutManager(NewMineActivity.this));
+                    recyclerView1.setLayoutManager(new LinearLayoutManager(NewMineActivity1.this));
                     recyclerView1.setAdapter(commonAdapter2);
                     mSmart.autoRefresh();
                 }
@@ -712,7 +718,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                 return false;
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(NewMineActivity.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(NewMineActivity1.this));
         recyclerView.setAdapter(commonAdapter);
 
 
@@ -894,9 +900,9 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                                     if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
 
                                         connect();
-                                    }else{
+                                    } else {
 
-                                        RongIM.getInstance().startPrivateChat(NewMineActivity.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
+                                        RongIM.getInstance().startPrivateChat(NewMineActivity1.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
 
                                     }
                                 }
@@ -947,7 +953,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                 Log.d("TAG", "--onSuccess" + userid);
 //                ToastUtils.getInstance().showToast("已连接融云");
 
-                RongIM.getInstance().startPrivateChat(NewMineActivity.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
+                RongIM.getInstance().startPrivateChat(NewMineActivity1.this, String.valueOf(uid), newUserInfo.getData().getUser().getNickname());
 
 
             }
@@ -989,7 +995,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                 } else {
 
-                    Intent intent = new Intent(NewMineActivity.this, EditUserInfoActivity.class);
+                    Intent intent = new Intent(NewMineActivity1.this, EditUserInfoActivity.class);
                     intent.putExtra("headericon", newUserInfo.getData().getUser().getAvatar());
                     intent.putExtra("nickname", newUserInfo.getData().getUser().getNickname());
                     intent.putExtra("autograph", newUserInfo.getData().getUser().getSignature());
@@ -1025,7 +1031,8 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
     protected void onDestroy() {
         super.onDestroy();
 
-//        unregisterReceiver(broadcastReceiver);
+        unregisterReceiver(broadcastReceiver);
 
     }
 }
+

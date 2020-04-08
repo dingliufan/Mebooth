@@ -19,6 +19,7 @@ import com.mebooth.mylibrary.baseadapter.base.ItemViewDelegate;
 import com.mebooth.mylibrary.baseadapter.base.ViewHolder;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity1;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetNowJson;
@@ -276,19 +277,31 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
 
                                             if (type.equals("others")) {
 
-                                                for (GetNowJson.NowData.NowDataList dataList : list) {
-                                                    dataList.getUser().setFollowed(false);
-                                                }
-//                                                adapter.notifyDataSetChanged();
-                                                adapter.notifyItemRangeChanged(0,list.size());
-                                            }else{
-                                                for (GetNowJson.NowData.NowDataList dataList : list) {
-                                                    if(dataList.getUser().getUid() == nowDataList.getUser().getUid()){
+//                                                for (GetNowJson.NowData.NowDataList dataList : list) {
+//                                                    dataList.getUser().setFollowed(false);
+//                                                }
+////                                                adapter.notifyDataSetChanged();
+//                                                adapter.notifyItemRangeChanged(0,list.size());
 
-                                                        dataList.getUser().setFollowed(false);
-                                                    }
-                                                }
-                                                adapter.notifyDataSetChanged();
+                                                Intent intent = new Intent("dataRefresh");
+                                                intent.putExtra("index", "follow");
+                                                intent.putExtra("id", nowDataList.getUser().getUid());
+                                                intent.putExtra("isFollow", false);
+                                                context.sendBroadcast(intent);
+
+                                            }else{
+//                                                for (GetNowJson.NowData.NowDataList dataList : list) {
+//                                                    if(dataList.getUser().getUid() == nowDataList.getUser().getUid()){
+//
+//                                                        dataList.getUser().setFollowed(false);
+//                                                    }
+//                                                }
+//                                                adapter.notifyDataSetChanged();
+                                                Intent intent = new Intent("dataRefresh");
+                                                intent.putExtra("index", "follow");
+                                                intent.putExtra("id", nowDataList.getUser().getUid());
+                                                intent.putExtra("isFollow", false);
+                                                context.sendBroadcast(intent);
 //                                                nowDataList.getUser().setFollowed(false);
                                                 ToastUtils.getInstance().showToast("已取消关注");
 //                                                holder.setText(R.id.recommenditem_follow, "关注");
@@ -331,20 +344,30 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
 
                                             if (type.equals("others")) {
 
-                                                for (GetNowJson.NowData.NowDataList dataList : list) {
-                                                    dataList.getUser().setFollowed(true);
-                                                }
-//                                                adapter.notifyDataSetChanged();
-                                                adapter.notifyItemRangeChanged(0,list.size());
+//                                                for (GetNowJson.NowData.NowDataList dataList : list) {
+////                                                    dataList.getUser().setFollowed(true);
+////                                                }
+//////                                                adapter.notifyDataSetChanged();
+////                                                adapter.notifyItemRangeChanged(0,list.size());
+                                                Intent intent = new Intent("dataRefresh");
+                                                intent.putExtra("index", "follow");
+                                                intent.putExtra("id", nowDataList.getUser().getUid());
+                                                intent.putExtra("isFollow", true);
+                                                context.sendBroadcast(intent);
 
                                             }else{
-                                                for (GetNowJson.NowData.NowDataList dataList : list) {
-                                                    if(dataList.getUser().getUid() == nowDataList.getUser().getUid()){
-
-                                                        dataList.getUser().setFollowed(true);
-                                                    }
-                                                }
-                                                adapter.notifyDataSetChanged();
+//                                                for (GetNowJson.NowData.NowDataList dataList : list) {
+//                                                    if(dataList.getUser().getUid() == nowDataList.getUser().getUid()){
+//
+//                                                        dataList.getUser().setFollowed(true);
+//                                                    }
+//                                                }
+//                                                adapter.notifyDataSetChanged();
+                                                Intent intent = new Intent("dataRefresh");
+                                                intent.putExtra("index", "follow");
+                                                intent.putExtra("id", nowDataList.getUser().getUid());
+                                                intent.putExtra("isFollow", true);
+                                                context.sendBroadcast(intent);
 //                                                nowDataList.getUser().setFollowed(true);
                                                 ToastUtils.getInstance().showToast("已关注");
 //                                                holder.setText(R.id.recommenditem_follow, "已关注");
@@ -487,7 +510,7 @@ public class NowItemVIewTwo implements ItemViewDelegate<GetNowJson.NowData.NowDa
                         AppApplication.getInstance().setLogin();
 
                     } else {
-                        Intent intent = new Intent(context, NewMineActivity.class);
+                        Intent intent = new Intent(context, NewMineActivity1.class);
                         intent.putExtra("uid", nowDataList.getUser().getUid());
                         intent.putExtra("index", "other");
                         context.startActivity(intent);

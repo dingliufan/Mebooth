@@ -297,7 +297,7 @@ public class NewMineFollowActivity extends BaseTransparentActivity implements On
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 详情
-                Intent intent = new Intent(NewMineFollowActivity.this, NewMineActivity.class);
+                Intent intent = new Intent(NewMineFollowActivity.this, NewMineActivity1.class);
                 intent.putExtra("index", "other");
                 intent.putExtra("uid", list.get(position).getUid());
 //                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());

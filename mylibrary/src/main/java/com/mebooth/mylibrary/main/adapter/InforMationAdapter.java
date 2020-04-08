@@ -24,6 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mebooth.mylibrary.R;
 import com.mebooth.mylibrary.main.AppApplication;
 import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity1;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.OtherUserActivity;
 import com.mebooth.mylibrary.main.home.bean.GetRecommendJson;
@@ -386,7 +387,7 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
 
                 } else {
 
-                    Intent intent = new Intent(context, NewMineActivity.class);
+                    Intent intent = new Intent(context, NewMineActivity1.class);
                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
                     intent.putExtra("index", "other");
                     context.startActivity(intent);

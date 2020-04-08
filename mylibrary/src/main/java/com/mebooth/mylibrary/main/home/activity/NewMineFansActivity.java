@@ -358,7 +358,7 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
 
                 //TODO 详情
-                Intent intent = new Intent(NewMineFansActivity.this, NewMineActivity.class);
+                Intent intent = new Intent(NewMineFansActivity.this, NewMineActivity1.class);
                 intent.putExtra("index", "other");
                 intent.putExtra("uid", list.get(position).getUid());
 //                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());

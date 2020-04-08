@@ -445,10 +445,10 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                 @Override
                                 public void onClick(View v) {
                                     if (getIsFollowJson.getData().getUsers().get(0).isFollowed()) {
-                                        isRecommendRefresh = true;
-                                        isNowRefresh = true;
-                                        isExperienceRefresh = true;
-                                        isInformationRefresh = true;
+//                                        isRecommendRefresh = true;
+//                                        isNowRefresh = true;
+//                                        isExperienceRefresh = true;
+//                                        isInformationRefresh = true;
                                         //取消关注
                                         ServiceFactory.getNewInstance()
                                                 .createService(YService.class)
@@ -467,6 +467,11 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             follow.setText("关注");
                                                             follow.setBackgroundResource(ResourcseMessage.getFollowBackground());
                                                             follow.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
+                                                            Intent intent = new Intent("dataRefresh");
+                                                            intent.putExtra("index", "follow");
+                                                            intent.putExtra("id", uid);
+                                                            intent.putExtra("isFollow", false);
+                                                            sendBroadcast(intent);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -503,6 +508,11 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                                             follow.setText("已关注");
                                                             follow.setBackgroundResource(R.drawable.nofollow);
                                                             follow.setTextColor(getResources().getColor(R.color.bg_999999));
+                                                            Intent intent = new Intent("dataRefresh");
+                                                            intent.putExtra("index", "follow");
+                                                            intent.putExtra("id", uid);
+                                                            intent.putExtra("isFollow", true);
+                                                            sendBroadcast(intent);
                                                         } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());

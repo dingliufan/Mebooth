@@ -59,7 +59,7 @@ public class SharedActivity extends BasePopupWindow {
         this.context = context;
         this.relateid = relateid;
         this.scene = scene;
-        setPopupGravity(Gravity.BOTTOM);
+        setPopupGravity(Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
         bindEvent();
     }
 

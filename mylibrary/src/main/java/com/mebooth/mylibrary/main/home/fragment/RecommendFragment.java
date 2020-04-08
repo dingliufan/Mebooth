@@ -37,6 +37,7 @@ import com.mebooth.mylibrary.main.adapter.RecommendAdapter;
 import com.mebooth.mylibrary.main.base.BaseFragment;
 import com.mebooth.mylibrary.main.home.activity.NewDetailsActivity;
 import com.mebooth.mylibrary.main.home.activity.NewMineActivity;
+import com.mebooth.mylibrary.main.home.activity.NewMineActivity1;
 import com.mebooth.mylibrary.main.home.activity.NewsFeatureActivity;
 import com.mebooth.mylibrary.main.home.activity.NewsOtherUserActivity;
 import com.mebooth.mylibrary.main.home.activity.NowDetailsActivity;
@@ -862,7 +863,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                 } else {
 
 //                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
-                                    Intent intent = new Intent(getActivity(), NewMineActivity.class);
+                                    Intent intent = new Intent(getActivity(), NewMineActivity1.class);
                                     intent.putExtra("index", "other");
                                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
 //                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
@@ -1229,7 +1230,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                                 } else {
 //                                    Intent intent = new Intent(getActivity(), NewsOtherUserActivity.class);
-                                    Intent intent = new Intent(getActivity(), NewMineActivity.class);
+                                    Intent intent = new Intent(getActivity(), NewMineActivity1.class);
                                     intent.putExtra("index", "other");
                                     intent.putExtra("uid", recommend.get(position).getUser().getUid());
 //                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
@@ -1325,52 +1326,52 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     public void onResume() {
         super.onResume();
 
-        if (isRecommendRefresh) {
-
-            ServiceFactory.getNewInstance()
-                    .createService(YService.class)
-                    .getRecommend(foward, "", recommend.size() - 1)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new CommonObserver<GetRecommendJson>() {
-                        @Override
-                        public void onNext(GetRecommendJson getRecommendJson) {
-                            super.onNext(getRecommendJson);
-
-                            if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
-
-                                recommend.clear();
-                                if (getRecommendJson.getData().getList().size() != 0) {
-                                    recommend.add(getRecommendJson.getData().getList().get(0));
-                                }
-                                recommend.addAll(getRecommendJson.getData().getList());
-                                commonAdapter.notifyDataSetChanged();
-                                isRecommendRefresh = false;
-
-                                UIUtils.clearMemoryCache(getActivity());
-
-                            } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
-
-                                SharedPreferencesUtils.writeString("token", "");
-                                Log.d("RecommendFragment", "token已被清空");
-                            } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
-
-                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
-                            } else {
-
-                                ToastUtils.getInstance().showToast("数据加载失败");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-
-                            ToastUtils.getInstance().showToast("数据加载失败");
-                        }
-                    });
-
-        }
+//        if (isRecommendRefresh) {
+//
+//            ServiceFactory.getNewInstance()
+//                    .createService(YService.class)
+//                    .getRecommend(foward, "", recommend.size() - 1)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new CommonObserver<GetRecommendJson>() {
+//                        @Override
+//                        public void onNext(GetRecommendJson getRecommendJson) {
+//                            super.onNext(getRecommendJson);
+//
+//                            if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
+//
+//                                recommend.clear();
+//                                if (getRecommendJson.getData().getList().size() != 0) {
+//                                    recommend.add(getRecommendJson.getData().getList().get(0));
+//                                }
+//                                recommend.addAll(getRecommendJson.getData().getList());
+//                                commonAdapter.notifyDataSetChanged();
+//                                isRecommendRefresh = false;
+//
+//                                UIUtils.clearMemoryCache(getActivity());
+//
+//                            } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
+//
+//                                SharedPreferencesUtils.writeString("token", "");
+//                                Log.d("RecommendFragment", "token已被清空");
+//                            } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
+//
+//                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
+//                            } else {
+//
+//                                ToastUtils.getInstance().showToast("数据加载失败");
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            super.onError(e);
+//
+//                            ToastUtils.getInstance().showToast("数据加载失败");
+//                        }
+//                    });
+//
+//        }
 
     }
 
