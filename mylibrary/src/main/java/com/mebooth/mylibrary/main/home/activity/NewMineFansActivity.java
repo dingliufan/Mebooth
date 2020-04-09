@@ -261,25 +261,24 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
 
                 GlideImageManager.glideLoader(NewMineFansActivity.this, list.get(position).getAvatar(), (ImageView) holder.getView(R.id.newminefollow_item_headericon), GlideImageManager.TAG_ROUND);
                 holder.setText(R.id.newminefollow_item_nickname, list.get(position).getNickname());
-                if (list.get(position).getSignature().isEmpty()) {
+//                if (list.get(position).getSignature().isEmpty()) {
 
-                    holder.setVisible(R.id.newminefollow_item_signature, View.GONE);
+                holder.setVisible(R.id.newminefollow_item_signature, View.GONE);
 
-                } else {
-                    holder.setVisible(R.id.newminefollow_item_signature, View.VISIBLE);
-                    holder.setText(R.id.newminefollow_item_signature, list.get(position).getSignature());
-                }
+//                } else {
+//                    holder.setVisible(R.id.newminefollow_item_signature, View.VISIBLE);
+//                    holder.setText(R.id.newminefollow_item_signature, list.get(position).getSignature());
+//                }
 
-                if(list.get(position).isFollowed()){
+                if (list.get(position).isFollowed()) {
 
-                    holder.setText(R.id.newminefollow_item_follow,"聊天");
+                    holder.setText(R.id.newminefollow_item_follow, "聊天");
                     holder.setTextColor(R.id.newminefollow_item_follow, getResources().getColor(ResourcseMessage.getFontColor()));
                     holder.setBackgroundRes(R.id.newminefollow_item_follow, ResourcseMessage.getFollowBackground());
 
 
-
-                }else{
-                    holder.setText(R.id.newminefollow_item_follow,"关注");
+                } else {
+                    holder.setText(R.id.newminefollow_item_follow, "关注");
                     holder.setTextColor(R.id.newminefollow_item_follow, getResources().getColor(ResourcseMessage.getFontColor()));
                     holder.setBackgroundRes(R.id.newminefollow_item_follow, ResourcseMessage.getFollowBackground());
 
@@ -289,16 +288,16 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
                     @Override
                     public void onClick(View v) {
 
-                        if(list.get(position).isFollowed()){
+                        if (list.get(position).isFollowed()) {
 
                             if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
 
-                                connect(list.get(position).getUid(),list.get(position).getNickname());
-                            }else{
+                                connect(list.get(position).getUid(), list.get(position).getNickname());
+                            } else {
                                 RongIM.getInstance().startPrivateChat(NewMineFansActivity.this, String.valueOf(list.get(position).getUid()), list.get(position).getNickname());
                             }
 
-                        }else{
+                        } else {
 
                             //添加关注
                             ServiceFactory.getNewInstance()
@@ -315,7 +314,7 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
                                             if (null != publicBean && publicBean.getErrno() == 0) {
                                                 list.get(position).setFollowed(true);
                                                 ToastUtils.getInstance().showToast("已关注");
-                                                holder.setText(R.id.newminefollow_item_follow,"聊天");
+                                                holder.setText(R.id.newminefollow_item_follow, "聊天");
                                                 holder.setTextColor(R.id.newminefollow_item_follow, getResources().getColor(ResourcseMessage.getFontColor()));
                                                 holder.setBackgroundRes(R.id.newminefollow_item_follow, ResourcseMessage.getFollowBackground());
 

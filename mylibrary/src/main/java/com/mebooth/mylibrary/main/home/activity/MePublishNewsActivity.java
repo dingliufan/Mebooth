@@ -105,9 +105,9 @@ public class MePublishNewsActivity extends BaseTransparentActivity implements On
 
         uid = getIntent().getIntExtra("uid", 0);
         index = getIntent().getStringExtra("index");
-        if (index.equals("newsother")) {
+        if (index.equals("others")) {
 
-            title.setText("ta发布的笔记");
+            title.setText("TA发布的笔记");
         } else {
             title.setText("我发布的笔记");
         }
@@ -242,7 +242,7 @@ public class MePublishNewsActivity extends BaseTransparentActivity implements On
             @Override
             protected void convert(ViewHolder holder, Object o, final int position) {
 
-                if (index.equals("newsother")) {
+                if (index.equals("others")) {
                     holder.setVisible(R.id.usernews_delete, View.GONE);
                     holder.setVisible(R.id.usernews_isreview, View.GONE);
                 } else {

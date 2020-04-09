@@ -118,11 +118,11 @@ public class StringUtil {
                 } else {
                     i = i + 1;
                     String v = formatedNum.substring(i, i + 1);
-                    if (!v.equals("0")) {
+//                    if (!v.equals("0")) {
                         sb.append(formatedNum.substring(0, i + 1)).append(unit);
-                    } else {
-                        sb.append(formatedNum.substring(0, i - 1)).append(unit);
-                    }
+//                    } else {
+//                        sb.append(formatedNum.substring(0, i - 1)).append(unit);
+//                    }
                 }
             }
             if (sb.length() == 0)

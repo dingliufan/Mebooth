@@ -58,6 +58,7 @@ public class MePublishTopicActivity extends BaseTransparentActivity implements O
     private int uid;
     private ImageView back;
     private TextView title;
+    private String index;
 
 
     @Override
@@ -89,7 +90,6 @@ public class MePublishTopicActivity extends BaseTransparentActivity implements O
         mSmart.setPrimaryColorsId(R.color.main_color, R.color.main_color, R.color.main_color); //圈圈颜色
         findViewById(R.id.public_header).setPadding(0, UIUtils.getStatusBarHeight(this), 0, 0);
 
-        title.setText("我发布的此刻");
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +105,14 @@ public class MePublishTopicActivity extends BaseTransparentActivity implements O
         super.initData();
 
         uid = getIntent().getIntExtra("uid",0);
+        index = getIntent().getStringExtra("index");
+
+        if(index.equals("minepublic")){
+            title.setText("我发布的此刻");
+        }else{
+            title.setText("TA发布的此刻");
+        }
+
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
@@ -245,11 +253,11 @@ public class MePublishTopicActivity extends BaseTransparentActivity implements O
         };
 
         commonAdapter = new MultiItemTypeAdapter(this, list);
-        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, "minepublic", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, "minepublic", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, "minepublic", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, "minepublic", commonAdapter, list,noPublishinterface));
-        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, "minepublic", commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewZero(this, index, commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewOne(this, index, commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewTwo(this, index, commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewThree(this, index, commonAdapter, list,noPublishinterface));
+        commonAdapter.addItemViewDelegate(new NowItemVIewFour(this, index, commonAdapter, list,noPublishinterface));
 
         commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override

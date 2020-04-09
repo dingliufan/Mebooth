@@ -32,22 +32,16 @@ public class MainActivity extends BaseTransparentActivity {
     protected void initData() {
         super.initData();
 
-        btTrue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NewMainActivity.class);
-                startActivity(intent);
-            }
+        btTrue.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, NewMainActivity.class);
+            startActivity(intent);
         });
 
-        btFalse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btFalse.setOnClickListener(view -> {
 //                RongIM.getInstance().startPrivateChat(MainActivity.this, "10001", "标题");
 
 //                Intent intent = new Intent(MainActivity.this, FriendFragment.class);
 ////                startActivity(intent);
-            }
         });
 
     }

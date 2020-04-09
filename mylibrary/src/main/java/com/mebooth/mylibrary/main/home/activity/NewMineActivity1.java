@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -407,13 +408,13 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                         if (position == 1) {
                             Intent intent = new Intent(NewMineActivity1.this, MePublishNewsActivity.class);
                             intent.putExtra("uid", uid);
-                            intent.putExtra("index", "");
+                            intent.putExtra("index", type);
                             startActivity(intent);
 
                         } else if (position == 2) {
                             Intent intent = new Intent(NewMineActivity1.this, MePublishTopicActivity.class);
                             intent.putExtra("uid", uid);
-                            intent.putExtra("index", "");
+                            intent.putExtra("index", type);
                             startActivity(intent);
                         }
 
@@ -421,7 +422,11 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                 });
                 if (position == 0) {
 
-                    holder.setVisible(R.id.newmine_header, View.VISIBLE);
+                    FrameLayout linearLayout = holder.getView(R.id.newmine_header);
+                    linearLayout.setFocusable(true);
+                    linearLayout.setFocusableInTouchMode(true);
+                    linearLayout.requestFocus();
+                    linearLayout.setVisibility(View.VISIBLE);
                     holder.setVisible(R.id.newmine_header_recycle, View.GONE);
 
                     holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
@@ -568,7 +573,13 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
 //                    }else{
 
                     holder.setVisible(R.id.newmine_header, View.GONE);
-                    holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
+                    if (userNewsList.size() == 0) {
+
+                        holder.setVisible(R.id.newmine_header_recycle, View.GONE);
+
+                    } else {
+                        holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
+                    }
 //                    }
                     commonAdapter1 = new CommonAdapter(NewMineActivity1.this, R.layout.usernews_item, userNewsList) {
                         @Override
@@ -651,6 +662,19 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                     holder.setVisible(R.id.bgf6f6f6, View.GONE);
                     holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
 //                    }
+
+                    if (userTopicList.size() == 0) {
+
+                        holder.setVisible(R.id.newmine_header_recycle, View.GONE);
+
+                    }else{
+                        holder.setVisible(R.id.newmine_header_recycle, View.VISIBLE);
+                    }
+
+                    if(userNewsList.size() == 0&&userTopicList.size() == 0){
+                        holder.setVisible(R.id.userpublish_item_nocontent,View.VISIBLE);
+                        holder.setText(R.id.userpublish_item_nocontent,"TA还没有发布任何内容");
+                    }
 
 //                    holder.setVisible(R.id.newmine_header, View.GONE);
 //                    holder.setVisible(R.id.bgf6f6f6, View.GONE);
@@ -784,8 +808,8 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
 //                                userNewsList.add(userNewsListJson.getData().getList().get(0));
 //                            }
                             userNewsList.addAll(userNewsListJson.getData().getList());
-                            commonAdapter1.notifyDataSetChanged();
-                            mSmart.finishRefresh();
+//                            commonAdapter1.notifyDataSetChanged();
+//                            mSmart.finishRefresh();
                             getRecommend();
                         } else if (null != userNewsListJson && userNewsListJson.getErrno() == 1101) {
 
@@ -828,9 +852,9 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
 
                             userTopicList.clear();
                             userTopicList.addAll(getNowJson.getData().getList());
-                            commonAdapter2.notifyDataSetChanged();
+//                            commonAdapter2.notifyDataSetChanged();
                             mSmart.finishRefresh();
-
+                            commonAdapter.notifyDataSetChanged();
                             if (userNewsList.size() == 0 && userTopicList.size() == 0) {
 
 //                                recyclerView.setVisibility(View.GONE);
@@ -892,7 +916,6 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                                 userPublishList.add("TA发布的此刻");
                             }
 
-                            commonAdapter.notifyDataSetChanged();
                             getNews();
 
                             chat.setOnClickListener(new View.OnClickListener() {

@@ -598,7 +598,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
 
                             GlideImageManager.glideLoader(NowDetailsActivity.this, getNowDetailsJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
 
-                            if(getNowDetailsJson.getData().getUser().getEmployee().equals("Y")){
+                            if (getNowDetailsJson.getData().getUser().getEmployee().equals("Y")) {
 
                                 //昵称
                                 Drawable drawableRight = getResources().getDrawable(
@@ -608,7 +608,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                 nickName.setCompoundDrawablePadding(10);
                                 nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
 
-                            }else{
+                            } else {
                                 nickName.setText(getNowDetailsJson.getData().getUser().getNickname());
                             }
 
@@ -645,8 +645,8 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                             list.addAll(getNowDetailsJson.getData().getTopic().getImages());
                             commonAdapter.notifyDataSetChanged();
 
-                            collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
-                            commentCount.setText("" + getNowDetailsJson.getData().getTopic().getReplies());
+                            collectCount.setText(StringUtil.formatBigNum(String.valueOf(getNowDetailsJson.getData().getTopic().getPraises())));
+                            commentCount.setText(StringUtil.formatBigNum(String.valueOf(getNowDetailsJson.getData().getTopic().getReplies())));
 
                             if (getNowDetailsJson.getData().getTopic().isPraised()) {
                                 collectimg.setImageResource(ResourcseMessage.getPraiseRes());
@@ -679,7 +679,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                 ToastUtils.getInstance().showToast("已取消点赞");
                                                                 collectimg.setImageResource(R.drawable.nopraise);
                                                                 getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() - 1);
-                                                                collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
+                                                                collectCount.setText(StringUtil.formatBigNum(String.valueOf(getNowDetailsJson.getData().getTopic().getPraises())));
 
                                                                 Intent intent = new Intent("dataRefresh");
                                                                 intent.putExtra("index", "cancel");
@@ -724,7 +724,7 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                 ToastUtils.getInstance().showToast("已点赞");
                                                                 collectimg.setImageResource(ResourcseMessage.getPraiseRes());
                                                                 getNowDetailsJson.getData().getTopic().setPraises(getNowDetailsJson.getData().getTopic().getPraises() + 1);
-                                                                collectCount.setText("" + getNowDetailsJson.getData().getTopic().getPraises());
+                                                                collectCount.setText(StringUtil.formatBigNum(String.valueOf(getNowDetailsJson.getData().getTopic().getPraises())));
 
                                                                 Intent intent = new Intent("dataRefresh");
                                                                 intent.putExtra("index", "add");

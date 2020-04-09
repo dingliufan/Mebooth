@@ -279,10 +279,10 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
             //头像昵称
             GlideImageManager.glideLoader(NewDetailsActivity.this, avatar, newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
             newdetailsNickName.setText(nickName);
-            newdetailsBrowse.setText("" + watchs);
-            newdetailsComment.setText("" + replies);
-            newdetailsCollect.setText("" + favorites);
-            newdetailsPraise.setText("" + praises);
+            newdetailsBrowse.setText(StringUtil.formatBigNum(String.valueOf(watchs)));
+            newdetailsComment.setText(StringUtil.formatBigNum(String.valueOf(replies)));
+            newdetailsCollect.setText(StringUtil.formatBigNum(String.valueOf(favorites)));
+            newdetailsPraise.setText(StringUtil.formatBigNum(String.valueOf(praises)));
         }
 
 
@@ -988,7 +988,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             headerLayout2.setFocusable(true);
                             //头像昵称
                             GlideImageManager.glideLoader(NewDetailsActivity.this, getNewInfoJson.getData().getUser().getAvatar(), newdetailsHeaderIcon, GlideImageManager.TAG_ROUND);
-                            if(getNewInfoJson.getData().getUser().getEmployee().equals("Y")){
+                            if (getNewInfoJson.getData().getUser().getEmployee().equals("Y")) {
 
                                 //昵称
                                 Drawable drawableRight = getResources().getDrawable(
@@ -998,12 +998,12 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                 newdetailsNickName.setCompoundDrawablePadding(10);
                                 newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
 
-                            }else{
+                            } else {
                                 newdetailsNickName.setText(getNewInfoJson.getData().getUser().getNickname());
                             }
 
-                            newdetailsBrowse.setText(getNewInfoJson.getData().getNews().getWatches() + "人浏览");
-                            newdetailsComment.setText("" + getNewInfoJson.getData().getNews().getReplies());
+                            newdetailsBrowse.setText(StringUtil.formatBigNum(String.valueOf(getNewInfoJson.getData().getNews().getWatches())) + "人浏览");
+                            newdetailsComment.setText(StringUtil.formatBigNum(String.valueOf(getNewInfoJson.getData().getNews().getReplies())));
 
                             praises = getNewInfoJson.getData().getNews().getPraises();
                             favorites = getNewInfoJson.getData().getNews().getFavorites();
@@ -1015,10 +1015,10 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                             if (getNewInfoJson.getData().getNews().isPraised()) {
 
                                 newdetailsPraiseImg.setImageResource(ResourcseMessage.getPraiseRes());
-                                newdetailsPraise.setText(String.valueOf(getNewInfoJson.getData().getNews().getPraises()));
+                                newdetailsPraise.setText(StringUtil.formatBigNum(String.valueOf(getNewInfoJson.getData().getNews().getPraises())));
                             } else {
                                 newdetailsPraiseImg.setImageResource(R.drawable.nopraise);
-                                newdetailsPraise.setText(String.valueOf(getNewInfoJson.getData().getNews().getPraises()));
+                                newdetailsPraise.setText(StringUtil.formatBigNum(String.valueOf(getNewInfoJson.getData().getNews().getPraises())));
                             }
                             if (getNewInfoJson.getData().getNews().isFavorited()) {
 
@@ -1152,7 +1152,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                     ToastUtils.getInstance().showToast("已取消点赞");
                                                                     newdetailsPraiseImg.setImageResource(R.drawable.nopraise);
                                                                     praises = praises - 1;
-                                                                    newdetailsPraise.setText(String.valueOf(praises));
+                                                                    newdetailsPraise.setText(StringUtil.formatBigNum(String.valueOf(praises)));
 
                                                                     Intent intent = new Intent("dataRefresh");
                                                                     intent.putExtra("index", "cancel");
@@ -1197,7 +1197,7 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                     ToastUtils.getInstance().showToast("已点赞");
                                                                     newdetailsPraiseImg.setImageResource(ResourcseMessage.getPraiseRes());
                                                                     praises = praises + 1;
-                                                                    newdetailsPraise.setText(String.valueOf(praises));
+                                                                    newdetailsPraise.setText(StringUtil.formatBigNum(String.valueOf(praises)));
 
                                                                     Intent intent = new Intent("dataRefresh");
                                                                     intent.putExtra("index", "add");
