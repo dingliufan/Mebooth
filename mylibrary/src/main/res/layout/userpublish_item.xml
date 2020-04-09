@@ -257,10 +257,10 @@
         android:id="@+id/userpublish_item_nocontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/bg_333333"
+        android:textColor="@color/bg_c7c7c7"
         android:textSize="16sp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:visibility="gone"/>
 
 </LinearLayout>

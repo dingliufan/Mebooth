@@ -669,7 +669,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                     if(userNewsList.size() == 0&&userTopicList.size() == 0){
                         holder.setVisible(R.id.userpublish_item_nocontent,View.VISIBLE);
-                        holder.setText(R.id.userpublish_item_nocontent,"您还没有发布任何内容");
+                        holder.setText(R.id.userpublish_item_nocontent,"您还没有发布过此刻或笔记");
                     }
 //                    }
 
