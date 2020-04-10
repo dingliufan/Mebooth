@@ -422,6 +422,8 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
 
                     }
                 });
+                holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
+
                 if (position == 0) {
 
                     FrameLayout linearLayout = holder.getView(R.id.newmine_header);
@@ -430,8 +432,6 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                     linearLayout.requestFocus();
                     linearLayout.setVisibility(View.VISIBLE);
                     holder.setVisible(R.id.newmine_header_recycle, View.GONE);
-
-                    holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
 
                     if (newUserInfo.getData().getUser().getEmployee().equals("Y")) {
                         holder.setVisible(R.id.staff_tab, View.VISIBLE);

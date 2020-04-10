@@ -15,8 +15,7 @@
             android:id="@+id/newminebg_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/newminebg" />
+            android:adjustViewBounds="true" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="184dp"
@@ -60,7 +59,6 @@
                         android:id="@+id/staff_tab"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/staff_tab"
                         android:visibility="gone"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/personal_nickname"

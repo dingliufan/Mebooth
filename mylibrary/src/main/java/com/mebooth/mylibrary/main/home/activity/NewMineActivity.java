@@ -414,6 +414,8 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
                     }
                 });
+                holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
+                holder.setBackgroundRes(R.id.staff_tab, ResourcseMessage.getIsStaffRes());
                 if (position == 0) {
 
 
@@ -425,8 +427,6 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
 
 //                    holder.setVisible(R.id.newmine_header, );
                     holder.setVisible(R.id.newmine_header_recycle, View.GONE);
-
-                    holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
 
                     if (newUserInfo.getData().getUser().getEmployee().equals("Y")) {
                         holder.setVisible(R.id.staff_tab, View.VISIBLE);
