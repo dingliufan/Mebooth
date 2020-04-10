@@ -236,7 +236,9 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
 
                         if (userTopicList.get(i).getUser().getUid() == id) {
                             userTopicList.get(i).getUser().setFollowed(isFllow);
-                            commonAdapter2.notifyDataSetChanged();
+                            if(commonAdapter2!=null){
+                                commonAdapter2.notifyDataSetChanged();
+                            }
                         }
                     }
 

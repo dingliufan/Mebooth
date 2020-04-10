@@ -68,6 +68,7 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
     private String index = "";
     private boolean isFllow;
     private int id;
+    private TextView prompt;
 
     @Override
     protected int getContentViewId() {
@@ -90,6 +91,7 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
         mSmart = findViewById(R.id.classify_smart);
         back = findViewById(R.id.public_back);
         title = findViewById(R.id.public_title);
+        prompt = findViewById(R.id.minefollow_prompt);
         mSmart.setRefreshHeader(new MaterialHeader(this).setShowBezierWave(false)
                 .setColorSchemeColors(ContextCompat.getColor(this, R.color.main_color))); //设置刷新为官方推介
         mSmart.setEnableHeaderTranslationContent(false);//刷新时和官方一致   内容不随刷新动
@@ -198,7 +200,13 @@ public class NewMineFansActivity extends BaseTransparentActivity implements OnLo
         if (tag == REFLUSH_LIST) {
             list.clear();
             list.addAll(getCareJson.getData().getUsers());
-//            recyclerView.setAdapter(commonAdapter);
+            if (list.size() == 0) {
+                prompt.setVisibility(View.VISIBLE);
+                prompt.setText("暂无粉丝");
+            }else{
+                prompt.setVisibility(View.GONE);
+            }
+            //            recyclerView.setAdapter(commonAdapter);
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         } else {
             if (getCareJson.getData().getUsers().size() == 0) {
