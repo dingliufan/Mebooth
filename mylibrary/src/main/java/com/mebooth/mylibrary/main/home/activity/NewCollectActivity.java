@@ -345,6 +345,7 @@ public class NewCollectActivity extends BaseTransparentActivity implements OnLoa
         super.onDestroy();
 
         mHandler.removeCallbacksAndMessages(null);
+        unregisterReceiver(broadcastReceiver);
 
     }
 

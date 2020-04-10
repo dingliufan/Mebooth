@@ -229,7 +229,7 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                     } else {
                         editInfo.setText("关注");
                         editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
-                        editInfo.setBackgroundColor(getResources().getColor(R.color.bg_E73828));
+                        editInfo.setBackgroundColor(getResources().getColor(ResourcseMessage.getFontColor()));
                     }
 
                     for (int i = 0; i < userTopicList.size(); i++) {
