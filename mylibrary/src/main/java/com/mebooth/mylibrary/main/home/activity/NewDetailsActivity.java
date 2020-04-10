@@ -1061,6 +1061,12 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                     newdetailsCollectImg.setImageResource(R.drawable.nocollect);
                                                                     favorites = favorites - 1;
                                                                     newdetailsCollect.setText(String.valueOf(favorites));
+
+                                                                    Intent intent = new Intent("NewCollectRefresh");
+                                                                    intent.putExtra("index", "cancelCollect");
+                                                                    intent.putExtra("id", getNewInfoJson.getData().getNews().getNewsid());
+                                                                    sendBroadcast(intent);
+
                                                                 } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                                     ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
@@ -1099,6 +1105,12 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                                                     newdetailsCollectImg.setImageResource(ResourcseMessage.getCollectRes());
                                                                     favorites = favorites + 1;
                                                                     newdetailsCollect.setText(String.valueOf(favorites));
+
+                                                                    Intent intent = new Intent("NewCollectRefresh");
+                                                                    intent.putExtra("index", "addCollect");
+                                                                    intent.putExtra("id", getNewInfoJson.getData().getNews().getNewsid());
+                                                                    sendBroadcast(intent);
+
                                                                 } else if (null != publicBean && publicBean.getErrno() != 200) {
 
                                                                     ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());

@@ -1,6 +1,9 @@
 package com.mebooth.mylibrary.main.home.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -53,12 +56,15 @@ public class NewCollectActivity extends BaseTransparentActivity implements OnLoa
     private String offSet = "";
 
     private ArrayList<GetMeCollectJson.MeCollectData.MeCollectList> list = new ArrayList<>();
+    private ArrayList<GetMeCollectJson.MeCollectData.MeCollectList> reserveList = new ArrayList<>();
     private TextView noCollect;
     private MineActivity.refreshData refreshData;
 
     public static boolean isMeCollectRefresh = false;
     private ImageView back;
     private TextView title;
+    private String index = "";
+    private int id;
 
     @Override
     protected int getContentViewId() {
@@ -96,12 +102,55 @@ public class NewCollectActivity extends BaseTransparentActivity implements OnLoa
     protected void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
 
+        //注册广播
+        IntentFilter filter = new IntentFilter("NewCollectRefresh");
+        registerReceiver(broadcastReceiver, filter);
+
         isMeCollectRefresh = false;
         initRecycle();
 //        getRecommend(REFLUSH_LIST);
         mSmart.autoRefresh();
 
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+
+            index = intent.getStringExtra("index");
+            id = intent.getIntExtra("id", 0);
+
+            if(index.equals("addCollect")){
+
+                for(int i = 0;i<reserveList.size();i++){
+
+                    if(reserveList.get(i).getNews().getNewsid() == id){
+
+                        list.add(reserveList.get(i));
+                        commonAdapter.notifyDataSetChanged();
+                    }
+
+                }
+
+            }else if(index.equals("cancelCollect")){
+
+                for(int i = 0;i<list.size();i++){
+
+                    if(list.get(i).getNews().getNewsid() == id){
+
+                        list.remove(i);
+                        commonAdapter.notifyDataSetChanged();
+
+                    }
+
+                }
+
+            }
+
+        }
+    };
 
     private void getRecommend(final int tag) {
 
@@ -165,6 +214,8 @@ public class NewCollectActivity extends BaseTransparentActivity implements OnLoa
         if (tag == REFLUSH_LIST) {
             list.clear();
             list.addAll(nowJson.getData().getList());
+            reserveList.clear();
+            reserveList.addAll(list);
             if (list.size() == 0) {
                 noCollect.setVisibility(View.VISIBLE);
             } else {
@@ -179,6 +230,8 @@ public class NewCollectActivity extends BaseTransparentActivity implements OnLoa
 
             } else {
                 list.addAll(nowJson.getData().getList());
+                reserveList.clear();
+                reserveList.addAll(list);
                 mHandler.sendEmptyMessageDelayed(tag, 1000);
             }
         }
@@ -284,54 +337,6 @@ public class NewCollectActivity extends BaseTransparentActivity implements OnLoa
     public void onResume() {
         super.onResume();
 
-        if (isMeCollectRefresh) {
-
-            ServiceFactory.getNewInstance()
-                    .createService(YService.class)
-                    .userPraiseList("", list.size() - 1)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new CommonObserver<GetMeCollectJson>() {
-                        @Override
-                        public void onNext(GetMeCollectJson getMeCollectJson) {
-                            super.onNext(getMeCollectJson);
-
-                            if (null != getMeCollectJson && getMeCollectJson.getErrno() == 0) {
-                                offSet = String.valueOf(getMeCollectJson.getData().getOffset());
-
-                                list.clear();
-                                list.addAll(getMeCollectJson.getData().getList());
-                                if (list.size() == 0) {
-                                    noCollect.setVisibility(View.VISIBLE);
-                                } else {
-                                    noCollect.setVisibility(View.GONE);
-                                }
-
-                                commonAdapter.notifyDataSetChanged();
-                                refreshData.refresh();
-                                isMeCollectRefresh = false;
-                                UIUtils.clearMemoryCache(NewCollectActivity.this);
-                            } else if (null != getMeCollectJson && getMeCollectJson.getErrno() == 1101) {
-
-                                SharedPreferencesUtils.writeString("token", "");
-                            } else if (null != getMeCollectJson && getMeCollectJson.getErrno() != 200) {
-
-                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getMeCollectJson.getErrmsg()) ? "数据加载失败" : getMeCollectJson.getErrmsg());
-                            } else {
-
-                                ToastUtils.getInstance().showToast("数据加载失败");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
-
-                            ToastUtils.getInstance().showToast("数据加载失败");
-                        }
-                    });
-
-        }
 
     }
 

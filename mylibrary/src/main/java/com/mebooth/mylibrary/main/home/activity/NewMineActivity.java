@@ -286,7 +286,7 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                                                             ToastUtils.getInstance().showToast("已取消关注");
                                                             editInfo.setText("关注");
                                                             editInfo.setTextColor(getResources().getColor(R.color.bg_ffffff));
-                                                            editInfo.setBackgroundColor(getResources().getColor(R.color.bg_E73828));
+                                                            editInfo.setBackgroundColor(getResources().getColor(ResourcseMessage.getFontColor()));
 
                                                             Intent intent = new Intent("dataRefresh");
                                                             intent.putExtra("index", "follow");
