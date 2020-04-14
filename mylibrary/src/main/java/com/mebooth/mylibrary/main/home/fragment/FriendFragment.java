@@ -135,6 +135,12 @@ public class FriendFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+
+        if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
+
+            connect();
+        }
+
         title.setText("朋友");
         right.setVisibility(View.VISIBLE);
         right.setText("我关注的人");

@@ -89,7 +89,7 @@ public class NewMainFragment extends BaseFragment {
 
     private PopupWindow mPopupWindow;
 
-    private static final long DURATION = 500;
+    private static final long DURATION = 0;
     private static final float START_ALPHA = 0.7f;
     private static final float END_ALPHA = 1f;
 
@@ -103,6 +103,9 @@ public class NewMainFragment extends BaseFragment {
     private String homeMenu = "";
     private ImageView mainLogo;
     private ImageView clickRefresh;
+    private String autograph = "";
+    private String sex = "";
+    private String city = "";
 
     public static NewMainFragment newInstance() {
         return new NewMainFragment();
@@ -515,6 +518,9 @@ public class NewMainFragment extends BaseFragment {
                             uid = getMyUserInfo.getData().getUser().getUid();
                             headerIconStr = getMyUserInfo.getData().getUser().getAvatar();
                             nickName = getMyUserInfo.getData().getUser().getNickname();
+                            autograph = getMyUserInfo.getData().getUser().getSignature();
+                            sex = getMyUserInfo.getData().getUser().getGender();
+                            city = getMyUserInfo.getData().getUser().getCity();
                             RongIM.getInstance().setCurrentUserInfo(new UserInfo(String.valueOf(uid), nickName, Uri.parse(headerIconStr)));
                             /**
                              * 设置消息体内是否携带用户信息。
@@ -532,9 +538,12 @@ public class NewMainFragment extends BaseFragment {
                                                 if (position == 0) {
                                                     Intent intent = new Intent(getActivity(), EditUserInfoActivity.class);
 //                    Intent intent = new Intent(getActivity(), FriendFragment.class);
-                                                    intent.putExtra("uid", uid);
+//                                                    intent.putExtra("uid", uid);
                                                     intent.putExtra("headericon", headerIconStr);
                                                     intent.putExtra("nickname", nickName);
+                                                    intent.putExtra("autograph", autograph);
+                                                    intent.putExtra("sex", sex);
+                                                    intent.putExtra("city", city);
                                                     startActivity(intent);
                                                 }
                                             }

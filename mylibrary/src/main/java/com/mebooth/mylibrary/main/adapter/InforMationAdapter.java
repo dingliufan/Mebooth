@@ -126,6 +126,10 @@ public class InforMationAdapter extends RecyclerView.Adapter<InforMationAdapter.
             tvNickNameSex.setCompoundDrawablePadding(10);
             tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
         } else {
+            TextView tvNickNameSex = holder.nickName;
+            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                    null, null, null);
+            tvNickNameSex.setCompoundDrawablePadding(10);
             holder.nickName.setText(recommend.get(position).getUser().getNickname());
         }
 

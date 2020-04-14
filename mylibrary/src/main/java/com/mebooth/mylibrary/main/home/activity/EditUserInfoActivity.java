@@ -3,7 +3,9 @@ package com.mebooth.mylibrary.main.home.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
@@ -189,6 +191,51 @@ public class EditUserInfoActivity extends BaseTransparentActivity {
             }
         });
 
+        nickName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().length() >= 12) {
+
+                    ToastUtils.getInstance().showToast("您最多只能输入12个字！");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        autoGraph.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().length() >= 20) {
+
+                    ToastUtils.getInstance().showToast("您最多只能输入20个字！");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,12 +262,12 @@ public class EditUserInfoActivity extends BaseTransparentActivity {
             @Override
             public void onClick(View v) {
 
-                if(sexRadioButtonMan.isChecked()){
+                if (sexRadioButtonMan.isChecked()) {
 
                     sexStr = "男";
 
                 }
-                if(sexRadioButtonWoMan.isChecked()){
+                if (sexRadioButtonWoMan.isChecked()) {
                     sexStr = "女";
                 }
 

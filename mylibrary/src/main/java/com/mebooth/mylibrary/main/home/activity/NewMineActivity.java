@@ -670,6 +670,9 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                     if(userNewsList.size() == 0&&userTopicList.size() == 0){
                         holder.setVisible(R.id.userpublish_item_nocontent,View.VISIBLE);
                         holder.setText(R.id.userpublish_item_nocontent,"您还没有发布过此刻或笔记");
+                    }else{
+                        holder.setVisible(R.id.userpublish_item_nocontent,View.GONE);
+                        holder.setText(R.id.userpublish_item_nocontent,"您还没有发布过此刻或笔记");
                     }
 //                    }
 
@@ -901,6 +904,9 @@ public class NewMineActivity extends BaseTransparentActivity implements OnRefres
                         super.onNext(userInfoJson);
 
                         if (null != userInfoJson && userInfoJson.getErrno() == 0) {
+
+                            //显示编辑图标，防止信息不全，用户错误点击
+                            editInfo.setVisibility(View.VISIBLE);
 
                             newUserInfo = userInfoJson;
                             userPublishList.clear();

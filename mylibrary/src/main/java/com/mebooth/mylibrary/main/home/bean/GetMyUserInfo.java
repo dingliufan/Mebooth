@@ -47,6 +47,42 @@ public class GetMyUserInfo {
             private int uid;
             private String nickname;
             private String avatar;
+            private String employee;
+            private String gender;
+            private String city;
+            private String signature;
+
+            public String getEmployee() {
+                return employee;
+            }
+
+            public void setEmployee(String employee) {
+                this.employee = employee;
+            }
+
+            public String getGender() {
+                return gender;
+            }
+
+            public void setGender(String gender) {
+                this.gender = gender;
+            }
+
+            public String getCity() {
+                return city;
+            }
+
+            public void setCity(String city) {
+                this.city = city;
+            }
+
+            public String getSignature() {
+                return signature;
+            }
+
+            public void setSignature(String signature) {
+                this.signature = signature;
+            }
 
             public int getUid() {
                 return uid;

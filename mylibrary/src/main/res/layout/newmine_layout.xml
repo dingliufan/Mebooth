@@ -90,6 +90,7 @@
         android:textColor="@color/bg_ffffff"
         android:textSize="20sp"
         android:gravity="center"
-        android:background="@color/bg_E73828"/>
+        android:background="@color/bg_E73828"
+        android:visibility="gone"/>
     
 </LinearLayout>

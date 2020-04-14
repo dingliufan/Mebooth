@@ -423,7 +423,7 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                     }
                 });
                 holder.setBackgroundRes(R.id.newminebg_iv, ResourcseMessage.getMineBg());
-
+                holder.setBackgroundRes(R.id.staff_tab, ResourcseMessage.getIsStaffRes());
                 if (position == 0) {
 
                     FrameLayout linearLayout = holder.getView(R.id.newmine_header);
@@ -676,6 +676,9 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                     if(userNewsList.size() == 0&&userTopicList.size() == 0){
                         holder.setVisible(R.id.userpublish_item_nocontent,View.VISIBLE);
                         holder.setText(R.id.userpublish_item_nocontent,"TA还没有发布过此刻或笔记");
+                    }else{
+                        holder.setVisible(R.id.userpublish_item_nocontent,View.GONE);
+                        holder.setText(R.id.userpublish_item_nocontent,"TA还没有发布过此刻或笔记");
                     }
 
 //                    holder.setVisible(R.id.newmine_header, View.GONE);
@@ -905,6 +908,8 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                         super.onNext(userInfoJson);
 
                         if (null != userInfoJson && userInfoJson.getErrno() == 0) {
+                            //显示关注图标，防止信息不全，用户错误点击
+                            editInfo.setVisibility(View.VISIBLE);
 
                             newUserInfo = userInfoJson;
                             userPublishList.clear();

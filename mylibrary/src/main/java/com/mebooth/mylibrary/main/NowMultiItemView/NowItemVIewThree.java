@@ -167,6 +167,10 @@ public class NowItemVIewThree implements ItemViewDelegate<GetNowJson.NowData.Now
             tvNickNameSex.setCompoundDrawablePadding(10);
             tvNickNameSex.setText(nowDataList.getUser().getNickname());
         } else {
+            TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname);
+            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                    null, null, null);
+            tvNickNameSex.setCompoundDrawablePadding(10);
             holder.setText(R.id.recommenditem_nickname, nowDataList.getUser().getNickname());
         }
 

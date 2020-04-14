@@ -47,6 +47,7 @@ import com.mebooth.mylibrary.main.utils.BroadcastAction;
 import com.mebooth.mylibrary.main.utils.BroadcastManager;
 import com.mebooth.mylibrary.main.utils.GlideEngine;
 import com.mebooth.mylibrary.main.utils.GridSpacingItemNotBothDecoration;
+import com.mebooth.mylibrary.main.utils.LoadDialog;
 import com.mebooth.mylibrary.main.utils.MyLocationUtil;
 import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
@@ -109,6 +110,9 @@ public class PublishActivity extends BaseTransparentActivity {
 
     private boolean isSending = true;
     private String platform = "";
+
+    //加载中弹窗
+    private LoadDialog dialog;
 
     @Override
     protected int getContentViewId() {
@@ -201,6 +205,29 @@ public class PublishActivity extends BaseTransparentActivity {
 //            ToastUtils.getInstance().showToast("请查看定位是否开启");
 //
 //        }
+
+        content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if(s.toString().length()>=340){
+
+                    ToastUtils.getInstance().showToast("您最多只能输入340个字！");
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -450,7 +477,14 @@ public class PublishActivity extends BaseTransparentActivity {
 
 
     private void getToken(final ArrayList<String> pathImage) {
-        ToastUtils.getInstance().showToast("正在发布，请稍后...");
+        //加载弹窗
+        LoadDialog.Builder loadBuilder = new LoadDialog.Builder(this)
+                .setMessage("玩命上传中...")
+                .setCancelable(false)//返回键是否可点击
+                .setCancelOutside(false);//窗体外是否可点击
+        dialog = loadBuilder.create();
+        dialog.show();//显示弹窗
+//        ToastUtils.getInstance().showToast("正在发布，请稍后...");
         ArrayList<MultipartBody.Part> stringArrayList = new ArrayList<MultipartBody.Part>();
 //
         for (String imgStr : pathImage) {
@@ -493,14 +527,17 @@ public class PublishActivity extends BaseTransparentActivity {
                                 isSending = true;
                                 right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                                 SharedPreferencesUtils.writeString("token", "");
+                                dialog.dismiss();//数据加载失败取消弹窗
                             } else if (null != updateHeaderFileJson && updateHeaderFileJson.getErrno() != 200) {
                                 isSending = true;
                                 right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                                 ToastUtils.getInstance().showToast(TextUtils.isEmpty(updateHeaderFileJson.getErrmsg()) ? "数据加载失败" : updateHeaderFileJson.getErrmsg());
+                                dialog.dismiss();//数据加载失败取消弹窗
                             } else {
                                 isSending = true;
                                 right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                                 ToastUtils.getInstance().showToast("数据加载失败");
+                                dialog.dismiss();//数据加载失败取消弹窗
                             }
                         }
 
@@ -510,6 +547,7 @@ public class PublishActivity extends BaseTransparentActivity {
                             isSending = true;
                             right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             ToastUtils.getInstance().showToast("数据加载失败");
+                            dialog.dismiss();//数据加载失败取消弹窗
                         }
                     });
 
@@ -540,6 +578,7 @@ public class PublishActivity extends BaseTransparentActivity {
 //                            Intent intent = new Intent(PublishActivity.this, NewMainActivity.class);
 //                            startActivity(intent);
 //                            ActivityCollectorUtil.finishAllActivity();
+                            dialog.dismiss();//数据加载完成取消弹窗
                             finish();
                             ToastUtils.getInstance().showToast("您的帖子已发布，审核通过后就可以与大家见面了");
 
@@ -547,14 +586,17 @@ public class PublishActivity extends BaseTransparentActivity {
                             isSending = true;
                             right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             SharedPreferencesUtils.writeString("token", "");
+                            dialog.dismiss();//数据加载失败取消弹窗
                         } else if (null != publicBean && publicBean.getErrno() != 200) {
                             isSending = true;
                             right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             ToastUtils.getInstance().showToast(TextUtils.isEmpty(publicBean.getErrmsg()) ? "数据加载失败" : publicBean.getErrmsg());
+                            dialog.dismiss();//数据加载失败取消弹窗
                         } else {
                             isSending = true;
                             right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                             ToastUtils.getInstance().showToast("数据加载失败");
+                            dialog.dismiss();//数据加载失败取消弹窗
                         }
                     }
 
@@ -564,6 +606,7 @@ public class PublishActivity extends BaseTransparentActivity {
                         isSending = true;
                         right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
                         ToastUtils.getInstance().showToast("数据加载失败");
+                        dialog.dismiss();//数据加载失败取消弹窗
                     }
                 });
     }

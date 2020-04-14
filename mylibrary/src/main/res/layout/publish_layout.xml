@@ -61,6 +61,7 @@
         android:background="@android:color/transparent"
         android:gravity="start"
         android:hint="分享美好瞬间~"
+        android:maxLength="340"
         android:lines="8"
         android:padding="10dp"
         android:textColor="#474747"

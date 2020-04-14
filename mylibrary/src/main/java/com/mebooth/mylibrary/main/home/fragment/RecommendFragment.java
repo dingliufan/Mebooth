@@ -603,6 +603,10 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             tvNickNameSex.setCompoundDrawablePadding(10);
                             tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
                         }else{
+                            TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname);
+                            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    null, null, null);
+                            tvNickNameSex.setCompoundDrawablePadding(10);
                             holder.setText(R.id.recommenditem_nickname,recommend.get(position).getUser().getNickname());
 
                         }
@@ -963,6 +967,10 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             tvNickNameSex.setCompoundDrawablePadding(10);
                             tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
                         }else{
+                            TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname1);
+                            tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    null, null, null);
+                            tvNickNameSex.setCompoundDrawablePadding(10);
                             holder.setText(R.id.recommenditem_nickname1,recommend.get(position).getUser().getNickname());
 
                         }
