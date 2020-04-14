@@ -67,17 +67,17 @@
 
                 <ImageView
                     android:id="@+id/consult_qrcode"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="26dp"
+                    android:layout_height="32.5dp"
                     android:layout_marginRight="27dp"
                     android:src="@drawable/home_qrcode" />
 
                 <ImageView
                     android:id="@+id/consult_publish"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_height="32.5dp"
                     android:layout_marginRight="27dp"
-                    android:src="@drawable/publish_img" />
+                    android:src="@drawable/publish_img1" />
             </LinearLayout>
         </FrameLayout>
 
