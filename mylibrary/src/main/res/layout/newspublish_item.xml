@@ -37,6 +37,7 @@
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
                 android:minLines="5"
+                android:maxLength="1000"
                 android:textColor="@color/bg_909090"
                 android:textColorHint="@color/bg_7d7d7d"
                 android:textSize="14sp" />

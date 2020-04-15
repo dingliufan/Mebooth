@@ -79,12 +79,21 @@ public abstract class AppApplication extends Application {
         Gson gson = new Gson();
 
         String msg = gson.toJson(userTokenJson);
+
+        if (SharedPreferencesUtils.readString("token").isEmpty()) {
+
+            Intent intent = new Intent("dataRefresh");
+            intent.putExtra("index", "refreshList");
+            sendBroadcast(intent);
+
+        }
+
         SharedPreferencesUtils.writeString("token", msg);
         //获取融云token（）：
         if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
 
-            } else {
-                if (getCurProcessName(app).equals("io.rong.push") || getCurProcessName(app).contains("ipc")) {
+        } else {
+            if (getCurProcessName(app).equals("io.rong.push") || getCurProcessName(app).contains("ipc")) {
 
             } else {
                 //融云测试
@@ -140,6 +149,9 @@ public abstract class AppApplication extends Application {
 
     public void setLogOut(boolean isLogOut) {
         if (isLogOut) {
+            Intent intent = new Intent("dataRefresh");
+            intent.putExtra("index", "refreshList");
+            sendBroadcast(intent);
 
             SharedPreferencesUtils.writeString("token", "");
 

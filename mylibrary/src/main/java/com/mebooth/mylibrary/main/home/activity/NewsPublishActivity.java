@@ -291,6 +291,16 @@ public class NewsPublishActivity extends BaseTransparentActivity {
 
                 }
 
+                if (content.length() > 15000) {
+
+                    ToastUtils.getInstance().showToast("您最多只能输入15000个字");
+                    isSending = true;
+                    right.setTextColor(getResources().getColor(ResourcseMessage.getFontColor()));
+
+                    return;
+
+                }
+
                 String location = "";
 
                 if (!publishGPS.getText().toString().equals("不显示位置") || !publishGPS.getText().toString().equals("我在这里")) {

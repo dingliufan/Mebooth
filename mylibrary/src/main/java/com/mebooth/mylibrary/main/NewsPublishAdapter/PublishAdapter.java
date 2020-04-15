@@ -17,6 +17,7 @@ import com.mebooth.mylibrary.main.home.activity.NewsPublishActivity;
 import com.mebooth.mylibrary.main.home.bean.NewPublish;
 import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.ToastUtils;
 
 import java.util.Collections;
 
@@ -97,6 +98,11 @@ public class PublishAdapter implements ItemViewDelegate<NewPublish> {
 
                     newPublishesList.get(position).setContent(s.toString());
 
+                    if(s.toString().length()>=1000){
+
+                        ToastUtils.getInstance().showToast("每个输入框最多只能输入1000个字");
+
+                    }
             }
 
             @Override

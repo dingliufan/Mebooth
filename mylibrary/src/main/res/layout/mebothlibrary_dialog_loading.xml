@@ -12,13 +12,12 @@
     android:layout_height="wrap_content">
 
     <ProgressBar
-        android:id="@+id/progress"
-        android:indeterminateDrawable="@drawable/anim_loadingdialog"
+        android:id="@+id/meboth_loading_progress"
         android:layout_width="24dp"
         android:layout_height="24dp"/>
 
     <TextView
-        android:id="@+id/tipTextView"
+        android:id="@+id/tip_textview"
         android:layout_marginLeft="8dp"
         android:textColor="@color/bg_666666"
         android:layout_gravity="center_vertical"

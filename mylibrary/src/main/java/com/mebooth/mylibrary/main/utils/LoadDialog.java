@@ -1,10 +1,10 @@
 package com.mebooth.mylibrary.main.utils;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mebooth.mylibrary.R;
@@ -76,14 +76,16 @@ public class LoadDialog extends Dialog{
         public Builder setCancelOutside(boolean isCancelOutside) {
             this.isCancelOutside = isCancelOutside;
             return this;
-        }
+    }
 
         public LoadDialog create() {
 
             LayoutInflater inflater = LayoutInflater.from(context);
-            View view = inflater.inflate(R.layout.dialog_loading, null);
+            View view = inflater.inflate(R.layout.mebothlibrary_dialog_loading, null);
             LoadDialog loadingDailog = new LoadDialog(context, R.style.CustomDialog);
-            TextView msgText = (TextView) view.findViewById(R.id.tipTextView);
+            TextView msgText = view.findViewById(R.id.tip_textview);
+            ProgressBar loadingProgress = view.findViewById(R.id.meboth_loading_progress);
+            loadingProgress.setIndeterminateDrawable(context.getResources().getDrawable(ResourcseMessage.getLoadingBg()));
             if (isShowMessage) {
                 msgText.setText(message);
             } else {

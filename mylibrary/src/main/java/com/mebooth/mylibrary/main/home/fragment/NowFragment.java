@@ -157,9 +157,53 @@ public class NowFragment extends BaseFragment implements OnLoadMoreListener, OnR
                         commonAdapter.notifyDataSetChanged();
                     }
                 }
+            }else if(index.equals("refreshList")){
+
+                refreshDataList();
+
             }
         }
     };
+
+    private void refreshDataList() {
+
+        ServiceFactory.getNewInstance()
+                    .createService(YService.class)
+                    .getNow(foward, "", list.size())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new CommonObserver<GetNowJson>() {
+                        @Override
+                        public void onNext(GetNowJson getNowJson) {
+                            super.onNext(getNowJson);
+
+                            if (null != getNowJson && getNowJson.getErrno() == 0) {
+
+                                list.clear();
+                                list.addAll(getNowJson.getData().getList());
+                                commonAdapter.notifyDataSetChanged();
+                                UIUtils.clearMemoryCache(getActivity());
+                            } else if (null != getNowJson && getNowJson.getErrno() == 1101) {
+
+                                SharedPreferencesUtils.writeString("token", "");
+                            } else if (null != getNowJson && getNowJson.getErrno() != 200) {
+
+                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getNowJson.getErrmsg()) ? "数据加载失败" : getNowJson.getErrmsg());
+                            } else {
+
+                                ToastUtils.getInstance().showToast("数据加载失败");
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            super.onError(e);
+
+                            ToastUtils.getInstance().showToast("数据加载失败");
+                        }
+                    });
+
+    }
 
     private void getRecommend(final int tag) {
 

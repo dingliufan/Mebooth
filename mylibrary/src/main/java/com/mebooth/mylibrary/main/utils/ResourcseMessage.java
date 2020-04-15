@@ -129,4 +129,18 @@ public class ResourcseMessage {
         }
     }
 
+    //上传中icon
+    public static int getLoadingBg() {
+
+        if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.mmuu.travel.client")) {
+
+            return R.drawable.anim_xiaomi_loadingdialog;
+
+        } else if (AppApplication.getInstance().getApplicationInfo().processName.equals("com.baojia.mebike")) {
+            return R.drawable.anim_xiaomi_loadingdialog;
+        } else {
+            return R.drawable.anim_loadingdialog;
+        }
+    }
+
 }

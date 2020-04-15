@@ -22,6 +22,7 @@ import com.mebooth.mylibrary.main.utils.GlideEngine;
 import com.mebooth.mylibrary.main.utils.NoPublish;
 import com.mebooth.mylibrary.main.utils.PictureConfig;
 import com.mebooth.mylibrary.utils.GlideImageManager;
+import com.mebooth.mylibrary.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,13 @@ public class PublishHeaderAdapter implements ItemViewDelegate<NewPublish> {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 publishNewsTitle = s.toString();
+
+                if(s.toString().length()>=30){
+
+                    ToastUtils.getInstance().showToast("您最多只能输入30个字");
+
+                }
+
             }
 
             @Override
