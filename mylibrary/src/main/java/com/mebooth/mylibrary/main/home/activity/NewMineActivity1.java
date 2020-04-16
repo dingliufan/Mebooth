@@ -730,7 +730,7 @@ public class NewMineActivity1 extends BaseTransparentActivity implements OnRefre
                     RecyclerView recyclerView1 = holder.getView(R.id.userpublish_recycleview);
                     recyclerView1.setLayoutManager(new LinearLayoutManager(NewMineActivity1.this));
                     recyclerView1.setAdapter(commonAdapter2);
-                    mSmart.autoRefresh();
+//                    mSmart.autoRefresh();
                 }
 
             }

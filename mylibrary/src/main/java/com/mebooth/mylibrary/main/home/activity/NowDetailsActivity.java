@@ -598,6 +598,24 @@ public class NowDetailsActivity extends BaseTransparentActivity implements OnRef
 
                             GlideImageManager.glideLoader(NowDetailsActivity.this, getNowDetailsJson.getData().getUser().getAvatar(), headerIcon, GlideImageManager.TAG_ROUND);
 
+                            headerIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                                        AppApplication.getInstance().setLogin();
+
+                                    } else {
+                                        Intent intent = new Intent(NowDetailsActivity.this, NewMineActivity1.class);
+                                        intent.putExtra("index", "other");
+                                        intent.putExtra("uid", uid);
+//                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                                        startActivity(intent);
+                                    }
+
+                                }
+                            });
+
                             if (getNowDetailsJson.getData().getUser().getEmployee().equals("Y")) {
 
                                 //昵称

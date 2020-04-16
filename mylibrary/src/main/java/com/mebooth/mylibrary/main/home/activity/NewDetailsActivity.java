@@ -1029,6 +1029,24 @@ public class NewDetailsActivity extends BaseTransparentActivity implements OnRef
                                 newdetailsCollect.setText(String.valueOf(getNewInfoJson.getData().getNews().getFavorites()));
                             }
 
+                            newdetailsHeaderIcon.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (StringUtil.isEmpty(SharedPreferencesUtils.readString("token"))) {
+
+                                        AppApplication.getInstance().setLogin();
+
+                                    } else {
+                                        Intent intent = new Intent(NewDetailsActivity.this, NewMineActivity1.class);
+                                        intent.putExtra("index", "other");
+                                        intent.putExtra("uid", uid);
+//                                    intent.putExtra("nickname", recommend.get(position).getUser().getNickname());
+                                        startActivity(intent);
+                                    }
+
+                                }
+                            });
+
                             //收藏
                             newdetailsCollectImg.setOnClickListener(new View.OnClickListener() {
                                 @Override
