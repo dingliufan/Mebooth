@@ -80,13 +80,16 @@ public abstract class AppApplication extends Application {
 
         String msg = gson.toJson(userTokenJson);
 
-        if (SharedPreferencesUtils.readString("token").isEmpty()) {
+        if (SharedPreferencesUtils.readString("token") != null) {
+            if (SharedPreferencesUtils.readString("token").isEmpty()) {
 
-            Intent intent = new Intent("dataRefresh");
-            intent.putExtra("index", "refreshList");
-            sendBroadcast(intent);
+                Intent intent = new Intent("dataRefresh");
+                intent.putExtra("index", "refreshList");
+                sendBroadcast(intent);
 
+            }
         }
+
 
         SharedPreferencesUtils.writeString("token", msg);
         //获取融云token（）：
