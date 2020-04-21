@@ -154,7 +154,7 @@ public abstract class AppApplication extends Application {
             sendBroadcast(intent);
 
             SharedPreferencesUtils.writeString("token", "");
-
+            RongIM.getInstance().logout();
         }
     }
 
