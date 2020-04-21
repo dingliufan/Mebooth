@@ -83,7 +83,7 @@ public class GetRecommendJson {
                 this.feed = feed;
             }
 
-            public class Recommendfeed {
+            public static class Recommendfeed {
                 private int type;
                 private int relateid;
                 private String content;

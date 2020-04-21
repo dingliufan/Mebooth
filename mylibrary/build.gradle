@@ -53,8 +53,14 @@ android {
 
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
@@ -104,4 +110,7 @@ dependencies {
     api 'com.bigkoo:alertview:1.0.3'
     api project (':IMKit')
 //    api project (':IMLib')
+
+    api (name:'GDTSDK.unionNormal.4.150.1020', ext:'aar')
+
 }

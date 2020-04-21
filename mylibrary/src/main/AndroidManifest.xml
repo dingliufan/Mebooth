@@ -24,7 +24,8 @@
     <!--<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />-->
     <!--<uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>-->
 
-    <application>
+    <application
+        android:usesCleartextTraffic="true">
 
         <!--<meta-data-->
             <!--android:name="com.google.android.actions"-->
@@ -41,6 +42,30 @@
         <!--</provider>-->
 
         <!--<activity android:name=".MainActivity">-->
+
+        <!--腾讯优量汇植入开始-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+        <!-- 声明SDK所需要的组件 -->
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" />
+        <!-- 请开发者注意字母的大小写，ADActivity，而不是AdActivity -->
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
+        <!--腾讯优量汇植入结束-->
+
+
         <activity android:name="com.mebooth.mylibrary.main.home.activity.NewMainActivity"></activity>
 
         <activity
@@ -167,10 +192,20 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/ImagePickerThemeFullScreen" />
 
-
+        //融云
         <provider
             android:name="com.mebooth.mylibrary.imagepicker.ImagePickerProvider"
             android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        //腾讯优量汇
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

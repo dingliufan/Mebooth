@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +61,12 @@ import com.mebooth.mylibrary.utils.SharedPreferencesUtils;
 import com.mebooth.mylibrary.utils.StringUtil;
 import com.mebooth.mylibrary.utils.ToastUtils;
 import com.mebooth.mylibrary.utils.UIUtils;
+import com.qq.e.ads.cfg.VideoOption;
+import com.qq.e.ads.nativ.ADSize;
+import com.qq.e.ads.nativ.NativeExpressAD;
+import com.qq.e.ads.nativ.NativeExpressADView;
+import com.qq.e.comm.constants.AdPatternType;
+import com.qq.e.comm.util.AdError;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -69,11 +76,12 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class RecommendFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener, OnItemClickListener {
+public class RecommendFragment extends BaseFragment implements OnLoadMoreListener, OnRefreshListener, OnItemClickListener, NativeExpressAD.NativeExpressADListener {
 
     //    private MultiItemTypeAdapter commonAdapter;
     private CommonAdapter commonAdapter;
@@ -103,6 +111,8 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private String banner = "";
     private String entrance = "";
     private boolean isFllow = false;
+    private NativeExpressAD nativeExpressAD;
+    private NativeExpressADView nativeExpressADView;
 
     public static RecommendFragment getInstance(String foward) {
         RecommendFragment sf = new RecommendFragment();
@@ -210,7 +220,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         commonAdapter.notifyDataSetChanged();
                     }
                 }
-            }else if(index.equals("refreshList")){
+            } else if (index.equals("refreshList")) {
 
                 refreshDataList();
 
@@ -222,46 +232,46 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
     private void refreshDataList() {
 
         ServiceFactory.getNewInstance()
-                    .createService(YService.class)
-                    .getRecommend(foward, "", recommend.size() - 1)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new CommonObserver<GetRecommendJson>() {
-                        @Override
-                        public void onNext(GetRecommendJson getRecommendJson) {
-                            super.onNext(getRecommendJson);
+                .createService(YService.class)
+                .getRecommend(foward, "", recommend.size() - 1)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CommonObserver<GetRecommendJson>() {
+                    @Override
+                    public void onNext(GetRecommendJson getRecommendJson) {
+                        super.onNext(getRecommendJson);
 
-                            if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
+                        if (null != getRecommendJson && getRecommendJson.getErrno() == 0) {
 
-                                recommend.clear();
-                                if (getRecommendJson.getData().getList().size() != 0) {
-                                    recommend.add(getRecommendJson.getData().getList().get(0));
-                                }
-                                recommend.addAll(getRecommendJson.getData().getList());
-                                commonAdapter.notifyDataSetChanged();
-
-                                UIUtils.clearMemoryCache(getActivity());
-
-                            } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
-
-                                SharedPreferencesUtils.writeString("token", "");
-                                Log.d("RecommendFragment", "token已被清空");
-                            } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
-
-                                ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
-                            } else {
-
-                                ToastUtils.getInstance().showToast("数据加载失败");
+                            recommend.clear();
+                            if (getRecommendJson.getData().getList().size() != 0) {
+                                recommend.add(getRecommendJson.getData().getList().get(0));
                             }
-                        }
+                            recommend.addAll(getRecommendJson.getData().getList());
+                            commonAdapter.notifyDataSetChanged();
 
-                        @Override
-                        public void onError(Throwable e) {
-                            super.onError(e);
+                            UIUtils.clearMemoryCache(getActivity());
+
+                        } else if (null != getRecommendJson && getRecommendJson.getErrno() == 1101) {
+
+                            SharedPreferencesUtils.writeString("token", "");
+                            Log.d("RecommendFragment", "token已被清空");
+                        } else if (null != getRecommendJson && getRecommendJson.getErrno() != 200) {
+
+                            ToastUtils.getInstance().showToast(TextUtils.isEmpty(getRecommendJson.getErrmsg()) ? "数据加载失败" : getRecommendJson.getErrmsg());
+                        } else {
 
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
-                    });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+
+                        ToastUtils.getInstance().showToast("数据加载失败");
+                    }
+                });
 
 
     }
@@ -353,7 +363,6 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                             ToastUtils.getInstance().showToast("数据加载失败");
                         }
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
@@ -438,7 +447,16 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                 recommend.add(getRecommendJson.getData().getList().get(0));
             }
             recommend.addAll(getRecommendJson.getData().getList());
+            if (getRecommendJson.getData().getList().size() != 0) {
+                GetRecommendJson.RecommendData.RecommendDataList recommendData = new GetRecommendJson.RecommendData.RecommendDataList();
+                GetRecommendJson.RecommendData.RecommendDataList.Recommendfeed recommendfeed = new GetRecommendJson.RecommendData.RecommendDataList.Recommendfeed();
+                //广告type
+                recommendfeed.setType(9);
+                recommendData.setFeed(recommendfeed);
+                recommend.add(recommendData);
+            }
 //            recyclerView.setAdapter(commonAdapter);
+            refreshAd();
             mHandler.sendEmptyMessageDelayed(tag, 1000);
         } else {
             if (getRecommendJson.getData().getList().size() == 0) {
@@ -447,7 +465,16 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
             } else {
                 recommend.addAll(getRecommendJson.getData().getList());
+                if (getRecommendJson.getData().getList().size() != 0) {
+                    GetRecommendJson.RecommendData.RecommendDataList recommendData = new GetRecommendJson.RecommendData.RecommendDataList();
+                    GetRecommendJson.RecommendData.RecommendDataList.Recommendfeed recommendfeed = new GetRecommendJson.RecommendData.RecommendDataList.Recommendfeed();
+                    //广告type
+                    recommendfeed.setType(9);
+                    recommendData.setFeed(recommendfeed);
+                    recommend.add(recommendData);
+                }
                 mHandler.sendEmptyMessageDelayed(tag, 1000);
+                refreshAd();
             }
         }
     }
@@ -476,7 +503,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     }
 
-    private static class MyHandler extends Handler {
+    private class MyHandler extends Handler {
         WeakReference<Fragment> reference;
 
         public MyHandler(Fragment context) {
@@ -532,6 +559,7 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                     holder.setVisible(R.id.recommend_header_lly, View.VISIBLE);
                     holder.setVisible(R.id.recommendnews_item, View.GONE);
                     holder.setVisible(R.id.recommendnow_item, View.GONE);
+                    holder.setVisible(R.id.container, View.GONE);
                     UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headerimg), 0, bannerJson.getData().getConfig().getImage(), RoundedCornersTransformation.CORNER_ALL);
                     UIUtils.loadRoundImage((ImageView) holder.getView(R.id.buy_car), 0, config.get(0).getImage(), RoundedCornersTransformation.CORNER_ALL);
                     UIUtils.loadRoundImage((ImageView) holder.getView(R.id.publicusecar), 0, config.get(1).getImage(), RoundedCornersTransformation.CORNER_ALL);
@@ -621,10 +649,11 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
                 } else {
 
-                    if (recommend.get(position).getFeed().getType() != 1) {
+                    if (recommend.get(position).getFeed().getType() == 2) {
                         holder.setVisible(R.id.recommend_header_lly, View.GONE);
                         holder.setVisible(R.id.recommendnews_item, View.VISIBLE);
                         holder.setVisible(R.id.recommendnow_item, View.GONE);
+                        holder.setVisible(R.id.container, View.GONE);
                         UIUtils.loadRoundImage((ImageView) holder.getView(R.id.recommenditem_headericon), 50, recommend.get(position).getUser().getAvatar(), RoundedCornersTransformation.CORNER_ALL);
 
                         if (AppApplication.getInstance().userid != null) {
@@ -654,12 +683,12 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                     null, drawableRight, null);
                             tvNickNameSex.setCompoundDrawablePadding(10);
                             tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
-                        }else{
+                        } else {
                             TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname);
                             tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
                                     null, null, null);
                             tvNickNameSex.setCompoundDrawablePadding(10);
-                            holder.setText(R.id.recommenditem_nickname,recommend.get(position).getUser().getNickname());
+                            holder.setText(R.id.recommenditem_nickname, recommend.get(position).getUser().getNickname());
 
                         }
 
@@ -929,9 +958,10 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         });
 
 
-                    } else {
+                    } else if (recommend.get(position).getFeed().getType() == 1) {
                         holder.setVisible(R.id.recommend_header_lly, View.GONE);
                         holder.setVisible(R.id.recommendnews_item, View.GONE);
+                        holder.setVisible(R.id.container, View.GONE);
                         holder.setVisible(R.id.recommendnow_item, View.VISIBLE);
                         if (recommend.get(position).getFeed().getImages().size() == 1) {
 
@@ -1018,12 +1048,12 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                                     null, drawableRight, null);
                             tvNickNameSex.setCompoundDrawablePadding(10);
                             tvNickNameSex.setText(recommend.get(position).getUser().getNickname());
-                        }else{
+                        } else {
                             TextView tvNickNameSex = holder.getView(R.id.recommenditem_nickname1);
                             tvNickNameSex.setCompoundDrawablesWithIntrinsicBounds(null,
                                     null, null, null);
                             tvNickNameSex.setCompoundDrawablePadding(10);
-                            holder.setText(R.id.recommenditem_nickname1,recommend.get(position).getUser().getNickname());
+                            holder.setText(R.id.recommenditem_nickname1, recommend.get(position).getUser().getNickname());
 
                         }
 
@@ -1300,6 +1330,26 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
                         });
 
 
+                    } else if (recommend.get(position).getFeed().getType() == 9) {//广告显示
+                        holder.setVisible(R.id.recommend_header_lly, View.GONE);
+                        holder.setVisible(R.id.recommendnews_item, View.GONE);
+                        holder.setVisible(R.id.container, View.VISIBLE);
+                        holder.setVisible(R.id.recommendnow_item, View.GONE);
+
+                        FrameLayout frameLayout = new FrameLayout(getActivity());
+                        frameLayout = holder.getView(R.id.container);
+
+
+//                        if (frameLayout.getChildCount() > 0) {
+//                        frameLayout
+//                        frameLayout.removeAllViews();
+//                        }
+//                        FrameLayout frameLayout1 = (FrameLayout) nativeExpressADView.getParent();
+//                        if(frameLayout1!=null){
+//                            frameLayout1.removeView(nativeExpressADView);
+//                        }
+                        frameLayout.addView(nativeExpressADView);
+
                     }
 
 
@@ -1435,9 +1485,110 @@ public class RecommendFragment extends BaseFragment implements OnLoadMoreListene
 
     }
 
+    //优量汇
+    private void refreshAd() {
+        nativeExpressAD = new NativeExpressAD(getActivity(), new ADSize(340, ADSize.AUTO_HEIGHT), "1110187509", "8041803888724110", this); // 传入Activity
+        // 注意：如果您在平台上新建原生模板广告位时，选择了支持视频，那么可以进行个性化设置（可选）
+//        nativeExpressAD.setVideoOption(new VideoOption.Builder()
+//                .setAutoPlayPolicy(VideoOption.AutoPlayPolicy.WIFI) // WIFI 环境下可以自动播放视频
+//                .setAutoPlayMuted(true) // 自动播放时为静音
+//                .build()); //
+
+        /**
+         * 如果广告位支持视频广告，强烈建议在调用loadData请求广告前调用setVideoPlayPolicy，有助于提高视频广告的eCPM值 <br/>
+         * 如果广告位仅支持图文广告，则无需调用
+         */
+
+        /**
+         * 设置本次拉取的视频广告，从用户角度看到的视频播放策略<p/>
+         *
+         * "用户角度"特指用户看到的情况，并非SDK是否自动播放，与自动播放策略AutoPlayPolicy的取值并非一一对应 <br/>
+         *
+         * 如自动播放策略为AutoPlayPolicy.WIFI，但此时用户网络为4G环境，在用户看来就是手工播放的
+         */
+//        nativeExpressAD.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO); // 本次拉回的视频广告，从用户的角度看是自动播放的
+
+        nativeExpressAD.loadAD(1);
+    }
+
+    @Override
+    public void onADLoaded(List<NativeExpressADView> adList) {
+
+        Log.i(TAG, "onADLoaded: " + adList.size());
+        // 释放前一个 NativeExpressADView 的资源
+        if (nativeExpressADView != null) {
+            nativeExpressADView.destroy();
+        }
+        // 3.返回数据后，SDK 会返回可以用于展示 NativeExpressADView 列表
+        nativeExpressADView = adList.get(0);
+//        if (nativeExpressADView.getBoundData().getAdPatternType() == AdPatternType.NATIVE_VIDEO) {
+//            nativeExpressADView.setMediaListener(mediaListener);
+//        }
+        nativeExpressADView.render();
+//        if (recyclerView.getChildCount() > 0) {
+//            recyclerView.removeViewAt(commonAdapter.getItemCount()-1);
+//        }
+
+        // 需要保证 View 被绘制的时候是可见的，否则将无法产生曝光和收益。
+//        recyclerView.addView(nativeExpressADView);
+
+    }
+
+    @Override
+    public void onRenderFail(NativeExpressADView adView) {
+        Log.i(TAG, "onRenderFail");
+    }
+
+    @Override
+    public void onRenderSuccess(NativeExpressADView adView) {
+        Log.i(TAG, "onRenderSuccess");
+    }
+
+    @Override
+    public void onADExposure(NativeExpressADView adView) {
+        Log.i(TAG, "onADExposure");
+    }
+
+    @Override
+    public void onADClicked(NativeExpressADView adView) {
+        Log.i(TAG, "onADClicked");
+    }
+
+    @Override
+    public void onADClosed(NativeExpressADView adView) {
+        Log.i(TAG, "onADClosed");
+    }
+
+    @Override
+    public void onADLeftApplication(NativeExpressADView adView) {
+        Log.i(TAG, "onADLeftApplication");
+    }
+
+    @Override
+    public void onADOpenOverlay(NativeExpressADView adView) {
+        Log.i(TAG, "onADOpenOverlay");
+    }
+
+    @Override
+    public void onADCloseOverlay(NativeExpressADView adView) {
+        Log.i(TAG, "onADCloseOverlay");
+    }
+
+    // 2.设置监听器，监听广告状态
+    @Override
+    public void onNoAD(AdError adError) {
+        Log.i("AD_DEMO", String.format("onADError, error code: %d, error msg: %s", adError.getErrorCode(), adError.getErrorMsg()));
+    }
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        // 4.使用完了每一个 NativeExpressADView 之后都要释放掉资源
+        if (nativeExpressADView != null) {
+            nativeExpressADView.destroy();
+        }
 
         if (mHandler == null) {
 //

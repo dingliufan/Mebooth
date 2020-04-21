@@ -3,7 +3,7 @@ apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.mebooth.text"
+        applicationId "com.baojia.personal"
         minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
@@ -63,6 +63,12 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -79,4 +85,5 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.0'
     implementation 'com.jakewharton:butterknife:9.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+    implementation (name:'GDTSDK.unionNormal.4.150.1020', ext:'aar')
 }
