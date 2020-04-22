@@ -193,6 +193,14 @@ public class FriendFragment extends BaseFragment {
         }
     };
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        getActivity().unregisterReceiver(broadcastReceiver);
+
+    }
+
     private UserInfo getIMInfo(String uidStr) {
 
         ServiceFactory.getNewInstance()

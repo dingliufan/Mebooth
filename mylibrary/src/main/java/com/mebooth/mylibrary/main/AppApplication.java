@@ -87,6 +87,14 @@ public abstract class AppApplication extends Application {
                 intent.putExtra("index", "refreshList");
                 sendBroadcast(intent);
 
+                try{
+                    if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() != RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED){
+                        RongIM.getInstance().logout();
+                    }
+                }catch (Exception e){
+
+                }
+
             }
         }
 
