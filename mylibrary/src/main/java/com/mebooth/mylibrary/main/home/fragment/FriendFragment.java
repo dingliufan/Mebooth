@@ -1,6 +1,9 @@
 package com.mebooth.mylibrary.main.home.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -42,6 +45,7 @@ public class FriendFragment extends BaseFragment {
     private TextView right;
     private String uids = "";
     private UserInfo userInfo;
+    private String index = "";
 
     public static FriendFragment newInstance() {
         return new FriendFragment();
@@ -135,6 +139,9 @@ public class FriendFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        //注册广播
+        IntentFilter filter = new IntentFilter("dataRefresh");
+        getActivity().registerReceiver(broadcastReceiver, filter);
 
         if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
 
@@ -170,6 +177,21 @@ public class FriendFragment extends BaseFragment {
         }
         switchContent();
     }
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+
+            index = intent.getStringExtra("index");
+            if(index.equals("refreshList")){
+
+                switchContent();
+
+            }
+        }
+    };
 
     private UserInfo getIMInfo(String uidStr) {
 
