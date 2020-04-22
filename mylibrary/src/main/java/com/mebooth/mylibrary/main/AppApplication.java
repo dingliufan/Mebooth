@@ -157,7 +157,14 @@ public abstract class AppApplication extends Application {
             sendBroadcast(intent);
 
             SharedPreferencesUtils.writeString("token", "");
-            RongIM.getInstance().logout();
+            try{
+                if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() != RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED){
+                    RongIM.getInstance().logout();
+                }
+            }catch (Exception e){
+
+            }
+
         }
     }
 
