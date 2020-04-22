@@ -283,6 +283,16 @@ public class FriendFragment extends BaseFragment {
                 connect();
             }
 
+            try{
+                if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT){
+                    RongIM.getInstance().logout();
+                    connect();
+                    switchContent();
+                }
+            }catch (Exception e){
+
+            }
+
         }
 
     }

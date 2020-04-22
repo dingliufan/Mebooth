@@ -88,7 +88,7 @@ public abstract class AppApplication extends Application {
                 sendBroadcast(intent);
 
                 try{
-                    if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() != RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED){
+                    if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT){
                         RongIM.getInstance().logout();
                     }
                 }catch (Exception e){
