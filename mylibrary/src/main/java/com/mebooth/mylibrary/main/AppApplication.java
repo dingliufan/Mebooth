@@ -64,7 +64,6 @@ public abstract class AppApplication extends Application {
     private boolean isShowBack;
 
     private TextMessage rongMsg;
-
     public boolean isShowBack() {
         return isShowBack;
     }
@@ -175,7 +174,6 @@ public abstract class AppApplication extends Application {
 
         }
     }
-
     @Override
     public void onCreate() {
         super.onCreate();
