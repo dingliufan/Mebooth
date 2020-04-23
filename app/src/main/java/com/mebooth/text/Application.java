@@ -25,6 +25,7 @@ public class Application extends AppApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        this.setDebug(true);
         //传递用户信息
         UserTokenJson userTokenJson = new UserTokenJson();
         //冬shan

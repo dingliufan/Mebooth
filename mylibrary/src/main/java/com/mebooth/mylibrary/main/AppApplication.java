@@ -64,6 +64,7 @@ public abstract class AppApplication extends Application {
     private boolean isShowBack;
 
     private TextMessage rongMsg;
+
     public boolean isShowBack() {
         return isShowBack;
     }
@@ -86,11 +87,11 @@ public abstract class AppApplication extends Application {
                 intent.putExtra("index", "refreshList");
                 sendBroadcast(intent);
 
-                try{
-                    if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT){
+                try {
+                    if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() == RongIMClient.ConnectionStatusListener.ConnectionStatus.KICKED_OFFLINE_BY_OTHER_CLIENT) {
                         RongIM.getInstance().logout();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -164,16 +165,38 @@ public abstract class AppApplication extends Application {
             sendBroadcast(intent);
 
             SharedPreferencesUtils.writeString("token", "");
-            try{
-                if(RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() != RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED){
+            try {
+                if (RongIM.getInstance().getRongIMClient().getCurrentConnectionStatus() != RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED) {
                     RongIM.getInstance().logout();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
         }
     }
+
+    public boolean isDebug;
+
+    public boolean isDebug() {
+        return isDebug;
+    }
+
+    public void setDebug(boolean debug) {
+        isDebug = debug;
+    }
+
+    public static String baseUrl() {
+
+        if (AppApplication.getInstance().isDebug()) {
+
+            return "http://test-tataclub.baojiawangluo.com/";
+
+        }
+        return "http://tataclub.baojiawangluo.com/";
+
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
